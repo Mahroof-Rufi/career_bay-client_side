@@ -2,3 +2,17 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
+
+
+@layer components {
+    .Logo {
+      font-family: "Archivo Black", sans-serif;
+      font-size: 2rem;
+      font-weight: 500;
+      line-height: 1.2;
+      color: #FF6B00;
+      text-transform: uppercase;
+    }
+  }
+  
