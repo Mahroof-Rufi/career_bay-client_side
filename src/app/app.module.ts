@@ -15,9 +15,9 @@ import { AppComponent } from './app.component';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-      TuiRootModule,
-      TuiDialogModule,
-      TuiAlertModule
+    TuiRootModule,
+    TuiDialogModule,
+    TuiAlertModule
 ],
   providers: [{provide: TUI_SANITIZER, useClass: NgDompurifySanitizer}],
   bootstrap: [AppComponent]
