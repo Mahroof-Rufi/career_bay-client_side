@@ -1,0 +1,41 @@
+ 
+    <div [className]="'bg-job_bg_1 rounded-lg px-1 pt-6 min-w-72 min-h-80 flex flex-col justify-between'"><!-- job div starts -->
+        
+        <div [className]="'flex flex-col px-3'">
+            <i class="fa-regular fa-bookmark"></i>
+            <div [className]="'w-1/2 mt-4'"> <!-- Container for left 50% width -->
+                <span [className]="'text-2xl font-bannerText ml-1'">{{ jobData.title }}</span>
+            </div>
+            <div [className]="'w-1/2'"></div>
+        </div>
+        
+        <div [className]="'flex flex-col '">
+            <span [className]="'flex flex-row px-3'">
+                <h2 [className]="'text-mainColor text-lg font-bannerText'">${{jobData.salary}}</h2>
+                <h2 [className]="'text-mainGrey text-sm mt-1 '">\{{jobData.salaryType}}</h2>
+            </span>                            
+        </div>
+        <div [className]="'flex flex-row items-center justify-between space-x-2 px-3 mt-auto mb-3'">
+            <div class="flex justify-start items-center">
+                <i class="fa-solid fa-location-dot"></i>
+                <span [className]="'ml-1 text-mainGrey text-sm font-bannerText'">{{jobData.location}}</span>
+            </div>
+            <div class="flex justify-end items-center">
+                <i class="fa-solid fa-briefcase"></i>
+                <span [className]="'ml-1 text-mainGrey text-sm font-bannerText'">{{jobData.workType}}</span>
+                <i class="fa-solid fa-arrow-right ml-3"></i>
+            </div>
+        
+        </div>
+        <div [className]="'flex flex-row bg-white rounded-lg mb-1'">
+            <img src="../../../assets/company-dp-1.jpg" alt="profile" [className]="'w-16 h-16 rounded-full px-2 py-2'">
+            <div [className]="'flex flex-col pt-2'">
+                <h2 [className]="'text-mainGrey text-lg font-bannerText ml-1'">{{jobData.campanyName}}</h2>
+                <div [className]="'flex flex-row text-thirdGrey text-xs font-bannerText'">
+                    <i [className]="'fa-regular fa-clock mt-1 '"></i>
+                    <h2 [className]="'ml-1'">posted 2 days</h2>
+                </div>
+            </div>
+            <button [className]="'font-bannerText px-4 bg-mainColor text-white rounded-lg mx-4 my-4 ml-auto'">View</button>
+        </div>
+    </div><!-- job div starts -->

@@ -1,0 +1,60 @@
+<div [className]="'flex flex-row my-20 mx-10'">
+    <div [className]="'w-1/2'">
+        <div [className]="'bg-cover bg-center rounded-lg mr-10 pr-5'"></div>
+    </div>
+    
+    <div [className]="'flex flex-col mt-3'">
+        <span [className]="'flex space-x-2'">
+            <h1 [className]="'text-6xl font-bannerText text-mainGrey'">Contact</h1>
+            <h1 [className]="'text-6xl font-bannerText text-mainColor'">Us</h1>
+        </span>
+        <span [className]="'text-lg font-bannerText text-secondGrey'">
+            Whether you have a question about anything, our team is ready to answer all your questions
+        </span>
+
+        <div [className]="'flex flex-col mt-10'">
+
+            <form [formGroup]="contactForm" (ngSubmit)="contactUsFromSubmit()">
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="flex flex-col">
+                        <tui-input formControlName="fullName">
+                            Full Name
+                            <input tuiTextfield type="name"/>
+                        </tui-input>
+                        <p *ngIf="contactForm.get('fullName')?.invalid && contactForm.get('fullName')?.touched" class="text-red-500 font-bannerText mb-1">required</p>
+                    </div>
+                
+                    <div class="flex flex-col">
+                        <tui-input formControlName="email">
+                            Email
+                            <input tuiTextfield type="email"/>
+                        </tui-input>
+                        <p *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched" class="text-red-500 font-bannerText mb-1">required</p>
+                    </div>
+                
+                    <div class="flex flex-col">
+                        <tui-input formControlName="phone">
+                            phone
+                            <input tuiTextfield type="tel"/>
+                        </tui-input>
+                        <p *ngIf="contactForm.get('phone')?.invalid && contactForm.get('phone')?.touched" class="text-red-500 font-bannerText mb-1">required</p>
+                    </div>
+                
+                    <div class="flex flex-col">
+                        <tui-input formControlName="subject">
+                            subject
+                            <input tuiTextfield type="text"/>
+                        </tui-input>
+                        <p *ngIf="contactForm.get('subject')?.invalid && contactForm.get('subject')?.touched" class="text-red-500 font-bannerText mb-1">required</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 mt-5">
+                    <tui-textarea formControlName="message" class="tui-space_bottom-4 field-large">message</tui-textarea>
+                    <p *ngIf="contactForm.get('message')?.invalid && contactForm.get('message')?.touched" class="text-red-500 font-bannerText mb-1">required</p>
+                    <button class="flex flex-row justify-center py-3 font-bannerText rounded-lg bg-mainColor text-white" type="submit" [disabled]="!contactForm.valid">Contact Us</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
