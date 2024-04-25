@@ -20,6 +20,8 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { FooterComponent } from './components/footer/footer.component';
 import { LogoComponent } from './components/logo/logo.component';
 import { GetStartedComponent } from './components/get-started/get-started.component';
+import { SharedModule } from "./shared/shared.module";
+import { AuthModule } from "./features/auth/auth.module";
 
 
 @NgModule({
@@ -46,10 +48,7 @@ import { GetStartedComponent } from './components/get-started/get-started.compon
     TuiDialogModule,
     TuiAlertModule,
     TuiSvgModule,
-    ReactiveFormsModule,
-    TuiInputModule,
-    TuiFieldErrorPipeModule,
-    TuiTextareaModule
+    AuthModule
 ],
   providers: [{provide: TUI_SANITIZER, useClass: NgDompurifySanitizer}],
   bootstrap: [AppComponent]

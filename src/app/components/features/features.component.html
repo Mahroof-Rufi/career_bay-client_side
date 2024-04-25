@@ -1,55 +1,55 @@
-<div [className]="'flex flex-col'">
+<div class="flex flex-col">
 
-    <span [className]="'flex flex-row justify-center text-5xl font-bannerText mt-20'">
-        <h2 [className]="'text-mainGrey'">Why</h2>
-        <h2 [className]="'text-mainColor ml-3'">Carrer-Bay</h2>
+    <span class="flex flex-row justify-center text-5xl font-bannerText mt-20">
+        <h2 class="text-mainGrey">Why</h2>
+        <h2 class="text-mainColor ml-3">Carrer-Bay</h2>
     </span>
 
-    <div [className]="'flex flex-row mx-10 space-x-5 mt-5'"><!-- first main div starts -->
+    <div class="flex flex-row mx-10 space-x-5 mt-5"><!-- first main div starts -->
 
-        <div [className]="'bg-bg_grey rounded-lg w-1/2 mb-5'"><!-- feature 1 div starts here -->
+        <div class="bg-bg_grey rounded-lg w-1/2 mb-5"><!-- feature 1 div starts here -->
 
-            <div [className]="'bg-white flex flex-col mx-5 my-5 rounded-lg'"><!-- 1st inside div starts -->
-                <div [className]="'flex flex-row mx-5 my-4'">
-                    <img src="../../../assets/profile-1.jpg" alt="profile" [className]="'w-16 h-16 rounded-full'">
-                    <div [className]="'ml-3'">
-                        <h3 [className]="'text-2xl font-bannerText text-mainGrey'">John Doe</h3>
-                        <h3 [className]="'text-lg text-secondGrey'">johndoe<span>&#64;</span>gmail<span>&#46;</span>com</h3>
+            <div class="bg-white flex flex-col mx-5 my-5 rounded-lg"><!-- 1st inside div starts -->
+                <div class="flex flex-row mx-5 my-4">
+                    <img src="../../../assets/profile-1.jpg" alt="profile" class="w-16 h-16 rounded-full">
+                    <div class="'ml-3'">
+                        <h3 class="text-2xl font-bannerText text-mainGrey">John Doe</h3>
+                        <h3 class="text-lg text-secondGrey">johndoe<span>&#64;</span>gmail<span>&#46;</span>com</h3>
                     </div>
                 </div>
             </div><!-- 1st inside div ends -->
 
-            <div [className]="'bg-white rounded-lg flex flex-col justify-center items-center my-6 mx-5 py-3'"><!-- 2nd inside div starts -->
-                <h3 [className]="'text-2xl font-bannerText'">Job that Match you</h3>
-                <div [className]="'flex flex-row mx-5 my-4 space-x-5'">
+            <div class="bg-white rounded-lg flex flex-col justify-center items-center my-6 mx-5 py-3"><!-- 2nd inside div starts -->
+                <h3 class="text-2xl font-bannerText">Job that Match you</h3>
+                <div class="flex flex-row mx-5 my-4 space-x-5">
                     <ng-container *ngFor="let job of sampleJobdata" >
                       <app-job [jobData]="job"></app-job>
                     </ng-container>
                 </div>
                   
                   
-            <div [className]="'flex flex-col justify-center items-center mt-4'"> <!-- description div starts -->
-                <h2 [className]="'text-2xl font-bannerText text-mainGrey'">Tailored Job Matches</h2>
-                <span [className]="'text-sm font-bannerText text-secondGrey'">We ensure personalized job recommendations based on your unique profile, skills, and preferences.</span>
+            <div class="flex flex-col justify-center items-center mt-4"> <!-- description div starts -->
+                <h2 class="text-2xl font-bannerText text-mainGrey">Tailored Job Matches</h2>
+                <span class="text-sm font-bannerText text-secondGrey">We ensure personalized job recommendations based on your unique profile, skills, and preferences.</span>
             </div><!-- description div ends -->
 
             </div> <!-- 2nd inside div ends -->
 
         </div><!-- feature 1 div ends -->
       
-        <div [className]="'bg-bg_grey rounded-lg w-1/2 mb-5'"> <!-- feature 2 div starts -->
+        <div class="bg-bg_grey rounded-lg w-1/2 mb-5"> <!-- feature 2 div starts -->
 
-            <div [className]="'bg-white rounded-lg flex flex-col justify-center items-center my-5 mx-5 py-5'">
-                <i [className]="'text-6xl fa-solid fa-circle-check text-green-500'"></i>
+            <div class="bg-white rounded-lg flex flex-col justify-center items-center my-5 mx-5 py-5">
+                <i class="text-6xl fa-solid fa-circle-check text-green-500"></i>
                 <h1 class="text-4xl text-center font-semibold">Application status</h1>
 
-                <div [className]="'flex flex-row '">
+                <div class="flex flex-row">
                     <app-application-timeline [Applicationdata]="sampleApplicationData"></app-application-timeline>
                 </div>
 
-                <div [className]="'flex flex-col justify-center items-center mx-5 '">
-                    <h2 [className]="'text-2xl font-bannerText text-mainGrey'">Streamlined Application Process</h2>
-                    <span [className]="'text-sm font-bannerText text-secondGrey'">Apply to multiple jobs effortlessly with our user-friendly interface, saving your time and increasing your chances of landing that dream position.</span>
+                <div class="flex flex-col justify-center items-center mx-5">
+                    <h2 class="text-2xl font-bannerText text-mainGrey">Streamlined Application Process</h2>
+                    <span class="text-sm font-bannerText text-secondGrey">Apply to multiple jobs effortlessly with our user-friendly interface, saving your time and increasing your chances of landing that dream position.</span>
                 </div>
             </div>  
 
@@ -58,41 +58,41 @@
     </div> <!-- first main div ends -->
 
 
-    <div [className]="'flex flex-row mx-10 space-x-5 mt-5'"><!-- second main div starts -->
+    <div class="flex flex-row mx-10 space-x-5 mt-5"><!-- second main div starts -->
 
-        <div [className]="'bg-bg_grey rounded-lg w-1/2 mb-5'"><!-- feature 1 div starts here -->
+        <div class="bg-bg_grey rounded-lg w-1/2 mb-5"><!-- feature 1 div starts here -->
             <ng-container *ngFor="let user of sampleUsersdata" >
-                <app-users [className]="'py-4 mx-1'" [userData]="user"></app-users>
+                <app-users class="py-4 mx-1" [userData]="user"></app-users>
             </ng-container>
-            <div [className]="'flex flex-col justify-center items-center mx-5 my-4 '">
-                <h2 [className]="'text-2xl font-bannerText text-mainGrey'">Hire Skilled Indivituals</h2>
-                <span [className]="'text-sm font-bannerText text-secondGrey'">Connect with top talent effortlessly. Our platform simplifies the hiring process, helping you find skilled individuals who fit your company's needs perfectly.</span>
+            <div class="flex flex-col justify-center items-center mx-5 my-4">
+                <h2 class="text-2xl font-bannerText text-mainGrey">Hire Skilled Indivituals</h2>
+                <span class="text-sm font-bannerText text-secondGrey">Connect with top talent effortlessly. Our platform simplifies the hiring process, helping you find skilled individuals who fit your company's needs perfectly.</span>
             </div>
         </div><!-- feature 1 div ends -->
     
-        <div [className]="'bg-bg_grey rounded-lg w-1/2 mb-5'"><!-- feature 2 div starts -->
-            <div [className]="'rounded-md border-4 border-white flex mx-5 mt-10'">
-                <img [className]="'w-16 h-16 rounded-full ml-5 my-2'" src="../../../assets/profile-4.jpg" alt="">
-                <div [className]="'ml-5 mt-3'">
-                    <h2 [className]="'text-2xl font-bannerText text-mainGrey'">Jinto Jose</h2>
-                    <h2 [className]="'text-sm text-secondGrey'">Graphic Designer</h2>
+        <div class="bg-bg_grey rounded-lg w-1/2 mb-5"><!-- feature 2 div starts -->
+            <div class="rounded-md border-4 border-white flex mx-5 mt-10">
+                <img class="w-16 h-16 rounded-full ml-5 my-2" src="../../../assets/profile-4.jpg" alt="">
+                <div class="ml-5 mt-3">
+                    <h2 class="text-2xl font-bannerText text-mainGrey">Jinto Jose</h2>
+                    <h2 class="text-sm text-secondGrey">Graphic Designer</h2>
                 </div>
             </div>
-            <div [className]="'rounded-md border-4 border-white flex flex-col mx-5 mb-10'">
-                <div [className]="'mx-1 my-3 py-3 px-3 h-auto w-40 ml-auto rounded-md bg-thirdGrey text-sm'">
+            <div class="rounded-md border-4 border-white flex flex-col mx-5 mb-10">
+                <div class="mx-1 my-3 py-3 px-3 h-auto w-40 ml-auto rounded-md bg-thirdGrey text-sm">
                     Hi there! I hope you're doing well. I've been meaning to ask you something.
                 </div>
-                <div [className]="'mx-1 my-3 py-3 px-3 h-auto w-40 mr-auto rounded-md bg-thirdGrey text-sm'">
+                <div class="mx-1 my-3 py-3 px-3 h-auto w-40 mr-auto rounded-md bg-thirdGrey text-sm">
                     Hey! Of course, what's on your mind?
                 </div>
-                <div [className]="'mx-1 my-3 py-3 px-3 h-auto w-40 ml-auto rounded-md bg-thirdGrey text-sm'">
+                <div class="mx-1 my-3 py-3 px-3 h-auto w-40 ml-auto rounded-md bg-thirdGrey text-sm">
                     ...
                 </div>
             </div><!-- feature 2 div ends -->
 
-            <div [className]="'flex flex-col justify-center items-center mx-5 '">
-                <h2 [className]="'text-2xl font-bannerText text-mainGrey'">Text & Build Connections</h2>
-                <span [className]="'text-sm font-bannerText text-secondGrey'">Expand your professional network by connecting with industry peers, mentors, and potential employers. Cultivate meaningful relationships to advance your career journey..</span>
+            <div class="flex flex-col justify-center items-center mx-5">
+                <h2 class="text-2xl font-bannerText text-mainGrey">Text & Build Connections</h2>
+                <span class="text-sm font-bannerText text-secondGrey">Expand your professional network by connecting with industry peers, mentors, and potential employers. Cultivate meaningful relationships to advance your career journey..</span>
             </div> 
         </div>   
         
