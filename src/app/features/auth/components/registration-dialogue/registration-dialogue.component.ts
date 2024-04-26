@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration-dialogue',
@@ -7,6 +9,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrl: './registration-dialogue.component.scss'
 })
 export class RegistrationDialogueComponent implements OnInit{
+
+  constructor(private authService:AuthService, private router:Router) {}
 
   loginForm!: FormGroup;
   registrationForm!: FormGroup;
@@ -32,11 +36,11 @@ export class RegistrationDialogueComponent implements OnInit{
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
       confirmPassword: new FormControl('', Validators.required),
-      jobTitle: new FormControl(''),
-      industry: new FormControl(''),
-      DOB: new FormControl(''),
-      gender: new FormControl(''),
-      OTP: new FormControl('')
+      jobTitle: new FormControl('', Validators.required),
+      industry: new FormControl('', Validators.required),
+      DOB: new FormControl('', Validators.required),
+      gender: new FormControl('', Validators.required),
+      OTP: new FormControl('', Validators.required)
     })
   }
 
@@ -50,5 +54,15 @@ export class RegistrationDialogueComponent implements OnInit{
       this.SignUpChecked = 'checked'
       this.showSignUpTemplate = true
     }
+  }
+
+  submitRegistrationForm() {
+    this.authService.registration(this.registrationForm.value).subscribe(res => {
+        // this.router.navigateByUrl('/login')
+    },
+    err => {
+      console.log(err);
+      
+    })
   }
 }
