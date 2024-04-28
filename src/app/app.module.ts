@@ -22,6 +22,8 @@ import { LogoComponent } from './components/logo/logo.component';
 import { GetStartedComponent } from './components/get-started/get-started.component';
 import { SharedModule } from "./shared/shared.module";
 import { AuthModule } from "./features/auth/auth.module";
+import { DialogueComponent } from './components/dialogue/dialogue.component';
+import { UserModule } from "./features/user/user.module";
 
 
 @NgModule({
@@ -39,6 +41,7 @@ import { AuthModule } from "./features/auth/auth.module";
     FooterComponent,
     LogoComponent,
     GetStartedComponent,
+    DialogueComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,7 +51,7 @@ import { AuthModule } from "./features/auth/auth.module";
     TuiDialogModule,
     TuiAlertModule,
     TuiSvgModule,
-    AuthModule
+    AuthModule,
 ],
   providers: [{provide: TUI_SANITIZER, useClass: NgDompurifySanitizer}],
   bootstrap: [AppComponent]

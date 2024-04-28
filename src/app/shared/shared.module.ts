@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TuiDataListWrapperModule, TuiInputDateModule, TuiInputModule, TuiInputPasswordModule, TuiSelectModule, TuiTextareaModule } from '@taiga-ui/kit';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TuiDataListModule } from '@taiga-ui/core';
+import { TuiAlertModule, TuiDataListModule } from '@taiga-ui/core';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,9 @@ import { TuiDataListModule } from '@taiga-ui/core';
     TuiDataListModule,
     TuiDataListWrapperModule,
     TuiSelectModule,
-    TuiInputDateModule
+    TuiInputDateModule,
+    HttpClientModule,
+    TuiAlertModule
   ],
   exports: [
     TuiInputModule,
@@ -27,7 +30,9 @@ import { TuiDataListModule } from '@taiga-ui/core';
     TuiDataListModule,
     TuiDataListWrapperModule,
     TuiSelectModule,
-    TuiInputDateModule
+    TuiInputDateModule,
+    HttpClientModule,
+    TuiAlertModule
   ]
 })
 export class SharedModule { }

@@ -1,18 +1,25 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RegistrationDialogueComponent } from './components/registration-dialogue/registration-dialogue.component';
+import { userLoginComponent } from './components/user-login/user-login.component';
 import { SharedModule } from '../../shared/shared.module';
+import { authRouteModule } from './auth-route.module';
+import { RouterModule } from '@angular/router';
+import { UserSignUpComponent } from './components/user-sign-up/user-sign-up.component';
+import { UserModule } from '../user/user.module';
 
 
 
 @NgModule({
   declarations: [
-    RegistrationDialogueComponent
+    userLoginComponent,
+    UserSignUpComponent
   ],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
+    RouterModule,
+    UserModule
   ],
-  exports:[SharedModule]
+  exports:[SharedModule,authRouteModule,UserModule]
 })
 export class AuthModule { }

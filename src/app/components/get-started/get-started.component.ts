@@ -1,7 +1,5 @@
 import { Component, Injector } from '@angular/core';
-import { TuiDialogService } from '@taiga-ui/core';
-import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { RegistrationDialogueComponent } from '../../features/auth/components/registration-dialogue/registration-dialogue.component';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -11,24 +9,10 @@ import { RegistrationDialogueComponent } from '../../features/auth/components/re
 })
 export class GetStartedComponent {
 
-  constructor( private readonly dialogs: TuiDialogService, private readonly injector: Injector) { }
-
-  private readonly registrationDialogue = this.dialogs.open<number>( new PolymorpheusComponent(RegistrationDialogueComponent, this.injector),{
-      size:'fullscreen',
-      
-    },
-  );
-
+  constructor(private router:Router) { }
 
   showDialog(): void {
-    this.registrationDialogue.subscribe({
-      next: data => {
-        console.info(`Dialog emitted data = ${data}`);
-      },
-      complete: () => {
-        console.info('Dialog closed');
-      },
-    });
+    this.router.navigateByUrl('/auth/user/login')
   }
 
 }

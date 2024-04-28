@@ -1,0 +1,72 @@
+<div class="flex justify-between items-center">
+
+    <div class=" flex flex-col">
+        <h1 class="text-black text-xl flex font-bannerText justify-center">Welcome<h1>👋</h1></h1>
+        <span class="text-black text-sm flex font-bannerText justify-center">Please, enter your details and start your&nbsp;<h1 class="text-mainColor">Job Hunt</h1> </span>
+  
+        <div class="tabs mt-5">
+          <div class="tab-2">
+            <label for="tab2-1" class="text-sm font-bannerText" (click)="redirectSignUp()">Sign In</label>
+            <input id="tab2-1" name="tabs-two" type="radio" checked="checked">
+          </div>
+          <div class="tab-2">
+            <label for="tab2-2" class="text-sm font-bannerText" (click)="redirectSignUp()">Sign Up</label>
+            <input id="tab2-2" name="tabs-two" type="radio">
+          </div>
+        </div>
+
+        <div>
+            <form [formGroup]="loginForm" (ngSubmit)="submitLogin()">
+            <div class="grid grid-cols-1">
+                <div class="flex flex-col my-5">
+                    <tui-input formControlName="email">
+                        Email
+                        <input tuiTextfield type="email"/>
+                    </tui-input>
+                    <!-- <p *ngIf="registrationForm.get('email')?.invalid && registrationForm.get('email')?.touched" class="text-red-500 font-bannerText">required</p> -->
+                </div>
+            
+                <div class="flex flex-col">
+                    <tui-input-password class="tui-space_top-2" formControlName="password">
+                        Password 
+                    </tui-input-password>
+                    <!-- <p *ngIf="registrationForm.get('phone')?.invalid && registrationForm.get('phone')?.touched" class="text-red-500 font-bannerText">required</p> -->
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 mt-5">
+                <button class="flex flex-row justify-center py-3 font-bannerText rounded-full bg-mainColor text-white" type="submit" >Contact Us</button>
+                <div class="flex mt-1">
+                    <a class="mr-auto text-xs text-mainColor font-bannerText ml-5">For Hiring?</a>
+                    <a class="ml-auto text-xs text-mainColor font-bannerText mr-5">Forgot password?</a>
+                </div>
+            </div>
+        </form>
+        </div>
+
+        <div class="flex">
+            <div class="border-b-2 border-thirdGrey w-1/3 mr-auto"></div>
+            <h1 class="text-sm font-bannerText text-thirdGrey justify-normal items-center">Or</h1>
+            <div class="border-b-2 border-thirdGrey w-1/3 ml-auto"></div>
+        </div>
+
+        <div class="my-5">
+            <div class="flex border-2 rounded-full border-mainColor justify-center items-center mb-4">
+                <i class="fa-brands fa-google mr-auto my-3 mx-5 text-mainGrey"></i>
+                <h1 class="text-sm font-bannerText text-mainColor">Login with Google</h1>
+                <i class="fa-solid fa-chevron-right ml-auto my-3 mx-5 text-mainGrey"></i>
+            </div>
+
+            <div class="flex border-2 rounded-full border-mainColor justify-center items-center mt-4">
+                <i class="fa-brands fa-square-facebook mr-auto my-3 mx-5 text-black"></i>
+                <h1 class="text-sm font-bannerText text-mainColor">Login with Facebook</h1>
+                <i class="fa-solid fa-chevron-right ml-auto my-3 mx-5 text-black"></i>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="w-1/2 bg-cover bg-center rounded-lg justify-center items-center" >
+    </div>
+
+</div>

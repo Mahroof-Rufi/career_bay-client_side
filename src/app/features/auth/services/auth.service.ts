@@ -10,7 +10,15 @@ export class AuthService {
 
   constructor(private http:HttpClient) { }
 
+  requestOTP(email:string) {
+    return this.http.post('http://localhost:3000/send-otp',{email:email})
+  }
+
   registration(formData:FormGroup):Observable<any> {
-    return this.http.post('http://localhost:3000/sign_up',formData)
+    return this.http.post('http://localhost:3000/sign_up', formData)
+  }
+
+  login(loginData: FormGroup):Observable<any> {
+    return this.http.post('http://localhost:3000/login', loginData, { withCredentials: true })
   }
 }
