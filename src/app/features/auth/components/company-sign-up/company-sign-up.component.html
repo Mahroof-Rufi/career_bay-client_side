@@ -1,0 +1,207 @@
+<div class=" flex flex-col">
+    <h1 class="text-black text-xl flex font-bannerText justify-center">Welcome<h1>👋</h1></h1>
+    <span class="text-black text-sm flex font-bannerText justify-center">Please, enter your details to Hire&nbsp;<h1 class="text-mainColor">Skilled Professionals</h1> </span>
+    
+    <div class="tabs mt-5">
+      <div class="tab-2">
+        <label for="tab2-1" class="text-sm font-bannerText" (click)="redirectlogin()">Login</label>
+        <input id="tab2-1" type="radio">
+      </div>
+      <div class="tab-2">
+        <label for="tab2-2" class="text-sm font-bannerText" (click)="redirectlogin()">Register</label>
+        <input id="tab2-2" type="radio" checked="checked">
+      </div>
+    </div>
+
+    <form [formGroup]="registrationForm" (ngSubmit)="submitRegistrationForm()">
+    <div>
+        <div class="grid grid-cols-2">
+        
+            <div class="flex flex-col my-5 mx-3">
+                    <tui-input formControlName="companyName">
+                        Company Name
+                        <input tuiTextfield type="text" />
+                    </tui-input>
+                    <small *ngIf="registrationForm.get('firstName')?.errors?.['required'] && registrationForm.get('firstName')?.touched" class="text-red-500 font-bannerText">
+                        *firstname required
+                    </small>
+                    <small *ngIf="registrationForm.get('firstName')?.errors?.['noSpaceAllowed'] && registrationForm.get('firstName')?.touched" class="text-red-500 font-bannerText">
+                        *space not allowed
+                    </small>
+            </div>
+
+            <div class="flex flex-col my-5 mx-3">
+                <tui-input formControlName="email">
+                    Email
+                    <input tuiTextfield type="email"/>
+                </tui-input>
+                <small *ngIf="registrationForm.get('email')?.errors?.['required'] && registrationForm.get('email')?.touched" class="text-red-500 font-bannerText">
+                    *email required
+                </small>
+                <small *ngIf="registrationForm.get('email')?.errors?.['email']" class="text-red-500 font-bannerText">
+                    *enter a valid email
+                </small>
+            </div>
+        
+            <div class="flex flex-col my-5 mx-3">
+                <tui-input-password class="tui-space_top-2" formControlName="password">
+                Password 
+                </tui-input-password>
+                <small *ngIf="registrationForm.get('password')?.errors?.['required'] && registrationForm.get('password')?.touched" class="text-red-500 font-bannerText">
+                    *password is required
+                </small>
+                <small *ngIf="registrationForm.get('password')?.errors?.['minlength']" class="text-red-500 font-bannerText">
+                    *password should have minimum 8 characters
+                </small>
+            </div>
+
+            <div class="flex flex-col my-5 mx-3">
+                <tui-input-password class="tui-space_top-2" formControlName="confirmPassword">
+                Confirm password 
+                </tui-input-password>
+                <small *ngIf="registrationForm.get('confirmPassword')?.errors?.['required'] && registrationForm.get('confirmPassword')?.touched" class="text-red-500 font-bannerText">
+                    *confirm password is required
+                </small>
+                <small *ngIf="registrationForm.get('confirmPassword')?.errors?.['minlength']" class="text-red-500 font-bannerText">
+                    *password should have minimum 8 characters
+                </small>
+                <small *ngIf="registrationForm?.errors?.['passwordMismatch']" class="text-red-500 font-bannerText">
+                    *password and confirm password should be same
+                </small>
+            </div>
+
+            <div class="flex flex-col my-5 mx-3">
+                <tui-select formControlName="industry">
+                    Select Industry
+                    <input
+                        tuiTextfield
+                    />
+                    <tui-data-list-wrapper
+                        *tuiDataList
+                        [items]="industries"
+                    ></tui-data-list-wrapper>
+                </tui-select>
+                <small *ngIf="registrationForm.get('industry')?.errors?.['required'] && registrationForm.get('industry')?.touched" class="text-red-500 font-bannerText">
+                    *industry required
+                </small>
+            </div>
+
+            <div class="flex gap-2 my-5 mx-3">
+                <div class="flex flex-col w-11/12">
+                    <tui-input-files
+                    *ngIf="!control.value"
+                    accept="application/pdf"
+                    [formControl]="control"
+                    (reject)="onReject($event)"
+                ></tui-input-files>
+ 
+                <tui-files class="tui-space_top-1">
+                    <tui-file
+                        *ngIf="loadedFiles$ | async as file"
+                        [file]="file"
+                        [showDelete]="control.enabled"
+                        (removed)="removeFile()"
+                    ></tui-file>
+                
+                    <tui-file
+                        *ngIf="rejectedFiles$ | async as file"
+                        state="error"
+                        [file]="file"
+                        [showDelete]="control.enabled"
+                        (removed)="clearRejected()"
+                    ></tui-file>
+                
+                    <tui-file
+                        *ngIf="loadingFiles$ | async as file"
+                        state="loading"
+                        [file]="file"
+                        [showDelete]="control.enabled"
+                    ></tui-file>
+                </tui-files>
+                </div>
+                <div class="flex w-1/12 justify-center items-center">
+                    <tui-tooltip
+                        content="Verification Process for Companies
+
+                        To ensure the authenticity and credibility of companies on our platform, we require verification of certain documents. Please provide documents such as business licenses, registration certificates, or other relevant credentials to verify your account. Once your documents are verified, you can continue using your account for hiring and other activities. Thank you for your cooperati"
+                        direction="right"
+                    ></tui-tooltip>
+                </div>
+            </div>
+
+            <div class="flex gap-2 my-5 mx-3">
+                <div class="fle w-full">
+                    <tui-input >
+                        City
+                        <input
+                            tuiTextfield
+                            type="text"
+                        />
+                    </tui-input>
+                    <!-- <small *ngIf="registrationForm.get('gender')?.errors?.['required'] && registrationForm.get('gender')?.touched" class="text-red-500 font-bannerText">
+                        *gender required
+                    </small> -->
+                </div>
+                <div class="flex w-full">
+                    <tui-select formControlName="gender">
+                        Select State
+                        <input
+                            tuiTextfield
+                        />
+                        <tui-data-list-wrapper
+                            *tuiDataList
+                            [items]="genders"
+                        ></tui-data-list-wrapper>
+                    </tui-select>
+                    <small *ngIf="registrationForm.get('gender')?.errors?.['required'] && registrationForm.get('gender')?.touched" class="text-red-500 font-bannerText">
+                        *gender required
+                    </small>
+                </div>
+            </div>
+
+            <div class="flex justify-between mx-3 my-5">
+                <div class="flex w-full">
+                    <tui-input formControlName="OTP">
+                        Enter OTP
+                        <input tuiTextfield type="email"/>
+                    </tui-input>
+                    <small *ngIf="registrationForm.get('OTP')?.errors?.['required'] && registrationForm.get('OTP')?.touched" class="text-red-500 font-bannerText">
+                        *OTP required
+                    </small>
+                    <small *ngIf="registrationForm.get('OTP')?.errors?.['minlength']" class="text-red-500 font-bannerText">
+                        *enter a valid OTP
+                    </small>
+                </div>
+                <div class="flex w-full">
+                    <button class="flex justify-center ml-auto py-4 px-5 font-bannerText rounded-lg bg-mainColor text-white" type="button" >Submit</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 mt-5">
+            <button class="flex flex-row justify-center py-3 font-bannerText rounded-full bg-mainColor text-white" type="submit" >Submit</button>
+        </div>
+    </div>
+</form>
+
+    <div class="flex">
+        <div class="border-b-2 border-thirdGrey w-1/3 mr-auto"></div>
+        <h1 class="text-sm font-bannerText text-thirdGrey justify-normal items-center">Or</h1>
+        <div class="border-b-2 border-thirdGrey w-1/3 ml-auto"></div>
+    </div>
+
+    <div class=" flex justify-between my-5">
+        <div class="flex border-2 rounded-full border-mainColor justify-between items-center">
+            <i class="fa-brands fa-google mr-auto my-3 mx-5 text-mainGrey"></i>
+            <h1 class="text-sm font-bannerText text-mainColor mx-10">Login with Google</h1>
+            <i class="fa-solid fa-chevron-right ml-auto my-3 mx-5 text-mainGrey"></i>
+        </div>
+
+        <div class="flex border-2 rounded-full border-mainColor justify-center items-center">
+            <i class="fa-brands fa-square-facebook mr-auto my-3 mx-5 text-black"></i>
+            <h1 class="text-sm font-bannerText text-mainColor mx-10">Login with Facebook</h1>
+            <i class="fa-solid fa-chevron-right ml-auto my-3 mx-5 text-black"></i>
+        </div>
+    </div>
+</div>
+

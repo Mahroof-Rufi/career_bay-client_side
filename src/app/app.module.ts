@@ -16,7 +16,6 @@ import { UsersComponent } from './components/users/users.component';
 import { StepsComponent } from './components/steps/steps.component';
 import { JobOverviewComponent } from './components/job-overview/job-overview.component';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
-import { ReactiveFormsModule } from "@angular/forms";
 import { FooterComponent } from './components/footer/footer.component';
 import { LogoComponent } from './components/logo/logo.component';
 import { GetStartedComponent } from './components/get-started/get-started.component';
@@ -24,6 +23,7 @@ import { SharedModule } from "./shared/shared.module";
 import { AuthModule } from "./features/auth/auth.module";
 import { DialogueComponent } from './components/dialogue/dialogue.component';
 import { UserModule } from "./features/user/user.module";
+import { HomeComponent } from './components/home/home.component';
 
 
 @NgModule({
@@ -42,6 +42,7 @@ import { UserModule } from "./features/user/user.module";
     LogoComponent,
     GetStartedComponent,
     DialogueComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,

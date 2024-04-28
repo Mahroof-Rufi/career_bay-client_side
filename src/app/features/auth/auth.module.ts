@@ -6,13 +6,19 @@ import { authRouteModule } from './auth-route.module';
 import { RouterModule } from '@angular/router';
 import { UserSignUpComponent } from './components/user-sign-up/user-sign-up.component';
 import { UserModule } from '../user/user.module';
+import { CompanyLoginComponent } from './components/company-login/company-login.component';
+import { CompanySignUpComponent } from './components/company-sign-up/company-sign-up.component';
+import { AdminLoginComponent } from './components/admin-login/admin-login.component';
 
 
 
 @NgModule({
   declarations: [
     userLoginComponent,
-    UserSignUpComponent
+    UserSignUpComponent,
+    CompanyLoginComponent,
+    CompanySignUpComponent,
+    AdminLoginComponent
   ],
   imports: [
     CommonModule,

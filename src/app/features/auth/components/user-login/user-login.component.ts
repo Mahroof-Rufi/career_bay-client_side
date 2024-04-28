@@ -27,7 +27,11 @@ export class userLoginComponent implements OnInit{
   }
 
   redirectSignUp() {
-    this.router.navigateByUrl('/auth/user/sign-up')
+    this.router.navigateByUrl('/auth/user/register')
+  }
+  
+  forHiring() {
+    this.router.navigateByUrl('/auth/employer/login')
   }
 
   submitLogin() {
