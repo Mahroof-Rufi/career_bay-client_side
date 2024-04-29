@@ -23,19 +23,19 @@
                         Email
                         <input tuiTextfield type="email"/>
                     </tui-input>
-                    <!-- <p *ngIf="registrationForm.get('email')?.invalid && registrationForm.get('email')?.touched" class="text-red-500 font-bannerText">required</p> -->
+                    <p *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="text-red-500 font-bannerText">*email required</p>
                 </div>
             
                 <div class="flex flex-col">
                     <tui-input-password class="tui-space_top-2" formControlName="password">
                         Password 
                     </tui-input-password>
-                    <!-- <p *ngIf="registrationForm.get('phone')?.invalid && registrationForm.get('phone')?.touched" class="text-red-500 font-bannerText">required</p> -->
+                    <p *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-red-500 font-bannerText">*password required</p>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 mt-5">
-                <button class="flex flex-row justify-center py-3 font-bannerText rounded-full bg-mainColor text-white" type="submit" >Contact Us</button>
+                <button class="flex flex-row justify-center py-3 font-bannerText rounded-full bg-mainColor text-white" type="submit">Submit</button>
                 <div class="flex mt-1">
                     <a class="mr-auto text-xs text-mainColor font-bannerText ml-5 cursor-pointer" (click)="forJobSearching()">Job searching?</a>
                     <a class="ml-auto text-xs text-mainColor font-bannerText mr-5">Forgot password?</a>

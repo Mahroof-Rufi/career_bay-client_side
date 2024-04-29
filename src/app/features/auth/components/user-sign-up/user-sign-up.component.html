@@ -26,7 +26,7 @@
                     <small *ngIf="registrationForm.get('firstName')?.errors?.['required'] && registrationForm.get('firstName')?.touched" class="text-red-500 font-bannerText">
                         *firstname required
                     </small>
-                    <small *ngIf="registrationForm.get('firstName')?.errors?.['noSpaceAllowed'] && registrationForm.get('firstName')?.touched" class="text-red-500 font-bannerText">
+                    <small *ngIf="registrationForm.get('firstName')?.errors?.['noSpaceAllowed']" class="text-red-500 font-bannerText">
                         *space not allowed
                     </small>
                 </div>
@@ -61,6 +61,9 @@
                 <small *ngIf="registrationForm.get('password')?.errors?.['required'] && registrationForm.get('password')?.touched" class="text-red-500 font-bannerText">
                     *password is required
                 </small>
+                <small *ngIf="registrationForm.get('password')?.errors?.['noSpaceAllowed']" class="text-red-500 font-bannerText">
+                    *space not allowed
+                </small>
                 <small *ngIf="registrationForm.get('password')?.errors?.['minlength']" class="text-red-500 font-bannerText">
                     *password should have minimum 8 characters
                 </small>
@@ -72,6 +75,9 @@
                 </tui-input-password>
                 <small *ngIf="registrationForm.get('confirmPassword')?.errors?.['required'] && registrationForm.get('confirmPassword')?.touched" class="text-red-500 font-bannerText">
                     *confirm password is required
+                </small>
+                <small *ngIf="registrationForm.get('confirmPassword')?.errors?.['noSpaceAllowed']" class="text-red-500 font-bannerText">
+                    *space not allowed
                 </small>
                 <small *ngIf="registrationForm.get('confirmPassword')?.errors?.['minlength']" class="text-red-500 font-bannerText">
                     *password should have minimum 8 characters

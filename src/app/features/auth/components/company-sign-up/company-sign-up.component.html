@@ -22,10 +22,10 @@
                         Company Name
                         <input tuiTextfield type="text" />
                     </tui-input>
-                    <small *ngIf="registrationForm.get('firstName')?.errors?.['required'] && registrationForm.get('firstName')?.touched" class="text-red-500 font-bannerText">
-                        *firstname required
+                    <small *ngIf="registrationForm.get('companyName')?.errors?.['required'] && registrationForm.get('companyName')?.touched" class="text-red-500 font-bannerText">
+                        *companyname required
                     </small>
-                    <small *ngIf="registrationForm.get('firstName')?.errors?.['noSpaceAllowed'] && registrationForm.get('firstName')?.touched" class="text-red-500 font-bannerText">
+                    <small *ngIf="registrationForm.get('companyName')?.errors?.['noSpaceAllowed']" class="text-red-500 font-bannerText">
                         *space not allowed
                     </small>
             </div>
@@ -50,6 +50,9 @@
                 <small *ngIf="registrationForm.get('password')?.errors?.['required'] && registrationForm.get('password')?.touched" class="text-red-500 font-bannerText">
                     *password is required
                 </small>
+                <small *ngIf="registrationForm.get('password')?.errors?.['noSpaceAllowed']" class="text-red-500 font-bannerText">
+                    *space not allowed
+                </small>
                 <small *ngIf="registrationForm.get('password')?.errors?.['minlength']" class="text-red-500 font-bannerText">
                     *password should have minimum 8 characters
                 </small>
@@ -61,6 +64,9 @@
                 </tui-input-password>
                 <small *ngIf="registrationForm.get('confirmPassword')?.errors?.['required'] && registrationForm.get('confirmPassword')?.touched" class="text-red-500 font-bannerText">
                     *confirm password is required
+                </small>
+                <small *ngIf="registrationForm.get('confirmPassword')?.errors?.['noSpaceAllowed']" class="text-red-500 font-bannerText">
+                    *space not allowed
                 </small>
                 <small *ngIf="registrationForm.get('confirmPassword')?.errors?.['minlength']" class="text-red-500 font-bannerText">
                     *password should have minimum 8 characters
@@ -89,9 +95,9 @@
             <div class="flex gap-2 my-5 mx-3">
                 <div class="flex flex-col w-11/12">
                     <tui-input-files
-                    *ngIf="!control.value"
+                    *ngIf="!document.value"
                     accept="application/pdf"
-                    [formControl]="control"
+                    [formControl]="document"
                     (reject)="onReject($event)"
                 ></tui-input-files>
  
@@ -99,7 +105,7 @@
                     <tui-file
                         *ngIf="loadedFiles$ | async as file"
                         [file]="file"
-                        [showDelete]="control.enabled"
+                        [showDelete]="document.enabled"
                         (removed)="removeFile()"
                     ></tui-file>
                 
@@ -107,7 +113,7 @@
                         *ngIf="rejectedFiles$ | async as file"
                         state="error"
                         [file]="file"
-                        [showDelete]="control.enabled"
+                        [showDelete]="document.enabled"
                         (removed)="clearRejected()"
                     ></tui-file>
                 
@@ -115,7 +121,7 @@
                         *ngIf="loadingFiles$ | async as file"
                         state="loading"
                         [file]="file"
-                        [showDelete]="control.enabled"
+                        [showDelete]="document.enabled"
                     ></tui-file>
                 </tui-files>
                 </div>
@@ -131,19 +137,19 @@
 
             <div class="flex gap-2 my-5 mx-3">
                 <div class="fle w-full">
-                    <tui-input >
+                    <tui-input formControlName="city">
                         City
                         <input
                             tuiTextfield
                             type="text"
                         />
                     </tui-input>
-                    <!-- <small *ngIf="registrationForm.get('gender')?.errors?.['required'] && registrationForm.get('gender')?.touched" class="text-red-500 font-bannerText">
+                    <small *ngIf="registrationForm.get('city')?.errors?.['required'] && registrationForm.get('city')?.touched" class="text-red-500 font-bannerText">
                         *gender required
-                    </small> -->
+                    </small>
                 </div>
                 <div class="flex w-full">
-                    <tui-select formControlName="gender">
+                    <tui-select formControlName="state">
                         Select State
                         <input
                             tuiTextfield
@@ -153,17 +159,17 @@
                             [items]="genders"
                         ></tui-data-list-wrapper>
                     </tui-select>
-                    <small *ngIf="registrationForm.get('gender')?.errors?.['required'] && registrationForm.get('gender')?.touched" class="text-red-500 font-bannerText">
+                    <small *ngIf="registrationForm.get('state')?.errors?.['required'] && registrationForm.get('state')?.touched" class="text-red-500 font-bannerText">
                         *gender required
                     </small>
                 </div>
             </div>
 
-            <div class="flex justify-between mx-3 my-5">
+            <div class="flex gap-2 mx-3 my-5">
                 <div class="flex w-full">
                     <tui-input formControlName="OTP">
                         Enter OTP
-                        <input tuiTextfield type="email"/>
+                        <input tuiTextfield type="number"/>
                     </tui-input>
                     <small *ngIf="registrationForm.get('OTP')?.errors?.['required'] && registrationForm.get('OTP')?.touched" class="text-red-500 font-bannerText">
                         *OTP required
@@ -173,7 +179,7 @@
                     </small>
                 </div>
                 <div class="flex w-full">
-                    <button class="flex justify-center ml-auto py-4 px-5 font-bannerText rounded-lg bg-mainColor text-white" type="button" >Submit</button>
+                    <button class="flex justify-center ml-auto py-4 px-5 font-bannerText rounded-lg bg-mainColor text-white" type="button" (click)="requestOTP()">Submit</button>
                 </div>
             </div>
         </div>

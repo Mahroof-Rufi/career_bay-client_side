@@ -1,16 +1,28 @@
-<div class="flex justify-center items-center">
-    <div class="flex mx-5 my-10">
-        <h1 class="text-2xl text-secondGrey font-bannerText">Login</h1>
-        <p class="text-xl text-thirdGrey font-bannerText">You will be directed to the Dashboard</p>
-        <div class="grid grid-cols-1">
-            <tui-input formControlName="email">
-                Email
-                <input tuiTextfield type="email"/>
-            </tui-input>
-            <tui-input formControlName="email">
-                Email
-                <input tuiTextfield type="email"/>
-            </tui-input>
+<div class="flex justify-center items-center admin-Bg h-screen">
+    <form [formGroup]="loginForm" (ngSubmit)="submitLogin()">
+        <div class="flex flex-col mx-5 my-10 justify-center bg-white px-10 py-10 rounded-lg h-fit">
+            <h1 class="flex text-5xl text-mainGrey font-bannerText justify-center">Login</h1>
+            <p class="flex text-xl text-thirdGrey font-bannerText justify-center mt-5">You will be directed to the Dashboard</p>
+            <div class="grid grid-cols-1 gap-y-5 mt-10">
+                <tui-input formControlName="email">
+                    Email
+                    <input tuiTextfield type="email"/>
+                </tui-input>
+                <p *ngIf="loginForm.get('email')?.errors?.['required'] && loginForm.get('email')?.touched" class="text-red-500 font-bannerText">
+                    *email is required
+                </p>
+                <p *ngIf="loginForm.get('email')?.errors?.['email']" class="text-red-500 font-bannerText">
+                    *enter valid email
+                </p>
+                <tui-input-password class="tui-space_top-2" formControlName="password">
+                    Password 
+                </tui-input-password>
+                <p *ngIf="loginForm.get('password')?.errors?.['required'] && loginForm.get('password')?.touched" class="text-red-500 font-bannerText">
+                    *password is required
+                </p>
+            </div>
+            <button class="py-3 px-5 bg-adminBlue text-white font-bannerText text-lg mt-5 rounded-lg" type="submit">Submit</button>
         </div>
-    </div>
+    </form>
 </div>
+

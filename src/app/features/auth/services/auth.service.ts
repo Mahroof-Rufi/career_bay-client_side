@@ -10,15 +10,31 @@ export class AuthService {
 
   constructor(private http:HttpClient) { }
 
-  requestOTP(email:string) {
-    return this.http.post('http://localhost:3000/send-otp',{email:email})
+  userRequestOTP(email:string) {
+    return this.http.post('http://localhost:3000/send-otp',{ email:email })
   }
 
-  registration(formData:FormGroup):Observable<any> {
+  userRegistration(formData:FormGroup):Observable<any> {
     return this.http.post('http://localhost:3000/sign_up', formData)
   }
 
-  login(loginData: FormGroup):Observable<any> {
-    return this.http.post('http://localhost:3000/login', loginData, { withCredentials: true })
+  userLogin(loginData: FormGroup):Observable<any> {
+    return this.http.post('http://localhost:3000/login', loginData)
+  }
+
+  companyRequestOTP(email:string):Observable<any> {
+    return this.http.post('http://localhost:3000/employer/send-otp', { email:email })
+  }
+
+  companyRegistration(companyData:FormGroup):Observable<any> {
+    return this.http.post('http://localhost:3000/employer/register', companyData)
+  }
+
+  companyLogin(loginData:FormGroup):Observable<any> {
+    return this.http.post('http://localhost:3000/employer/login', loginData)
+  }
+
+  adminLogin(loginData:FormGroup):Observable<any> {
+    return this.http.post('http://localhost:3000/admin/login', loginData)
   }
 }

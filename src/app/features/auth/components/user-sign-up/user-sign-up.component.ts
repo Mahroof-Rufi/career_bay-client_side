@@ -46,12 +46,25 @@ export class UserSignUpComponent implements OnInit{
 
   submitRegistrationForm() {
     if (this.registrationForm.valid) {
-      this.authService.registration(this.registrationForm.value).subscribe((res) => {
-        console.log(res);
-        this.router.navigateByUrl('user/auth/login')
+      this.authService.userRegistration(this.registrationForm.value).subscribe((res) => {
+        this.alert.open('', {
+          label: 'Registration successfull',
+          status: 'success',
+          autoClose: true,
+          hasCloseButton: false
+        }).subscribe({
+          complete: () => this.router.navigateByUrl('auth/user/login')       
+        })
       }, (err: any) => {
         console.log(err);
-        
+        this.alert.open('', {
+          label: err.error,
+          status: 'error',
+          autoClose: false,
+          hasCloseButton: true
+        }).subscribe({
+                
+        })
       })
     } else {
       this.registrationForm.markAllAsTouched()
@@ -64,7 +77,7 @@ export class UserSignUpComponent implements OnInit{
 
   requestOTP() {
     const email = this.registrationForm.get('email')?.value    
-    this.authService.requestOTP(email).subscribe(() => {
+    this.authService.userRequestOTP(email).subscribe(() => {
       this.otpButton = 'Resend OTP'
       this.alert.open('', {
         label: 'OTP send successfully',
@@ -73,13 +86,15 @@ export class UserSignUpComponent implements OnInit{
     }).subscribe({
         complete: () => console.log('notification closed')        
       })
-    }, (err) => {
+    },(err: any) => {
+      console.log(err);
       this.alert.open('', {
-        label: 'Something went wrong, Try again',
+        label: err.error,
         status: 'error',
-        autoClose: true,
-    }).subscribe({
-        complete: () => console.log('notification closed')        
+        autoClose: false,
+        hasCloseButton: true
+      }).subscribe({
+              
       })
     })
   }

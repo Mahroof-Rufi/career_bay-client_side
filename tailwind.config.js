@@ -12,6 +12,7 @@ module.exports = {
         thirdGrey: '#A4A3A3',
         bg_grey: '#F0F0F0',
         job_bg_1: '#CBE4F9',
+        adminBlue: '#1176FF'
       },
       fontFamily: {
         bannerText: [ '"Kanit"', 'sans-serif'],
