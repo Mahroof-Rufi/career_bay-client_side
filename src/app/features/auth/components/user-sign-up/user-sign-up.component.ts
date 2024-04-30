@@ -42,6 +42,7 @@ export class UserSignUpComponent implements OnInit{
       gender: new FormControl('', Validators.required),
       OTP: new FormControl('', [Validators.required, noSpaceAllowed, Validators.minLength(6)])
     },{ validators: [confirmPasswordValidator]})
+
   }
 
   submitRegistrationForm() {

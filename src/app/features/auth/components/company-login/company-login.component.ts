@@ -29,6 +29,7 @@ export class CompanyLoginComponent implements OnInit{
   submitLogin() {
     if (this.loginForm.valid) {
       this.authService.companyLogin(this.loginForm.value).subscribe((res) => {
+        
         const statusCode = res.employer.status; 
     
           switch (statusCode) {
@@ -44,7 +45,8 @@ export class CompanyLoginComponent implements OnInit{
               break;
           }
       }, err => {
-        this.alert.open('', {
+        console.log('eer',err)
+        this.alert.open('', {          
           label: err.error.employer.message,
           status: 'error',
           autoClose: false,
@@ -58,6 +60,8 @@ export class CompanyLoginComponent implements OnInit{
     }
   } 
 
-  forJobSearching() {}
+  forJobSearching() {
+    this.router.navigateByUrl('auth/user/login')
+  }
 
 }

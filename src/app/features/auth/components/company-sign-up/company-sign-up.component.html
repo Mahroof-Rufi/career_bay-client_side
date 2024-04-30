@@ -145,7 +145,7 @@
                         />
                     </tui-input>
                     <small *ngIf="registrationForm.get('city')?.errors?.['required'] && registrationForm.get('city')?.touched" class="text-red-500 font-bannerText">
-                        *gender required
+                        *city required
                     </small>
                 </div>
                 <div class="flex w-full">
@@ -156,7 +156,7 @@
                         />
                         <tui-data-list-wrapper
                             *tuiDataList
-                            [items]="genders"
+                            [items]="states"
                         ></tui-data-list-wrapper>
                     </tui-select>
                     <small *ngIf="registrationForm.get('state')?.errors?.['required'] && registrationForm.get('state')?.touched" class="text-red-500 font-bannerText">

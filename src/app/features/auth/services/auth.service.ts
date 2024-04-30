@@ -22,6 +22,16 @@ export class AuthService {
     return this.http.post('http://localhost:3000/login', loginData)
   }
 
+  userGoogleRegistration(userData: any):Observable<any> {
+    return this.http.post('http://localhost:3000/g-auth', userData)
+  }
+
+  userAuth():Observable<any> {
+    return this.http.get('http://localhost:3000/auth')
+  }
+
+
+
   companyRequestOTP(email:string):Observable<any> {
     return this.http.post('http://localhost:3000/employer/send-otp', { email:email })
   }

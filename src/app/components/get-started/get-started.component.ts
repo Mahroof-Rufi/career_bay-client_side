@@ -12,7 +12,7 @@ export class GetStartedComponent {
   constructor(private router:Router) { }
 
   showDialog(): void {
-    this.router.navigateByUrl('/auth/user/login')
+    this.router.navigateByUrl('/auth/user/register')
   }
 
 }

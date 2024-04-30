@@ -19,7 +19,7 @@ export class CompanySignUpComponent implements OnInit {
   document = new FormControl();
 
   industries = ['IT','Media']
-  genders = ['Male','Female','Other']
+  states = ['Kerala','Karnataka','Telengana']
 
 
   constructor(private router: Router, private authService:AuthService, private alert: TuiAlertService) { }
@@ -80,7 +80,9 @@ export class CompanySignUpComponent implements OnInit {
 
   requestOTP() {
     const email = this.registrationForm.get('email')?.value    
-    this.authService.companyRequestOTP(email).subscribe(() => {
+    this.authService.companyRequestOTP(email).subscribe((res) => {
+      console.log(res);
+      
       this.alert.open('', {
         label: 'OTP send successfully',
         status: 'success',

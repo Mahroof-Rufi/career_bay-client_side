@@ -20,7 +20,7 @@ import { AdminModule } from '../admin/admin.module';
     UserSignUpComponent,
     CompanyLoginComponent,
     CompanySignUpComponent,
-    AdminLoginComponent
+    AdminLoginComponent,
   ],
   imports: [
     CommonModule,

@@ -24,6 +24,8 @@ import { AuthModule } from "./features/auth/auth.module";
 import { DialogueComponent } from './components/dialogue/dialogue.component';
 import { UserModule } from "./features/user/user.module";
 import { HomeComponent } from './components/home/home.component';
+import { provideHttpClient, withInterceptors } from "@angular/common/http";
+import { setTokenInterceptor } from "./interceptors/set-token.interceptor";
 
 
 @NgModule({
@@ -54,7 +56,10 @@ import { HomeComponent } from './components/home/home.component';
     TuiSvgModule,
     AuthModule,
 ],
-  providers: [{provide: TUI_SANITIZER, useClass: NgDompurifySanitizer}],
+  providers: [
+    {provide: TUI_SANITIZER, useClass: NgDompurifySanitizer},
+    provideHttpClient(withInterceptors([setTokenInterceptor])),
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
