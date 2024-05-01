@@ -28,13 +28,14 @@ export class AdminLoginComponent implements OnInit{
   submitLogin() {
     if (this.loginForm.valid) {
       this.authService.adminLogin(this.loginForm.value).subscribe((res) => {
+        console.log(res);
+        
         this.alert.open('', {
           label: 'Login Successfull',
           status: 'success',
           autoClose: true,
-        }).subscribe({
-          complete: () => this.router.navigateByUrl('/admin/dashboard')        
-        })
+        }).subscribe()
+        this.router.navigateByUrl('/admin/dashboard')  
       }, err => {
         this.alert.open('', {
           label: err.error.admin.message,

@@ -39,9 +39,8 @@ export class CompanyLoginComponent implements OnInit{
                 status: 'success',
                 autoClose: true,
                 hasCloseButton: false,
-              }).subscribe({
-                complete: () => this.router.navigateByUrl('/employer/dashboard')    
-              })
+              }).subscribe()
+              this.router.navigateByUrl('/employer/dashboard')
               break;
           }
       }, err => {

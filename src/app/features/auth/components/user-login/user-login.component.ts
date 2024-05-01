@@ -60,11 +60,8 @@ export class userLoginComponent implements OnInit{
           status: 'success',
           autoClose: true,
           hasCloseButton: false,
-        }).subscribe({
-          complete: () => {
-            this.router.navigateByUrl('/user/dashboard')
-          }
-        })
+        }).subscribe()
+        this.router.navigateByUrl('/user/dashboard')
       }, err => {
         this.alert.open('', {
           label: err.error.user.message,
@@ -100,11 +97,8 @@ export class userLoginComponent implements OnInit{
               status: 'success',
               autoClose: true,
               hasCloseButton: false,
-            }).subscribe({
-              complete: () => {
-                this.router.navigateByUrl('/user/dashboard')
-              }
-            })
+            }).subscribe()
+            this.router.navigateByUrl('/user/dashboard')
             break;
         }
   

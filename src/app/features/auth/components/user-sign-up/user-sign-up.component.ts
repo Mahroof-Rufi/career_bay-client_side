@@ -52,7 +52,7 @@ export class UserSignUpComponent implements OnInit{
           label: 'Registration successfull',
           status: 'success',
           autoClose: true,
-          hasCloseButton: false
+          hasCloseButton: true
         }).subscribe({
           complete: () => this.router.navigateByUrl('auth/user/login')       
         })

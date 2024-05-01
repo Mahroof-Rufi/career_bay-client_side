@@ -9,6 +9,7 @@ import { AdminLoginComponent } from "./components/admin-login/admin-login.compon
 import { dialogueCloseGuard } from "./route-guards/dialogue-close.guard";
 import { userTokenCheckGuard } from "./route-guards/user-token-check.guard";
 import { employerTokenCheckGuard } from "./route-guards/employer-token-check.guard";
+import { adminTokenCheckGuard } from "./route-guards/admin-token-check.guard";
 
 const routes: Routes = [
     { path: 'auth' , children: [
@@ -22,7 +23,7 @@ const routes: Routes = [
         ],canActivateChild:[employerTokenCheckGuard] },
     ], canActivate:[dialogueOpenGuard], canDeactivate:[dialogueCloseGuard]},
     { path: 'admin', children: [
-        { path: 'login', component: AdminLoginComponent }
+        { path: 'login', component: AdminLoginComponent, canActivate:[adminTokenCheckGuard] }
     ] }
 ]
 
