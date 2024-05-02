@@ -1,4 +1,4 @@
-declare var google:any;
+declare var google: any;
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
@@ -11,9 +11,11 @@ import { ModalService } from '../../services/modal.service';
   templateUrl: './user-login.component.html',
   styleUrl: './user-login.component.scss'
 })
-export class userLoginComponent implements OnInit{
+export class userLoginComponent implements OnInit {
 
-  constructor(private authService:AuthService, private router:Router, private alert: TuiAlertService,) {}
+  constructor(private authService: AuthService,
+    private router: Router,
+    private alert: TuiAlertService,) { }
 
   loginForm!: FormGroup;
 
@@ -24,13 +26,13 @@ export class userLoginComponent implements OnInit{
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
-      email: new FormControl('',[Validators.required, Validators.email]),
-      password: new FormControl('',Validators.required)
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', Validators.required)
     })
 
     google.accounts.id.initialize({
-      client_id:'1030200020686-7dolvpabdb7oc0v66ukaabpok6uk4v6c.apps.googleusercontent.com',
-      callback: (res:any) => this.handleCrendentials(res)
+      client_id: '1030200020686-7dolvpabdb7oc0v66ukaabpok6uk4v6c.apps.googleusercontent.com',
+      callback: (res: any) => this.handleCrendentials(res)
     });
 
     google.accounts.id.renderButton(document.getElementById("google-btn"), {
@@ -41,7 +43,7 @@ export class userLoginComponent implements OnInit{
     })
   }
 
-  private decodeToken(token:string) {
+  private decodeToken(token: string) {
     return JSON.parse(atob(token.split(".")[1]))
   }
 
@@ -49,10 +51,10 @@ export class userLoginComponent implements OnInit{
     if (res) {
       const payloud = this.decodeToken(res.credential);
       const userData = {
-        fullName:payloud.name,
-        email:payloud.email,
-        password:'hctd45#$%$E%$x',
-        google_id:payloud.sub,
+        fullName: payloud.name,
+        email: payloud.email,
+        password: 'hctd45#$%$E%$x',
+        google_id: payloud.sub,
       }
       this.authService.userGoogleRegistration(userData).subscribe((res) => {
         this.alert.open('', {
@@ -69,7 +71,7 @@ export class userLoginComponent implements OnInit{
           autoClose: false,
           hasCloseButton: true,
         }).subscribe({
-          complete: () => console.log('notification closed')        
+          complete: () => console.log('notification closed')
         })
       });
     }
@@ -78,7 +80,7 @@ export class userLoginComponent implements OnInit{
   redirectSignUp() {
     this.router.navigateByUrl('/auth/user/register')
   }
-  
+
   forHiring() {
     this.router.navigateByUrl('/auth/employer/login')
   }
@@ -87,9 +89,9 @@ export class userLoginComponent implements OnInit{
     if (this.loginForm.valid) {
 
       this.authService.userLogin(this.loginForm.value).subscribe((res) => {
-        const statusCode = res.user.status; 
+        const statusCode = res.user.status;
         console.log(res);
-        
+
         switch (statusCode) {
           case 200:
             this.alert.open('', {
@@ -101,15 +103,17 @@ export class userLoginComponent implements OnInit{
             this.router.navigateByUrl('/user/dashboard')
             break;
         }
-  
+
       }, (err) => {
+        console.log(err);
+
         this.alert.open('', {
           label: err.error.user.message,
           status: 'error',
           autoClose: false,
           hasCloseButton: true,
         }).subscribe({
-          complete: () => console.log('notification closed')        
+          complete: () => console.log('notification closed')
         })
       });
 
@@ -117,7 +121,7 @@ export class userLoginComponent implements OnInit{
       this.loginForm.markAllAsTouched()
     }
 
-  } 
-  
+  }
+
 
 }
