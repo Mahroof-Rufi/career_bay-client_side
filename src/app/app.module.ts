@@ -20,12 +20,13 @@ import { FooterComponent } from './components/footer/footer.component';
 import { LogoComponent } from './components/logo/logo.component';
 import { GetStartedComponent } from './components/get-started/get-started.component';
 import { SharedModule } from "./shared/shared.module";
-import { AuthModule } from "./features/auth/auth.module";
-import { DialogueComponent } from './components/dialogue/dialogue.component';
-import { UserModule } from "./features/user/user.module";
-import { HomeComponent } from './components/home/home.component';
-import { provideHttpClient, withInterceptors } from "@angular/common/http";
-import { setTokenInterceptor } from "./interceptors/set-token.interceptor";
+import { userLoginComponent } from "./components/user-login/user-login.component";
+import { UserSignUpComponent } from "./components/user-sign-up/user-sign-up.component";
+import { CompanyLoginComponent } from "./components/company-login/company-login.component";
+import { CompanySignUpComponent } from "./components/company-sign-up/company-sign-up.component";
+import { AdminLoginComponent } from "./components/admin-login/admin-login.component";
+import { DialogueComponent } from "./components/dialogue/dialogue.component";
+import { HomeComponent } from "./components/home/home.component";
 
 
 @NgModule({
@@ -45,6 +46,11 @@ import { setTokenInterceptor } from "./interceptors/set-token.interceptor";
     GetStartedComponent,
     DialogueComponent,
     HomeComponent,
+    userLoginComponent,
+    UserSignUpComponent,
+    CompanyLoginComponent,
+    CompanySignUpComponent,
+    AdminLoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,12 +60,10 @@ import { setTokenInterceptor } from "./interceptors/set-token.interceptor";
     TuiDialogModule,
     TuiAlertModule,
     TuiSvgModule,
-    AuthModule,
+    SharedModule,
 ],
   providers: [
-    {provide: TUI_SANITIZER, useClass: NgDompurifySanitizer},
-    provideHttpClient(withInterceptors([setTokenInterceptor])),
-  ],
+    {provide: TUI_SANITIZER, useClass: NgDompurifySanitizer}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

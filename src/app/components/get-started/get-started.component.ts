@@ -1,5 +1,5 @@
 import { Component, Injector } from '@angular/core';
-import { Router } from '@angular/router';
+import { ModalService } from '../../services/modal.service';
 
 
 @Component({
@@ -9,10 +9,10 @@ import { Router } from '@angular/router';
 })
 export class GetStartedComponent {
 
-  constructor(private router:Router) { }
+  constructor(private modalService:ModalService) { }
 
   showDialog(): void {
-    this.router.navigateByUrl('/auth/user/register')
+    this.modalService.openModal()
   }
 
 }

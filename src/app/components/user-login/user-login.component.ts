@@ -4,7 +4,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { TuiAlertService } from '@taiga-ui/core';
-import { ModalService } from '../../services/modal.service';
 
 @Component({
   selector: 'app-user-login',
