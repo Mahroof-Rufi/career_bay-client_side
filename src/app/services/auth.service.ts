@@ -26,9 +26,14 @@ export class AuthService {
     return this.http.post('http://localhost:3000/g-auth', userData)
   }
 
-  userAuth():Observable<any> {
-    return this.http.get('http://localhost:3000/auth')
+  userForgorPasswordRequestOTP(email:string) {
+    return this.http.post('http://localhost:3000/forgot-password', {email:email})
   }
+
+  userResetPassword(data:FormGroup):Observable<any> {
+    return this.http.patch('http://localhost:3000/forgot-password', data)
+  }
+
 
 
 
@@ -43,6 +48,16 @@ export class AuthService {
   companyLogin(loginData:FormGroup):Observable<any> {
     return this.http.post('http://localhost:3000/employer/login', loginData)
   }
+
+  companyForgorPasswordRequestOTP(email:string) {
+    return this.http.post('http://localhost:3000/employer/forgot-password', {email:email})
+  }
+
+  companyResetPassword(data:FormGroup):Observable<any> {
+    return this.http.patch('http://localhost:3000/employer/forgot-password', data)
+  }
+
+  
 
   adminLogin(loginData:FormGroup):Observable<any> {
     return this.http.post('http://localhost:3000/admin/login', loginData)

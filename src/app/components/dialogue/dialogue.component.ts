@@ -6,5 +6,14 @@ import { Component } from '@angular/core';
   styleUrl: './dialogue.component.scss'
 })
 export class DialogueComponent {
+  view:string = 'user-login'
+  forgotPasswordView!:boolean;
 
+  handleChangeView(value:string) {
+    this.view = value
+  }
+
+  handleRenderForgotPassword(value:boolean) {
+    this.forgotPasswordView = value
+  }
 }

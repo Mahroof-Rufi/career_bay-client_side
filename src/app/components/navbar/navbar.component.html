@@ -1,16 +1,9 @@
-<div class="flex flex-row py-5 px-10">
+<div class="flex justify-between w-full py-5 px-10 ">
     <app-logo></app-logo>
-    <nav class="mx-auto">
-        <ul class="flex flex-row basis-1/5">
-          <li class="px-5 py-2 font-bannerText"><a href="#">Home</a></li>
-          <li class="px-5 py-2 font-bannerText"><a href="#">Dashboard</a></li>
-          <li class="px-5 py-2 font-bannerText"><a href="#">Find a Job</a></li>
-          <li class="px-5 py-2 font-bannerText"><a href="#">Contact Us</a></li>
-          <li class="px-5 py-2 font-bannerText"><a href="#">About Us</a></li>
-        </ul>
-    </nav>
-    <div class="flex flex-row ml-auto space-x-3">
-        <button class="font-bannerText px-5 py-2 bg-white text-mainColor rounded-lg">Sign in</button>
-        <app-get-started></app-get-started>
-    </div>  
+        <app-nav-bar-options class="mt-10 lg:mt-0"></app-nav-bar-options>
+        <div class="flex-row ml-auto space-x-3 hidden lg:block">
+            <button class="font-bannerText px-5 py-2 bg-white text-mainColor rounded-lg">Sign in</button>
+            <app-get-started></app-get-started>
+        </div>
+        <i class="fa-solid fa-bars text-3xl text-mainGrey lg:hidden ml-auto"></i>
 </div>

@@ -9,7 +9,7 @@ export const employerAuthGuard: CanActivateFn = (route, state) => {
     if (token) {
       return true;
     } else {
-      router.navigateByUrl('auth/employer/login')
+      router.navigateByUrl('/home')
       return false
     }
   };

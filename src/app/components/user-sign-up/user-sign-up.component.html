@@ -156,8 +156,8 @@
                     </div>
                 </div>
 
-                <div class="flex justify-between mx-3 my-5">
-                    <tui-input formControlName="OTP">
+                <div class="flex justify-between mx-3 my-5 space-x-10">
+                    <tui-input formControlName="OTP" class="w-fit">
                         Enter OTP
                         <input tuiTextfield type="email" />
                     </tui-input>
@@ -169,10 +169,10 @@
                     <small *ngIf="registrationForm.get('OTP')?.errors?.['minlength']"
                         class="text-red-500 font-bannerText">
                         *enter a valid OTP
-                    </small>
+                    </small>                      
                     <button
-                        class="flex justify-center ml-auto py-4 px-5 font-bannerText rounded-lg bg-mainColor text-white"
-                        type="button" (click)="requestOTP()">{{otpButton}}</button>
+                        class="flex justify-center w-fit ml-auto py-4 px-5 font-bannerText rounded-lg bg-mainColor text-white "
+                        type="button" (click)="requestOTP()">{{ time > 0 ? 'Resend OTP in ' + minutes + ':' + seconds : otpButton }}</button>
                 </div>
             </div>
 

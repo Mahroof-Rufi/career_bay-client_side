@@ -1,9 +1,10 @@
 declare var google: any;
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { TuiAlertService } from '@taiga-ui/core';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
   selector: 'app-user-login',
@@ -12,9 +13,13 @@ import { TuiAlertService } from '@taiga-ui/core';
 })
 export class userLoginComponent implements OnInit {
 
+  @Output() changeView:EventEmitter<string> = new EventEmitter()
+  @Output() renderForgotPassword: EventEmitter<boolean> = new EventEmitter()
+
   constructor(private authService: AuthService,
     private router: Router,
-    private alert: TuiAlertService,) { }
+    private alert: TuiAlertService,
+    private modalService:ModalService) { }
 
   loginForm!: FormGroup;
 
@@ -77,11 +82,18 @@ export class userLoginComponent implements OnInit {
   }
 
   redirectSignUp() {
-    this.router.navigateByUrl('/auth/user/register')
+    // this.router.navigateByUrl('/auth/user/register')
+    this.changeView.emit('user-register')
   }
 
   forHiring() {
-    this.router.navigateByUrl('/auth/employer/login')
+    this.changeView.emit('company-login')
+    // this.router.navigateByUrl('/auth/employer/login')
+  }
+
+  forgotPassword() {
+    this.renderForgotPassword.emit(true)
+    this.changeView.emit('forgotPassword')
   }
 
   submitLogin() {
@@ -99,6 +111,7 @@ export class userLoginComponent implements OnInit {
               autoClose: true,
               hasCloseButton: false,
             }).subscribe()
+            this.modalService.closeModal()
             this.router.navigateByUrl('/user/dashboard')
             break;
         }

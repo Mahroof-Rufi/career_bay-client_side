@@ -1,1 +1,17 @@
-
+@switch (view) {
+    @case ("user-login") {
+        <app-user-login (changeView)="handleChangeView($event)" (renderForgotPassword)="handleRenderForgotPassword($event)" ></app-user-login>
+    }
+    @case ("user-register") {
+        <app-user-sign-up (changeView)="handleChangeView($event)"></app-user-sign-up>
+    }
+    @case ("forgotPassword") {
+        <app-forgot-password (changeView)="handleChangeView($event)" [isUser]="forgotPasswordView"></app-forgot-password>
+    }
+    @case ("company-login") {
+        <app-company-login (changeView)="handleChangeView($event)" (renderForgotPassword)="handleRenderForgotPassword($event)"></app-company-login>
+    }
+    @case ("company-sign-up") {
+        <app-company-sign-up (changeView)="handleChangeView($event)"></app-company-sign-up>
+    }
+}

@@ -20,9 +20,6 @@ export class ModalService {
       new PolymorpheusComponent(DialogueComponent, this.injector),
       {
         size:'l',
-        data: 237,
-        dismissible: true,
-        label: 'Heading',
     },
     );
   }

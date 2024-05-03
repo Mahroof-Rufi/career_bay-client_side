@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -12,11 +12,22 @@ import { confirmPasswordValidator } from '../../validators/confirm-password.vali
   styleUrl: './user-sign-up.component.scss'
 })
 export class UserSignUpComponent implements OnInit{
+  @Output() changeView:EventEmitter<string> = new EventEmitter()
 
-  constructor(private router:Router, private authService:AuthService, private alert: TuiAlertService) {}
+  constructor(private router:Router,
+            private authService:AuthService,
+            private alert: TuiAlertService) {}
 
   registrationForm!: FormGroup;
   otpButton:string = 'Send OTP'
+
+  startingMinute: number = 1; 
+  time: number = 0
+  minutes: number = Math.floor(this.time / 60);
+  seconds: number = Math.floor(this.time % 60);
+  timerInterval: any; 
+
+
 
   industries: string[] = [
     'IT',
@@ -53,9 +64,8 @@ export class UserSignUpComponent implements OnInit{
           status: 'success',
           autoClose: true,
           hasCloseButton: true
-        }).subscribe({
-          complete: () => this.router.navigateByUrl('auth/user/login')       
-        })
+        }).subscribe()
+        this.changeView.emit('user-login')
       }, (err: any) => {
         console.log(err);
         this.alert.open('', {
@@ -73,7 +83,8 @@ export class UserSignUpComponent implements OnInit{
   }
 
   redirectlogin() {
-    this.router.navigateByUrl('/auth/user/login')
+    this.changeView.emit('user-login')
+    // this.router.navigateByUrl('/auth/user/login')
   }
 
   requestOTP() {
@@ -87,6 +98,10 @@ export class UserSignUpComponent implements OnInit{
     }).subscribe({
         complete: () => console.log('notification closed')        
       })
+      this.time = this.startingMinute * 60;
+      this.timerInterval = setInterval(() => {
+        this.updateTimer();
+      }, 1000);
     },(err: any) => {
       console.log(err);
       this.alert.open('', {
@@ -98,5 +113,16 @@ export class UserSignUpComponent implements OnInit{
               
       })
     })
+  }
+
+  updateTimer() {
+    if (this.time > 0) {
+      this.minutes = Math.floor(this.time / 60);
+      this.seconds = Math.floor(this.time % 60);
+      this.time--;
+    } else {
+      this.time = 0
+      clearInterval(this.timerInterval); 
+    }
   }
 }

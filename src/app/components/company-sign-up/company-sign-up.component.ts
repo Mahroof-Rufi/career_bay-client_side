@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TuiFileLike } from '@taiga-ui/kit';
@@ -15,11 +15,14 @@ import { TuiAlertService } from '@taiga-ui/core';
 })
 export class CompanySignUpComponent implements OnInit {
 
+  @Output() changeView:EventEmitter<string> = new EventEmitter()
+
   registrationForm!: FormGroup;
   document = new FormControl();
 
   industries = ['IT','Media']
   states = ['Kerala','Karnataka','Telengana']
+  OTP_BTN:string = 'Send OTP'
 
 
   constructor(private router: Router, private authService:AuthService, private alert: TuiAlertService) { }
@@ -39,7 +42,8 @@ export class CompanySignUpComponent implements OnInit {
   }
 
   redirectlogin() {
-    this.router.navigateByUrl('/auth/employer/login')
+    this.changeView.emit('company-login')
+    // this.router.navigateByUrl('/auth/employer/login')
   }
 
   readonly rejectedFiles$ = new Subject<TuiFileLike | null>();
@@ -87,9 +91,8 @@ export class CompanySignUpComponent implements OnInit {
         label: 'OTP send successfully',
         status: 'success',
         autoClose: true,
-      }).subscribe({
-        complete: () => console.log('notification closed')        
-      })
+      }).subscribe()
+      this.OTP_BTN = 'Resend OTP'
     }, (err: any) => {
       console.log(err);
       this.alert.open('', {
@@ -110,20 +113,15 @@ export class CompanySignUpComponent implements OnInit {
           label: 'Registration successfull',
           status: 'success',
           autoClose: true,
-        }).subscribe({
-          complete: () => console.log('notification closed')        
-        })       
-        this.router.navigateByUrl('auth/employer/login')
+        }).subscribe()       
+        this.changeView.emit('company-login')
       }, (err: any) => {
-        console.log(err);
         this.alert.open('', {
           label: err.error,
           status: 'error',
           autoClose: false,
           hasCloseButton: true
-        }).subscribe({
-                
-        })
+        }).subscribe()
       })
     } else {
       this.registrationForm.markAllAsTouched()

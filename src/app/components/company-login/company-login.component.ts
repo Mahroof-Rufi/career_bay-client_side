@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { TuiAlertService } from '@taiga-ui/core';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
   selector: 'app-company-login',
@@ -11,9 +12,15 @@ import { TuiAlertService } from '@taiga-ui/core';
 })
 export class CompanyLoginComponent implements OnInit{
 
+  @Output() changeView:EventEmitter<string> = new EventEmitter()
+  @Output() renderForgotPassword: EventEmitter<boolean> = new EventEmitter()
+
   loginForm!:FormGroup;
 
-  constructor(private router:Router, private authService:AuthService,  private alert: TuiAlertService) {}
+  constructor(private router:Router, 
+    private authService:AuthService,  
+    private alert: TuiAlertService,
+    private modalService:ModalService) {}
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -23,7 +30,13 @@ export class CompanyLoginComponent implements OnInit{
   }
 
   redirectSignUp() {
-    this.router.navigateByUrl('/auth/employer/register')
+    this.changeView.emit('company-register')
+    // this.router.navigateByUrl('/auth/employer/register')
+  }
+
+  forgotPassword() {
+    this.changeView.emit('forgotPassword')
+    this.renderForgotPassword.emit(false)
   }
 
   submitLogin() {
@@ -40,6 +53,7 @@ export class CompanyLoginComponent implements OnInit{
                 autoClose: true,
                 hasCloseButton: false,
               }).subscribe()
+              this.modalService.closeModal()
               this.router.navigateByUrl('/employer/dashboard')
               break;
           }
@@ -60,7 +74,8 @@ export class CompanyLoginComponent implements OnInit{
   } 
 
   forJobSearching() {
-    this.router.navigateByUrl('auth/user/login')
+    // this.router.navigateByUrl('auth/user/login')
+    this.changeView.emit('user-login')
   }
 
 }

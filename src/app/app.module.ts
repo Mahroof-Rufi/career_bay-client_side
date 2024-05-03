@@ -19,14 +19,19 @@ import { ContactUsComponent } from './components/contact-us/contact-us.component
 import { FooterComponent } from './components/footer/footer.component';
 import { LogoComponent } from './components/logo/logo.component';
 import { GetStartedComponent } from './components/get-started/get-started.component';
-import { SharedModule } from "./shared/shared.module";
 import { userLoginComponent } from "./components/user-login/user-login.component";
 import { UserSignUpComponent } from "./components/user-sign-up/user-sign-up.component";
 import { CompanyLoginComponent } from "./components/company-login/company-login.component";
 import { CompanySignUpComponent } from "./components/company-sign-up/company-sign-up.component";
-import { AdminLoginComponent } from "./components/admin-login/admin-login.component";
 import { DialogueComponent } from "./components/dialogue/dialogue.component";
 import { HomeComponent } from "./components/home/home.component";
+import { UserModule } from "./features/user/user.module";
+import { CompanyModule } from "./features/company/company.module";
+import { AdminModule } from "./features/admin/admin.module";
+import { provideHttpClient, withInterceptors } from "@angular/common/http";
+import { setTokenInterceptor } from "./interceptors/set-token.interceptor";
+import { NavBarOptionsComponent } from './components/nav-bar-options/nav-bar-options.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
 
 @NgModule({
@@ -50,7 +55,8 @@ import { HomeComponent } from "./components/home/home.component";
     UserSignUpComponent,
     CompanyLoginComponent,
     CompanySignUpComponent,
-    AdminLoginComponent,
+    NavBarOptionsComponent,
+    ForgotPasswordComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,10 +66,15 @@ import { HomeComponent } from "./components/home/home.component";
     TuiDialogModule,
     TuiAlertModule,
     TuiSvgModule,
-    SharedModule,
+    UserModule,
+    CompanyModule,
+    AdminModule
 ],
   providers: [
-    {provide: TUI_SANITIZER, useClass: NgDompurifySanitizer}],
+    {provide: TUI_SANITIZER, useClass: NgDompurifySanitizer},
+    provideHttpClient(withInterceptors([setTokenInterceptor])),
+  ],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }
