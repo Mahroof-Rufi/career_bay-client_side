@@ -4,10 +4,13 @@ import { TuiDataListWrapperModule, TuiInputDateModule, TuiInputFilesModule, TuiI
 import { ReactiveFormsModule } from '@angular/forms';
 import { TuiAlertModule, TuiDataListModule, TuiHintModule, TuiTooltipModule } from '@taiga-ui/core';
 import { HttpClientModule } from '@angular/common/http';
+import { LogoComponent } from './components/logo/logo.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
-    
+    LogoComponent,
+    FooterComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +41,9 @@ import { HttpClientModule } from '@angular/common/http';
     TuiAlertModule,
     TuiInputFilesModule,
     TuiTooltipModule,
-    TuiHintModule
+    TuiHintModule,
+    LogoComponent,
+    FooterComponent
   ]
 })
 export class SharedModule { }

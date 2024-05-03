@@ -16,8 +16,6 @@ import { UsersComponent } from './components/users/users.component';
 import { StepsComponent } from './components/steps/steps.component';
 import { JobOverviewComponent } from './components/job-overview/job-overview.component';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { LogoComponent } from './components/logo/logo.component';
 import { GetStartedComponent } from './components/get-started/get-started.component';
 import { userLoginComponent } from "./components/user-login/user-login.component";
 import { UserSignUpComponent } from "./components/user-sign-up/user-sign-up.component";
@@ -46,8 +44,6 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
     StepsComponent,
     JobOverviewComponent,
     ContactUsComponent,
-    FooterComponent,
-    LogoComponent,
     GetStartedComponent,
     DialogueComponent,
     HomeComponent,
