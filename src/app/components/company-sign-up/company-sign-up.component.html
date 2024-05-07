@@ -2,15 +2,17 @@
     <h1 class="text-black text-xl flex font-bannerText justify-center">Welcome<h1>👋</h1></h1>
     <span class="text-black text-sm flex font-bannerText justify-center">Please, enter your details to Hire&nbsp;<h1 class="text-mainColor">Skilled Professionals</h1> </span>
     
-    <div class="tabs mt-5">
-      <div class="tab-2">
-        <label for="tab2-1" class="text-sm font-bannerText" (click)="redirectlogin()">Login</label>
-        <input id="tab2-1" type="radio">
-      </div>
-      <div class="tab-2">
-        <label for="tab2-2" class="text-sm font-bannerText" (click)="redirectlogin()">Register</label>
-        <input id="tab2-2" type="radio" checked="checked">
-      </div>
+    <div class="flex justify-center">
+        <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
+            <ul class="flex flex-wrap -mb-px">
+                <li class="me-2">
+                    <p class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" (click)="redirectlogin()">Log In</p>
+                </li>
+                <li class="me-2">
+                    <p class="inline-block p-4 text-mainColor border-b-2 border-mainColor rounded-t-lg active dark:text-blue-500 dark:border-blue-500" aria-current="page">Register</p>
+                </li>
+            </ul>
+        </div>
     </div>
 
     <form [formGroup]="registrationForm" (ngSubmit)="submitRegistrationForm()">
@@ -160,7 +162,7 @@
                         ></tui-data-list-wrapper>
                     </tui-select>
                     <small *ngIf="registrationForm.get('state')?.errors?.['required'] && registrationForm.get('state')?.touched" class="text-red-500 font-bannerText">
-                        *gender required
+                        *state required
                     </small>
                 </div>
             </div>

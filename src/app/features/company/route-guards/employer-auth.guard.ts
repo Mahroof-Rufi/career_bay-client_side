@@ -6,7 +6,8 @@ export const employerAuthGuard: CanActivateFn = (route, state) => {
     const router = inject(Router)
   
     const token = localStorage.getItem('employerToken')
-    if (token) {
+    const userData = localStorage.getItem('employerData')
+    if (token && userData) {
       return true;
     } else {
       router.navigateByUrl('/home')

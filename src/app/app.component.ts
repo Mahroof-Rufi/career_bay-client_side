@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalService } from './services/modal.service';
+import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +13,7 @@ export class AppComponent implements OnInit{
   constructor() { }
 
   ngOnInit(): void {
-    
+    initFlowbite();
   }
 
 }

@@ -1,0 +1,15 @@
+export interface Employer {
+    _id: string,
+    companyName: string,
+    profile_url: string,
+    email: string,
+    phone?: string,
+    web_url?: string,
+    X_url?: string,
+    instagram_url?: string,
+    industry: string,
+    city: string,
+    state: string,
+    noOfWorkersRange?: string,
+    about?: string,
+}

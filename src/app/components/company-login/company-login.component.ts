@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { TuiAlertService } from '@taiga-ui/core';
 import { ModalService } from '../../services/modal.service';
+import { Store } from '@ngrx/store';
+import { StateManagerService } from '../../services/state-manager.service';
 
 @Component({
   selector: 'app-company-login',
@@ -20,7 +22,8 @@ export class CompanyLoginComponent implements OnInit{
   constructor(private router:Router, 
     private authService:AuthService,  
     private alert: TuiAlertService,
-    private modalService:ModalService) {}
+    private modalService:ModalService,
+    private employerState:StateManagerService) {}
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -31,7 +34,6 @@ export class CompanyLoginComponent implements OnInit{
 
   redirectSignUp() {
     this.changeView.emit('company-register')
-    // this.router.navigateByUrl('/auth/employer/register')
   }
 
   forgotPassword() {
@@ -42,6 +44,8 @@ export class CompanyLoginComponent implements OnInit{
   submitLogin() {
     if (this.loginForm.valid) {
       this.authService.companyLogin(this.loginForm.value).subscribe((res) => {
+        
+        localStorage.setItem('employerData',JSON.stringify(res.employer.employerData))
         
         const statusCode = res.employer.status; 
     
@@ -54,7 +58,7 @@ export class CompanyLoginComponent implements OnInit{
                 hasCloseButton: false,
               }).subscribe()
               this.modalService.closeModal()
-              this.router.navigateByUrl('/employer/dashboard')
+              this.router.navigateByUrl('/employer/profile')
               break;
           }
       }, err => {
@@ -62,7 +66,7 @@ export class CompanyLoginComponent implements OnInit{
         this.alert.open('', {          
           label: err.error.employer.message,
           status: 'error',
-          autoClose: false,
+          autoClose: true,
           hasCloseButton: true,
         }).subscribe({
           complete: () => console.log('notification closed')        

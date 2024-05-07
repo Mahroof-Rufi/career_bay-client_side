@@ -1,0 +1,175 @@
+<div>
+    <div class="flex justify-center">
+        <h1 class="text-4xl text-mainColor font-bannerText">Edit Profile</h1>
+    </div>
+    <form [formGroup]="updateProfileForm" (ngSubmit)="submitUpdateProfile()">
+    <div class="flex my-3">
+
+        <div class="w-full">
+            <div class="w-full flex flex-col justify-center pr-3">
+                <img [src]="imageUrl || employerData.profile_url" alt="" class="dp rounded-xl w-96 h-48 object-contain">
+                <input class="block w-full text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" accept="image/*" (change)="onFileSelected($event)" name="profile-img" id="input-file" type="file">
+            </div>
+        </div>
+
+        <div class="w-full">
+
+            <div class="flex flex-col pr-3">
+                <div class="flex flex-col my-3">
+                    <tui-input formControlName="companyName">
+                        Company Name
+                        <input tuiTextfield type="text" />
+                    </tui-input>
+                    <small *ngIf="updateProfileForm.get('companyName')?.errors?.['required'] && updateProfileForm.get('companyName')?.touched" class="text-red-500 font-bannerText">
+                    *company name required
+                    </small>
+                </div>
+            </div>
+
+            <div class="flex flex-col pr-3">
+                <div class="flex flex-col my-3">
+                    <tui-select formControlName="industry">
+                        Select Industry
+                        <input
+                            tuiTextfield
+                            [value]="employerData.industry"
+                        />
+                        <tui-data-list-wrapper
+                            *tuiDataList
+                            [items]="industries"
+                        ></tui-data-list-wrapper>
+                    </tui-select>
+                    <small *ngIf="updateProfileForm.get('industry')?.errors?.['required'] && updateProfileForm.get('industry')?.touched" class="text-red-500 font-bannerText">
+                        *industry required
+                    </small>
+                </div>
+            </div>
+
+            <div class="flex my-3 space-x-3 pr-3">
+                <tui-input formControlName="city" class="w-full">
+                    City
+                    <input tuiTextfield type="text" class="w-full" [value]="employerData.city">
+                </tui-input>
+                <small *ngIf="updateProfileForm.get('city')?.errors?.['required'] && updateProfileForm.get('city')?.touched" class="text-red-500 font-bannerText">
+                    *city required
+                </small>
+                <tui-select formControlName="state" class="w-full">
+                    Select State
+                    <input tuiTextfield class="w-full" [value]="employerData.state">
+                    <tui-data-list-wrapper
+                        *tuiDataList
+                        [items]="states"
+                    ></tui-data-list-wrapper>
+                </tui-select>
+                <small *ngIf="updateProfileForm.get('state')?.errors?.['required'] && updateProfileForm.get('state')?.touched" class="text-red-500 font-bannerText">
+                    *state required
+                </small>
+            </div>
+
+        </div>
+    
+    </div>
+    
+    <div class="flex my-5">
+
+        <div class="flex w-1/2">
+            <div class="w-full mr-3">
+                <tui-select formControlName="noOfWorkersRange" class="w-full">
+                    No of Workers
+                    <input tuiTextfield class="w-full" [value]="employerData.noOfWorkersRange">
+                    <tui-data-list-wrapper
+                        *tuiDataList
+                        [items]="noOfWorksRange"
+                    ></tui-data-list-wrapper>
+                </tui-select>
+                <small *ngIf="updateProfileForm.get('noOfWorkersRange')?.errors?.['required'] && updateProfileForm.get('noOfWorkersRange')?.touched" class="text-red-500 font-bannerText">
+                    *no:of workers range required
+                </small>
+            </div>
+        </div>
+
+        <div class="flex w-1/2 pr-3">
+            <div class="w-full">
+                <tui-input-phone-international
+                formControlName="testValue"
+                [countries]="countries"
+                [(countryIsoCode)]="countryIsoCode"
+                formControlName="phone">
+                Type your number
+            </tui-input-phone-international>
+                <small *ngIf="updateProfileForm.get('phone')?.errors?.['required'] && updateProfileForm.get('phone')?.touched" class="text-red-500 font-bannerText">
+                    *phone required
+                </small>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="flex my-5">
+    
+        <div class="flex w-1/2 pr-3">
+            <div class="w-full">
+                <tui-input formControlName="X_url">
+                    Instagram URL
+                    <input tuiTextfield type="text" [value]="employerData.instagram_url"/>
+                </tui-input>
+                <small *ngIf="updateProfileForm.get('X_url')?.errors?.['required'] && updateProfileForm.get('X_url')?.touched" class="text-red-500 font-bannerText">
+                    *instagram url required
+                </small>
+            </div>
+        </div>
+
+        <div class="flex w-1/2 pr-3">
+            <div class="w-full">
+                <tui-input formControlName="instagram_url">
+                    X (Twitter) URL
+                    <input tuiTextfield type="text" [value]="employerData.X_url"/>
+                </tui-input>
+                <small *ngIf="updateProfileForm.get('instagram_url')?.errors?.['required'] && updateProfileForm.get('instagram_url')?.touched" class="text-red-500 font-bannerText">
+                    *X url required
+                </small>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex my-5">
+        <div class="w-full mr-3">
+            <tui-textarea
+                formControlName="about"
+                class="field-medium"
+                [expandable]="true"
+                [maxLength]="600">
+                Type a text
+            </tui-textarea>
+            <small *ngIf="updateProfileForm.get('about')?.errors?.['required'] && updateProfileForm.get('about')?.touched" class="text-red-500 font-bannerText">
+                *about required
+            </small>
+            <small *ngIf="updateProfileForm.get('about')?.errors?.['maxlength']" class="text-red-500 font-bannerText">
+                *maximum length - 600
+            </small>
+        </div>
+    </div>
+
+    <div class="flex my-5">
+        <div class="flex w-1/2 pr-3">
+            <div class="w-full">
+                <tui-input formControlName="web_url">
+                    Website URL (optional)
+                    <input tuiTextfield type="text" [value]="employerData.web_url"/>
+                </tui-input>
+            </div>
+        </div>
+
+        <div class="flex w-1/2 ">
+            <div class="flex w-full pr-3">
+                <div class="w-full">
+                    <button class="flex flex-row justify-center py-3 font-bannerText w-full rounded-lg  bg-mainColor text-white text-lg" type="submit" >Submit</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</form>
+    
+</div>

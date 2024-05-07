@@ -1,7 +1,6 @@
 import { NgDompurifySanitizer } from "@tinkoff/ng-dompurify";
 import { TuiRootModule, TuiDialogModule, TuiAlertModule, TUI_SANITIZER, TuiSvgModule } from "@taiga-ui/core";
-import { TuiFieldErrorPipeModule, TuiInputModule, TuiTextareaModule } from '@taiga-ui/kit';
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -30,6 +29,10 @@ import { provideHttpClient, withInterceptors } from "@angular/common/http";
 import { setTokenInterceptor } from "./interceptors/set-token.interceptor";
 import { NavBarOptionsComponent } from './components/nav-bar-options/nav-bar-options.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { StoreModule } from "@ngrx/store";
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { employerReducer } from './store/employer-store/employer.reducer';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 
 @NgModule({
@@ -53,6 +56,7 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
     CompanySignUpComponent,
     NavBarOptionsComponent,
     ForgotPasswordComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,7 +68,9 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
     TuiSvgModule,
     UserModule,
     CompanyModule,
-    AdminModule
+    AdminModule,
+    StoreModule.forRoot({employer:employerReducer}),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
 ],
   providers: [
     {provide: TUI_SANITIZER, useClass: NgDompurifySanitizer},

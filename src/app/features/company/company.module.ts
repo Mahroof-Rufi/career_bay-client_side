@@ -5,6 +5,8 @@ import { SharedModule } from '../../shared/shared.module';
 import { companyRouteModule } from './company-route.module';
 import { JobComponent } from './components/job/job.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import { MainComponentComponent } from './components/main-component/main-component.component';
 
 
 
@@ -12,12 +14,14 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
   declarations: [
     ProfileComponent,
     JobComponent,
-    SideBarComponent
+    SideBarComponent,
+    EditProfileComponent,
+    MainComponentComponent
   ],
   imports: [
     CommonModule,
     SharedModule,
-    companyRouteModule
+    companyRouteModule,
   ],
   exports: [
     SharedModule,

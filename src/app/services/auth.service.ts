@@ -57,6 +57,14 @@ export class AuthService {
     return this.http.patch('http://localhost:3000/employer/forgot-password', data)
   }
 
+  companyUpdateProfile(profileData:FormData):Observable<any> {
+    console.log('profile send');
+    console.log(profileData);
+    
+    
+    return this.http.put('http://localhost:3000/employer/update-profile', profileData)
+  }
+
   
 
   adminLogin(loginData:FormGroup):Observable<any> {

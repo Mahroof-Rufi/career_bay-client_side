@@ -5,7 +5,7 @@ import { employerAuthGuard } from "./route-guards/employer-auth.guard";
 import { JobComponent } from "./components/job/job.component";
 const routes: Routes = [
     { path: 'employer', children:[
-        { path: 'dashboard', component:ProfileComponent },
+        { path: 'profile', component:ProfileComponent },
         { path: 'jobs', component:JobComponent }
     ] , canActivate:[employerAuthGuard]}
 ]

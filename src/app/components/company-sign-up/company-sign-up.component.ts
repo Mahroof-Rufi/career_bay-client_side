@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TuiFileLike } from '@taiga-ui/kit';
 import { Observable, Subject, finalize, map, of, switchMap, timer } from 'rxjs';
@@ -20,25 +20,31 @@ export class CompanySignUpComponent implements OnInit {
   registrationForm!: FormGroup;
   document = new FormControl();
 
-  industries = ['IT','Media']
+  industries = ['IT Services and Consulting','Media']
   states = ['Kerala','Karnataka','Telengana']
   OTP_BTN:string = 'Send OTP'
 
 
-  constructor(private router: Router, private authService:AuthService, private alert: TuiAlertService) { }
+  constructor(
+    private router: Router,
+    private authService:AuthService, 
+    private alert: TuiAlertService,
+    private formBuilder:FormBuilder
+  ) { }
 
   ngOnInit(): void {
-    this.registrationForm = new FormGroup({
-      companyName: new FormControl('', Validators.required),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required, noSpaceAllowed, Validators.minLength(8)]),
-      confirmPassword: new FormControl('', [Validators.required, noSpaceAllowed, Validators.minLength(8)]),
-      industry: new FormControl('', Validators.required),
-      city: new FormControl('', Validators.required),
-      state: new FormControl('', Validators.required),
-      OTP: new FormControl('', [Validators.required, Validators.minLength(6)]),
-      is_Verfied: new FormControl(true)
-    },{ validators: [confirmPasswordValidator] })
+    this.registrationForm = this.formBuilder.group({
+      companyName: ['', Validators.required],
+      profile_url: [''], 
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
+      industry: ['', Validators.required],
+      city: ['', Validators.required],
+      state: ['', Validators.required],
+      OTP: ['', [Validators.required, Validators.minLength(6)]],
+      is_Verified: [true]
+    }, { validators: [confirmPasswordValidator] });
   }
 
   redirectlogin() {
@@ -108,6 +114,11 @@ export class CompanySignUpComponent implements OnInit {
 
   submitRegistrationForm() {
     if (this.registrationForm.valid) {
+
+      this.registrationForm.patchValue({
+        profile_url: `https://avatar.iran.liara.run/username?username=[${this.registrationForm.value.companyName}]`
+      });      
+
       this.authService.companyRegistration(this.registrationForm.value).subscribe((res) => {
         this.alert.open('', {
           label: 'Registration successfull',

@@ -1,24 +1,27 @@
 import { Injectable, Injector } from '@angular/core';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { DialogueComponent } from '../components/dialogue/dialogue.component';
 import { Observable, Subscription } from 'rxjs';
+import { EditProfileComponent } from '../features/company/components/edit-profile/edit-profile.component';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ModalService {
-  private registrationDialogue: Observable<any> | undefined;
-  private subscription: Subscription | undefined;
+export class EmployerEditProfileModalService {
 
-  constructor(private dialogueService: TuiDialogService,
-    private injector: Injector) {
+  private registrationDialogue: Observable<any> | undefined;
+  private subsciption!: Subscription
+
+  constructor(
+    private dialogueService: TuiDialogService,
+    private injector: Injector,
+  ) {
     this.initializeDialog();
   }
 
   private initializeDialog() {
     this.registrationDialogue = this.dialogueService.open<any>(
-      new PolymorpheusComponent(DialogueComponent, this.injector),
+      new PolymorpheusComponent(EditProfileComponent, this.injector),
       {
         size:'l',
     },
@@ -27,16 +30,16 @@ export class ModalService {
 
   openModal() {
     if (this.registrationDialogue) {
-      this.subscription = this.registrationDialogue.subscribe((result) => {
+      this.subsciption = this.registrationDialogue.subscribe((result) => {
         
-      });
+      })
     }
   }
 
   closeModal() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
+    if (this.subsciption) {
+      this.subsciption.unsubscribe()
     }
   }
-}
 
+}
