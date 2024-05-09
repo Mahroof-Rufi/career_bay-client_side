@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
+  TuiArrowModule,
+  TuiCheckboxLabeledModule,
   TuiDataListWrapperModule, 
   TuiInputDateModule, 
   TuiInputFilesModule, 
@@ -12,7 +14,7 @@ import {
   TuiTextareaModule 
 } from '@taiga-ui/kit';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TuiAlertModule, TuiDataListModule, TuiDropdownModule, TuiHintModule, TuiTooltipModule } from '@taiga-ui/core';
+import { TuiAlertModule, TuiDataListModule, TuiHintModule, TuiTextfieldControllerModule, TuiTooltipModule } from '@taiga-ui/core';
 import { HttpClientModule } from '@angular/common/http';
 import { LogoComponent } from './components/logo/logo.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -41,7 +43,9 @@ import { FooterComponent } from './components/footer/footer.component';
     TuiInputPhoneModule,
     TuiInputPhoneInternationalModule,
     TuiTextareaModule,
-    TuiDropdownModule
+    TuiCheckboxLabeledModule,
+    TuiTextfieldControllerModule,
+    TuiArrowModule
   ],
   exports: [
     TuiInputModule,
@@ -63,7 +67,9 @@ import { FooterComponent } from './components/footer/footer.component';
     TuiInputPhoneModule,
     TuiInputPhoneInternationalModule,
     TuiTextareaModule,
-    TuiDropdownModule
+    TuiCheckboxLabeledModule,
+    TuiTextfieldControllerModule,
+    TuiArrowModule 
   ]
 })
 export class SharedModule { }

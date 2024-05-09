@@ -1,3 +1,32 @@
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    display: none;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+}
 
-  
-  
+.dropdown-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dropdown-menu ul li {
+    padding: 10px 20px;
+}
+
+.dropdown-toggle {
+    cursor: pointer;
+}
+
+.dropdown-toggle:hover + .dropdown-menu {
+    display: block;
+}
+
+/* Ensure the dropdown menu appears above other content */
+.dropdown-menu {
+    z-index: 1000;
+}

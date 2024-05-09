@@ -9,11 +9,11 @@ export const setTokenInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, ne
 
   let newReq
   if(token) {
-    newReq = req.clone({ headers: req.headers.set('Authorization', `Bearer ${token}`) })
+    newReq = req.clone({ headers: req.headers.set('User-Token', token) }) 
   } else if (employerToken) {
-    newReq = req.clone({ headers: req.headers.set('Authorization', `Bearer ${employerToken}`) })
+    newReq = req.clone({ headers: req.headers.set('Employer-Token', employerToken) })
   } else if (adminToken) {
-    newReq = req.clone({ headers: req.headers.set('Authorization', `Bearer ${adminToken}`) })
+    newReq = req.clone({ headers: req.headers.set('Admin-Token', adminToken) }) 
   } else {
     newReq = req
   }

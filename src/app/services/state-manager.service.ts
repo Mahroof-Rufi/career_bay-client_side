@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Employer } from '../store/employer-store/employer.model';
-import { getEmployerData } from '../store/employer-store/employer.selector';
-import { loadEmployer } from '../store/employer-store/employer.actions';
+import { Employer, Job } from '../store/employer-store/employer.model';
+import { getEmployerData, getJobById } from '../store/employer-store/employer.selector';
+import { loadEmployer, loadJobs } from '../store/employer-store/employer.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -19,5 +19,13 @@ export class StateManagerService {
 
   getEmployer() {
     return this.employerState.select(getEmployerData)
+  }
+
+  setJobs(jobs:Job[]) {
+    this.employerState.dispatch(loadJobs({jobs:jobs}))
+  }
+
+  getJobBYId(jobId:string) {
+    return this.employerState.select(getJobById(jobId))
   }
 }

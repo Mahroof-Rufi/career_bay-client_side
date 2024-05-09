@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { StateManagerService } from '../../../../services/state-manager.service';
 import { Employer } from '../../../../store/employer-store/employer.model';
 import { EmployerEditProfileModalService } from '../../../../services/employer-edit-profile-modal.service';
+import { TuiSizeL, TuiSizeS } from '@taiga-ui/core';
 
 @Component({
   selector: 'app-company-dashboard',
@@ -11,6 +12,12 @@ import { EmployerEditProfileModalService } from '../../../../services/employer-e
 export class ProfileComponent implements OnInit{
 
   employer!: Employer;
+
+  dropdownOpen = false;
+  size: TuiSizeL | TuiSizeS = 's';
+
+  readonly burgers = ['Classic', 'Cheeseburger', 'Royal Cheeseburger'];
+  readonly drinks = ['Cola', 'Tea', 'Coffee', 'Slurm'];
 
   constructor(
     private employerState:StateManagerService,

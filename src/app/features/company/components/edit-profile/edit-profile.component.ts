@@ -33,6 +33,13 @@ export class EditProfileComponent {
   ) {}
 
   ngOnInit(): void {
+    const employerDataString = localStorage.getItem('employerData');
+    
+    if (employerDataString) {
+      const employerData: Employer = JSON.parse(employerDataString);
+      this.employerState.setEmployer(employerData)
+    }
+    
     this.employerState.getEmployer().subscribe((data) => {
       this.employerData = data
     })

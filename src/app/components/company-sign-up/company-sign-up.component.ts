@@ -26,7 +26,6 @@ export class CompanySignUpComponent implements OnInit {
 
 
   constructor(
-    private router: Router,
     private authService:AuthService, 
     private alert: TuiAlertService,
     private formBuilder:FormBuilder
