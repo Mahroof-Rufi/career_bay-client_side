@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { getJobsData } from '../../../../store/employer-store/employer.selector';
 import { Router } from '@angular/router';
 import { TuiAlertService } from '@taiga-ui/core';
-import { deleteJob } from '../../../../store/employer-store/employer.actions';
+import { DeleteJobConfirmationService } from '../../../../services/delete-job-confirmation.service';
 
 @Component({
   selector: 'app-job',
@@ -25,6 +25,7 @@ export class JobComponent implements OnInit{
     private alert: TuiAlertService,
     private stateService:StateManagerService,
     private employerState: Store<{employer:Employer}>,
+    private deleteJobConfirmation: DeleteJobConfirmationService 
   ) {}
 
   ngOnInit(): void {
@@ -54,11 +55,6 @@ export class JobComponent implements OnInit{
   }
 
   deleteJob(jobId:string) {
-    this.APIService.companyDeleteJob(jobId).subscribe( res => {
-      console.log(res);
-      this.employerState.dispatch(deleteJob({ id:jobId }))
-    }, err => {
-      console.log(err);      
-    })
+    this.deleteJobConfirmation.openModal(jobId)
   }
 }
