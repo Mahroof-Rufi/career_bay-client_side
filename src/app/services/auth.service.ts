@@ -69,10 +69,15 @@ export class AuthService {
     return this.http.post('http://localhost:3000/employer/job', jobData)
   }
 
-  companyEditJobPost(jobData:FormData):Observable<any> {
-    return this.http.put('http://localhost:3000/employer/job', jobData)
+  companyEditJobPost(jobId:string, jobData:FormData):Observable<any> {
+    return this.http.put(`http://localhost:3000/employer/job/${jobId}`, jobData)
   }
 
+  companyDeleteJob(jobId:string):Observable<any> {
+    return this.http.delete(`http://localhost:3000/employer/job/${jobId}`)
+  }
+
+  
   
 
   adminLogin(loginData:FormGroup):Observable<any> {

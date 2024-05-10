@@ -5,8 +5,11 @@ import { AuthService } from '../../../../services/auth.service';
 import { Router } from '@angular/router';
 import { TuiAlertService, TuiDialogContext } from '@taiga-ui/core';
 import { AddJobPostService } from '../../../../services/add-job-post.service';
-import { Job } from '../../../../store/employer-store/employer.model';
+import { Employer, Job } from '../../../../store/employer-store/employer.model';
 import { StateManagerService } from '../../../../services/state-manager.service';
+import { Store } from '@ngrx/store';
+import { getJobById } from '../../../../store/employer-store/employer.selector';
+import { addJob, updateJob } from '../../../../store/employer-store/employer.actions';
 
 @Component({
   selector: 'app-add-job',
@@ -32,15 +35,15 @@ export class AddJobComponent implements OnInit{
     private modalService:AddJobPostService,
     @Inject(POLYMORPHEUS_CONTEXT)
     private readonly context: TuiDialogContext<string, string>,
-    private employerState:StateManagerService
+    private employerState: Store<{employer:Employer}>
   ) {}
 
   ngOnInit(): void {
     if(this.data) {
       this.heading = 'Edit Job Post'
-      this.employerState.getJobBYId(this.data).subscribe((res) => {
+      this.employerState.select(getJobById(this.data)).subscribe( res => {
         this.editJob = res
-      })
+      } ) 
     }
     this.jobPostFrom = this.formBuilder.group({
       jobTitle: this.formBuilder.control(this.editJob?.jobTitle || '', Validators.required),
@@ -164,9 +167,8 @@ export class AddJobComponent implements OnInit{
     if (this.jobPostFrom.valid) {
       const jobData:FormData = this.jobPostFrom.value
       if (this.editJob) {
-        const newData = {...this.editJob, ...jobData}
-        this.apiService.companyEditJobPost(newData).subscribe( res => {
-          this.employerState.updateJobById(res.updateJob._id, res.updateJob)
+        this.apiService.companyEditJobPost(this.editJob._id, jobData).subscribe( res => {
+          this.employerState.dispatch(updateJob({id:res.updateJob._id, updatedJob:res.updateJob}))
           this.modalService.closeModal()
           this.alert.open('', {
             label: 'Job Post updated sucessfull',
@@ -185,6 +187,7 @@ export class AddJobComponent implements OnInit{
         })
       } else {
         this.apiService.companyAddJobPost(jobData).subscribe((res) => {
+          this.employerState.dispatch(addJob({ job:res.data }))
           this.modalService.closeModal()
           this.alert.open('', {
             label: 'Job Post Sucessfull',
