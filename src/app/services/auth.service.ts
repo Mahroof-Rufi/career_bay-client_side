@@ -61,12 +61,16 @@ export class AuthService {
     return this.http.put('http://localhost:3000/employer/update-profile', profileData)
   }
 
+  companyFetchJobs():Observable<any> {
+    return this.http.get('http://localhost:3000/employer/job')
+  }
+
   companyAddJobPost(jobData:FormData):Observable<any> {
     return this.http.post('http://localhost:3000/employer/job', jobData)
   }
 
-  companyFetchJobs():Observable<any> {
-    return this.http.get('http://localhost:3000/employer/job')
+  companyEditJobPost(jobData:FormData):Observable<any> {
+    return this.http.put('http://localhost:3000/employer/job', jobData)
   }
 
   

@@ -49,21 +49,51 @@ export class AddJobComponent implements OnInit{
       remort: [this.editJob?.remort || false, Validators.required],
       jobType: this.formBuilder.control(this.editJob?.jobType || '', Validators.required),
       minimumPay: this.formBuilder.control(this.editJob?.minimumPay || '', Validators.required),
-      maximumPay: this.formBuilder.control('', Validators.required),
-      payType: this.formBuilder.control('', Validators.required),
-      experienceLevel: this.formBuilder.control('', Validators.required),
-      workShift: this.formBuilder.control('', Validators.required),
-      overView: this.formBuilder.control('' , [Validators.required, Validators.maxLength(600)]),
-      responsibilities: this.formBuilder.array([
-        this.formBuilder.control('', Validators.required)
-      ]),
-      skills: this.formBuilder.array([
-        this.formBuilder.control('', Validators.required)
-      ]),
-      qualifications: this.formBuilder.array([
-        this.formBuilder.control('', Validators.required)
-      ])
+      maximumPay: this.formBuilder.control(this.editJob?.maximumPay || '', Validators.required),
+      payType: this.formBuilder.control(this.editJob?.payType || '', Validators.required),
+      experienceLevel: this.formBuilder.control(this.editJob?.experienceLevel || '', Validators.required),
+      workShift: this.formBuilder.control(this.editJob?.workShift || '', Validators.required),
+      overView: this.formBuilder.control(this.editJob?.overView || '' ,Validators.required),
+      responsibilities: this.initResponsibilities(),
+      skills: this.initSkills(),
+      qualifications: this.initQualifications()
     });
+  }
+
+  initResponsibilities() {
+    const responsibilitiesArray = this.formBuilder.array([])
+    if (this.editJob && this.editJob.responsibilities) {
+      this.editJob.responsibilities.forEach(res => {
+        responsibilitiesArray.push(this.formBuilder.control(res, Validators.required))
+      });
+    } else {
+      responsibilitiesArray.push(this.formBuilder.control('', Validators.required))
+    }
+    return responsibilitiesArray
+  }
+
+  initSkills() {
+    const skillsArray = this.formBuilder.array([]);
+    if (this.editJob && this.editJob.skills) {
+      this.editJob.skills.forEach(skill => {
+        skillsArray.push(this.formBuilder.control(skill, Validators.required));
+      });
+    } else {
+      skillsArray.push(this.formBuilder.control('', Validators.required));
+    }
+    return skillsArray;
+  }
+
+  initQualifications() {
+    const qualificationArray = this.formBuilder.array([]);
+    if (this.editJob && this.editJob.qualifications) {
+      this.editJob.qualifications.forEach( qualification => {
+        qualificationArray.push(this.formBuilder.control(qualification, Validators.required))
+      })
+    } else {
+      qualificationArray.push(this.formBuilder.control('', Validators.required))
+    }
+    return qualificationArray
   }
 
   get data(): string {
@@ -133,24 +163,45 @@ export class AddJobComponent implements OnInit{
   submitJobPost() {
     if (this.jobPostFrom.valid) {
       const jobData:FormData = this.jobPostFrom.value
-      this.apiService.companyAddJobPost(jobData).subscribe((res) => {
-        console.log(res);
-        this.modalService.closeModal()
-        this.alert.open('', {
-          label: 'Job Post Sucessfull',
-          status: 'success',
-          autoClose: true,
-          hasCloseButton: true,
-        }).subscribe()        
-      }, (err) => {
-        this.router.navigateByUrl('/home')
-        this.alert.open('', {
-          label: err.error.message,
-          status: 'error',
-          autoClose: true,
-          hasCloseButton: true,
-        }).subscribe()  
-      })
+      if (this.editJob) {
+        const newData = {...this.editJob, ...jobData}
+        this.apiService.companyEditJobPost(newData).subscribe( res => {
+          this.employerState.updateJobById(res.updateJob._id, res.updateJob)
+          this.modalService.closeModal()
+          this.alert.open('', {
+            label: 'Job Post updated sucessfull',
+            status: 'success',
+            autoClose: true,
+            hasCloseButton: true,
+          }).subscribe()  
+          
+        }, err => {
+          this.alert.open('', {
+            label: err.message,
+            status: 'error',
+            autoClose: true,
+            hasCloseButton: true,
+          }).subscribe()  
+        })
+      } else {
+        this.apiService.companyAddJobPost(jobData).subscribe((res) => {
+          this.modalService.closeModal()
+          this.alert.open('', {
+            label: 'Job Post Sucessfull',
+            status: 'success',
+            autoClose: true,
+            hasCloseButton: true,
+          }).subscribe()        
+        }, (err) => {
+          this.router.navigateByUrl('/home')
+          this.alert.open('', {
+            label: err.error.message,
+            status: 'error',
+            autoClose: true,
+            hasCloseButton: true,
+          }).subscribe()  
+        })
+      }
     } else {      
       this.jobPostFrom.markAllAsTouched()
     }
