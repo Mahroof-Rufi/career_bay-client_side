@@ -18,11 +18,13 @@ import { TuiAlertModule, TuiDataListModule, TuiHintModule, TuiTextfieldControlle
 import { HttpClientModule } from '@angular/common/http';
 import { LogoComponent } from './components/logo/logo.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { NavBarOptionsComponent } from './components/nav-bar-options/nav-bar-options.component';
 
 @NgModule({
   declarations: [
     LogoComponent,
-    FooterComponent
+    FooterComponent,
+    NavBarOptionsComponent
   ],
   imports: [
     CommonModule,
@@ -69,7 +71,9 @@ import { FooterComponent } from './components/footer/footer.component';
     TuiTextareaModule,
     TuiCheckboxLabeledModule,
     TuiTextfieldControllerModule,
-    TuiArrowModule 
+    TuiArrowModule,
+    NavBarOptionsComponent
+
   ]
 })
 export class SharedModule { }

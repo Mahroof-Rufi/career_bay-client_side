@@ -27,7 +27,6 @@ import { CompanyModule } from "./features/company/company.module";
 import { AdminModule } from "./features/admin/admin.module";
 import { provideHttpClient, withInterceptors } from "@angular/common/http";
 import { setTokenInterceptor } from "./interceptors/set-token.interceptor";
-import { NavBarOptionsComponent } from './components/nav-bar-options/nav-bar-options.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { StoreModule } from "@ngrx/store";
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -54,7 +53,6 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     UserSignUpComponent,
     CompanyLoginComponent,
     CompanySignUpComponent,
-    NavBarOptionsComponent,
     ForgotPasswordComponent,
     NotFoundComponent,
   ],
