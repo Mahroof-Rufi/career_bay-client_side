@@ -35,6 +35,7 @@ import { EffectsModule } from "@ngrx/effects";
 import { userEffects } from "./store/user-store/user.effects";
 import { userReducer } from "./store/user-store/user.reducer";
 import { appState } from "./store/app/appReducer";
+import { employerEffects } from "./store/employer-store/employer.effects";
 
 
 @NgModule({
@@ -69,8 +70,8 @@ import { appState } from "./store/app/appReducer";
     UserModule,
     CompanyModule,
     AdminModule,
-    StoreModule.forRoot(appState),
-    EffectsModule.forRoot([userEffects]),
+    StoreModule.forRoot({employer:employerReducer,user:userReducer}),
+    EffectsModule.forRoot([userEffects, employerEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
 ],
   providers: [

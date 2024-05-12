@@ -6,6 +6,8 @@ const getEmployerState = createFeatureSelector<EmployerState>('employer');
 
 export const getEmployerData = createSelector(getEmployerState,
     (state: EmployerState) => {
+        console.log(state);
+        
         return state.employer
     }
 );

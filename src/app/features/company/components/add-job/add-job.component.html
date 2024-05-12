@@ -172,24 +172,6 @@
             <button class="bg-blue-500 text-white font-bannerText py-3 px-3 rounded-lg" type="button" (click)="addResponsibility()">Add Responsibility</button>
 
             <div class="flex my-3 flex-wrap">
-                <div *ngFor="let control of skills.controls; let i = index" class="w-1/3 flex flex-col" formArrayName="skills">
-                    <div class="flex items-center">
-                        <tui-input [formControlName]="i" class="flex-grow">
-                            Skill
-                            <input tuiTextfield type="text" class="w-full">
-                        </tui-input>
-                        <button class="ml-2 bg-red-600 py-3 rounded-lg px-5" (click)="deleteSkill(i)" *ngIf="i != 0">
-                            <i class="fa-solid fa-trash text-white"></i>
-                        </button>
-                    </div>
-                    <small *ngIf="skills.at(i).errors?.['required'] && skills.at(i).touched" class="text-red-500 font-bannerText">
-                        *Skill is required
-                    </small>
-                </div>
-            </div>            
-            <button class="bg-blue-500 text-white font-bannerText py-3 px-3 rounded-lg" type="button" (click)="addSkills()">Add Skill</button>
-
-            <div class="flex my-3 flex-wrap">
                 <div *ngFor="let control of qualifications.controls; let i = index" class="w-1/2 flex flex-col" formArrayName="qualifications">
                     <div class="flex items-center">
                         <tui-input [formControlName]="i" class="flex-grow">

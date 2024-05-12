@@ -6,10 +6,9 @@ import { Router } from '@angular/router';
 import { TuiAlertService, TuiDialogContext } from '@taiga-ui/core';
 import { AddJobPostService } from '../../../../services/add-job-post.service';
 import { Employer, Job } from '../../../../store/employer-store/employer.model';
-import { StateManagerService } from '../../../../services/state-manager.service';
 import { Store } from '@ngrx/store';
 import { getJobById } from '../../../../store/employer-store/employer.selector';
-import { addJob, updateJob } from '../../../../store/employer-store/employer.actions';
+import { addJobPost, updateJob } from '../../../../store/employer-store/employer.actions';
 
 @Component({
   selector: 'app-add-job',
@@ -58,7 +57,6 @@ export class AddJobComponent implements OnInit{
       workShift: this.formBuilder.control(this.editJob?.workShift || '', Validators.required),
       overView: this.formBuilder.control(this.editJob?.overView || '' ,Validators.required),
       responsibilities: this.initResponsibilities(),
-      skills: this.initSkills(),
       qualifications: this.initQualifications()
     });
   }
@@ -73,18 +71,6 @@ export class AddJobComponent implements OnInit{
       responsibilitiesArray.push(this.formBuilder.control('', Validators.required))
     }
     return responsibilitiesArray
-  }
-
-  initSkills() {
-    const skillsArray = this.formBuilder.array([]);
-    if (this.editJob && this.editJob.skills) {
-      this.editJob.skills.forEach(skill => {
-        skillsArray.push(this.formBuilder.control(skill, Validators.required));
-      });
-    } else {
-      skillsArray.push(this.formBuilder.control('', Validators.required));
-    }
-    return skillsArray;
   }
 
   initQualifications() {
@@ -103,24 +89,12 @@ export class AddJobComponent implements OnInit{
     return this.context.data
   }
 
-  get skills(): FormArray {
-    return this.jobPostFrom.get('skills') as FormArray
-  }
-
   get qualifications(): FormArray {
     return this.jobPostFrom.get('qualifications') as FormArray
   }
 
   get responsibilities(): FormArray {
     return this.jobPostFrom.get('responsibilities') as FormArray
-  }
-
-  addSkills() {
-    (<FormArray>this.jobPostFrom.get('skills')).push(new FormControl('', Validators.required))
-  }
-
-  deleteSkill(index:number) {
-    this.skills.removeAt(index)
   }
 
   addqualification() {
@@ -187,7 +161,7 @@ export class AddJobComponent implements OnInit{
         })
       } else {
         this.apiService.companyAddJobPost(jobData).subscribe((res) => {
-          this.employerState.dispatch(addJob({ job:res.data }))
+          this.employerState.dispatch(addJobPost({ job:res.data }))
           this.modalService.closeModal()
           this.alert.open('', {
             label: 'Job Post Sucessfull',

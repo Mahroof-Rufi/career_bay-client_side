@@ -83,6 +83,10 @@ export class AuthService {
   companyDeleteJob(jobId:string):Observable<any> {
     return this.http.delete(`http://localhost:3000/employer/job/${jobId}`)
   }
+
+  fetchEmployerData():Observable<any> {
+    return this.http.get('http://localhost:3000/employer/')
+  }
   
   
 

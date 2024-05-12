@@ -5,7 +5,6 @@ import { AuthService } from '../../services/auth.service';
 import { TuiAlertService } from '@taiga-ui/core';
 import { ModalService } from '../../services/modal.service';
 import { Store } from '@ngrx/store';
-import { StateManagerService } from '../../services/state-manager.service';
 
 @Component({
   selector: 'app-company-login',
@@ -23,7 +22,7 @@ export class CompanyLoginComponent implements OnInit{
     private authService:AuthService,  
     private alert: TuiAlertService,
     private modalService:ModalService,
-    private employerState:StateManagerService) {}
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({

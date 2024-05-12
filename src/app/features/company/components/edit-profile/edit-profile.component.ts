@@ -1,6 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Employer } from '../../../../store/employer-store/employer.model';
-import { StateManagerService } from '../../../../services/state-manager.service';
 import {TuiCountryIsoCode} from '@taiga-ui/i18n';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../../services/auth.service';
@@ -26,7 +25,6 @@ export class EditProfileComponent {
   countryIsoCode = TuiCountryIsoCode.IN
 
   constructor(
-    private employerState:StateManagerService,
     private authService:AuthService,
     private editProfileModalService:EmployerEditProfileModalService,
     private router:Router,
@@ -37,12 +35,12 @@ export class EditProfileComponent {
     
     if (employerDataString) {
       const employerData: Employer = JSON.parse(employerDataString);
-      this.employerState.setEmployer(employerData)
+      // this.employerState.setEmployer(employerData)
     }
     
-    this.employerState.getEmployer().subscribe((data) => {
-      this.employerData = data
-    })
+    // this.employerState.getEmployer().subscribe((data) => {
+    //   this.employerData = data
+    // })
 
     this.updateProfileForm = new FormGroup({
       companyName: new FormControl(this.employerData.companyName, Validators.required),
@@ -97,7 +95,7 @@ export class EditProfileComponent {
       this.authService.companyUpdateProfile(formData).subscribe((res) => {
         console.log(res);
       localStorage.setItem('employerData',JSON.stringify(res.updatedData))
-      this.employerState.setEmployer(res.updatedData)
+      // this.employerState.setEmployer(res.updatedData)
       this.editProfileModalService.closeModal()
       this.router.navigateByUrl('/employer/profile')
       }, (err) => {

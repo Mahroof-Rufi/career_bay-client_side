@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { StateManagerService } from '../../../../services/state-manager.service';
 import { Employer } from '../../../../store/employer-store/employer.model';
 import { EmployerEditProfileModalService } from '../../../../services/employer-edit-profile-modal.service';
 import { TuiSizeL, TuiSizeS } from '@taiga-ui/core';
+import { Store } from '@ngrx/store';
+import { getEmployerData } from '../../../../store/employer-store/employer.selector';
 
 @Component({
   selector: 'app-company-dashboard',
@@ -13,28 +14,16 @@ export class ProfileComponent implements OnInit{
 
   employer!: Employer;
 
-  dropdownOpen = false;
-  size: TuiSizeL | TuiSizeS = 's';
-
-  readonly burgers = ['Classic', 'Cheeseburger', 'Royal Cheeseburger'];
-  readonly drinks = ['Cola', 'Tea', 'Coffee', 'Slurm'];
-
   constructor(
-    private employerState:StateManagerService,
-    private editProfileModal:EmployerEditProfileModalService
+    private editProfileModal:EmployerEditProfileModalService,
+    private employerStore:Store<{ employer:Employer }>
   ) {}
 
   ngOnInit(): void {
-    const employerDataString = localStorage.getItem('employerData');
-    
-    if (employerDataString) {
-      const employerData: Employer = JSON.parse(employerDataString);
-      this.employerState.setEmployer(employerData)
-    }
-    
-    this.employerState.getEmployer().subscribe((data) => {
-      this.employer = data
+    this.employerStore.select(getEmployerData).subscribe((res) => {
+      this.employer = res
       console.log(this.employer);
+      
     })
   }
 

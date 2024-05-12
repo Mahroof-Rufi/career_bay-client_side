@@ -12,7 +12,6 @@ const routes: Routes = [
         { path: 'dashboard', component:DashboardComponent },
         { path: 'jobs', component:JobListComponent },
         { path: 'job/:id', component:JobDetailedViewComponent },
-        
     ], canActivate:[userAuthGuard]}
 ]
 

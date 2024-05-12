@@ -2,13 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { AddJobPostService } from '../../../../services/add-job-post.service';
 import { Employer, Job } from '../../../../store/employer-store/employer.model';
 import { AuthService } from '../../../../services/auth.service';
-import { StateManagerService } from '../../../../services/state-manager.service';
 import { Store } from '@ngrx/store';
 import { getJobsData } from '../../../../store/employer-store/employer.selector';
 import { Router } from '@angular/router';
 import { TuiAlertService } from '@taiga-ui/core';
 import { DeleteJobConfirmationService } from '../../../../services/delete-job-confirmation.service';
-import { loadJobs } from '../../../../store/employer-store/employer.actions';
 
 @Component({
   selector: 'app-job',
@@ -24,16 +22,15 @@ export class JobComponent implements OnInit{
     private APIService:AuthService,
     private router:Router,
     private alert: TuiAlertService,
-    private stateService:StateManagerService,
     private employerState: Store<{employer:Employer}>,
     private deleteJobConfirmation: DeleteJobConfirmationService 
   ) {}
 
   ngOnInit(): void {
-    this.employerState.dispatch(loadJobs({}))
     this.employerState.select(getJobsData).subscribe((res:any) => {
         
-      this.jobs = res.jobs
+      this.jobs = res
+      
       
     })
   }

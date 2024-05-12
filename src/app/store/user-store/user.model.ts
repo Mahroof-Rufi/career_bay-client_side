@@ -24,7 +24,6 @@ export interface Job {
     workShift: string,
     overView: string,
     responsibilities: string[],
-    skills: string[],
     qualifications: string[],
     active: boolean,
     postedAt: Date

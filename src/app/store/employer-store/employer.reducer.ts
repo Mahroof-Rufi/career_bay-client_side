@@ -1,30 +1,30 @@
 import { createReducer, on } from "@ngrx/store"
-import { addJob, deleteJob, loadEmployer, loadJobs, updateJob } from "./employer.actions"
+import { addJobPost, deleteJob, loadEmployerJobsSuccess, loadEmployerSuccess, updateJob } from "./employer.actions"
 import { initialState } from "./employer.store"
 
 export const employerReducer = createReducer(initialState,
-    on(loadEmployer, (state,action) => {
+    on(loadEmployerSuccess, (state,action) => {
         return {
             ...state,
-            employer: action.employerData
+            employer: action.employer
         }
     }),
-    on(loadJobs, (state,action) => {
+    on(loadEmployerJobsSuccess, (state, action) => {
         return {
             ...state,
             jobs: action.jobs
+        }
+    }),
+    on(addJobPost, (state,action) => {
+        return {
+            ...state,
+            jobs: [...state.jobs, action.job]
         }
     }),
     on(updateJob, (state, action) => {
         return {
             ...state,
             jobs: state.jobs.map(job => job._id === action.id ? { ...job, ...action.updatedJob } : job)
-        }
-    }),
-    on(addJob, (state,action) => {
-        return {
-            ...state,
-            jobs: [...state.jobs, action.job]
         }
     }),
     on(deleteJob, (state, action) => {
