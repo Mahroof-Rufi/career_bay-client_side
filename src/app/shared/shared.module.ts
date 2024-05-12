@@ -19,12 +19,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { LogoComponent } from './components/logo/logo.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { NavBarOptionsComponent } from './components/nav-bar-options/nav-bar-options.component';
+import { JobPostComponent } from './components/job-post/job.component';
 
 @NgModule({
   declarations: [
     LogoComponent,
     FooterComponent,
-    NavBarOptionsComponent
+    NavBarOptionsComponent,
+    JobPostComponent
   ],
   imports: [
     CommonModule,
@@ -72,8 +74,8 @@ import { NavBarOptionsComponent } from './components/nav-bar-options/nav-bar-opt
     TuiCheckboxLabeledModule,
     TuiTextfieldControllerModule,
     TuiArrowModule,
-    NavBarOptionsComponent
-
+    NavBarOptionsComponent,
+    JobPostComponent
   ]
 })
 export class SharedModule { }

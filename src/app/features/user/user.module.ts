@@ -7,6 +7,8 @@ import { RouterModule } from '@angular/router';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { JobListComponent } from './components/job-list/job-list.component';
+import { JobDetailedViewComponent } from './components/job-detailed-view/job-detailed-view.component';
 
 
 
@@ -15,7 +17,9 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     UserHomeComponent,
     NavbarComponent,
     SideBarComponent,
-    DashboardComponent
+    DashboardComponent,
+    JobListComponent,
+    JobDetailedViewComponent
   ],
   imports: [
     CommonModule,

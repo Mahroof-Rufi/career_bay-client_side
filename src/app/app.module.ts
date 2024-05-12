@@ -9,7 +9,6 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { BannerComponent } from './components/banner/banner.component';
 import { FeaturesComponent } from './components/features/features.component';
-import { JobComponent } from './components/job/job.component';
 import { ApplicationTimelineComponent } from './components/application-timeline/application-timeline.component';
 import { UsersComponent } from './components/users/users.component';
 import { StepsComponent } from './components/steps/steps.component';
@@ -32,6 +31,10 @@ import { StoreModule } from "@ngrx/store";
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { employerReducer } from './store/employer-store/employer.reducer';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { EffectsModule } from "@ngrx/effects";
+import { userEffects } from "./store/user-store/user.effects";
+import { userReducer } from "./store/user-store/user.reducer";
+import { appState } from "./store/app/appReducer";
 
 
 @NgModule({
@@ -40,7 +43,6 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     NavbarComponent,
     BannerComponent,
     FeaturesComponent,
-    JobComponent,
     ApplicationTimelineComponent,
     UsersComponent,
     StepsComponent,
@@ -67,7 +69,8 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     UserModule,
     CompanyModule,
     AdminModule,
-    StoreModule.forRoot({employer:employerReducer}),
+    StoreModule.forRoot(appState),
+    EffectsModule.forRoot([userEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
 ],
   providers: [

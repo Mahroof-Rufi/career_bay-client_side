@@ -1,5 +1,6 @@
 import { Component, Injector } from '@angular/core';
 import { ModalService } from '../../services/modal.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -9,10 +10,22 @@ import { ModalService } from '../../services/modal.service';
 })
 export class GetStartedComponent {
 
-  constructor(private modalService:ModalService) { }
+  constructor(
+    private modalService:ModalService,
+    private router:Router
+  ) { }
 
   showDialog(): void {
-    this.modalService.openModal()
+    const userToken = localStorage.getItem('userToken')
+    const employerToken = localStorage.getItem('employerToken')
+    
+    if (userToken) {
+      this.router.navigateByUrl('/user/dashboard')
+    } else if (employerToken) {
+      this.router.navigateByUrl('/employer/profile') 
+    } else {
+      this.modalService.openModal()
+    }
   }
 
 }

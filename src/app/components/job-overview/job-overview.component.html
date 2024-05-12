@@ -4,9 +4,9 @@
         <h1 class="text-5xl font-bannerText flex justify-center mt-2 text-mainColor">Job Here</h1>
     </div>
     <div class="grid grid-cols-4 gap-5 mx-10 my-4">
-        <ng-container *ngFor="let job of sampleJobdata" >
+        @for (job of sampleJobdata; track $index) {
           <app-job [jobData]="job"></app-job>
-        </ng-container>
+        }
     </div>
     <button class="font-bannerText px-5 py-2 border-2  bg-white text-mainGrey rounded-lg">Show More</button>
 </div>
