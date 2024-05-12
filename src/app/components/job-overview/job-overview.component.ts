@@ -7,28 +7,145 @@ import { Component } from '@angular/core';
 })
 export class JobOverviewComponent {
   sampleJobdata: any[] = [
-    { title: 'Business Development Executive', salary: 800, salaryType: 'week', location: 'Banglore',
-     workType: 'Full Time', companyDp:'../../../assets/company-dp-1.jpg', campanyName: 'Eside Paris', postedDate: Date.now() },
-     
-    { title: 'Senior Software Engineer', salary: 800, salaryType: 'week', location: 'Mumbai',
-     workType: 'Full Time', companyDp:'../../../assets/company-dp-1.jpg', campanyName: 'Eside Paris', postedDate: Date.now() },
-
-    { title: 'Mern Stack Developer', salary: 650, salaryType: 'week', location: 'Chennai',
-     workType: 'Full Time', companyDp:'../../../assets/company-dp-1.jpg', campanyName: 'Eside Paris', postedDate: Date.now() },
-     
-    { title: 'Senior Devops Engineer', salary: 750, salaryType: 'week', location: 'Kochi',
-     workType: 'Full Time', companyDp:'../../../assets/company-dp-1.jpg', campanyName: 'Eside Paris', postedDate: Date.now() },
-
-    { title: 'Senior Sales Execitive', salary: 700, salaryType: 'week', location: 'Banglore',
-     workType: 'Full Time', companyDp:'../../../assets/company-dp-1.jpg', campanyName: 'Eside Paris', postedDate: Date.now() },
-     
-    { title: 'Senior Data Engineer', salary: 800, salaryType: 'week', location: 'Mumbai',
-     workType: 'Full Time', companyDp:'../../../assets/company-dp-1.jpg', campanyName: 'Eside Paris', postedDate: Date.now() },
-
-    { title: 'Senior Accountant', salary: 700, salaryType: 'week', location: 'Banglore',
-     workType: 'Full Time', companyDp:'../../../assets/company-dp-1.jpg', campanyName: 'Eside Paris', postedDate: Date.now() },
-     
-    { title: 'Senior Data Engineer', salary: 800, salaryType: 'week', location: 'Mumbai',
-     workType: 'Full Time', companyDp:'../../../assets/company-dp-1.jpg', campanyName: 'Eside Paris', postedDate: Date.now() }
+    {
+      company_id: {
+        profile_url:'../../../assets/company-dp-1.jpg', 
+        companyName: 'Eside Paris',
+      },
+      jobTitle: 'Business Development Executive',
+      minimumPay: 300000, 
+      maximumPay:600000, 
+      payType: 'year', 
+      city: 'Banglore',
+      state: 'Karnataka',
+      jobType: 'Full Time', 
+      postedAt: Date.now(),
+    },
+    { 
+      company_id: {
+        profile_url:'../../../assets/company-dp-1.jpg',
+        companyName: 'Eside Paris',
+      },
+      jobTitle: 'Senior Software Engineer',
+      minimumPay: 350000,
+      maximumPay: 550000,
+      payType: 'year',
+      city: 'Pune',
+      state: 'Maharashtra',
+      jobType: 'Full Time',
+      postedAt: Date.now() 
+    },
+    { 
+      company_id: {
+        profile_url:'../../../assets/company-dp-1.jpg',
+        companyName: 'Eside Paris',
+      },
+      jobTitle: 'Senior Software Engineer',
+      minimumPay: 350000,
+      maximumPay: 550000,
+      payType: 'year',
+      city: 'Pune',
+      state: 'Maharashtra',
+      jobType: 'Full Time',
+      postedAt: Date.now() 
+    },
+    { 
+      company_id: {
+        profile_url:'../../../assets/company-dp-1.jpg',
+        companyName: 'Eside Paris',
+      },
+      jobTitle: 'Senior Software Engineer',
+      minimumPay: 350000,
+      maximumPay: 550000,
+      payType: 'year',
+      city: 'Pune',
+      state: 'Maharashtra',
+      jobType: 'Full Time',
+      postedAt: Date.now() 
+    },
+    { 
+      company_id: {
+        profile_url:'../../../assets/company-dp-1.jpg',
+        companyName: 'Eside Paris',
+      },
+      jobTitle: 'Senior Software Engineer',
+      minimumPay: 350000,
+      maximumPay: 550000,
+      payType: 'year',
+      city: 'Pune',
+      state: 'Maharashtra',
+      jobType: 'Full Time',
+      postedAt: Date.now() 
+    },
+    { 
+      company_id: {
+        profile_url:'../../../assets/company-dp-1.jpg',
+        companyName: 'Eside Paris',
+      },
+      jobTitle: 'Senior Software Engineer',
+      minimumPay: 350000,
+      maximumPay: 550000,
+      payType: 'year',
+      city: 'Pune',
+      state: 'Maharashtra',
+      jobType: 'Full Time',
+      postedAt: Date.now() 
+    },
+    { 
+      company_id: {
+        profile_url:'../../../assets/company-dp-1.jpg',
+        companyName: 'Eside Paris',
+      },
+      jobTitle: 'Senior Software Engineer',
+      minimumPay: 350000,
+      maximumPay: 550000,
+      payType: 'year',
+      city: 'Pune',
+      state: 'Maharashtra',
+      jobType: 'Full Time',
+      postedAt: Date.now() 
+    },
+    { 
+      company_id: {
+        profile_url:'../../../assets/company-dp-1.jpg',
+        companyName: 'Eside Paris',
+      },
+      jobTitle: 'Senior Software Engineer',
+      minimumPay: 350000,
+      maximumPay: 550000,
+      payType: 'year',
+      city: 'Pune',
+      state: 'Maharashtra',
+      jobType: 'Full Time',
+      postedAt: Date.now() 
+    },
+    { 
+      company_id: {
+        profile_url:'../../../assets/company-dp-1.jpg',
+        companyName: 'Eside Paris',
+      },
+      jobTitle: 'Senior Software Engineer',
+      minimumPay: 350000,
+      maximumPay: 550000,
+      payType: 'year',
+      city: 'Pune',
+      state: 'Maharashtra',
+      jobType: 'Full Time',
+      postedAt: Date.now() 
+    },
+    { 
+      company_id: {
+        profile_url:'../../../assets/company-dp-1.jpg',
+        companyName: 'Eside Paris',
+      },
+      jobTitle: 'Senior Software Engineer',
+      minimumPay: 350000,
+      maximumPay: 550000,
+      payType: 'year',
+      city: 'Pune',
+      state: 'Maharashtra',
+      jobType: 'Full Time',
+      postedAt: Date.now() 
+    }
   ]
 }

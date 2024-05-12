@@ -1,1 +1,99 @@
-<p>job-detailed-view works!</p>
+<div class="flex flex-col px-5 h-full w-full">
+    <a routerLink="/user/dashboard" class="mt-5"><i class="fa-solid fa-arrow-left text-2xl"></i></a>
+    <div>
+        <div class="flex">
+            <div class="flex items-center my-6">
+                <img [src]="jobData?.company_id.profile_url" alt="" class="rounded-lg h-28 w-32">
+                <div class="ml-4">
+                    <h1 class="text-5xl text-mainGrey font-bannerText">{{ jobData?.jobTitle }}</h1>
+                    <div class="flex items-end">
+                        <h1 class="mr-3 text-3xl text-mainGrey font-bannerText">{{ jobData?.company_id.companyName }}</h1>
+                        <i class="fa-solid fa-location-dot text-lg text-mainColor mr-2"></i>
+                        @if (jobData?.remort) {
+                            <span class="text-mainGrey text-xl font-bannerText">Remort (work from anywhere)</span>
+                        } @else {
+                            <span class="text-secondGrey text-xl font-bannerText">{{ jobData?.city }}, {{ jobData?.state }}</span>
+                        }
+                    </div>
+                    <small class="text-sm text-thirdGrey font-bannerText">{{ jobData?.postedAt }}</small>
+                </div>
+            </div>
+
+            <div class="flex items-center ml-auto">
+                @if (true) {
+                    <a class="px-5"><i class="fa-regular fa-bookmark text-4xl text-mainGrey"></i></a>
+                } @else {
+                    <a class="px-5"><i class="fa-solid fa-bookmark text-4xl text-mainGrey"></i></a>
+                }
+                <button class="bg-mainColor hover:bg-mainColor-dark text-white rounded-lg text-xl font-bannerText py-3 px-6 shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-mainColor">
+                    Apply Now
+                </button>
+            </div>
+        </div>
+    
+        <div class="w-full mb-6">
+            <h1 class="text-mainGrey text-2xl font-bannerText">Job Overview</h1>
+            <p class="text-black">{{ jobData?.overView }}</p>
+        </div>
+
+        <div class="mb-6 w-full">
+            <div class="">
+                <div class="flex mb-4">
+                    <div class="flex gap-2 items-center w-1/2">
+                        <p class="text-gray-600 text-sm font-semibold">Location:</p>
+                        @if (jobData?.remort) {
+                            <p class="text-mainGrey text-lg font-bannerText">Remort, (work from anywhere)</p>
+                        } @else {
+                            <p class="text-mainGrey text-lg font-bannerText">{{ jobData?.city }}, {{ jobData?.state }}</p>
+                        }
+                    </div>
+                    <div class="flex gap-2 items-center w-1/2">
+                        <p class="text-gray-600 text-sm font-semibold">Job Type:</p>
+                        <p class="text-mainGrey text-lg font-bannerText">{{ jobData?.jobType }}</p>
+                    </div>
+                </div>
+                <div class="flex mb-4">
+                    <div class="flex gap-2 items-center w-1/2">
+                        <p class="text-gray-600 text-sm font-semibold">Salary:</p>
+                        <p class="text-mainGrey text-lg font-bannerText">₹{{ jobData?.minimumPay }} - ₹{{ jobData?.maximumPay }} per annum</p>
+                    </div>
+                    <div class="flex gap-2 items-center w-1/2">
+                        <p class="text-gray-600 text-sm font-semibold">Pay Type:</p>
+                        <p class="text-mainGrey text-lg font-bannerText">{{ jobData?.payType }}</p>
+                    </div>
+                </div>
+                <div class="flex mb-4">
+                    <div class="flex gap-2 items-center w-1/2">
+                        <p class="text-gray-600 text-sm font-semibold">Experience Level:</p>
+                        <p class="text-mainGrey text-lg font-bannerText">{{ jobData?.experienceLevel }}</p>
+                    </div>
+                    <div class="flex gap-2 items-center w-1/2">
+                        <p class="text-gray-600 text-sm font-semibold">Work Shift:</p>
+                        <p class="text-mainGrey text-lg font-bannerText">{{ jobData?.workShift }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="w-full mb-6">
+            <h1 class="text-mainGrey text-2xl font-bannerText">Responsibilities and Duties</h1>
+            <ul class="list-disc ml-4">
+                @for (res of jobData?.responsibilities; track $index) {
+                    <li class="text-sm text-secondGrey font-bannerText">{{ res }}</li>
+                }
+            </ul>
+        </div>
+
+        <div class="w-full mb-6">
+            <h1 class="text-mainGrey text-2xl font-bannerText">Qualifications</h1>
+            <ul class="list-disc ml-4">
+                @for (qulfctin of jobData?.qualifications; track $index) {
+                    <li class="text-sm text-secondGrey font-bannerText">{{ qulfctin }}</li>
+                }
+            </ul>
+        </div>
+
+    </div>
+
+</div>
+

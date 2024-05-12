@@ -16,6 +16,8 @@ export class GetStartedComponent {
   ) { }
 
   showDialog(): void {
+    console.log('clicked');
+    
     const userToken = localStorage.getItem('userToken')
     const employerToken = localStorage.getItem('employerToken')
     

@@ -15,11 +15,34 @@ export class FeaturesComponent {
   ]
 
   sampleJobdata: any[] = [
-    { title: 'Business Development Executive', salary: 800, salaryType: 'week', location: 'Banglore',
-     workType: 'Full Time', companyDp:'../../../assets/company-dp-1.jpg', campanyName: 'Eside Paris', postedDate: Date.now() },
-     
-    { title: 'Senior Software Engineer', salary: 800, salaryType: 'week', location: 'Mumbai',
-     workType: 'Full Time', companyDp:'../../../assets/company-dp-1.jpg', campanyName: 'Eside Paris', postedDate: Date.now() }
+    {
+      company_id: {
+        profile_url:'../../../assets/company-dp-1.jpg', 
+        companyName: 'Eside Paris',
+      },
+      jobTitle: 'Business Development Executive',
+      minimumPay: 300000, 
+      maximumPay:600000, 
+      payType: 'year', 
+      city: 'Banglore',
+      state: 'Karnataka',
+      jobType: 'Full Time', 
+      postedAt: Date.now(),
+    },
+    { 
+      company_id: {
+        profile_url:'../../../assets/company-dp-1.jpg',
+        companyName: 'Eside Paris',
+      },
+      jobTitle: 'Senior Software Engineer',
+      minimumPay: 350000,
+      maximumPay: 550000,
+      payType: 'year',
+      city: 'Pune',
+      state: 'Maharashtra',
+      jobType: 'Full Time',
+      postedAt: Date.now() 
+    }
   ]
 
   sampleUsersdata: any[] = [

@@ -13,5 +13,10 @@ export const getJobsData = createSelector(getUserState,
     (state: userStateModel) => {
         return state.jobs
     }
-)  
+);
 
+export const getJobById = (jobId:string) => createSelector(getUserState,
+    (state: userStateModel) => {
+        return state.jobs.find((job) => job._id == jobId)
+    }
+)

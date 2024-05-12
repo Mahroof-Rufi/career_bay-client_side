@@ -31,7 +31,7 @@
     
     </div>
     <div class="flex bg-white rounded-lg mb-1">
-        <img src="../../../assets/company-dp-1.jpg" alt="profile" class="w-16 h-16 rounded-full px-2 py-2">
+        <img [src]="jobData?.company_id.profile_url" alt="profile" class="w-16 h-16 rounded-full px-2 py-2">
         <div class="flex flex-col pt-2">
             <!-- Truncate company name if it exceeds 13 characters -->
             <h2 class="text-mainGrey text-lg font-bannerText ml-1">
@@ -39,7 +39,7 @@
             </h2>
             <div class="flex flex-row text-thirdGrey text-xs font-bannerText">
                 <i class="fa-regular fa-clock mt-1"></i>
-                <h2 class="ml-1">posted 2 days</h2>
+                <h2 class="ml-1">{{ jobData?.postedAt }}</h2>
             </div>
         </div>
         <button class="font-bannerText px-4 bg-mainColor text-white rounded-lg mx-4 my-4 ml-auto">View</button>

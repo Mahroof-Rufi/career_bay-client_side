@@ -1,4 +1,4 @@
-<div class="flex">
+<div class="flex px-5 gap-1">
     <div class="w-4/6">
         <p class="text-mainGrey text-2xl font-bannerText my-3">Top Job picks for you</p>
         <div class="flex overflow-x-auto gap-2">
@@ -7,9 +7,7 @@
                     <app-job [jobData]="job" class="flex-none"></app-job>
                 </a>
             }
-            <button class="flex items-center justify-center bg-mainColor text-white text-xl font-bannerText px-5 py-5 rounded-lg shadow-md transition duration-300 transform hover:scale-105 my-auto mx-auto">
-                <i class="fa-solid fa-circle-arrow-right ml-2"></i>
-            </button>    
+            <a routerLink="/user/jobs" class="my-auto"><i class="fa-solid fa-circle-arrow-right text-3xl text-mainColor"></i></a>    
         </div>
     </div>
     
