@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -64,8 +64,12 @@ export class AuthService {
     return this.http.put('http://localhost:3000/employer/update-profile', profileData)
   }
 
-  companyFetchJobs():Observable<any> {
-    return this.http.get('http://localhost:3000/employer/job')
+  companyFetchJobs(title?:string):Observable<any> {
+    let param = new HttpParams()
+    if (title) {
+      param = param.append('title', title)
+    }
+    return this.http.get('http://localhost:3000/employer/job', { params: param });
   }
 
   companyAddJobPost(jobData:FormData):Observable<any> {
@@ -79,7 +83,6 @@ export class AuthService {
   companyDeleteJob(jobId:string):Observable<any> {
     return this.http.delete(`http://localhost:3000/employer/job/${jobId}`)
   }
-
   
   
 

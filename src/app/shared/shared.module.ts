@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   TuiArrowModule,
+  TuiAvatarModule,
+  TuiBadgedContentModule,
   TuiCheckboxLabeledModule,
   TuiDataListWrapperModule, 
   TuiInputDateModule, 
@@ -11,7 +13,7 @@ import {
   TuiInputPhoneInternationalModule, 
   TuiInputPhoneModule, 
   TuiSelectModule, 
-  TuiTextareaModule 
+  TuiTextareaModule,
 } from '@taiga-ui/kit';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TuiAlertModule, TuiDataListModule, TuiHintModule, TuiTextfieldControllerModule, TuiTooltipModule } from '@taiga-ui/core';
@@ -49,7 +51,9 @@ import { JobPostComponent } from './components/job-post/job.component';
     TuiTextareaModule,
     TuiCheckboxLabeledModule,
     TuiTextfieldControllerModule,
-    TuiArrowModule
+    TuiArrowModule,
+    TuiBadgedContentModule,
+    TuiAvatarModule,
   ],
   exports: [
     TuiInputModule,
@@ -68,6 +72,7 @@ import { JobPostComponent } from './components/job-post/job.component';
     TuiHintModule,
     LogoComponent,
     FooterComponent,
+    NavBarOptionsComponent,
     TuiInputPhoneModule,
     TuiInputPhoneInternationalModule,
     TuiTextareaModule,

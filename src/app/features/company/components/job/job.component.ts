@@ -8,6 +8,7 @@ import { getJobsData } from '../../../../store/employer-store/employer.selector'
 import { Router } from '@angular/router';
 import { TuiAlertService } from '@taiga-ui/core';
 import { DeleteJobConfirmationService } from '../../../../services/delete-job-confirmation.service';
+import { loadJobs } from '../../../../store/employer-store/employer.actions';
 
 @Component({
   selector: 'app-job',
@@ -29,20 +30,11 @@ export class JobComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
-    this.APIService.companyFetchJobs().subscribe((res) => {
-      console.log(res);
-      this.stateService.setJobs(res.jobs)
-    }, err => {
-      this.router.navigateByUrl('/home')
-      this.alert.open('', {
-        label: err.error.message,
-        status: 'error',
-        autoClose: true,
-        hasCloseButton: true,
-      }).subscribe()  
-    })
-    this.employerState.select(getJobsData).subscribe((res) => {
-      this.jobs = res
+    this.employerState.dispatch(loadJobs({}))
+    this.employerState.select(getJobsData).subscribe((res:any) => {
+        
+      this.jobs = res.jobs
+      
     })
   }
 
