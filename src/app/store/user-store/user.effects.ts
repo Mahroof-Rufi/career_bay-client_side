@@ -15,7 +15,7 @@ export class userEffects {
     _jobs = createEffect(() => this.actions.pipe(
         ofType(loadJobs),
         exhaustMap((action) => {
-            return this.apiService.userFetchJobs().pipe(
+            return this.apiService.userFetchALLJobs().pipe(
                 map((data) => {  
                     return loadJobsSuccess({jobs:data.data})
                 }),

@@ -5,12 +5,13 @@ import { userAuthGuard } from "./route-guards/user-auth.guard";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { JobListComponent } from "./components/job-list/job-list.component";
 import { JobDetailedViewComponent } from "./components/job-detailed-view/job-detailed-view.component";
+import { userLoadJobsDataGuard } from "./route-guards/user-load-jobs-data.guard";
 
 const routes: Routes = [
     { path: 'user', component:UserHomeComponent, children: [
         { path: '', redirectTo:'dashboard', pathMatch:"full" },
-        { path: 'dashboard', component:DashboardComponent },
-        { path: 'jobs', component:JobListComponent },
+        { path: 'dashboard', component:DashboardComponent, canActivate:[userLoadJobsDataGuard] },
+        { path: 'jobs', component:JobListComponent, canActivate:[userLoadJobsDataGuard] },
         { path: 'job/:id', component:JobDetailedViewComponent },
     ], canActivate:[userAuthGuard]}
 ]

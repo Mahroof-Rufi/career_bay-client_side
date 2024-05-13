@@ -18,11 +18,8 @@ export class DashboardComponent implements OnInit{
   ) {} 
 
   ngOnInit(): void {
-    this.userState.dispatch(loadJobs())
     this.userState.select(getJobsData).subscribe((res) => {      
       this.jobs = res
-      console.log(this.jobs);
-      
     })
   }
 

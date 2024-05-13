@@ -34,8 +34,8 @@ export class AuthService {
     return this.http.patch('http://localhost:3000/forgot-password', data)
   }
 
-  userFetchJobs():Observable<any> {
-    return this.http.get('http://localhost:3000/jobs')
+  userFetchALLJobs():Observable<any> {
+    return this.http.get('http://localhost:3000/')
   }
 
 

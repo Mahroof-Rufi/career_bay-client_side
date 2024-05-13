@@ -22,13 +22,15 @@ import { LogoComponent } from './components/logo/logo.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { NavBarOptionsComponent } from './components/nav-bar-options/nav-bar-options.component';
 import { JobPostComponent } from './components/job-post/job.component';
+import { SearchComponent } from './components/search/search.component';
 
 @NgModule({
   declarations: [
     LogoComponent,
     FooterComponent,
     NavBarOptionsComponent,
-    JobPostComponent
+    JobPostComponent,
+    SearchComponent
   ],
   imports: [
     CommonModule,
@@ -80,7 +82,8 @@ import { JobPostComponent } from './components/job-post/job.component';
     TuiTextfieldControllerModule,
     TuiArrowModule,
     NavBarOptionsComponent,
-    JobPostComponent
+    JobPostComponent,
+    SearchComponent
   ]
 })
 export class SharedModule { }
