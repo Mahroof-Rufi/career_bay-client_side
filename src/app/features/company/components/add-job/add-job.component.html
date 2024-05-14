@@ -95,7 +95,7 @@
                         <input tuiTextfield class="w-full">
                         <tui-data-list-wrapper
                             *tuiDataList
-                            [items]="jobTypes"
+                            [items]="payType"
                         ></tui-data-list-wrapper>
                     </tui-select>
                     <small *ngIf="jobPostFrom.get('payType')?.errors?.['required'] && jobPostFrom.get('payType')?.touched" class="text-red-500 font-bannerText">
@@ -109,7 +109,7 @@
                         <input tuiTextfield class="w-full">
                         <tui-data-list-wrapper
                             *tuiDataList
-                            [items]="jobTypes"
+                            [items]="workSchedule"
                         ></tui-data-list-wrapper>
                     </tui-select>
                     <small *ngIf="jobPostFrom.get('workShift')?.errors?.['required'] && jobPostFrom.get('workShift')?.touched" class="text-red-500 font-bannerText">
@@ -123,7 +123,7 @@
                         <input tuiTextfield class="w-full">
                         <tui-data-list-wrapper
                             *tuiDataList
-                            [items]="workSchedule"
+                            [items]="experienceLevels"
                         ></tui-data-list-wrapper>
                     </tui-select>
                     <small *ngIf="jobPostFrom.get('experienceLevel')?.errors?.['required'] && jobPostFrom.get('experienceLevel')?.touched" class="text-red-500 font-bannerText">

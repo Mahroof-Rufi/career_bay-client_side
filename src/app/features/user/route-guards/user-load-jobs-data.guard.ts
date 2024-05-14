@@ -1,13 +1,13 @@
 import { inject } from '@angular/core';
 import { CanActivateFn } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Employer } from '../../../store/employer-store/employer.model';
-import { loadJobs } from '../../../store/user-store/user.actions';
+import { loadUserJobs, loadUser } from '../../../store/user-store/user.actions';
+import { User } from '../../../store/user-store/user.model';
 
 export const userLoadJobsDataGuard: CanActivateFn = (route, state) => {
 
-  const employerStore = inject(Store<{ employer:Employer }>)
-  employerStore.dispatch(loadJobs())
-  console.log('dispatched');
+  const UserStore = inject(Store<{ user:User }>)
+
+  UserStore.dispatch(loadUserJobs())
   return true;
 };

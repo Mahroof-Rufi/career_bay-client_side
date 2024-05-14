@@ -35,9 +35,13 @@ export class AuthService {
   }
 
   userFetchALLJobs():Observable<any> {
-    return this.http.get('http://localhost:3000/')
+    return this.http.get('http://localhost:3000/jobs')
   }
 
+  fetchUserdata():Observable<any> {
+    return this.http.get('http://localhost:3000/user')
+  }
+ 
 
 
   companyRequestOTP(email:string):Observable<any> {

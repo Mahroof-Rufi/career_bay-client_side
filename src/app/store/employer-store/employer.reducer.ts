@@ -1,5 +1,5 @@
 import { createReducer, on } from "@ngrx/store"
-import { addJobPost, deleteJob, loadEmployerJobsSuccess, loadEmployerSuccess, updateJob } from "./employer.actions"
+import { addJobPost, deleteJob, loadEmployerJobsSuccess, loadEmployerSuccess, updateEmployer, updateJob } from "./employer.actions"
 import { initialState } from "./employer.store"
 
 export const employerReducer = createReducer(initialState,
@@ -7,6 +7,12 @@ export const employerReducer = createReducer(initialState,
         return {
             ...state,
             employer: action.employer
+        }
+    }),
+    on(updateEmployer, (state, action) => {
+        return {
+            ...state,
+            employer: action.newData
         }
     }),
     on(loadEmployerJobsSuccess, (state, action) => {

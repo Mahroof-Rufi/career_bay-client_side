@@ -2,6 +2,7 @@ import { createAction, props } from "@ngrx/store";
 import { Employer, Job } from "./employer.model";
 
 export const loadEmployer = createAction("loadEmployer");
+export const updateEmployer = createAction("updateEmployer", props<{ newData:Employer }>())
 export const loadEmployerSuccess = createAction("loadEmployerSuccess", props<{ employer:Employer }>())
 
 export const loadEmployerJobs = createAction("loadJobs")

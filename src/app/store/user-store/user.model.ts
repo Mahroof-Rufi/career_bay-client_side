@@ -2,11 +2,65 @@ export interface User {
     _id: string,
     firstName: string,
     lastName?: string,
+    profile_url?: string,
     email: string,
-    jobTitle?: string,
-    industry?: string,
+    jobTitle: string,
+    industry: string,
     DOB?: Date,
-    gender?: string,
+    gender: string,
+    city?: string,
+    state?: string,
+    remort: boolean,
+    resume_url?: string,
+    phone?: number,
+    portfolio_url?: string,
+    gitHub_url?: string,
+    about?: string,
+    experiences?: experience[],
+    educations?: education[],
+    skills?: string[]
+}
+
+export interface UserMainDetails {
+    _id: string,
+    firstName: string,
+    lastName?: string,
+    profile_url?: string,
+    email: string,
+    jobTitle: string,
+    industry: string,
+    DOB?: Date,
+    gender: string,
+    city?: string,
+    state?: string,
+    remort: boolean,
+    resume_url?: string,
+    phone?: number,
+    portfolio_url?: string,
+    gitHub_url?: string,
+}
+
+export interface experience {
+    jobTitle: string,
+    companyName: string,
+    jobType: string,
+    startDate: Date,
+    endDate: Date | string,
+    city?: string,
+    state?: string,
+    remort: boolean,
+    overView: string,
+    skills: string[],
+}
+
+export interface education {
+    universityName: string,
+    city: string,
+    state: string,
+    distance: string,
+    subject: string,
+    startDate: Date,
+    endDate: Date | string
 }
 
 export interface Job {

@@ -44,8 +44,6 @@ export class CompanyLoginComponent implements OnInit{
     if (this.loginForm.valid) {
       this.authService.companyLogin(this.loginForm.value).subscribe((res) => {
         
-        localStorage.setItem('employerData',JSON.stringify(res.employer.employerData))
-        
         const statusCode = res.employer.status; 
     
           switch (statusCode) {

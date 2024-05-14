@@ -48,7 +48,6 @@ export class CompanySignUpComponent implements OnInit {
 
   redirectlogin() {
     this.changeView.emit('company-login')
-    // this.router.navigateByUrl('/auth/employer/login')
   }
 
   readonly rejectedFiles$ = new Subject<TuiFileLike | null>();

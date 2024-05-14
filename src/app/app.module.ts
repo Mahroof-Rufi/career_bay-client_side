@@ -70,7 +70,7 @@ import { employerEffects } from "./store/employer-store/employer.effects";
     UserModule,
     CompanyModule,
     AdminModule,
-    StoreModule.forRoot({employer:employerReducer,user:userReducer}),
+    StoreModule.forRoot({user:userReducer,employer:employerReducer}),
     EffectsModule.forRoot([userEffects, employerEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
 ],

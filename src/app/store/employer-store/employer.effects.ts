@@ -14,13 +14,9 @@ export class employerEffects {
 
     _loadEmployer = createEffect(() => this.actions.pipe(
         ofType(loadEmployer),        
-        exhaustMap((action) => {
-            console.log('first effects');
-            
+        exhaustMap((action) => {            
             return this.apiService.fetchEmployerData().pipe(
                 map((data) => { 
-                    console.log('here succe 1');
-                    console.log(data);
                     return loadEmployerSuccess({ employer:data.data })
                 }),
                 catchError((error) => {
@@ -36,7 +32,13 @@ export class employerEffects {
         exhaustMap((action) => {
             return this.apiService.companyFetchJobs().pipe(
                 map((data) => {
+                    console.log('here succe');
+                    console.log(data);
                     return loadEmployerJobsSuccess({jobs:data.jobs})
+                }),
+                catchError((error) => {
+                    console.error('HTTP Error on loadEmployerJobs effect:', error);
+                    return EMPTY;
                 })
             )
         })

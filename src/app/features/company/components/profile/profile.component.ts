@@ -4,6 +4,7 @@ import { EmployerEditProfileModalService } from '../../../../services/employer-e
 import { TuiSizeL, TuiSizeS } from '@taiga-ui/core';
 import { Store } from '@ngrx/store';
 import { getEmployerData } from '../../../../store/employer-store/employer.selector';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-company-dashboard',
@@ -16,18 +17,22 @@ export class ProfileComponent implements OnInit{
 
   constructor(
     private editProfileModal:EmployerEditProfileModalService,
-    private employerStore:Store<{ employer:Employer }>
+    private employerStore:Store<{ employer:Employer }>,
+    private router:Router
   ) {}
 
   ngOnInit(): void {
     this.employerStore.select(getEmployerData).subscribe((res) => {
       this.employer = res
-      console.log(this.employer);
-      
     })
   }
 
   editProfile() {
     this.editProfileModal.openModal()
+  }
+
+  logOutEmployer() {
+    localStorage.removeItem('employerToken')
+    this.router.navigateByUrl('/home')
   }
 }

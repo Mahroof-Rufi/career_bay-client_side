@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Job, User } from '../../../../store/user-store/user.model';
-import { loadJobs } from '../../../../store/user-store/user.actions';
 import { getJobsData } from '../../../../store/user-store/user.selector';
 
 @Component({
@@ -12,12 +11,14 @@ import { getJobsData } from '../../../../store/user-store/user.selector';
 export class DashboardComponent implements OnInit{
 
   jobs!:Job[]
+  userData!:User;
 
   constructor(
     private userState:Store<{ user:User }>
   ) {} 
 
   ngOnInit(): void {
+    // this.userState.select()
     this.userState.select(getJobsData).subscribe((res) => {      
       this.jobs = res
     })

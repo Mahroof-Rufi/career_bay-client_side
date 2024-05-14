@@ -19,8 +19,10 @@ export class AddJobComponent implements OnInit{
 
   states:string[] = ['Kerala','Karnataka','Telengana'];
   jobTypes:string[] = ['FullTime', 'PartTime', 'Contract'];
-  experienceLevels:string[] = ['InternShip','EntryLevel','Junior','Senior'];
-  workSchedule:string[] = ['Day Shift','Night Shift','Flexible']
+  experienceLevels:string[] = ['InternShip','EntryLevel','Junior','Mid-Level','Senior'];
+  workSchedule:string[] = ['Day Shift','Night Shift','Flexible'];
+  payType:string[] = ['/Hr', '/Day', '/Week', '/Month', '/Year']
+
   jobPostFrom!:FormGroup;
 
   editJob!:Job | undefined;

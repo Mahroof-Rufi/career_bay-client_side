@@ -1,15 +1,15 @@
 import { createReducer, on } from "@ngrx/store"
 import { initialState } from "./user.store"
-import { loadJobsSuccess, loadUser } from "./user.actions"
+import { loadUserJobsSuccess, loadUserSuccess } from "./user.actions"
 
 export const userReducer = createReducer(initialState,
-    on(loadUser, (state,action) => {
+    on(loadUserSuccess, (state,action) => {
         return {
             ...state,
-            user: action.userData
+            user: action.user
         }
     }),
-    on(loadJobsSuccess, (state, action) => {
+    on(loadUserJobsSuccess, (state, action) => {
         return {
             ...state,
             jobs:action.jobs

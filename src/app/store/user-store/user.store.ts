@@ -10,6 +10,7 @@ export const initialState: userStateModel = {
     jobTitle: '',
     industry: '',
     DOB: undefined,
+    remort: false,
     gender: ''
   },
   jobs: []

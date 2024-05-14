@@ -1,36 +1,31 @@
 <div class="flex justify-between items-center py-3 px-10">
+    <!-- Logo on the left -->
     <app-logo></app-logo>
-    <div class="flex justify-between items-center space-x-3">
+    
+    <!-- Options in the center -->
+    <div class="flex justify-between items-center space-x-3 flex-grow">
         <app-nav-bar-options></app-nav-bar-options>
-        <button type="button" class="icon-button">
-            <span class="material-icons"><i class="fa-regular fa-bell text-2xl"></i></span>
-            <span class="icon-button__badge">2</span>
-        </button>
+    </div>
+    
+    <!-- Profile on the right -->
+    <div class="flex items-center space-x-3">
+        <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="w-14 h-14 rounded-full cursor-pointer" [src]="userData.profile_url" alt="User dropdown">
         
-        <div>
-            <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="w-14 h-14 rounded-full cursor-pointer" [src]="waterplea" alt="User dropdown">
-            <!-- Dropdown menu -->
-            <div id="userDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
-                <div>Bonnie Green</div>
-                <div class="font-medium truncate">nameflowbite.com</div>
-                </div>
-                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="avatarButton">
+        <!-- Dropdown menu -->
+        <div id="userDropdown" class="z-10 hidden bg-slate-200 divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="avatarButton">
                 <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+                    <a routerLink="/user/profile/:id" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profile</a>
                 </li>
                 <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
+                    <a routerLink="/user/notifications/:id" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Notifications</a>
                 </li>
-                <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
-                </li>
-                </ul>
-                <div class="py-1">
-                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
-                </div>
+            </ul>
+            <div class="py-1">
+                <p (click)="logout()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Log out</p>
             </div>
         </div>
     </div>
 </div>
+
 <hr class="w-full h-0.5 text-mainGrey">

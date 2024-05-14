@@ -1,10 +1,13 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Employer } from '../../../../store/employer-store/employer.model';
 import {TuiCountryIsoCode} from '@taiga-ui/i18n';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../../services/auth.service';
 import { EmployerEditProfileModalService } from '../../../../services/employer-edit-profile-modal.service';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { getEmployerData } from '../../../../store/employer-store/employer.selector';
+import { updateEmployer } from '../../../../store/employer-store/employer.actions';
 
 @Component({
   selector: 'app-edit-profile',
@@ -19,7 +22,6 @@ export class EditProfileComponent {
   noOfWorksRange:string[] = ['0 - 50', '50 - 100', '100 - 250', '250 - 500']
   document = new FormControl();
   updateProfileForm!:FormGroup;
-  formBuilder: any;
 
   readonly countries = Object.values(TuiCountryIsoCode);
   countryIsoCode = TuiCountryIsoCode.IN
@@ -28,19 +30,14 @@ export class EditProfileComponent {
     private authService:AuthService,
     private editProfileModalService:EmployerEditProfileModalService,
     private router:Router,
+    private employerStore:Store<{ employer:Employer }>,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
-    const employerDataString = localStorage.getItem('employerData');
-    
-    if (employerDataString) {
-      const employerData: Employer = JSON.parse(employerDataString);
-      // this.employerState.setEmployer(employerData)
-    }
-    
-    // this.employerState.getEmployer().subscribe((data) => {
-    //   this.employerData = data
-    // })
+    this.employerStore.select(getEmployerData).subscribe((res) => {
+      this.employerData = res
+    })
 
     this.updateProfileForm = new FormGroup({
       companyName: new FormControl(this.employerData.companyName, Validators.required),
@@ -92,10 +89,12 @@ export class EditProfileComponent {
         formData.append('profile-img',fileInput.files[0])       
       } 
       
-      this.authService.companyUpdateProfile(formData).subscribe((res) => {
+      this.authService.companyUpdateProfile(formData).subscribe((res) => {    
         console.log(res);
-      localStorage.setItem('employerData',JSON.stringify(res.updatedData))
-      // this.employerState.setEmployer(res.updatedData)
+        console.log(res.updatedData);
+        
+            
+      this.employerStore.dispatch(updateEmployer({ newData:res.updatedData }))
       this.editProfileModalService.closeModal()
       this.router.navigateByUrl('/employer/profile')
       }, (err) => {

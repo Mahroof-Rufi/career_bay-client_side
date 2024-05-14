@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { TuiAlertService } from '@taiga-ui/core';
@@ -14,9 +14,12 @@ import { confirmPasswordValidator } from '../../validators/confirm-password.vali
 export class UserSignUpComponent implements OnInit{
   @Output() changeView:EventEmitter<string> = new EventEmitter()
 
-  constructor(private router:Router,
-            private authService:AuthService,
-            private alert: TuiAlertService) {}
+  constructor(
+   private router:Router,
+   private authService:AuthService,
+   private alert: TuiAlertService,
+   private formBuilder: FormBuilder
+  ) {}
 
   registrationForm!: FormGroup;
   otpButton:string = 'Send OTP'
@@ -41,23 +44,38 @@ export class UserSignUpComponent implements OnInit{
   ]
 
   ngOnInit(): void {
-      this.registrationForm = new FormGroup({
-      firstName: new FormControl('', [Validators.required, noSpaceAllowed]),
-      lastName: new FormControl('',[noSpaceAllowed]),
-      email: new FormControl('', [Validators.required, Validators.email, noSpaceAllowed]),
-      password: new FormControl('', [Validators.required, noSpaceAllowed, Validators.minLength(8)]),
-      confirmPassword: new FormControl('', [Validators.required, noSpaceAllowed, Validators.minLength(8)]),
-      jobTitle: new FormControl('', Validators.required),
-      industry: new FormControl('', Validators.required),
-      DOB: new FormControl('', Validators.required),
-      gender: new FormControl('', Validators.required),
-      OTP: new FormControl('', [Validators.required, noSpaceAllowed, Validators.minLength(6)])
+      this.registrationForm =  this.formBuilder.group({
+      firstName: ['', [Validators.required, noSpaceAllowed]],
+      lastName: ['', [noSpaceAllowed]],
+      profile_url: [''],
+      email: ['', [Validators.required, Validators.email, noSpaceAllowed]],
+      password: ['', [Validators.required, noSpaceAllowed, Validators.minLength(8)]],
+      confirmPassword: ['', [Validators.required, noSpaceAllowed, Validators.minLength(8)]],
+      jobTitle: ['', [Validators.required]],
+      industry: ['', [Validators.required]],
+      DOB: ['', [Validators.required]],
+      gender: ['', [Validators.required]],
+      OTP: ['', [Validators.required, noSpaceAllowed, Validators.minLength(6)]]
     },{ validators: [confirmPasswordValidator]})
-
   }
 
   submitRegistrationForm() {
     if (this.registrationForm.valid) {
+      let profile_Url:string = '';
+      const gender = this.registrationForm.get('gender')?.value;
+      const firstName = this.registrationForm.get('firstName')?.value
+      if (gender === 'Male') {
+        profile_Url = `https://avatar.iran.liara.run/public/boy?username=[${firstName}]`;
+      } else if (gender === 'Female') {
+        profile_Url = `https://avatar.iran.liara.run/public/girl?username=[${firstName}]`;
+      } else {
+        profile_Url = `https://avatar.iran.liara.run/username?username=${this.registrationForm.get('firstName')?.value}+${this.registrationForm.get('lastName')?.value}`;
+      }
+      this.registrationForm.patchValue({
+        profile_url: profile_Url
+      });
+      console.log(this.registrationForm.value);
+      
       this.authService.userRegistration(this.registrationForm.value).subscribe((res) => {
         this.alert.open('', {
           label: 'Registration successfull',
