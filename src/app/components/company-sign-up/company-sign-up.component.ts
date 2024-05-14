@@ -24,6 +24,12 @@ export class CompanySignUpComponent implements OnInit {
   states = ['Kerala','Karnataka','Telengana']
   OTP_BTN:string = 'Send OTP'
 
+  startingMinute: number = 1; 
+  time: number = 0
+  minutes: number = Math.floor(this.time / 60);
+  seconds: number = Math.floor(this.time % 60);
+  timerInterval: any; 
+
 
   constructor(
     private authService:AuthService, 
@@ -97,6 +103,10 @@ export class CompanySignUpComponent implements OnInit {
         autoClose: true,
       }).subscribe()
       this.OTP_BTN = 'Resend OTP'
+      this.time = this.startingMinute * 60;
+      this.timerInterval = setInterval(() => {
+        this.updateTimer();
+      }, 1000);
     }, (err: any) => {
       console.log(err);
       this.alert.open('', {
@@ -134,6 +144,17 @@ export class CompanySignUpComponent implements OnInit {
       })
     } else {
       this.registrationForm.markAllAsTouched()
+    }
+  }
+
+  updateTimer() {
+    if (this.time > 0) {
+      this.minutes = Math.floor(this.time / 60);
+      this.seconds = Math.floor(this.time % 60);
+      this.time--;
+    } else {
+      this.time = 0
+      clearInterval(this.timerInterval); 
     }
   }
 

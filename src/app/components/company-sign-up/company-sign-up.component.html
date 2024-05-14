@@ -181,7 +181,10 @@
                     </small>
                 </div>
                 <div class="flex w-full">
-                    <button class="flex justify-center ml-auto py-4 px-5 font-bannerText rounded-lg bg-mainColor text-white" type="button" (click)="requestOTP()">{{OTP_BTN}}</button>
+                    <button class="flex justify-center ml-auto py-4 px-5 font-bannerText rounded-lg text-white" type="button" [class.bg-mainColor]="!time || time <= 0"
+                    [class.bg-orange-400]="time && time > 0" (click)="requestOTP()" [disabled]=" time > 0">
+                        {{ time > 0 ? 'Resend OTP in ' + minutes + ':' + seconds : OTP_BTN }}
+                    </button>
                 </div>
             </div>
         </div>

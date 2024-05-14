@@ -173,8 +173,12 @@
                         *enter a valid OTP
                     </small>                      
                     <button
-                        class="flex justify-center w-fit ml-auto py-4 px-5 font-bannerText rounded-lg bg-mainColor text-white "
-                        type="button" (click)="requestOTP()">{{ time > 0 ? 'Resend OTP in ' + minutes + ':' + seconds : otpButton }}</button>
+                        class="flex justify-center w-fit ml-auto py-4 px-5 font-bannerText rounded-lg bg-mainColor text-white"
+                        [class.bg-mainColor]="!time || time <= 0"
+                        [class.bg-orange-400]="time && time > 0"
+                        type="button" (click)="requestOTP()" [disabled]=" time > 0">
+                        {{ time > 0 ? 'Resend OTP in ' + minutes + ':' + seconds : otpButton }}
+                    </button>
                 </div>
             </div>
 
