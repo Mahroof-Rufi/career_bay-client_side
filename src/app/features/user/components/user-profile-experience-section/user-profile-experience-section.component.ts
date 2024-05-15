@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { experience } from '../../../../store/user-store/user.model';
+import { UserProfileEditModalService } from '../../services/user-profile-edit-modal.service';
 
 @Component({
   selector: 'app-user-profile-experience-section',
@@ -9,4 +10,11 @@ import { experience } from '../../../../store/user-store/user.model';
 export class UserProfileExperienceSectionComponent {
   @Input() experiences: experience[] | undefined
 
+  constructor(
+    private profileEditService:UserProfileEditModalService
+  ) {}
+
+  openAddExperience() {
+    this.profileEditService.openUserexperienceEditModal()
+  }
 }

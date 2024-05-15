@@ -17,6 +17,11 @@ import { UserProfileExperienceColComponent } from './components/user-profile-exp
 import { UserProfileEducationSectionComponent } from './components/user-profile-education-section/user-profile-education-section.component';
 import { UserProfileEducationColComponent } from './components/user-profile-education-col/user-profile-education-col.component';
 import { UserProfileSkillsSectionComponent } from './components/user-profile-skills-section/user-profile-skills-section.component';
+import { UserMainDetailsEditComponent } from './components/user-main-details-edit/user-main-details-edit.component';
+import { UserAboutEditComponent } from './components/user-about-edit/user-about-edit.component';
+import { UserExperienceEditComponent } from './components/user-experience-edit/user-experience-edit.component';
+import { UserEducationEditComponent } from './components/user-education-edit/user-education-edit.component';
+import { UserSkillsEditComponent } from './components/user-skills-edit/user-skills-edit.component';
 
 
 
@@ -35,7 +40,12 @@ import { UserProfileSkillsSectionComponent } from './components/user-profile-ski
     UserProfileExperienceColComponent,
     UserProfileEducationSectionComponent,
     UserProfileEducationColComponent,
-    UserProfileSkillsSectionComponent
+    UserProfileSkillsSectionComponent,
+    UserMainDetailsEditComponent,
+    UserAboutEditComponent,
+    UserExperienceEditComponent,
+    UserEducationEditComponent,
+    UserSkillsEditComponent
   ],
   imports: [
     CommonModule,

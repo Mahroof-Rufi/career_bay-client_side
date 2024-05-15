@@ -1,7 +1,7 @@
 <div class="flex-col bg-white rounded-xl shadow-lg w-full h-full">
     <div class="flex justify-between px-5 pt-5 w-full">
         <span class="flex text-mainGrey text-sm font-bannerText"><i class="fa-solid fa-briefcase text-sm text-mainColor pr-1"></i>Experience</span>
-        <span class="flex text-mainGrey text-sm font-bannerText items-start"><i class="fa-solid fa-plus text-sm pr-1"></i>Add</span>
+        <span class="flex text-mainGrey text-sm font-bannerText items-start cursor-pointer" (click)="openAddExperience()"><i class="fa-solid fa-plus text-sm pr-1"></i>Add</span>
     </div>
     <div class="grid grid-cols-2 w-full">
         <app-user-profile-experience-col></app-user-profile-experience-col>

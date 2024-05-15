@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { UserProfileEditModalService } from '../../services/user-profile-edit-modal.service';
 
 @Component({
   selector: 'app-user-profile-skills-section',
@@ -7,5 +8,13 @@ import { Component, Input } from '@angular/core';
 })
 export class UserProfileSkillsSectionComponent {
   @Input() skills:string[] | undefined
+
+  constructor(
+    private profileEditService:UserProfileEditModalService
+  ) {}
+
+  openUserSkillsEdit() {
+    this.profileEditService.openUserSkillsEditModal()
+  }
 
 }
