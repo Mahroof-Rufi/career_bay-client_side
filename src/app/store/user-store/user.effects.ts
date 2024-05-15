@@ -1,6 +1,6 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Injectable } from "@angular/core";
-import { loadUserJobs, loadUserJobsSuccess, loadUser, loadUserSuccess } from './user.actions';
+import { loadUserJobs, loadUserJobsSuccess, loadUser, loadUserSuccess, updateUserAbout, updateUserAboutSuccess } from './user.actions';
 import { EMPTY, catchError, exhaustMap, map } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 
@@ -9,7 +9,7 @@ export class userEffects {
 
     constructor(
         private actions: Actions,
-        private apiService: AuthService
+        private apiService: AuthService,
     ) { }
 
     _jobs = createEffect(() => this.actions.pipe(
@@ -38,7 +38,29 @@ export class userEffects {
                 map((data) => {
                     return loadUserSuccess({ user: data.userData })
                 }),
-                catchError(() => EMPTY)
+                catchError((error) => {
+                    console.error('HTTP Error on loaduserffect:', error);
+                    return EMPTY;
+                })
+            )
+        })
+    ))
+
+    updateUserProfile = createEffect(() => this.actions.pipe(
+        ofType(updateUserAbout),
+        exhaustMap((action) => {
+            return this.apiService.userUpdateProfile(action.newData, action.userId).pipe(
+                map((data:any) => {
+                    console.log('update user about');
+                    
+                    console.log(data);
+                    
+                    return updateUserAboutSuccess({ newData:data.updatedata })
+                }),
+                catchError((error) => {
+                    console.error('HTTP Error on updateUserProfile effect:', error);
+                    return EMPTY;
+                })
             )
         })
     ))

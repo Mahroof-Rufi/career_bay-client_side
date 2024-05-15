@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { EditUser } from '../store/user-store/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,10 @@ export class AuthService {
 
   userForgorPasswordRequestOTP(email:string) {
     return this.http.post('http://localhost:3000/forgot-password', {email:email})
+  }
+
+  userUpdateProfile(newData:EditUser, userID:string) {
+    return this.http.patch(`http://localhost:3000/${userID}`, { newData:newData })
   }
 
   userResetPassword(data:FormGroup):Observable<any> {

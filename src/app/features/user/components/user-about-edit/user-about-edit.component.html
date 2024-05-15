@@ -1,1 +1,24 @@
-<p>user-about-edit works!</p>
+<div class="flex flex-col justify-center items-center h-full w-full">
+    <h1 class="text-3xl text-mainColor font-bannerText">Edit About</h1>
+    <form class="w-full" [formGroup]="aboutForm" (ngSubmit)="submitEditAbout()">
+      <div class="w-full py-3">
+        <tui-textarea
+          formControlName="about"
+          class="field-medium w-full"
+          [expandable]="true"
+          [maxLength]="600">
+            About 
+        </tui-textarea>
+        
+        <small *ngIf="aboutForm.get('about')?.errors?.['required'] && aboutForm.get('about')?.touched" class="text-red-500 font-bannerText">
+          *about required
+        </small>
+        <small *ngIf="aboutForm.get('about')?.errors?.['maxlength']" class="text-red-500 font-bannerText">
+          *maximum length - 600
+        </small> 
+       
+      </div>
+      <button class="bg-mainColor text-white font-bannerText py-3 justify-center w-full rounded-lg" type="submit">Submit</button>
+    </form>
+  </div>
+  

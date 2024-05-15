@@ -83,6 +83,26 @@ export interface Job {
     postedAt: Date
 }
 
+export interface EditUser {
+    firstName?: string,
+    lastName?: string,
+    profile_url?: string,
+    jobTitle?: string,
+    industry?: string,
+    DOB?: Date,
+    gender?: string,
+    city?: string,
+    state?: string,
+    remort?: boolean,
+    resume_url?: string,
+    portfolio_url?: string,
+    gitHub_url?: string,
+    about?: string,
+    experiences?: experience[],
+    educations?: education[],
+    skills?: string[]
+}
+
 export interface userStateModel {
     user:User,
     jobs:Job[]

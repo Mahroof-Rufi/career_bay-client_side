@@ -9,6 +9,15 @@ export const getUserData = createSelector(getUserState,
     }
 );
 
+export const getUserAbout = createSelector(getUserState,
+    (state: userStateModel) => {
+        return {
+            about:state.user.about,
+            userID:state.user._id
+        }
+    }
+)
+
 export const getJobsData = createSelector(getUserState,
     (state: userStateModel) => {
         return state.jobs
