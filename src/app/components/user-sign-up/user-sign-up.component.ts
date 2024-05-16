@@ -102,7 +102,6 @@ export class UserSignUpComponent implements OnInit{
 
   redirectlogin() {
     this.changeView.emit('user-login')
-    // this.router.navigateByUrl('/auth/user/login')
   }
 
   requestOTP() {

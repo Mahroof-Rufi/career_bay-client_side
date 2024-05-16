@@ -56,6 +56,7 @@ import { SearchComponent } from './components/search/search.component';
     TuiArrowModule,
     TuiBadgedContentModule,
     TuiAvatarModule,
+    
   ],
   exports: [
     TuiInputModule,

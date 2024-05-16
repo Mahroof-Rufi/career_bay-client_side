@@ -8,5 +8,5 @@ export const loadUserSuccess = createAction("loadUserSuccess", props<{ user:User
 export const loadUserJobs = createAction("loadJobs");
 export const loadUserJobsSuccess = createAction("loadJobsSuccess", props<{ jobs:Job[] }>());
 
-export const updateUserAbout = createAction("updateUserAbout", props<{ newData:EditUser, userId:string }>());
+export const updateUserAbout = createAction("updateUserAbout", props<{ newData:EditUser | FormData, userId:string }>());
 export const updateUserAboutSuccess = createAction("updateUserAbout", props<{ newData:User }>());

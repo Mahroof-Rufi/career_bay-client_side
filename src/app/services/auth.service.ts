@@ -31,8 +31,8 @@ export class AuthService {
     return this.http.post('http://localhost:3000/forgot-password', {email:email})
   }
 
-  userUpdateProfile(newData:EditUser, userID:string) {
-    return this.http.patch(`http://localhost:3000/${userID}`, { newData:newData })
+  userUpdateProfile(newData:EditUser | FormData, userID:string) {
+    return this.http.patch(`http://localhost:3000/${userID}`, newData )
   }
 
   userResetPassword(data:FormGroup):Observable<any> {

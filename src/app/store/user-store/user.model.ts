@@ -86,7 +86,7 @@ export interface Job {
 export interface EditUser {
     firstName?: string,
     lastName?: string,
-    profile_url?: string,
+    profile_file?: string,
     jobTitle?: string,
     industry?: string,
     DOB?: Date,
@@ -94,7 +94,7 @@ export interface EditUser {
     city?: string,
     state?: string,
     remort?: boolean,
-    resume_url?: string,
+    resumeFile?: string,
     portfolio_url?: string,
     gitHub_url?: string,
     about?: string,

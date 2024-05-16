@@ -55,7 +55,7 @@ export class userEffects {
                     
                     console.log(data);
                     
-                    return updateUserAboutSuccess({ newData:data.updatedata })
+                    return updateUserAboutSuccess({ newData:data.updatedData })
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on updateUserProfile effect:', error);
