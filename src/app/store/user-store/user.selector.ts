@@ -9,6 +9,12 @@ export const getUserData = createSelector(getUserState,
     }
 );
 
+export const getUserId = createSelector(getUserState,
+    (state: userStateModel) => {
+        return state.user._id
+    }
+)
+
 export const getUserAbout = createSelector(getUserState,
     (state: userStateModel) => {
         return {
@@ -27,5 +33,11 @@ export const getJobsData = createSelector(getUserState,
 export const getJobById = (jobId:string) => createSelector(getUserState,
     (state: userStateModel) => {
         return state.jobs.find((job) => job._id == jobId)
+    }
+);
+
+export const getExperienceById = (exp_id:string) => createSelector(getUserState,
+    (state: userStateModel) => {
+        return state.user.experiences?.find((exp) => exp._id == exp_id)
     }
 )

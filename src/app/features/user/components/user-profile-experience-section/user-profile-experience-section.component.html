@@ -3,8 +3,15 @@
         <span class="flex text-mainGrey text-sm font-bannerText"><i class="fa-solid fa-briefcase text-sm text-mainColor pr-1"></i>Experience</span>
         <span class="flex text-mainGrey text-sm font-bannerText items-start cursor-pointer" (click)="openAddExperience()"><i class="fa-solid fa-plus text-sm pr-1"></i>Add</span>
     </div>
-    <div class="grid grid-cols-2 w-full">
-        <app-user-profile-experience-col></app-user-profile-experience-col>
-        <app-user-profile-experience-col></app-user-profile-experience-col>
-    </div>
+    @if (experiences?.length) {
+        <div class="grid grid-cols-2 w-full">
+            @for (exp of experiences; track $index) {
+                <app-user-profile-experience-col [experience]="exp"></app-user-profile-experience-col>
+            }
+        </div>
+    } @else { 
+        <div class="experience-section-placeholder text-center py-5 rounded">
+            <p class="placeholder-message text-lg text-red-600 font-bannerText">You haven't added any experience to your profile yet. Share your professional background to complete your profile.</p>
+        </div>          
+    }
 </div>

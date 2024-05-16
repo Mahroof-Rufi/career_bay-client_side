@@ -1,17 +1,29 @@
 <div class="flex justify-between w-full px-5 py-3">
-    <div class="border-2 rounded-lg">
+    <div class="border-2 rounded-lg w-full h-full">
         <div class="flex-col w-full justify-start px-5">
-            <div class="flex justify-between py-3">
-                <h1 class="text-4xl text-mainGrey font-bold">Frontend Developer</h1>
-                <span class="flex text-mainColor justify-end pt-2 text-sm font-bannerText items-start"><i class="fa-solid fa-pen text-sm pr-1"></i>Edit</span>
+            <div class="flex w-full justify-between my-3">
+                <h1 class="text-4xl text-mainGrey font-bold">{{ experience.jobTitle }}</h1>
+                <span class="flex text-mainColor justify-end  text-sm font-bannerText items-start cursor-pointer" (click)="openEditExperience(experience._id)"><i class="fa-solid fa-pen text-sm pr-1"></i>Edit</span>
             </div>
-            <h2 class="text-2xl text-mainColor font-bannerText">Brototype - Internship</h2>
-            <h3 class="text-sm text-thirdGrey font-bannerText">10 Mar 2023 - 11 June 2024  (1 Yr 3 Mos)</h3>
+            <h2 class="text-2xl text-mainColor font-bannerText">{{ experience.companyName }} - {{ experience.jobType }}</h2>
+            @if (experience.present) {
+                <h3 class="text-sm text-thirdGrey font-bannerText">{{ experience.startDate }} - Present  (1 Yr 3 Mos)</h3>
+            } @else { 
+                <h3 class="text-sm text-thirdGrey font-bannerText">{{ experience.startDate }} - {{ experience.endDate }}  (1 Yr 3 Mos)</h3>
+            }
         </div>
         <div class="flex-col w-full justify-center px-10">
-            <span class="flex items-center text-mainGrey text-sm font-bannerText my-2"><i class="fa-solid fa-location-dot text-mainColor text-lg mr-1"></i>Calicut, Kerala</span>
-            <p class="text-sm text-mainGrey font-bannerText">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem</p>
-            <p class="text-sm text-mainGrey font-bannerText py-3">JavaScript, Node JS, Express JS, MongoDB, Angular, Git, Ejs</p>
+            @if (experience.remort) {
+                <span class="flex items-center text-mainGrey text-sm font-bannerText my-2"><i class="fa-solid fa-location-dot text-mainColor text-lg mr-1"></i>Remort (work from home)</span>
+            } @else {
+                <span class="flex items-center text-mainGrey text-sm font-bannerText my-2"><i class="fa-solid fa-location-dot text-mainColor text-lg mr-1"></i>{{ experience.city }}, {{ experience.state }}</span>
+            }
+            <p class="text-sm text-mainGrey font-bannerText">{{ experience.overView }}</p>
+            <p class="text-sm text-mainGrey font-bannerText py-3">
+                @for (technology of experience.technologies; track $index) {
+                  {{ technology }}{{ ', '}}
+                }
+            </p>
         </div>
     </div>
 </div>

@@ -1,1 +1,148 @@
-<p>user-experience-edit works!</p>
+<div>
+    <div class="flex justify-center my-5">
+        <h1 class="text-4xl text-mainColor font-bannerText">Add Experince</h1>
+    </div>
+    <form [formGroup]="experienceForm" (ngSubmit)="submitExperience()">
+        <div class="flex-col">
+
+            <div class="flex gap-5 w-full">
+
+                <div class="w-1/2 flex-col">
+                    <tui-input formControlName="jobTitle">
+                        Job Title
+                        <input tuiTextfield type="text" />
+                    </tui-input>
+                    <small *ngIf="experienceForm.get('jobTitle')?.errors?.['required'] && experienceForm.get('jobTitle')?.touched" class="text-red-500 font-bannerText">
+                        *job title required
+                    </small>
+                </div>
+
+                <div class="w-1/2 flex gap-2">
+                    <div class="w-1/2 flex-col">
+                        <tui-input formControlName="companyName">
+                            Company Name
+                            <input tuiTextfield type="text" />
+                        </tui-input>
+                        <small *ngIf="experienceForm.get('companyName')?.errors?.['required'] && experienceForm.get('companyName')?.touched" class="text-red-500 font-bannerText">
+                            *company name required
+                    </small>
+                    </div>
+                    <div class="w-1/2 flex-col">
+                        <tui-select class="w-full" formControlName="jobType">
+                            Job Type
+                            <input tuiTextfield class="w-full">
+                            <tui-data-list-wrapper
+                                *tuiDataList
+                                [items]="jobtype"
+                            ></tui-data-list-wrapper>
+                        </tui-select>
+                        <small *ngIf="experienceForm.get('jobType')?.errors?.['required'] && experienceForm.get('jobType')?.touched" class="text-red-500 font-bannerText">
+                            *job type
+                        </small>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="flex gap-5 w-full py-3">
+
+                <div class="w-1/2 flex gap-2">
+
+                    <div class="w-1/2">
+                        <tui-input-date formControlName="startDate" class="w-full">
+                            Start date
+                            <input tuiTextfield />
+                        </tui-input-date>
+                        <small *ngIf="experienceForm.get('startDate')?.errors?.['required'] && experienceForm.get('startDate')?.touched" class="text-red-500 font-bannerText">
+                            *start date required
+                        </small>
+                    </div>
+
+                    <div class="w-1/2 flex-col">
+                        <tui-input-date formControlName="endDate" class="w-full">
+                            End date
+                            <input tuiTextfield />
+                        </tui-input-date>
+                        <tui-checkbox-labeled size="l" class="pt-2" formControlName="present" (change)="toggleEndDate($event)">
+                            present ?
+                        </tui-checkbox-labeled>
+                        <small *ngIf="experienceForm.get('endDate')?.errors?.['required'] && experienceForm.get('endDate')?.touched" class="text-red-500 font-bannerText">
+                            *end date required
+                        </small>
+                    </div>
+                </div>
+
+                <div class="w-1/2 flex-col">
+
+                    <div class="flex gap-2">
+                        <tui-input class="w-full" formControlName="city">
+                            City
+                            <input tuiTextfield type="text" class="w-full" >
+                        </tui-input>
+                        <small *ngIf="experienceForm.get('city')?.errors?.['required'] && experienceForm.get('city')?.touched" class="text-red-500 font-bannerText">
+                            *city required
+                        </small>
+                        <tui-select formControlName="state" class="w-full">
+                            Select State
+                            <input tuiTextfield class="w-full">
+                            <tui-data-list-wrapper
+                                *tuiDataList
+                                [items]="states"
+                            ></tui-data-list-wrapper>
+                        </tui-select>
+                        <small *ngIf="experienceForm.get('state')?.errors?.['required'] && experienceForm.get('state')?.touched" class="text-red-500 font-bannerText">
+                            *state required
+                        </small>
+                    </div>
+                    <tui-checkbox-labeled size="l" class="pt-2" formControlName="remort" (change)="toggleRemort($event)">
+                        remort (work from home) ?
+                    </tui-checkbox-labeled>
+
+                </div>
+
+            </div>
+
+            <div class="flex gap-5 w-full py-3">
+                <div class="flex-col w-full">
+                    <tui-textarea
+                    formControlName="overView"
+                    class="field-medium"
+                    [expandable]="true"
+                    [maxLength]="600">
+                    Type a text
+                </tui-textarea>
+                <small *ngIf="experienceForm.get('overView')?.errors?.['required'] && experienceForm.get('overView')?.touched" class="text-red-500 font-bannerText">
+                    *overview required
+                </small>
+                <small *ngIf="experienceForm.get('overView')?.errors?.['maxLength']" class="text-red-500 font-bannerText">
+                    *maximum length 600
+                </small>
+                </div>
+            </div>
+
+            <div class="flex my-3 flex-wrap w-full">
+                <div *ngFor="let control of technologies.controls; let i = index" class="w-1/3 flex flex-col" formArrayName="technologies">
+                    <div class="flex items-center w-full">
+                        <tui-input  [formControlName]="i" class="flex-grow">
+                            Technologies
+                            <input tuiTextfield type="text" class="w-full">
+                        </tui-input>
+                        @if (i != 0) {
+                            <button class="ml-2 bg-red-600 py-3 rounded-lg px-5" (click)="deletetechnology(i)">
+                                <i class="fa-solid fa-trash text-white"></i>
+                            </button>
+                        }
+                    </div>
+                    <small *ngIf="technologies.at(i).errors?.['required'] && technologies.at(i).touched" class="text-red-500 font-bannerText">
+                        *field is required
+                    </small>
+                </div>
+            </div>
+            <div class="flex space-x-3">
+                <button class="bg-blue-500 text-white font-bannerText py-3 justify-center w-1/3 rounded-lg" (click)="addTechnology()" type="button">Add Skill</button>  
+                <button class="bg-mainColor text-white font-bannerText py-3 justify-center w-2/3 rounded-lg" type="submit">Submit</button>  
+            </div>
+
+        </div>
+    </form>
+</div>

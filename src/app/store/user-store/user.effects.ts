@@ -1,6 +1,6 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Injectable } from "@angular/core";
-import { loadUserJobs, loadUserJobsSuccess, loadUser, loadUserSuccess, updateUserAbout, updateUserAboutSuccess } from './user.actions';
+import { loadUserJobs, loadUserJobsSuccess, loadUser, loadUserSuccess, updateUserAbout, updateUserAboutSuccess, addUserExperience } from './user.actions';
 import { EMPTY, catchError, exhaustMap, map } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 
@@ -51,14 +51,29 @@ export class userEffects {
         exhaustMap((action) => {
             return this.apiService.userUpdateProfile(action.newData, action.userId).pipe(
                 map((data:any) => {
-                    console.log('update user about');
-                    
-                    console.log(data);
-                    
                     return updateUserAboutSuccess({ newData:data.updatedData })
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on updateUserProfile effect:', error);
+                    return EMPTY;
+                })
+            )
+        })
+    ))
+
+    addUserExperience = createEffect(() => this.actions.pipe(
+        ofType(addUserExperience),
+        exhaustMap((action) => {
+            return this.apiService.userUpdateExperience(action.experience, action.userId, action.exp_id ).pipe(
+                map((data:any) => {
+                    console.log('updated experience');
+                    console.log(data);
+                    console.log(data.updatedData);
+                    
+                    return updateUserAboutSuccess({ newData:data.updatdData })
+                }),
+                catchError((error) => {
+                    console.error('HTTP Error on addUserExperienve effect:', error);
                     return EMPTY;
                 })
             )

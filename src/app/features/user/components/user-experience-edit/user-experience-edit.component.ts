@@ -1,10 +1,144 @@
-import { Component } from '@angular/core';
+import { User, experience } from './../../../../store/user-store/user.model';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { addUserExperience } from '../../../../store/user-store/user.actions';
+import { getExperienceById, getUserId } from '../../../../store/user-store/user.selector';
+import { TuiDialogContext } from '@taiga-ui/core';
+import { UserProfileEditModalService } from '../../services/user-profile-edit-modal.service';
 
 @Component({
   selector: 'app-user-experience-edit',
   templateUrl: './user-experience-edit.component.html',
   styleUrl: './user-experience-edit.component.scss'
 })
-export class UserExperienceEditComponent {
+export class UserExperienceEditComponent implements OnInit{
+
+  userId!:string;
+  jobtype:string[] = ['InterShip', 'Partime', 'FullTime']
+  states:string[] = ['Kerala', 'Karnataka','Tengala']
+
+  Heading:string = 'Add Experience'
+  exp:experience | undefined;
+
+  experienceForm!:FormGroup;
+
+  constructor(
+    private formBuilder:FormBuilder,
+    private userStore:Store<{ user:User }>,
+    @Inject(POLYMORPHEUS_CONTEXT)
+    private readonly context: TuiDialogContext<string, string>,
+    private profileEditService: UserProfileEditModalService
+  ) {}
+
+  ngOnInit(): void {
+    this.userStore.select(getUserId).subscribe((res) => {
+      this.userId = res
+    })
+    if(this.data) {
+      this.Heading = 'Edit Experience'
+      this.userStore.select(getExperienceById(this.data)).subscribe( res => {
+        this.exp = res
+      } ) 
+    }
+    this.experienceForm = this.formBuilder.group({
+      jobTitle: [this.exp?.jobTitle || '', [Validators.required]],
+      companyName: [this.exp?.companyName || '', [Validators.required]],
+      jobType: [this.exp?.jobType || '', [Validators.required]],
+      startDate: ['', [Validators.required]],
+      endDate: ['', [Validators.required]],
+      present: [this.exp?.present || false, [Validators.required]],
+      city: [this.exp?.city || '', [Validators.required]],
+      state: [this.exp?.state || '', [Validators.required]],
+      remort: [this.exp?.remort || false, [Validators.required]],
+      overView: [this.exp?.overView || '', [Validators.required, Validators.maxLength(600)]],
+      technologies : this.initSkills() 
+    })
+  }
+
+  initSkills() {
+    const skillsArray = this.formBuilder.array([])
+    if (this.exp && this.exp.technologies) {
+      this.exp.technologies.forEach(res => {
+        skillsArray.push(this.formBuilder.control(res, Validators.required))
+      });
+    } else {
+      skillsArray.push(this.formBuilder.control('', Validators.required))
+    }
+    return skillsArray
+  }
+
+  get data(): string {
+    return this.context.data
+  }
+
+  get technologies(): FormArray {
+    return this.experienceForm.get('technologies') as FormArray
+  }
+
+  addTechnology() {
+    (<FormArray>this.experienceForm.get('technologies')).push(new FormControl('', Validators.required))
+  }
+
+  deletetechnology(index:number) {
+    this.technologies.removeAt(index)
+  }
+
+  toggleEndDate(event:Event) {
+    const checkbox = event.target as HTMLInputElement;
+    const present = checkbox.checked;
+
+    const endDateControl = this.experienceForm.get('endDate');
+    if (present) {
+      endDateControl?.setValue('');
+      endDateControl?.disable();
+      endDateControl?.clearValidators();
+    } else {
+      endDateControl?.enable();
+      endDateControl?.setValidators(Validators.required);
+    }
+
+    endDateControl?.updateValueAndValidity();
+  }
+
+  toggleRemort(event:Event) {
+    const checkbox = event.target as HTMLInputElement;
+    const remort = checkbox.checked;
+
+    const cityControll = this.experienceForm.get('city');
+    const stateControll = this.experienceForm.get('state')
+
+    if (remort) {
+      cityControll?.setValue('');
+      stateControll?.setValue('');
+      cityControll?.disable();
+      stateControll?.disable();
+      cityControll?.clearValidators();
+      stateControll?.clearValidators();
+    } else {
+      cityControll?.enable();
+      stateControll?.enable();
+      cityControll?.setValidators(Validators.required);
+      stateControll?.setValidators(Validators.required);
+    }
+
+    cityControll?.updateValueAndValidity();
+    stateControll?.updateValueAndValidity();
+  }
+
+  submitExperience() {
+    if (this.experienceForm.valid) {
+      const experience = this.experienceForm.value
+      this.profileEditService.closeUserexperienceEditModal()
+      if (this.exp?._id) {
+        this.userStore.dispatch(addUserExperience({ experience:experience, userId:this.userId, exp_id:this.exp._id }))
+      } else {
+        this.userStore.dispatch(addUserExperience({ experience:experience, userId:this.userId }))
+      }
+    } else {
+      this.experienceForm.markAllAsTouched()
+    }
+  }
 
 }

@@ -41,16 +41,18 @@ export interface UserMainDetails {
 }
 
 export interface experience {
+    _id?:string,
     jobTitle: string,
     companyName: string,
     jobType: string,
     startDate: Date,
-    endDate: Date | string,
+    endDate?: Date,
+    present: boolean,
     city?: string,
     state?: string,
     remort: boolean,
     overView: string,
-    skills: string[],
+    technologies: string[],
 }
 
 export interface education {

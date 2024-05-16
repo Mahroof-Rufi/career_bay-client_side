@@ -1,3 +1,4 @@
+import { experience } from './../store/user-store/user.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
@@ -33,6 +34,10 @@ export class AuthService {
 
   userUpdateProfile(newData:EditUser | FormData, userID:string) {
     return this.http.patch(`http://localhost:3000/${userID}`, newData )
+  }
+
+  userUpdateExperience(experience:experience, user_id:string, exp_id?:string) {
+    return this.http.patch(`http://localhost:3000/update-experience/${user_id}`, { exp:experience, exp_id:exp_id })
   }
 
   userResetPassword(data:FormGroup):Observable<any> {
