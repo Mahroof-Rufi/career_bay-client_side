@@ -1,1 +1,33 @@
-<p>user-skills-edit works!</p>
+<div>
+    <div class="flex justify-center my-5">
+        <h1 class="text-4xl text-mainColor font-bannerText">Edit Skill</h1>
+    </div>
+    <form >
+        <div class="flex-col">
+
+            <div class="flex my-3 flex-wrap w-full">
+                <div *ngFor="let control of skills.controls; let i = index" class="w-1/3 flex flex-col">
+                    <div class="flex items-center w-full">
+                        <tui-input  [formControlName]="i" class="flex-grow">
+                            Skill
+                            <input tuiTextfield type="text" class="w-full">
+                        </tui-input>
+                        @if (i != 0) {
+                            <button class="ml-2 bg-red-600 py-3 rounded-lg px-5" (click)="deleteSkill(i)">
+                                <i class="fa-solid fa-trash text-white"></i>
+                            </button>
+                        }
+                    </div>
+                    <!-- <small *ngIf="technologies.at(i).errors?.['required'] && technologies.at(i).touched" class="text-red-500 font-bannerText">
+                        *field is required
+                    </small> -->
+                </div>
+            </div>
+
+            <div class="flex space-x-3">
+                <button class="bg-blue-500 text-white font-bannerText py-3 justify-center w-1/3 rounded-lg" (click)="addSkill()" type="button">Add Skill</button>  
+                <button class="bg-mainColor text-white font-bannerText py-3 justify-center w-2/3 rounded-lg" type="submit">Submit</button>  
+            </div>
+
+        </div>
+    </form>

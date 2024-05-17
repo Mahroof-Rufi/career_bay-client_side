@@ -1,4 +1,4 @@
-import { experience } from './../store/user-store/user.model';
+import { experience, education } from './../store/user-store/user.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
@@ -38,6 +38,10 @@ export class AuthService {
 
   userUpdateExperience(experience:experience, user_id:string, exp_id?:string) {
     return this.http.patch(`http://localhost:3000/update-experience/${user_id}`, { exp:experience, exp_id:exp_id })
+  }
+
+  userEditEducation(education:education, user_id:string, edcn_id?:string) {
+    return this.http.patch(`http://localhost:3000/update-education/${user_id}`, { edctn:education, edcn_id:edcn_id })
   }
 
   userResetPassword(data:FormGroup):Observable<any> {

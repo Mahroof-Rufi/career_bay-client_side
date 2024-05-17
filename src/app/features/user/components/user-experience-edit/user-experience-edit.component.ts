@@ -53,11 +53,11 @@ export class UserExperienceEditComponent implements OnInit{
       state: [this.exp?.state || '', [Validators.required]],
       remort: [this.exp?.remort || false, [Validators.required]],
       overView: [this.exp?.overView || '', [Validators.required, Validators.maxLength(600)]],
-      technologies : this.initSkills() 
+      technologies : this.initTechnologies() 
     })
   }
 
-  initSkills() {
+  initTechnologies() {
     const skillsArray = this.formBuilder.array([])
     if (this.exp && this.exp.technologies) {
       this.exp.technologies.forEach(res => {

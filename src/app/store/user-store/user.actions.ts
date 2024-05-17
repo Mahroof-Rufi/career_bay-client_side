@@ -1,5 +1,5 @@
 import { createAction, props } from "@ngrx/store";
-import { EditUser, User, experience } from "./user.model";
+import { EditUser, User, education, experience } from "./user.model";
 import { Job } from "../employer-store/employer.model";
 
 export const loadUser = createAction("loadUser");
@@ -12,3 +12,5 @@ export const updateUserAbout = createAction("updateUserAbout", props<{ newData:E
 export const updateUserAboutSuccess = createAction("updateUserAbout", props<{ newData:User }>());
 
 export const addUserExperience = createAction("addUserExperience", props<{ experience:experience, userId:string, exp_id?:string }>());
+
+export const editUserEducation = createAction("addUserEducation", props<{ education:education, userId:string, edcn_id?:string }>());

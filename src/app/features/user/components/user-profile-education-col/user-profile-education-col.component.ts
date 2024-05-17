@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { education } from '../../../../store/user-store/user.model';
 
 @Component({
   selector: 'app-user-profile-education-col',
@@ -6,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrl: './user-profile-education-col.component.scss'
 })
 export class UserProfileEducationColComponent {
+  @Input() education!:education;
 
 }

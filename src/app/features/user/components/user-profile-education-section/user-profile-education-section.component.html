@@ -3,8 +3,15 @@
         <span class="flex text-mainGrey text-sm font-bannerText"><i class="fa-solid fa-graduation-cap text-sm text-mainColor pr-1"></i>Education</span>
         <span class="flex text-mainGrey text-sm font-bannerText items-start cursor-pointer" (click)="openEditEducation()"><i class="fa-solid fa-plus text-sm pr-1"></i>Add</span>
     </div> 
-    <div class="grid grid-cols-2 w-full">
-        <app-user-profile-education-col></app-user-profile-education-col>
-        <app-user-profile-education-col></app-user-profile-education-col>
-    </div>
+    @if (educations?.length) {
+        <div class="grid grid-cols-2 w-full">
+            @for (edction of educations; track $index) {
+                <app-user-profile-education-col [education]="edction"></app-user-profile-education-col>
+            }
+        </div>
+    } @else { 
+        <div class="experience-section-placeholder text-center py-5 rounded">
+            <p class="placeholder-message text-lg text-red-600 font-bannerText">You haven't added any education to your profile yet. Share your education background to complete your profile.</p>
+        </div>          
+    }
 </div>

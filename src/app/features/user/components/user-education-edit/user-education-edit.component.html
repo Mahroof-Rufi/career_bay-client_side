@@ -1,1 +1,89 @@
-<p>user-education-edit works!</p>
+<div>
+    <div class="flex justify-center my-3">
+        <h1 class="text-4xl text-mainColor font-bannerText">Add Education</h1>
+    </div>
+    <form [formGroup]="educationForm" (ngSubmit)="submitEducation()">
+        <div class="flex-col">
+
+            <div class="flex gap-5 w-full">
+
+                <div class="w-1/2 flex-col">
+                    <tui-input formControlName="universityName">
+                        University Name
+                        <input tuiTextfield type="text"/>
+                    </tui-input>
+                    <small *ngIf="educationForm.get('universityName')?.errors?.['required'] && educationForm.get('universityName')?.touched" class="text-red-500 font-bannerText">
+                        *university name required
+                    </small>
+                </div>
+                <div class="w-1/2 flex-col" >
+                    <tui-input formControlName="subject">
+                        Subject
+                        <input tuiTextfield type="text"/>
+                    </tui-input>
+                    <small *ngIf="educationForm.get('subjectName')?.errors?.['required'] && educationForm.get('subjectName')?.touched" class="text-red-500 font-bannerText">
+                        *subject name required
+                    </small>
+                </div>
+
+            </div>
+
+            <div class="flex gap-5 w-full py-3">
+
+                <div class="w-1/2 flex gap-2">
+                    <div class="w-1/2">
+                        <tui-input-date class="w-full" formControlName="startDate">
+                            Start date
+                            <input tuiTextfield />
+                        </tui-input-date>
+                        <small *ngIf="educationForm.get('startDate')?.errors?.['required'] && educationForm.get('startDate')?.touched" class="text-red-500 font-bannerText">
+                            *start date required
+                        </small>
+                    </div>
+                    <div class="w-1/2 flex-col">
+                        <tui-input-date formControlName="endDate" class="w-full">
+                            End date
+                            <input tuiTextfield />
+                        </tui-input-date>
+                        <tui-checkbox-labeled size="l" class="pt-2" formControlName="present" (change)="preset($event)">
+                            present ?
+                        </tui-checkbox-labeled>
+                        <small *ngIf="educationForm.get('endDate')?.errors?.['required'] && educationForm.get('endDate')?.touched" class="text-red-500 font-bannerText">
+                            *end date required
+                        </small>
+                    </div>
+                </div>
+                <div class="w-1/2 flex-col">
+                    <div class="flex gap-2">
+                        <tui-input class="w-full" formControlName="city">
+                            City
+                            <input tuiTextfield type="text" class="w-full" >
+                        </tui-input>
+                        <small *ngIf="educationForm.get('city')?.errors?.['required'] && educationForm.get('city')?.touched" class="text-red-500 font-bannerText">
+                            *city required
+                        </small>
+                        <tui-select formControlName="state" class="w-full">
+                            Select State
+                            <input tuiTextfield class="w-full">
+                            <tui-data-list-wrapper
+                                *tuiDataList
+                            ></tui-data-list-wrapper>
+                        </tui-select>
+                        <small *ngIf="educationForm.get('state')?.errors?.['required'] && educationForm.get('state')?.touched" class="text-red-500 font-bannerText">
+                            *state required
+                        </small>
+                    </div>
+                    <tui-checkbox-labeled size="l" class="pt-2" formControlName="distance" (change)="distance($event)">
+                        distance education ?
+                    </tui-checkbox-labeled>
+                </div>
+
+            </div>
+
+            <div class="flex space-x-3">
+                <button class="bg-mainColor text-white font-bannerText py-3 justify-center w-full rounded-lg" type="submit">Submit</button>  
+            </div>
+
+        </div>
+    </form>
+</div>
