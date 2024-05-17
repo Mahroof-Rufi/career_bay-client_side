@@ -47,3 +47,9 @@ export const getEducationById = (edctn_id:string) => createSelector(getUserState
         return state.user.educations?.find((edc) => edc._id == edctn_id)
     }
 )
+
+export const getUserSkills = createSelector(getUserState,
+    (state: userStateModel) => {
+        return state.user.skills
+    }
+)

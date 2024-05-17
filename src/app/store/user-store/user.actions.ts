@@ -14,3 +14,5 @@ export const updateUserAboutSuccess = createAction("updateUserAbout", props<{ ne
 export const addUserExperience = createAction("addUserExperience", props<{ experience:experience, userId:string, exp_id?:string }>());
 
 export const editUserEducation = createAction("addUserEducation", props<{ education:education, userId:string, edcn_id?:string }>());
+
+export const updateUserSkills = createAction("updateUserSkills", props<{ skills:string[], user_id:string }>())

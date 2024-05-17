@@ -7,6 +7,7 @@ import { noSpaceAllowed } from '../../../../validators/no-space-allowed.validato
 import { updateUserAbout } from '../../../../store/user-store/user.actions';
 import { AuthService } from '../../../../services/auth.service';
 import { TuiDay } from '@taiga-ui/cdk';
+import { UserProfileEditModalService } from '../../services/user-profile-edit-modal.service';
 
 @Component({
   selector: 'app-user-main-details-edit',
@@ -25,7 +26,7 @@ export class UserMainDetailsEditComponent implements OnInit{
   constructor(
     private formBuilder:FormBuilder,
     private userStore:Store<{ user:User }>,
-    private apiService:AuthService
+    private profileEditService:UserProfileEditModalService
   ) {}
 
   ngOnInit(): void {
@@ -85,10 +86,8 @@ export class UserMainDetailsEditComponent implements OnInit{
       if (resume && resume.files && resume.files.length > 0) {
         newFormData.append('resume-file',resume.files[0])       
       }
-
-      console.log('if');
       this.userStore.dispatch(updateUserAbout({ newData:newFormData, userId:this.user_id }))
-      
+      this.profileEditService.closeUserMainDetailsModal()
     } else {
       console.log('eklse');
       this.profileForm.markAllAsTouched()

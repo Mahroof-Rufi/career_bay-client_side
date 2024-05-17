@@ -1,5 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { User } from '../../../../store/user-store/user.model';
+import { getUserId, getUserSkills } from '../../../../store/user-store/user.selector';
+import { updateUserSkills } from '../../../../store/user-store/user.actions';
+import { UserProfileEditModalService } from '../../services/user-profile-edit-modal.service';
 
 @Component({
   selector: 'app-user-skills-edit',
@@ -7,15 +12,20 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
   styleUrl: './user-skills-edit.component.scss'
 })
 export class UserSkillsEditComponent implements OnInit{
-  @Input() userSkills!:string[];
 
+  userSkills:string[] | undefined;
   skillsform!:FormGroup;
+  user_id!:string;
 
   constructor(
-    private formBuilder:FormBuilder
+    private formBuilder:FormBuilder,
+    private userStore:Store<{ user:User }>,
+    private profileEditService:UserProfileEditModalService
   ) {}
 
   ngOnInit(): void {
+    this.userStore.select(getUserSkills).subscribe((skills) => this.userSkills = skills)
+    this.userStore.select(getUserId).subscribe((id) => this.user_id = id)
     this.skillsform = this.formBuilder.group({
       skills : this.initSkills() 
     })
@@ -43,6 +53,16 @@ export class UserSkillsEditComponent implements OnInit{
 
   deleteSkill(index:number) {
     this.skills.removeAt(index)
+  }
+
+  submitSkills() {
+    if (this.skillsform.valid) {
+      const skillsValues:string[] = this.skillsform.get('skills')?.value
+      this.profileEditService.closeUserSkillsEditModal()
+      this.userStore.dispatch(updateUserSkills({ skills:skillsValues, user_id:this.user_id }))
+    } else {
+      this.skillsform.markAllAsTouched()
+    }
   }
 
 }

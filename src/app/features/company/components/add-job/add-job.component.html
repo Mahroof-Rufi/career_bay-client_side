@@ -181,7 +181,7 @@
                         <button class="ml-2 bg-red-600 py-3 rounded-lg px-5" (click)="deletequalification(i)" *ngIf="i != 0">
                             <i class="fa-solid fa-trash text-white"></i>
                         </button>
-                    </div>
+                    </div>  
                     <small *ngIf="qualifications.at(i).errors?.['required'] && qualifications.at(i).touched" class="text-red-500 font-bannerText">
                         *Qualification is required
                     </small>

@@ -1,6 +1,6 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Injectable } from "@angular/core";
-import { loadUserJobs, loadUserJobsSuccess, loadUser, loadUserSuccess, updateUserAbout, updateUserAboutSuccess, addUserExperience, editUserEducation } from './user.actions';
+import { loadUserJobs, loadUserJobsSuccess, loadUser, loadUserSuccess, updateUserAbout, updateUserAboutSuccess, addUserExperience, editUserEducation, updateUserSkills } from './user.actions';
 import { EMPTY, catchError, exhaustMap, map } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 
@@ -87,6 +87,22 @@ export class userEffects {
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on edit user education effect:', error);
+                    return EMPTY;
+                })
+            )
+        })
+    ))
+
+    editUserSkills = createEffect(() => this.actions.pipe(
+        ofType(updateUserSkills),
+        exhaustMap((action) => {
+            return this.apiService.userUpdateSkills(action.skills, action.user_id).pipe(
+                map((data:any) => {
+                    console.log(data);
+                    return updateUserAboutSuccess({ newData:data.updatdData })
+                }),
+                catchError((error) => {
+                    console.error('HTTP Error on edit user skills effect:', error);
                     return EMPTY;
                 })
             )

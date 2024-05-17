@@ -6,6 +6,16 @@
         </div>
     </div>
     <div class="flex px-5 py-3 w-full">
-        <p class="text-lg text-mainGrey font-bannerText">Javascript, TypeScript, Node JS, Express JS, MongoDB, Angular, Git, Github, HTML, CSS, Bootstrap, Tailwind</p>
+        @if (skills?.length) {
+            @for (skill of skills; track $index) {
+                <p class="text-lg text-mainGrey font-bannerText">
+                    {{ skill }} ,
+                </p>
+            }
+        } @else {
+            <div class="experience-section-placeholder text-center py-5 rounded">
+                <p class="placeholder-message text-lg text-red-600 font-bannerText">You haven't added any experience to your profile yet. Share your professional background to complete your profile.</p>
+            </div>
+        }    
     </div>  
 </div>

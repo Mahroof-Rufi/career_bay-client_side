@@ -44,6 +44,10 @@ export class AuthService {
     return this.http.patch(`http://localhost:3000/update-education/${user_id}`, { edctn:education, edcn_id:edcn_id })
   }
 
+  userUpdateSkills(skills:string[], user_id:string) {
+    return this.http.patch(`http://localhost:3000/update-skills/${user_id}`, { skills:skills })
+  }
+
   userResetPassword(data:FormGroup):Observable<any> {
     return this.http.patch('http://localhost:3000/forgot-password', data)
   }
