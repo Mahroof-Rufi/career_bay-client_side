@@ -56,6 +56,7 @@ export interface experience {
 }
 
 export interface education {
+    _id?:string,
     universityName: string,
     city?: string,
     state?: string,

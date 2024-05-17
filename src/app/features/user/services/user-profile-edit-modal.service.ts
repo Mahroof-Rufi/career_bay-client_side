@@ -141,7 +141,15 @@ export class UserProfileEditModalService {
 
 
 
-  openUserEducationEditModal() {
+  openUserEducationEditModal(edct_id?:string) {
+    if (edct_id) {
+      this.educationAddandEditDialogue = this.dialogueService.open<any>(
+        new PolymorpheusComponent(UserEducationEditComponent, this.injector),
+        {
+          size:'l',
+          data:edct_id
+        })
+    }
     if (this.educationAddandEditDialogue) {
       this.educationAddandEditSubsciption = this.educationAddandEditDialogue.subscribe((result) => {
 

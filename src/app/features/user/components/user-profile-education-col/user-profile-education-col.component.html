@@ -3,7 +3,7 @@
         <div class="flex-col w-full justify-start px-5 pt-5">
             <div class="flex justify-between">
                 <h1 class="text-3xl text-mainGrey font-bold">{{ education.universityName }}</h1>
-                <span class="flex text-mainColor justify-end pt-2 text-sm font-bannerText items-start cursor-pointer"><i class="fa-solid fa-pen text-sm pr-1"></i>Edit</span>
+                <span class="flex text-mainColor justify-end pt-2 text-sm font-bannerText items-start cursor-pointer" (click)="openEditEducation(education?._id)"><i class="fa-solid fa-pen text-sm pr-1"></i>Edit</span>
             </div>
             @if (education.distance) {
                 <span class="flex items-center text-mainGrey text-sm font-bannerText my-2"><i class="fa-solid fa-location-dot text-mainColor text-lg mr-1"></i>Distance Education</span>

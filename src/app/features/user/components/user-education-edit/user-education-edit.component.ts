@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { User } from '../../../../store/user-store/user.model';
+import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { User, education } from '../../../../store/user-store/user.model';
 import { editUserEducation } from '../../../../store/user-store/user.actions';
-import { getUserId } from '../../../../store/user-store/user.selector';
+import { getEducationById, getUserId } from '../../../../store/user-store/user.selector';
 import { UserProfileEditModalService } from '../../services/user-profile-edit-modal.service';
+import { TuiDialogContext } from '@taiga-ui/core';
 
 @Component({
   selector: 'app-user-education-edit',
@@ -14,28 +16,42 @@ import { UserProfileEditModalService } from '../../services/user-profile-edit-mo
 export class UserEducationEditComponent implements OnInit{
 
   educationForm!:FormGroup;
+
+  Heading:string = "Add Education" 
   userId!:string;
+  eductn:education | undefined;
 
   constructor(
     private formBuilder:FormBuilder,
     private userStore:Store<{ user:User }>,
-    private profileEditService:UserProfileEditModalService
+    private profileEditService:UserProfileEditModalService,
+    @Inject(POLYMORPHEUS_CONTEXT)
+    private readonly context: TuiDialogContext<string, string>,
   ) {}
 
   ngOnInit(): void {
     this.userStore.select(getUserId).subscribe((res) => this.userId = res)
+    if(this.data) {
+      this.Heading = 'Edit Education'
+      this.userStore.select(getEducationById(this.data)).subscribe( res => {
+        this.eductn = res
+      }) 
+    }
     this.educationForm = this.formBuilder.group({
-      universityName: ['', [Validators.required]],
-      subject: ['', [Validators.required]],
-      startDate: ['', [Validators.required]],
-      endDate: ['', [Validators.required]],
-      present: [false, [Validators.required]],
-      city: ['', [Validators.required]],
-      state: ['', [Validators.required]],
-      distance: [false, [Validators.required]]
+      universityName: [this.eductn?.universityName || '', [Validators.required]],
+      subject: [this.eductn?.subject || '', [Validators.required]],
+      startDate: [this.eductn?.startDate || '', [Validators.required]],
+      endDate: [this.eductn?.endDate ||'', [Validators.required]],
+      present: [this.eductn?.present || false, [Validators.required]],
+      city: [this.eductn?.city || '', [Validators.required]],
+      state: [this.eductn?.state || '', [Validators.required]],
+      distance: [this.eductn?.distance || false, [Validators.required]]
     })
   }
 
+  get data(): string {
+    return this.context.data
+  }
 
   preset(event:Event) {
     const checkbox = event.target as HTMLInputElement;
@@ -83,7 +99,11 @@ export class UserEducationEditComponent implements OnInit{
 
   submitEducation() {
     if (this.educationForm.valid) {
-      this.userStore.dispatch(editUserEducation({ education:this.educationForm.value, userId:this.userId }))
+      if (this.eductn?._id) {
+        this.userStore.dispatch(editUserEducation({ education:this.educationForm.value, userId:this.userId, edcn_id:this.eductn._id }))
+      } else {
+        this.userStore.dispatch(editUserEducation({ education:this.educationForm.value, userId:this.userId }))
+      }
       this.profileEditService.closeUserEducationEditModdal()
     } else {
       this.educationForm.markAllAsTouched()

@@ -41,3 +41,9 @@ export const getExperienceById = (exp_id:string) => createSelector(getUserState,
         return state.user.experiences?.find((exp) => exp._id == exp_id)
     }
 )
+
+export const getEducationById = (edctn_id:string) => createSelector(getUserState,
+    (state: userStateModel) => {
+        return state.user.educations?.find((edc) => edc._id == edctn_id)
+    }
+)
