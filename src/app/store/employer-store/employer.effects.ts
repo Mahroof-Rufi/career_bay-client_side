@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core"
 import { Actions, createEffect, ofType } from "@ngrx/effects"
 import { AuthService } from "../../services/auth.service"
 import { EMPTY, catchError, exhaustMap, map } from "rxjs"
-import { loadEmployer, loadEmployerJobs, loadEmployerJobsSuccess, loadEmployerSuccess } from "./employer.actions"
+import { loadApplicants, loadApplicantsSucces, loadEmployer, loadEmployerJobs, loadEmployerJobsSuccess, loadEmployerSuccess, updateCandidateStatus } from "./employer.actions"
 
 @Injectable()
 export class employerEffects {
@@ -32,12 +32,40 @@ export class employerEffects {
         exhaustMap((action) => {
             return this.apiService.companyFetchJobs().pipe(
                 map((data) => {
-                    console.log('here succe');
-                    console.log(data);
                     return loadEmployerJobsSuccess({jobs:data.jobs})
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on loadEmployerJobs effect:', error);
+                    return EMPTY;
+                })
+            )
+        })
+    ))
+
+    loadJobApplication = createEffect(() => this.actions.pipe(
+        ofType(loadApplicants),
+        exhaustMap((action) => {
+            return this.apiService.companyLoadJobApplicants(action.employer_id, action.jobId).pipe(
+                map((data) => {
+                    return loadApplicantsSucces({ applicants:data.appliedusers })
+                }),
+                catchError((error) => {
+                    console.error('HTTP Error on loadEmployerApplicants effect:', error);
+                    return EMPTY;
+                })
+            )
+        })
+    ))
+
+    updateCandidateStatus = createEffect(() => this.actions.pipe(
+        ofType(updateCandidateStatus),
+        exhaustMap((action) => {
+            return this.apiService.updateCandidateStatus(action.employer_id, action.job_id, action.user_id, action.newStatus).pipe(
+                map((data) => {
+                    return loadApplicantsSucces({ applicants:data.updatedData })
+                }),
+                catchError((error) => {
+                    console.error('HTTP Error on updateCandidateStatus effect:', error);
                     return EMPTY;
                 })
             )

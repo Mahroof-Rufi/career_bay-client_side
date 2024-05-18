@@ -5,7 +5,7 @@ import { AuthService } from '../../../../services/auth.service';
 import { Store } from '@ngrx/store';
 import { getJobsData } from '../../../../store/employer-store/employer.selector';
 import { Router } from '@angular/router';
-import { TuiAlertService } from '@taiga-ui/core';
+import { TuiAlertService, TuiDialogService, TuiSizeL, TuiSizeS } from '@taiga-ui/core';
 import { DeleteJobConfirmationService } from '../../../../services/delete-job-confirmation.service';
 
 @Component({
@@ -23,7 +23,7 @@ export class JobComponent implements OnInit{
     private router:Router,
     private alert: TuiAlertService,
     private employerState: Store<{employer:Employer}>,
-    private deleteJobConfirmation: DeleteJobConfirmationService 
+    private deleteJobConfirmation: DeleteJobConfirmationService,
   ) {}
 
   ngOnInit(): void {
@@ -35,7 +35,7 @@ export class JobComponent implements OnInit{
     })
   }
 
-  trackByFn(index: number, job: Job): string {
+  trackByFn(job: Job): string {
     return job._id; 
   }  
   

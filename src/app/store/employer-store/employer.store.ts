@@ -1,9 +1,4 @@
-import { Employer, Job } from "./employer.model";
-
-export interface EmployerState {
-  employer: Employer;
-  jobs: Job[];
-}
+import { EmployerState } from "./employer.model";
 
 export const initialState: EmployerState = {
   employer: {
@@ -21,7 +16,13 @@ export const initialState: EmployerState = {
     X_url: '',
     instagram_url: ''
   },
-  jobs: []
+  jobs: [],
+  applicants: {
+    job_id: "",
+    appliedUsers: []
+  }
 };
 
+
+export { EmployerState };
 

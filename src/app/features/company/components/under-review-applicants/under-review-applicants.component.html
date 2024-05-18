@@ -1,0 +1,156 @@
+<div class="flex justify-between bg-white rounded-2xl">
+    <div class="relative my-4 mx-5 w-2/5">
+        <app-search></app-search>
+    </div>
+    <div class="my-auto mr-5">
+        
+    <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-white bg-mainColor hover:bg-orange-500 focus:ring-4 focus:outline-none focus:ring-orange-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">{{ routeQuery | titlecase }}<svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+    </svg>
+    </button>
+    
+    <!-- Dropdown menu -->
+    <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+         
+        @if (filteredOptions && filteredOptions.length) {
+            @for (option of filteredOptions; track $index) {
+                <li>
+                    <p (click)="navigateoptions(option)" class="block px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{option | titlecase}}</p>
+                </li>
+            }
+        } @else {
+            <h1>emply</h1>
+        }
+          
+        </ul>
+    </div>
+    </div>
+</div>
+
+    <div class="bg-white rounded-2xl  mx-5">
+
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+            @if (routeQuery == 'on-hold' || routeQuery == 'hired') {
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-white uppercase bg-mainColor dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 w-1/12 text-center">
+                                No:
+                            </th>
+                            <th scope="col" class="px-6 py-3 w-11/12 text-center">
+                                Candidates
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (user of filteredApplicants; track user.user_id._id; let idx = $index) {
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center">
+                                {{ idx + 1 }}.
+                            </th>
+                            <td class="px-6 py-4">
+                                <div class="flex justify-between w-5/6 border-2 border-gray-200 rounded-xl mx-auto">
+                                    <div class="flex items-center">
+                                        <img [src]="user.user_id?.profile_url" class="rounded-full w-16 h-16 px-2 py-2" alt="">
+                                        <div class="flex-col my-auto ml-2">
+                                            <h1 class="text-lg text-mainGrey font-bannerText">{{ user.user_id?.firstName }} {{ user.user_id?.lastName }}</h1>
+                                            <h1 class="text-sm text-thirdGrey font-bannerText">{{ user.user_id?.jobTitle }}</h1>
+                                        </div>
+                                    </div>
+                                    <div class="my-auto ml-auto mr-2">
+                                        <button class="bg-white border-2 rounded-full border-mainColor text-mainColor my-auto py-2 px-10">View</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+                
+            }@else {
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-white uppercase bg-mainColor dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 w-1/12 text-center">
+                                No:
+                            </th>
+                            <th scope="col" class="px-6 py-3 w-7/12 text-center">
+                                Candidates
+                            </th>
+                            <th scope="col" class="px-6 py-3 w-2/12 text-center">
+                                Accept
+                            </th>
+                            <th scope="col" class="px-6 py-3 w-2/12 text-center">
+                                Reject
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (!filteredApplicants.length) {
+                            <tr *ngIf="filteredApplicants.length === 0" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <td colspan="4" class="px-6 py-4 text-center text-lg font-medium text-gray-900 dark:text-white">
+                                    No candidates available at the moment.
+                                </td>
+                            </tr>
+                        } @else {
+                            @for (user of filteredApplicants; track user.user_id._id; let idx = $index) {
+                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center">
+                                        {{idx + 1}}.
+                                    </th>
+                                    <td class="px-6 py-4">
+                                        <div class="flex justify-between w-5/6 border-2 border-gray-200 rounded-xl mx-auto">
+                                            <div class="flex items-center">
+                                                <img [src]="user.user_id?.profile_url" class="rounded-full w-16 h-16 px-2 py-2" alt="">
+                                                <div class="flex-col my-auto ml-2">
+                                                    <h1 class="text-lg text-mainGrey font-bannerText">{{ user.user_id?.firstName }} {{ user.user_id?.lastName }}</h1>
+                                                    <h1 class="text-sm text-thirdGrey font-bannerText">{{ user.user_id?.jobTitle }}</h1>
+                                                </div>
+                                            </div>
+                                            <div class="my-auto ml-auto mr-2">
+                                                <button class="bg-white border-2 rounded-full border-mainColor text-mainColor my-auto py-2 px-10">View</button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    @if (routeQuery == 'finalists') {
+                                        <td class="px-6 py-4 text-center">
+                                            <button (click)="accept(user.user_id._id)" class="bg-green-500 hover:bg-green-300 rounded-lg py-2  text-white text-lg font-bannerText w-full">Send Offer</button>
+                                        </td>
+                                    }@else {
+                                        <td class="px-6 py-4 text-center">
+                                            <button (click)="accept(user.user_id._id)" class="bg-green-500 hover:bg-green-300 rounded-lg py-2 text-white text-lg font-bannerText w-full">Accept</button>
+                                        </td>
+                                    }
+                                    <td class="px-6 py-4 text-center">
+                                        <button class="bg-red-600 hover:bg-red-400 rounded-lg py-2 text-white text-lg font-bannerText w-full">Reject</button>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    
+</div>
+<div class="flex flex-col items-center my-2">
+    <span class="text-sm text-gray-700 dark:text-gray-400">
+        Showing <span class="font-semibold text-mainGrey dark:text-white">1</span> to <span class="font-semibold text-mainGrey dark:text-white">10</span> of <span class="font-semibold text-main dark:text-white">100</span> Entries
+    </span>
+    <div class="inline-flex space-x-3 mt-3 xs:mt-0">
+      
+      <button class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-mainColor rounded-lg hover:bg-orange-400 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+          <svg class="w-3.5 h-3.5 me-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5H1m0 0 4 4M1 5l4-4"/>
+          </svg>
+          Prev
+      </button>
+      <button class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-mainColor border-0 border-s rounded-lg hover:bg-orange-400 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+          Next
+          <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+        </svg>
+      </button>
+    </div>
+</div>

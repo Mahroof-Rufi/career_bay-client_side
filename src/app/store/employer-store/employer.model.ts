@@ -34,3 +34,19 @@ export interface Job {
     postedAt: Date,
     applicants?: string[]
 }
+
+export interface AppliedUser {
+    user_id: string,
+    status: string
+}
+
+export interface AppliedUsers{
+    job_id: string,
+    appliedUsers: []
+}
+
+export interface EmployerState {
+    employer: Employer;
+    jobs: Job[];
+    applicants: AppliedUsers;
+}

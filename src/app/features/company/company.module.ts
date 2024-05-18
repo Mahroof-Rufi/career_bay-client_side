@@ -8,6 +8,9 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { MainComponentComponent } from './components/main-component/main-component.component';
 import { AddJobComponent } from './components/add-job/add-job.component';
+import { TuiDataListDropdownManagerModule } from '@taiga-ui/kit';
+import { UnderReviewApplicantsComponent } from './components/under-review-applicants/under-review-applicants.component';
+import { ApplicationsConfirmationModalComponent } from './components/applications-confirmation-modal/applications-confirmation-modal.component';
 
 
 
@@ -19,6 +22,8 @@ import { AddJobComponent } from './components/add-job/add-job.component';
     EditProfileComponent,
     MainComponentComponent,
     AddJobComponent,
+    UnderReviewApplicantsComponent,
+    ApplicationsConfirmationModalComponent,
   ],
   imports: [
     CommonModule,

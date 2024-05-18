@@ -1,0 +1,27 @@
+@if (data.newStatus == 'on-hold') {
+    <div class="flex flex-col items-center">
+        <i class="fa-regular fa-circle-question text-6xl text-red-600"></i>
+        <div class="flex flex-col items-center mt-3">
+            <h1 class="text-center text-2xl text-red-600 font-bannerText">Send Offer</h1>
+            <p class="text-center text-lg text-mainGrey font-bannerText">Are you sure you want to send an offer to this candidate?</p>
+            <p class="text-center text-lg text-red-600 font-bannerText">This action will move the candidate to the On Hold section and send them a message. This action cannot be undone!</p>
+        </div>
+        <div class="mt-4">
+            <button class="bg-gray-300 hover:bg-gray-400 text-mainGrey font-bannerText py-2 px-4 rounded mr-2" (click)="cancel()">Cancel</button>
+            <button class="bg-green-500 hover:bg-green-400 text-white font-bannerText py-2 px-4 rounded" (click)="confirm()">Send Offer</button>
+        </div>
+    </div>    
+}@else {
+    <div class="flex flex-col items-center">
+        <i class="fa-regular fa-circle-question text-6xl text-green-500"></i>
+        <div class="flex flex-col items-center mt-3">
+            <h1 class="text-center text-2xl text-green-500 font-bannerText">Move to Next Step!</h1>
+            <p class="text-center text-lg text-mainGrey font-bannerText">Are you sure you want to move this candidate to the next step?</p>
+            <p class="text-center text-lg text-red-600 font-bannerText">This action cannot be undone!</p>
+        </div>
+        <div class="mt-4">
+            <button class="bg-gray-300 hover:bg-gray-400 text-mainGrey font-bannerText py-2 px-4 rounded mr-2" (click)="cancel()">Cancel</button>
+            <button class="bg-green-500 hover:bg-green-300 text-white font-bannerText py-2 px-4 rounded" (click)="confirm()">Move to Next Step</button>
+        </div>
+    </div>
+}

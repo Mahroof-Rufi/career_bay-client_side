@@ -6,9 +6,13 @@ const getEmployerState = createFeatureSelector<EmployerState>('employer');
 
 export const getEmployerData = createSelector(getEmployerState,
     (state: EmployerState) => {
-        console.log(state);
-        
         return state.employer
+    }
+);
+
+export const getEmployerId = createSelector(getEmployerState,
+    (state: EmployerState) => {
+        return state.employer._id
     }
 );
 
@@ -23,3 +27,10 @@ export const getJobById = (jobId:string) => createSelector(getEmployerState,
         return state.jobs.find((job:Job) => job._id === jobId)
     }
 )
+
+export const getApplicants = createSelector(getEmployerState,
+    (state: EmployerState) => {
+        return state.applicants
+    }
+)
+

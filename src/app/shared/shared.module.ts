@@ -5,6 +5,7 @@ import {
   TuiAvatarModule,
   TuiBadgedContentModule,
   TuiCheckboxLabeledModule,
+  TuiDataListDropdownManagerModule,
   TuiDataListWrapperModule, 
   TuiInputDateModule, 
   TuiInputFilesModule, 
@@ -16,7 +17,7 @@ import {
   TuiTextareaModule,
 } from '@taiga-ui/kit';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TuiAlertModule, TuiDataListModule, TuiHintModule, TuiTextfieldControllerModule, TuiTooltipModule } from '@taiga-ui/core';
+import { TuiAlertModule, TuiDataListModule, TuiHintModule, TuiHostedDropdownModule, TuiTextfieldControllerModule, TuiTooltipModule } from '@taiga-ui/core';
 import { HttpClientModule } from '@angular/common/http';
 import { LogoComponent } from './components/logo/logo.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -56,7 +57,9 @@ import { SearchComponent } from './components/search/search.component';
     TuiArrowModule,
     TuiBadgedContentModule,
     TuiAvatarModule,
-    
+    TuiDataListDropdownManagerModule,
+    TuiDataListWrapperModule,
+    TuiHostedDropdownModule
   ],
   exports: [
     TuiInputModule,
@@ -84,7 +87,10 @@ import { SearchComponent } from './components/search/search.component';
     TuiArrowModule,
     NavBarOptionsComponent,
     JobPostComponent,
-    SearchComponent
+    SearchComponent,
+    TuiDataListDropdownManagerModule,
+    TuiDataListWrapperModule ,
+    TuiHostedDropdownModule
   ]
 })
 export class SharedModule { }

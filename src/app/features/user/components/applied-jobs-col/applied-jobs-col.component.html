@@ -38,7 +38,8 @@
             </div>
             <div
               class="z-20 flex items-center order-1 shadow-xl w-8 h-8 rounded-full text-white text-center justify-center"
-              [ngClass]="{'bg-green-500': status === 'Review', 'bg-gray-500': status !== 'Review'}">
+              [ngClass]="{'bg-green-500': status === 'under-interview' || status === 'finalists' || status === 'on-hold' || status === 'hired',
+               'bg-gray-500': status !== 'under-interview' && status !== 'finalists' && status !== 'on-hold' && status !== 'hired'}">
               <i class="fa fa-check"></i>
             </div>
             <div class="order-1 w-5/12"></div>
@@ -48,7 +49,7 @@
             <div class="order-1 w-5/12"></div>
             <div
               class="z-20 flex items-center order-1 shadow-xl w-8 h-8 rounded-full text-white text-center justify-center"
-              [ngClass]="{'bg-green-500': status === 'Interview', 'bg-gray-500': status !== 'Interview'}">
+              [ngClass]="{'bg-green-500': status === 'finalists', 'bg-gray-500': status == 'under-interview'}">
               <i class="fa fa-check"></i>
             </div>
             <div class="order-1 w-5/12 px-6 py-4 bg-white rounded-lg shadow-xl">
@@ -62,7 +63,7 @@
             </div>
             <div
               class="z-20 flex items-center order-1 shadow-xl w-8 h-8 rounded-full text-white text-center justify-center"
-              [ngClass]="{'bg-green-500': status === 'Hired', 'bg-gray-500': status !== 'Hired'}">
+              [ngClass]="{'bg-green-500': status === 'hired', 'bg-gray-500': status !== 'hired'}">
               <i class="fa fa-check"></i>
             </div>
             <div class="order-1 w-5/12"></div>

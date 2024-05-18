@@ -58,9 +58,11 @@
                     </td>
                     <td class="px-6 py-4">
                         <div class="flex justify-between text-mainGrey text-sm">
-                            <i class="fa-regular fa-pen-to-square" (click)="addJob(job._id)"></i>
-                            <i class="fa-solid fa-trash" (click)="deleteJob(job._id)"></i>
+                            <i class="fa-regular fa-pen-to-square cursor-pointer" (click)="addJob(job._id)"></i>
+                            <i class="fa-solid fa-trash cursor-pointer" (click)="deleteJob(job._id)"></i>
+                            <i class="fa-solid fa-list-check cursor-pointer" [routerLink]="['/employer/job/applicants', job._id]"></i>
                         </div>
+                        
                     </td>
                 </tr>
             }
