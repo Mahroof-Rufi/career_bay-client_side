@@ -31,5 +31,6 @@ export interface Job {
     responsibilities: string[],
     qualifications: string[],
     active: boolean,
-    postedAt: Date
+    postedAt: Date,
+    applicants?: string[]
 }

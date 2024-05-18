@@ -22,6 +22,9 @@ import { UserAboutEditComponent } from './components/user-about-edit/user-about-
 import { UserExperienceEditComponent } from './components/user-experience-edit/user-experience-edit.component';
 import { UserEducationEditComponent } from './components/user-education-edit/user-education-edit.component';
 import { UserSkillsEditComponent } from './components/user-skills-edit/user-skills-edit.component';
+import { ApplyJobConfirmationComponent } from './components/apply-job-confirmation/apply-job-confirmation.component';
+import { AppliedJobsComponent } from './components/applied-jobs/applied-jobs.component';
+import { AppliedJobsColComponent } from './components/applied-jobs-col/applied-jobs-col.component';
 
 
 
@@ -45,7 +48,10 @@ import { UserSkillsEditComponent } from './components/user-skills-edit/user-skil
     UserAboutEditComponent,
     UserExperienceEditComponent,
     UserEducationEditComponent,
-    UserSkillsEditComponent
+    UserSkillsEditComponent,
+    ApplyJobConfirmationComponent,
+    AppliedJobsComponent,
+    AppliedJobsColComponent,
   ],
   imports: [
     CommonModule,

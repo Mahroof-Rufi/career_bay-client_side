@@ -6,14 +6,27 @@ export const initialState: userStateModel = {
     _id: '',
     firstName: '',
     lastName: '',
+    profile_url: '',
+    resume_url: '',
     email: '',
     jobTitle: '',
     industry: '',
     DOB: undefined,
     remort: false,
-    gender: ''
+    gender: '',
+    about: '',
+    city: '',
+    state: '',
+    gitHub_url: '',
+    portfolio_url: '',
+    experiences: [],
+    educations: [],
+    skills: [],
+    appliedJobs: [],
   },
-  jobs: []
+  jobs: [],
+  isApplied: false,
+  AppliedJobs: []
 }
 
 

@@ -17,4 +17,8 @@ export class UserProfileExperienceColComponent {
   openEditExperience(exp_id:string | undefined) {
     exp_id ? this.profileEditService.openUserexperienceEditModal(exp_id) : this.profileEditService.openUserexperienceEditModal()
   }
+
+  deleteExperience(exp_id:string | undefined) {
+
+  }
 }

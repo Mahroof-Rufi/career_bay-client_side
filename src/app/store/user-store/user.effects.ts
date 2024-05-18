@@ -1,6 +1,6 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Injectable } from "@angular/core";
-import { loadUserJobs, loadUserJobsSuccess, loadUser, loadUserSuccess, updateUserAbout, updateUserAboutSuccess, addUserExperience, editUserEducation, updateUserSkills } from './user.actions';
+import { loadUserJobs, loadUserJobsSuccess, loadUser, loadUserSuccess, updateUserAbout, updateUserAboutSuccess, addUserExperience, editUserEducation, updateUserSkills, applyJob, applyJobSucces, isApplied, isAppliedSucces, loadAppliedJobs, loadAppliedJobsSuccess } from './user.actions';
 import { EMPTY, catchError, exhaustMap, map } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 
@@ -98,11 +98,62 @@ export class userEffects {
         exhaustMap((action) => {
             return this.apiService.userUpdateSkills(action.skills, action.user_id).pipe(
                 map((data:any) => {
-                    console.log(data);
                     return updateUserAboutSuccess({ newData:data.updatdData })
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on edit user skills effect:', error);
+                    return EMPTY;
+                })
+            )
+        })
+    ))
+
+    applyJob = createEffect(() => this.actions.pipe(
+        ofType(applyJob),
+        exhaustMap((action) => {
+            return this.apiService.userApplyJob(action.user_id, action.job_id).pipe(
+                map((data:any) => {
+                    return applyJobSucces({ updatedUser:data.updatedUserData, updatedJob:data.updatedJobData })
+                }),
+                catchError((error) => {
+                    console.error('HTTP Error on applyJob effect:', error);
+                    return EMPTY;
+                })                
+            )
+        })
+    ))
+
+    isjobApplied = createEffect(() => this.actions.pipe(
+        ofType(isApplied),
+        exhaustMap((action) => {
+            return this.apiService.userVerifyApplication(action.userId, action.jobId).pipe(
+                map((data:any) => {
+                    console.log(data);
+                    console.log(data.isApplied);
+                    
+                    
+                    return isAppliedSucces({ isVerified:data.isApplied })
+                }),
+                catchError((error) => {
+                    console.error('HTTP Error on is applie effect:', error);
+                    return EMPTY;
+                }) 
+            )
+        })
+    ))
+
+    loadAppliedJobs = createEffect(() => this.actions.pipe(
+        ofType(loadAppliedJobs),
+        exhaustMap((action) => {
+            console.log('api call started');
+            
+            return this.apiService.userLoadAppliedJobs(action.user_id).pipe(
+                map((data:any) => {
+                    console.log(data.appliedJobs);
+                    return loadAppliedJobsSuccess({ appliedJobs:data.appliedJobs })
+                }),
+                catchError((error) => {
+                    console.error('HTTP Error on loadAppliedJobs effect:', error);
                     return EMPTY;
                 })
             )

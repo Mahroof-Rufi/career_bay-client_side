@@ -53,3 +53,15 @@ export const getUserSkills = createSelector(getUserState,
         return state.user.skills
     }
 )
+
+export const getJobIsApplid = createSelector(getUserState,
+    (state: userStateModel) => {
+        return state.isApplied
+    }
+)
+
+export const getAppliedJobs = createSelector(getUserState,
+    (state: userStateModel) => {
+        return state.AppliedJobs
+    }
+)

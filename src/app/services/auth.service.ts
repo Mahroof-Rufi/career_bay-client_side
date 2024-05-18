@@ -59,6 +59,18 @@ export class AuthService {
   fetchUserdata():Observable<any> {
     return this.http.get('http://localhost:3000/user')
   }
+
+  userApplyJob(user_id:string, job_id:string):Observable<any> {
+    return this.http.patch(`http://localhost:3000/apply-job/${user_id}`, {jobId:job_id})
+  }
+
+  userVerifyApplication(user_id:string, job_id:string):Observable<any> {
+    return this.http.post(`http://localhost:3000/verify-application/${user_id}`, {job_id:job_id})
+  }
+
+  userLoadAppliedJobs(user_id:string):Observable<any> {
+    return this.http.get(`http://localhost:3000/apply-job/${user_id}`)
+  }
  
 
 

@@ -18,7 +18,8 @@ export interface User {
     about?: string,
     experiences?: experience[],
     educations?: education[],
-    skills?: string[]
+    skills?: string[],
+    appliedJobs?: string[]
 }
 
 export interface UserMainDetails {
@@ -84,7 +85,8 @@ export interface Job {
     responsibilities: string[],
     qualifications: string[],
     active: boolean,
-    postedAt: Date
+    postedAt: Date,
+    applicants?: string[]
 }
 
 export interface EditUser {
@@ -109,5 +111,17 @@ export interface EditUser {
 
 export interface userStateModel {
     user:User,
-    jobs:Job[]
+    jobs:Job[],
+    isApplied:boolean,
+    AppliedJobs: AppliedJobs[]
+}
+
+export interface AppliedJob {
+    job_id: string,
+    status: string
+}
+
+export interface AppliedJobs{
+    user_id: string,
+    appliedJobs: [AppliedJob]
 }

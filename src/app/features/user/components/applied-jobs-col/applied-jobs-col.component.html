@@ -1,0 +1,75 @@
+<div class="bg-white shadow-md rounded-lg overflow-hidden">
+    <div class="p-4">
+      <a [routerLink]="['/user/job', Job.job_id._id]" class="text-xl font-semibold mb-2">{{ Job.job_id.jobTitle }}</a>
+      <p class="text-gray-600 mb-4">Company: <span class="font-medium">{{ Job.job_id.company_id.companyName }}</span></p>
+      <p class="text-gray-600 mb-4">Location: @if (Job.job_id.remort) {
+        <span class="font-medium">Remote</span>
+        } @else {
+        <span class="font-medium">{{ Job.job_id.city }}, {{ Job.job_id.state }}</span>
+        }
+      </p>
+      <p class="text-gray-600">Posted at: <span class="font-medium">{{ Job.job_id.postedAt }}</span></p>
+      
+      <!-- Show Status Button -->
+      <button (click)="toggleStatus()" class="mt-4 px-4 py-2 bg-mainColor text-white rounded hover:bg-orange-600 focus:outline-none">
+        {{ showStatus ? 'Hide Status' : 'Show Status' }}
+      </button>
+  
+      <!-- Status -->
+      <div *ngIf="showStatus" class="container mx-auto py-8">
+        <div class="relative">
+          <div class="absolute top-0 left-1/2 transform -translate-x-1/2 h-full w-1 bg-gray-300"></div>
+      
+          <div class="mb-8 flex justify-between items-center w-full right-timeline">
+            <div class="order-1 w-5/12"></div>
+            <div
+              class="z-20 flex items-center order-1 bg-green-500 shadow-xl w-8 h-8 rounded-full text-white text-center justify-center"
+              >
+              <i class="fa fa-check"></i>
+            </div>
+            <div class="order-1 w-5/12 px-6 py-4 bg-white rounded-lg shadow-xl">
+              <h3 class="mb-2 font-bold text-gray-800 text-xl">Apply</h3>
+            </div>
+          </div>
+      
+          <div class="mb-8 flex justify-between items-center w-full left-timeline">
+            <div class="order-1 w-5/12 px-6 py-4 bg-white rounded-lg shadow-xl">
+              <h3 class="mb-2 font-bold text-gray-800 text-xl">Review</h3>
+            </div>
+            <div
+              class="z-20 flex items-center order-1 shadow-xl w-8 h-8 rounded-full text-white text-center justify-center"
+              [ngClass]="{'bg-green-500': status === 'Review', 'bg-gray-500': status !== 'Review'}">
+              <i class="fa fa-check"></i>
+            </div>
+            <div class="order-1 w-5/12"></div>
+          </div>
+      
+          <div class="mb-8 flex justify-between items-center w-full right-timeline">
+            <div class="order-1 w-5/12"></div>
+            <div
+              class="z-20 flex items-center order-1 shadow-xl w-8 h-8 rounded-full text-white text-center justify-center"
+              [ngClass]="{'bg-green-500': status === 'Interview', 'bg-gray-500': status !== 'Interview'}">
+              <i class="fa fa-check"></i>
+            </div>
+            <div class="order-1 w-5/12 px-6 py-4 bg-white rounded-lg shadow-xl">
+              <h3 class="mb-2 font-bold text-gray-800 text-xl">Interview</h3>
+            </div>
+          </div>
+      
+          <div class="flex justify-between items-center w-full left-timeline">
+            <div class="order-1 w-5/12 px-6 py-4 bg-white rounded-lg shadow-xl">
+              <h3 class="mb-2 font-bold text-gray-800 text-xl">Hired</h3>
+            </div>
+            <div
+              class="z-20 flex items-center order-1 shadow-xl w-8 h-8 rounded-full text-white text-center justify-center"
+              [ngClass]="{'bg-green-500': status === 'Hired', 'bg-gray-500': status !== 'Hired'}">
+              <i class="fa fa-check"></i>
+            </div>
+            <div class="order-1 w-5/12"></div>
+          </div>
+      
+        </div>
+      </div>
+      
+    </div>
+  </div>
