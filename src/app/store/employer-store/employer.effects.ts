@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core"
 import { Actions, createEffect, ofType } from "@ngrx/effects"
 import { AuthService } from "../../services/auth.service"
 import { EMPTY, catchError, exhaustMap, map } from "rxjs"
-import { loadApplicants, loadApplicantsSucces, loadEmployer, loadEmployerJobs, loadEmployerJobsSuccess, loadEmployerSuccess, updateCandidateStatus } from "./employer.actions"
+import { loadApplicants, loadApplicantsSucces, loadEmployer, loadEmployerJobs, loadEmployerJobsSuccess, loadEmployerPosts, loadEmployerPostsSucces, loadEmployerSuccess, updateCandidateStatus } from "./employer.actions"
 
 @Injectable()
 export class employerEffects {
@@ -63,6 +63,23 @@ export class employerEffects {
             return this.apiService.updateCandidateStatus(action.employer_id, action.job_id, action.user_id, action.newStatus).pipe(
                 map((data) => {
                     return loadApplicantsSucces({ applicants:data.updatedData })
+                }),
+                catchError((error) => {
+                    console.error('HTTP Error on updateCandidateStatus effect:', error);
+                    return EMPTY;
+                })
+            )
+        })
+    ))
+
+    loadPosts = createEffect(() => this.actions.pipe(
+        ofType(loadEmployerPosts),
+        exhaustMap((action) => {
+            return this.apiService.fetchPosts().pipe(
+                map((data:any) => {
+                    console.log(data);
+                    
+                    return loadEmployerPostsSucces({ posts:data.posts })
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on updateCandidateStatus effect:', error);

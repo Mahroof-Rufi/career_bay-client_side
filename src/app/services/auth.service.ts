@@ -123,11 +123,19 @@ export class AuthService {
   }
 
   companyLoadJobApplicants(employerId:string,job_id:string):Observable<any> {
-    return this.http.post(`http://localhost:3000/employer/${employerId}`, {job_id:job_id})
+    return this.http.post(`http://localhost:3000/employer/applicants/${employerId}`, {job_id:job_id})
   }
 
   updateCandidateStatus(employer_id:string,job_id:string,user_id:string,newStatus:string):Observable<any> {
-    return this.http.patch(`http://localhost:3000/employer/${employer_id}`, { job_id:job_id, user_id:user_id, newStatus:newStatus })
+    return this.http.patch(`http://localhost:3000/employer/applicants/${employer_id}`, { job_id:job_id, user_id:user_id, newStatus:newStatus })
+  }
+  
+  fetchPosts() {
+    return this.http.get('http://localhost:3000/employer/post')
+  }
+
+  addPost(data:FormData):Observable<any> {
+    return this.http.post('http://localhost:3000/employer/post', data)
   }
   
   

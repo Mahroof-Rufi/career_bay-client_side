@@ -43,6 +43,7 @@ export class CompanyLoginComponent implements OnInit{
   submitLogin() {
     if (this.loginForm.valid) {
       this.authService.companyLogin(this.loginForm.value).subscribe((res) => {
+        console.log(res);
         
         const statusCode = res.employer.status; 
     

@@ -34,3 +34,8 @@ export const getApplicants = createSelector(getEmployerState,
     }
 )
 
+export const getPosts = createSelector(getEmployerState,
+    (state: EmployerState) => {
+        return state.posts
+    }
+)

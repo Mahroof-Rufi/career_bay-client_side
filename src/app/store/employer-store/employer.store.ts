@@ -17,6 +17,7 @@ export const initialState: EmployerState = {
     instagram_url: ''
   },
   jobs: [],
+  posts: [],
   applicants: {
     job_id: "",
     appliedUsers: []

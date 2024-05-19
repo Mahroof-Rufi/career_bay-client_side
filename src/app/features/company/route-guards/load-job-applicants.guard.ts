@@ -15,9 +15,6 @@ export const loadJobApplicantsGuard: CanActivateFn = (route, state) => {
     employer_id = id
   
     if (jobId && employer_id) {
-      console.log(jobId);
-      console.log(employer_id);
-      
       
       userStore.dispatch(loadApplicants({ employer_id:employer_id, jobId:jobId }))
     }

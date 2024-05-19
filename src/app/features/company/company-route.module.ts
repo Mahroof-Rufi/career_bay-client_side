@@ -8,12 +8,15 @@ import { loadEmployerDataGuard } from "./route-guards/load-employer-data.guard";
 import { loadEmployerJobsGuard } from "./route-guards/load-employer-jobs.guard";
 import { UnderReviewApplicantsComponent } from "./components/under-review-applicants/under-review-applicants.component";
 import { loadJobApplicantsGuard } from "./route-guards/load-job-applicants.guard";
+import { CompanyPostsComponentComponent } from "./components/company-posts-component/company-posts-component.component";
+import { loadEmployerPostsGuard } from "./route-guards/load-employer-posts.guard";
 const routes: Routes = [
     { path: 'employer', component:MainComponentComponent, children:[
         { path:'', redirectTo:'profile', pathMatch:'full' },
         { path: 'profile', component:ProfileComponent, canActivate:[loadEmployerDataGuard] },
         { path: 'jobs', component:JobComponent, canActivate:[loadEmployerJobsGuard] },
-        { path: 'job/applicants/:job_id', component:UnderReviewApplicantsComponent, canActivate:[loadEmployerDataGuard,loadJobApplicantsGuard] }
+        { path: 'job/applicants/:job_id', component:UnderReviewApplicantsComponent, canActivate:[loadEmployerDataGuard,loadJobApplicantsGuard] },
+        { path: 'posts', component:CompanyPostsComponentComponent, canActivate:[loadEmployerPostsGuard] }
     ] , canActivate:[employerAuthGuard,loadEmployerJobsGuard]}
 ]
 

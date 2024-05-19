@@ -44,31 +44,86 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for (user of filteredApplicants; track user.user_id._id; let idx = $index) {
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center">
-                                {{ idx + 1 }}.
-                            </th>
-                            <td class="px-6 py-4">
-                                <div class="flex justify-between w-5/6 border-2 border-gray-200 rounded-xl mx-auto">
-                                    <div class="flex items-center">
-                                        <img [src]="user.user_id?.profile_url" class="rounded-full w-16 h-16 px-2 py-2" alt="">
-                                        <div class="flex-col my-auto ml-2">
-                                            <h1 class="text-lg text-mainGrey font-bannerText">{{ user.user_id?.firstName }} {{ user.user_id?.lastName }}</h1>
-                                            <h1 class="text-sm text-thirdGrey font-bannerText">{{ user.user_id?.jobTitle }}</h1>
+                        @if (filteredApplicants.length) {
+                            @for (user of filteredApplicants; track user.user_id._id; let idx = $index) {
+                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center">
+                                        {{ idx + 1 }}.
+                                    </th>
+                                    <td class="px-6 py-4">
+                                        <div class="flex justify-between w-5/6 border-2 border-gray-200 rounded-xl mx-auto">
+                                            <div class="flex items-center">
+                                                <img [src]="user.user_id?.profile_url" class="rounded-full w-16 h-16 px-2 py-2" alt="">
+                                                <div class="flex-col my-auto ml-2">
+                                                    <h1 class="text-lg text-mainGrey font-bannerText">{{ user.user_id?.firstName }} {{ user.user_id?.lastName }}</h1>
+                                                    <h1 class="text-sm text-thirdGrey font-bannerText">{{ user.user_id?.jobTitle }}</h1>
+                                                </div>
+                                            </div>
+                                            <div class="my-auto ml-auto mr-2">
+                                                <button class="bg-white border-2 rounded-full border-mainColor text-mainColor my-auto py-2 px-10">View</button>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="my-auto ml-auto mr-2">
-                                        <button class="bg-white border-2 rounded-full border-mainColor text-mainColor my-auto py-2 px-10">View</button>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
+                                    </td>
+                                </tr>
+                                }
+                        } @else {
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <td colspan="4" class="px-6 py-4 text-center text-lg font-medium text-gray-900 dark:text-white">
+                                    No candidates available at the moment.
+                                </td>
+                            </tr>
                         }
                     </tbody>
                 </table>
                 
-            }@else {
+            }@else if (routeQuery == 'under-interview') {
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-white uppercase bg-mainColor dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-6 py-3  text-center">No:</th>
+                            <th scope="col" class="px-6 py-3 w-5/12 text-center">Candidates</th>
+                            <th scope="col" class="px-6 py-3 w-3/12 text-center">Schedule Interview</th>
+                            <th scope="col" class="px-6 py-3 w-2/12 text-center">Accept</th>
+                            <th scope="col" class="px-6 py-3 w-2/12 text-center">Reject</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (user of filteredApplicants; track user.user_id._id; let idx = $index) {
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center">
+                                    {{ idx + 1 }}.
+                                </th>
+                                <td class="px-6 py-4">
+                                    <div class="flex justify-between w-5/6 border-2 border-gray-200 rounded-xl mx-auto">
+                                        <div class="flex items-center">
+                                            <img [src]="user.user_id?.profile_url" class="rounded-full w-16 h-16 px-2 py-2" alt="">
+                                            <div class="flex-col my-auto ml-2">
+                                                <h1 class="text-lg text-mainGrey font-bannerText">{{ user.user_id?.firstName }} {{ user.user_id?.lastName }}</h1>
+                                                <h1 class="text-sm text-thirdGrey font-bannerText">{{ user.user_id?.jobTitle }}</h1>
+                                            </div>
+                                        </div>
+                                        <div class="my-auto ml-auto mr-2">
+                                            <button class="bg-white border-2 rounded-full border-mainColor text-mainColor my-auto py-2 px-10">View</button>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-2 py-4 text-center">
+                                    <button class="bg-blue-500 hover:bg-blue-300 rounded-lg py-2 text-white text-lg font-bannerText w-full">Schedule Interview</button>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <button (click)="accept(user.user_id._id)" class="bg-green-500 hover:bg-green-300 rounded-lg py-2 text-white text-lg font-bannerText w-full">
+                                        Accept
+                                    </button>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <button class="bg-red-600 hover:bg-red-400 rounded-lg py-2 text-white text-lg font-bannerText w-full">Reject</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                
+            } @else {
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-white uppercase bg-mainColor dark:bg-gray-700 dark:text-gray-400">
                         <tr>

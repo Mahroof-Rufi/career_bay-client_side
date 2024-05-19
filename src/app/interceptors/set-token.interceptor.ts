@@ -21,6 +21,7 @@ export const setTokenInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, ne
   return next(newReq).pipe(
     tap(event => {
       if (event instanceof HttpResponse) {
+        
         const responseToken = (event as HttpResponse<any>).body?.user?.token;
         const employerToken = (event as HttpResponse<any>).body?.employer?.token;
         const adminToken = (event as HttpResponse<any>).body?.admin?.adminToken;

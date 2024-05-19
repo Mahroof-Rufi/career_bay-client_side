@@ -11,6 +11,8 @@ import { AddJobComponent } from './components/add-job/add-job.component';
 import { TuiDataListDropdownManagerModule } from '@taiga-ui/kit';
 import { UnderReviewApplicantsComponent } from './components/under-review-applicants/under-review-applicants.component';
 import { ApplicationsConfirmationModalComponent } from './components/applications-confirmation-modal/applications-confirmation-modal.component';
+import { CompanyPostsComponentComponent } from './components/company-posts-component/company-posts-component.component';
+import { AddPostComponent } from './components/add-post/add-post.component';
 
 
 
@@ -24,6 +26,8 @@ import { ApplicationsConfirmationModalComponent } from './components/application
     AddJobComponent,
     UnderReviewApplicantsComponent,
     ApplicationsConfirmationModalComponent,
+    CompanyPostsComponentComponent,
+    AddPostComponent,
   ],
   imports: [
     CommonModule,

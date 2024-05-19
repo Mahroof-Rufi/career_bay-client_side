@@ -45,8 +45,27 @@ export interface AppliedUsers{
     appliedUsers: []
 }
 
+export interface Comment {
+    user_id: String;
+    comment: string;
+}
+
+export interface Post {
+    image_urls: string[];
+    description: string;
+    likes: string[];
+    comments: Comment[];
+    saved: string[];
+}
+
+export interface EmployerPosts {
+    employer_id?: String;
+    posts: Post[];
+}
+
 export interface EmployerState {
     employer: Employer;
     jobs: Job[];
+    posts: EmployerPosts[];
     applicants: AppliedUsers;
 }
