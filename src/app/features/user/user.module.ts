@@ -25,6 +25,7 @@ import { UserSkillsEditComponent } from './components/user-skills-edit/user-skil
 import { ApplyJobConfirmationComponent } from './components/apply-job-confirmation/apply-job-confirmation.component';
 import { AppliedJobsComponent } from './components/applied-jobs/applied-jobs.component';
 import { AppliedJobsColComponent } from './components/applied-jobs-col/applied-jobs-col.component';
+import { ChangeEmailComponent } from './components/change-email/change-email.component';
 
 
 
@@ -52,6 +53,7 @@ import { AppliedJobsColComponent } from './components/applied-jobs-col/applied-j
     ApplyJobConfirmationComponent,
     AppliedJobsComponent,
     AppliedJobsColComponent,
+    ChangeEmailComponent,
   ],
   imports: [
     CommonModule,

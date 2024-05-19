@@ -11,11 +11,12 @@ import { UserProfileComponent } from "./components/user-profile/user-profile.com
 import { userLoadUserDataGuard } from "./route-guards/user-load-user-data.guard";
 import { AppliedJobsComponent } from "./components/applied-jobs/applied-jobs.component";
 import { loadAppliedJobsGuard } from './route-guards/load-applied-jobs.guard';
+import { userLoadPostsGuard } from './route-guards/user-load-posts.guard';
 
 const routes: Routes = [
     { path: 'user', component:UserHomeComponent, children: [
         { path: '', redirectTo:'dashboard', pathMatch:"full" },
-        { path: 'dashboard', component:DashboardComponent, canActivate:[userLoadUserDataGuard,userLoadJobsDataGuard] },
+        { path: 'dashboard', component:DashboardComponent, canActivate:[userLoadUserDataGuard,userLoadJobsDataGuard,userLoadPostsGuard] },
         { path: 'profile/:id', component:UserProfileComponent, canActivate:[userLoadUserDataGuard] },
         { path: 'jobs', component:JobListComponent, canActivate:[userLoadJobsDataGuard] },
         { path: 'job/:id', component:JobDetailedViewComponent, canActivate:[verifyUserApplicationGuard,userLoadUserDataGuard,userLoadJobsDataGuard] },

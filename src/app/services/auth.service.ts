@@ -1,4 +1,4 @@
-import { experience, education } from './../store/user-store/user.model';
+import { experience, education, Posts } from './../store/user-store/user.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
@@ -70,6 +70,10 @@ export class AuthService {
 
   userLoadAppliedJobs(user_id:string):Observable<any> {
     return this.http.get(`http://localhost:3000/apply-job/${user_id}`)
+  }
+
+  loadPosts():Observable<any> {
+    return this.http.get('http://localhost:3000/posts')
   }
  
 

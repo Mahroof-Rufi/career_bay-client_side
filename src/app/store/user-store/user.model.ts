@@ -114,6 +114,7 @@ export interface userStateModel {
     jobs:Job[],
     isApplied:boolean,
     AppliedJobs: AppliedJobs[]
+    posts:Posts[]
 }
 
 export interface AppliedJob {
@@ -124,4 +125,22 @@ export interface AppliedJob {
 export interface AppliedJobs{
     user_id: string,
     appliedJobs: [AppliedJob]
+}
+
+export interface Comment {
+    user_id: String;
+    comment: string;
+}
+
+export interface Post {
+    image_urls: string[];
+    description: string;
+    likes: string[];
+    comments: Comment[];
+    saved: string[];
+}
+
+export interface Posts {
+    employer_id?: String;
+    posts: Post[];
 }

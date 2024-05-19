@@ -1,6 +1,6 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Injectable } from "@angular/core";
-import { loadUserJobs, loadUserJobsSuccess, loadUser, loadUserSuccess, updateUserAbout, updateUserAboutSuccess, addUserExperience, editUserEducation, updateUserSkills, applyJob, applyJobSucces, isApplied, isAppliedSucces, loadAppliedJobs, loadAppliedJobsSuccess } from './user.actions';
+import { loadUserJobs, loadUserJobsSuccess, loadUser, loadUserSuccess, updateUserAbout, updateUserAboutSuccess, addUserExperience, editUserEducation, updateUserSkills, applyJob, applyJobSucces, isApplied, isAppliedSucces, loadAppliedJobs, loadAppliedJobsSuccess, loadPosts, laodPostsSucces } from './user.actions';
 import { EMPTY, catchError, exhaustMap, map } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 
@@ -154,6 +154,22 @@ export class userEffects {
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on loadAppliedJobs effect:', error);
+                    return EMPTY;
+                })
+            )
+        })
+    ))
+
+    loadPosts = createEffect(() => this.actions.pipe(
+        ofType(loadPosts),
+        exhaustMap((action) => {
+            return this.apiService.loadPosts().pipe(
+                map((data:any) => {
+                    console.log(data)
+                    return laodPostsSucces({ posts:data.posts })                    
+                }),
+                catchError((error) => {
+                    console.error('HTTP Error on loadPosts effect:', error);
                     return EMPTY;
                 })
             )

@@ -7,6 +7,7 @@ import { UserAboutEditComponent } from '../components/user-about-edit/user-about
 import { UserExperienceEditComponent } from '../components/user-experience-edit/user-experience-edit.component';
 import { UserEducationEditComponent } from '../components/user-education-edit/user-education-edit.component';
 import { UserSkillsEditComponent } from '../components/user-skills-edit/user-skills-edit.component';
+import { ChangeEmailComponent } from '../components/change-email/change-email.component';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,9 @@ export class UserProfileEditModalService {
   private skillsEditDialogue: Observable<any> | undefined;
   private skillsEditSubscription!: Subscription
 
+  private changeEmailDialogue:Observable<any> | undefined;
+  private changeEmailSubscription!: Subscription
+
   constructor(
     private dialogueService: TuiDialogService,
     private injector: Injector,
@@ -37,6 +41,7 @@ export class UserProfileEditModalService {
     this.initializeUserExperienceEditDialog();
     this.initializeUserEducationEditDialog();
     this.initializeUserSkillsEditDialog();
+    this.initializeChangeEmailDialogue();
   }
 
   private initializeUserManiDetailsEditDialog() {
@@ -81,6 +86,15 @@ export class UserProfileEditModalService {
       {
         size:'l'
       }
+    )
+  }
+
+  private initializeChangeEmailDialogue() {
+    this.changeEmailDialogue = this.dialogueService.open<any>(
+    new PolymorpheusComponent(ChangeEmailComponent, this.injector),
+    {
+      size:'s'
+    }
     )
   }
 
@@ -176,6 +190,18 @@ export class UserProfileEditModalService {
   closeUserSkillsEditModal() {
     if (this.skillsEditSubscription) {
       this.skillsEditSubscription.unsubscribe()
+    }
+  }
+
+  openChangeEmailModal() {
+    if (this.changeEmailDialogue) {
+      this.changeEmailDialogue.subscribe()
+    }
+  }
+
+  closeChangeEmailModal() {
+    if (this.changeEmailSubscription) {
+      this.changeEmailSubscription.unsubscribe()
     }
   }
 }

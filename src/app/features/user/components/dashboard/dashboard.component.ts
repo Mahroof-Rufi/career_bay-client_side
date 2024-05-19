@@ -1,7 +1,8 @@
+import { Posts } from './../../../../store/user-store/user.model';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Job, User } from '../../../../store/user-store/user.model';
-import { getJobsData } from '../../../../store/user-store/user.selector';
+import { getJobsData, getPosts } from '../../../../store/user-store/user.selector';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,6 +12,7 @@ import { getJobsData } from '../../../../store/user-store/user.selector';
 export class DashboardComponent implements OnInit{
 
   jobs!:Job[]
+  posts!:any
   userData!:User;
 
   constructor(
@@ -22,6 +24,16 @@ export class DashboardComponent implements OnInit{
     this.userState.select(getJobsData).subscribe((res) => {      
       this.jobs = res
     })
+    this.userState.select(getPosts).subscribe( res => {
+      this.posts = res
+      
+      console.log(this.posts[0].posts);
+      
+    })
   }
+
+  trackByFn(id: string): string {
+    return id; 
+  }  
 
 }

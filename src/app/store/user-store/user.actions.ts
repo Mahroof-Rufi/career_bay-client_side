@@ -1,5 +1,5 @@
 import { createAction, props } from "@ngrx/store";
-import { AppliedJobs, EditUser, User, education, experience } from "./user.model";
+import { AppliedJobs, EditUser, Posts, User, education, experience } from "./user.model";
 import { Job } from "../employer-store/employer.model";
 
 export const loadUser = createAction("loadUser");
@@ -25,3 +25,6 @@ export const isAppliedSucces = createAction("isAppliedSucces", props<{ isVerifie
 
 export const loadAppliedJobs = createAction("loadAppliedJobs", props<{ user_id:string }>());
 export const loadAppliedJobsSuccess = createAction("loadAppliedJobsSuccess", props<{ appliedJobs:AppliedJobs[] }>())
+
+export const loadPosts = createAction("loadPosts");
+export const laodPostsSucces = createAction("loadPostsSucces", props<{ posts:Posts[] }>())

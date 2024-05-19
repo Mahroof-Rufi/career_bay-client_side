@@ -3,6 +3,7 @@ import { User } from '../../../../store/user-store/user.model';
 import { Store } from '@ngrx/store';
 import { getUserData } from '../../../../store/user-store/user.selector';
 import { Router } from '@angular/router';
+import { UserProfileEditModalService } from '../../services/user-profile-edit-modal.service';
 
 @Component({
   selector: 'app-navbar',
@@ -16,7 +17,8 @@ export class NavbarComponent implements OnInit{
 
   constructor(
     private userStore:Store<{ user:User }>,
-    private router:Router
+    private router:Router,
+    private profileEditService:UserProfileEditModalService,
   ) {}
 
   ngOnInit(): void {
@@ -28,6 +30,10 @@ export class NavbarComponent implements OnInit{
   logout() {
     localStorage.removeItem('userToken')
     this.router.navigateByUrl('/home')
+  }
+
+  changeEmail() {
+    this.profileEditService.openChangeEmailModal()
   }
 
 }

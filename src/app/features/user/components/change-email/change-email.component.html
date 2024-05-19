@@ -1,0 +1,76 @@
+<div class="flex justify-center">
+    <h1 class="text-mainColor text-2xl font-bannerText">Change Email</h1>
+</div>
+<form class="flex justify-center">
+    <div class="flex-col w-full max-w-md"> 
+
+        <div class="flex flex-col my-3">
+            <div class="flex flex-col">
+                <div class="flex flex-col">
+                    <tui-input formControlName="firstName">
+                        Current Registerd Email
+                        <input tuiTextfield type="text" />
+                    </tui-input>
+                    <!-- <small *ngIf="updateProfileForm.get('companyName')?.errors?.['required'] && updateProfileForm.get('companyName')?.touched" class="text-red-500 font-bannerText">
+                    *company name required
+                    </small> -->
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col">
+            <div class="flex justify-between w-full">
+                <div class="flex flex-col mb-3 w-1/2">
+                    <tui-input formControlName="firstName">
+                        Enter OTP
+                        <input tuiTextfield type="text" />
+                    </tui-input>
+                    <!-- <small *ngIf="updateProfileForm.get('companyName')?.errors?.['required'] && updateProfileForm.get('companyName')?.touched" class="text-red-500 font-bannerText">
+                    *company name required
+                    </small> -->
+                </div>
+                <div class="flex mb-3 w-1/2 justify-end">
+                    <button class="bg-mainColor rounded-xl px-5 text-white font-bannerText text-center" (click)="sendCurrentEmailOTP()">Send OTP</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col my-3">
+            <div class="flex flex-col">
+                <div class="flex flex-col">
+                    <tui-input formControlName="firstName">
+                        New Email
+                        <input tuiTextfield type="text" />
+                    </tui-input>
+                    <!-- <small *ngIf="updateProfileForm.get('companyName')?.errors?.['required'] && updateProfileForm.get('companyName')?.touched" class="text-red-500 font-bannerText">
+                    *company name required
+                    </small> -->
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col">
+            <div class="flex justify-between w-full">
+                <div class="flex flex-col mb-3 w-1/2">
+                    <tui-input formControlName="firstName">
+                        Enter OTP
+                        <input tuiTextfield type="text" />
+                    </tui-input>
+                    <!-- <small *ngIf="updateProfileForm.get('companyName')?.errors?.['required'] && updateProfileForm.get('companyName')?.touched" class="text-red-500 font-bannerText">
+                    *company name required
+                    </small> -->
+                </div>
+                <div class="flex mb-3 w-1/2 justify-end">
+                    <button class="bg-mainColor rounded-xl px-5 text-white font-bannerText text-center" (click)="sendNewEmailOTP()">Send OTP</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col">
+            <div class="flex justify-between w-full">
+                <button class="bg-mainColor text-white rounded-xl px-5 py-3 w-full" (click)="submitChangeEmail()">Submit</button>
+            </div>
+        </div>
+
+    </div>
+</form>
