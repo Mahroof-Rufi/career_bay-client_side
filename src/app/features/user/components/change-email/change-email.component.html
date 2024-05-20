@@ -1,19 +1,22 @@
 <div class="flex justify-center">
     <h1 class="text-mainColor text-2xl font-bannerText">Change Email</h1>
 </div>
-<form class="flex justify-center">
+<form class="flex justify-center" [formGroup]="changeEmailForm">
     <div class="flex-col w-full max-w-md"> 
 
         <div class="flex flex-col my-3">
             <div class="flex flex-col">
                 <div class="flex flex-col">
-                    <tui-input formControlName="firstName">
+                    <tui-input formControlName="currentEmail">
                         Current Registerd Email
                         <input tuiTextfield type="text" />
                     </tui-input>
-                    <!-- <small *ngIf="updateProfileForm.get('companyName')?.errors?.['required'] && updateProfileForm.get('companyName')?.touched" class="text-red-500 font-bannerText">
-                    *company name required
-                    </small> -->
+                    <small *ngIf="changeEmailForm.get('currentEmail')?.errors?.['required'] && changeEmailForm.get('currentEmail')?.touched" class="text-red-500 font-bannerText">
+                        *current email required
+                    </small>
+                    <small *ngIf="changeEmailForm.get('currentEmail')?.errors?.['email']" class="text-red-500 font-bannerText">
+                        *enter valid email
+                    </small>
                 </div>
             </div>
         </div>
@@ -21,16 +24,24 @@
         <div class="flex flex-col">
             <div class="flex justify-between w-full">
                 <div class="flex flex-col mb-3 w-1/2">
-                    <tui-input formControlName="firstName">
+                    <tui-input formControlName="currentEmailOTP">
                         Enter OTP
                         <input tuiTextfield type="text" />
                     </tui-input>
-                    <!-- <small *ngIf="updateProfileForm.get('companyName')?.errors?.['required'] && updateProfileForm.get('companyName')?.touched" class="text-red-500 font-bannerText">
-                    *company name required
-                    </small> -->
+                    <small *ngIf="changeEmailForm.get('currentEmailOTP')?.errors?.['required'] && changeEmailForm.get('currentEmailOTP')?.touched" class="text-red-500 font-bannerText">
+                        *current email OTP required
+                    </small>
+                    <small *ngIf="changeEmailForm.get('currentEmailOTP')?.errors?.['maxLength']" class="text-red-500 font-bannerText">
+                        *enter a valid OTP
+                    </small>
                 </div>
                 <div class="flex mb-3 w-1/2 justify-end">
-                    <button class="bg-mainColor rounded-xl px-5 text-white font-bannerText text-center" (click)="sendCurrentEmailOTP()">Send OTP</button>
+                    <button class="rounded-xl px-3 text-white font-bannerText text-center" 
+                        (click)="sendCurrentEmailOTP()"
+                        [class.bg-mainColor]="!time1 || time1 <= 0"
+                        [class.bg-orange-400]="time1 && time1 > 0">
+                        {{ time1 > 0 ? 'Resend OTP in ' + minutes1 + ':' + seconds1 : OTP_BTN1 }}
+                    </button>
                 </div>
             </div>
         </div>
@@ -38,13 +49,19 @@
         <div class="flex flex-col my-3">
             <div class="flex flex-col">
                 <div class="flex flex-col">
-                    <tui-input formControlName="firstName">
+                    <tui-input formControlName="newEmail">
                         New Email
                         <input tuiTextfield type="text" />
                     </tui-input>
-                    <!-- <small *ngIf="updateProfileForm.get('companyName')?.errors?.['required'] && updateProfileForm.get('companyName')?.touched" class="text-red-500 font-bannerText">
-                    *company name required
-                    </small> -->
+                    <small *ngIf="changeEmailForm.get('newEmail')?.errors?.['required'] && changeEmailForm.get('newEmail')?.touched" class="text-red-500 font-bannerText">
+                    *new email required
+                    </small>
+                    <small *ngIf="changeEmailForm.get('newEmail')?.errors?.['email']" class="text-red-500 font-bannerText">
+                        *enter valid email
+                    </small>
+                    <small *ngIf="changeEmailForm?.errors?.['sameEmail']" class="text-red-500 font-bannerText">
+                        *current email and new email should be different
+                    </small>
                 </div>
             </div>
         </div>
@@ -52,16 +69,24 @@
         <div class="flex flex-col">
             <div class="flex justify-between w-full">
                 <div class="flex flex-col mb-3 w-1/2">
-                    <tui-input formControlName="firstName">
+                    <tui-input formControlName="newEmailOTP">
                         Enter OTP
                         <input tuiTextfield type="text" />
                     </tui-input>
-                    <!-- <small *ngIf="updateProfileForm.get('companyName')?.errors?.['required'] && updateProfileForm.get('companyName')?.touched" class="text-red-500 font-bannerText">
-                    *company name required
-                    </small> -->
+                    <small *ngIf="changeEmailForm.get('newEmailOTP')?.errors?.['required'] && changeEmailForm.get('currentEmailOTP')?.touched" class="text-red-500 font-bannerText">
+                        *new email OTP required
+                    </small>
+                    <small *ngIf="changeEmailForm.get('newEmailOTP')?.errors?.['maxLength']" class="text-red-500 font-bannerText">
+                        *enter a valid OTP
+                    </small>
                 </div>
                 <div class="flex mb-3 w-1/2 justify-end">
-                    <button class="bg-mainColor rounded-xl px-5 text-white font-bannerText text-center" (click)="sendNewEmailOTP()">Send OTP</button>
+                    <button class="rounded-xl px-3 text-white font-bannerText text-center" 
+                        (click)="sendNewEmailOTP()" [disabled]=" time2 > 0"
+                        [class.bg-mainColor]="!time2 || time2 <= 0"
+                        [class.bg-orange-400]="time2 && time2 > 0">
+                        {{ time2 > 0 ? 'Resend OTP in ' + minutes2 + ':' + seconds2 : OTP_BTN2 }}
+                    </button>
                 </div>
             </div>
         </div>

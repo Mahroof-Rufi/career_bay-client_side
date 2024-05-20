@@ -15,7 +15,6 @@ export class UserSignUpComponent implements OnInit{
   @Output() changeView:EventEmitter<string> = new EventEmitter()
 
   constructor(
-   private router:Router,
    private authService:AuthService,
    private alert: TuiAlertService,
    private formBuilder: FormBuilder

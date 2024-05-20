@@ -76,6 +76,15 @@ export class AuthService {
     return this.http.get('http://localhost:3000/posts')
   }
  
+  changeEmailSendOTP(currentEmail:string):Observable<any> {
+    return this.http.post('http://localhost:3000/changeEmail', { currentEmail:currentEmail })
+  }
+
+  userUpdateEmail(data:any):Observable<any> {
+    return this.http.patch('http://localhost:3000/changeEmail', data)
+  }
+
+
 
 
   companyRequestOTP(email:string):Observable<any> {
@@ -146,5 +155,9 @@ export class AuthService {
 
   adminLogin(loginData:FormGroup):Observable<any> {
     return this.http.post('http://localhost:3000/admin/login', loginData)
+  }
+
+  adminLoadUsers():Observable<any> {
+    return this.http.get('http://localhost:3000/admin/users')
   }
 }
