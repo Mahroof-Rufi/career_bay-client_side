@@ -11,6 +11,8 @@ import { CompaniesComponent } from './components/companies/companies.component';
 import { JobsComponent } from './components/jobs/jobs.component';
 import { StoreModule } from '@ngrx/store';
 import { adminReducer, adminFeatureKey } from './store/admin.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { adminEffects } from './store/admin.effects';
 
 
 
@@ -29,6 +31,7 @@ import { adminReducer, adminFeatureKey } from './store/admin.reducer';
     SharedModule,
     adminRouteModule,
     StoreModule.forFeature(adminFeatureKey,adminReducer),
+    EffectsModule.forFeature([adminEffects]),
   ],
   exports: [
     SharedModule,

@@ -1,1 +1,60 @@
-<p>users works!</p>
+<div class="flex justify-between bg-white mx-3 rounded-2xl">
+    <div class="relative py-2 mx-5 w-2/5">
+        <app-search></app-search>
+    </div>
+</div>
+
+<div class="bg-secndWhite rounded-2xl my-3 mx-5">
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-white uppercase bg-adminBlue dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th scope="col" class="px-6 py-3 w-1/12 text-center">
+                        No:
+                    </th>
+                    <th scope="col" class="px-6 py-3 w-8/12 text-center">
+                        Users
+                    </th>
+                    <th scope="col" class="px-6 py-3 w-3/12 text-center">
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (user of users; track user._id; let idx = $index) {
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center">
+                            {{idx + 1}}.
+                        </th>
+                        <td class="px-6 py-4">
+                            <div class="flex justify-between w-5/6 border-2 border-gray-200 rounded-xl mx-auto">
+                                <div class="flex items-center">
+                                    <img [src]="user.profile_url" class="rounded-full w-16 h-16 px-2 py-2" alt="">
+                                    <div class="flex-col my-auto ml-2">
+                                        <h1 class="text-lg text-mainGrey font-bannerText">{{ user.firstName }} {{ user.lastName }}</h1>
+                                        <h1 class="text-sm text-thirdGrey font-bannerText">{{ user.jobTitle }}</h1>
+                                    </div>
+                                </div>
+                                <div class="my-auto ml-auto mr-2">
+                                    <button class="bg-white border-2 rounded-full border-adminBlue text-adminBlue text-lg font-bannerText my-auto py-2 px-10">View</button>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <button
+                            (click)="userAction(user._id)"
+                            [ngClass]="{
+                              'bg-red-600 hover:bg-red-400': user.isActive,
+                              'bg-green-600 hover:bg-green-400': !user.isActive
+                            }"
+                            class="rounded-lg py-2 text-white text-lg font-bannerText w-full">
+                            {{ user.isActive ? 'Block' : 'Unblock' }}
+                          </button>                        
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>

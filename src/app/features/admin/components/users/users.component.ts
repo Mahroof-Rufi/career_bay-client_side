@@ -1,10 +1,35 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { User, adminStateModel } from '../../store/admin.model';
+import { getUsersData } from '../../store/admin.selector';
+import { userAction } from '../../store/admin.actions';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss'
 })
-export class UsersComponent {
+export class UsersComponent implements OnInit{
 
+  users!:User[];
+
+  constructor(
+    private adminStore:Store<{ admin:adminStateModel }>
+  ) {}
+
+  ngOnInit(): void {
+    this.adminStore.select(getUsersData).subscribe((data) => {
+      this.users = data
+      console.log(this.users);
+      
+    })
+  }
+
+  trackByFn(id: string): string {
+    return id; 
+  }  
+
+  userAction(userId:string) {
+    this.adminStore.dispatch(userAction({ user_id:userId }))
+  }
 }

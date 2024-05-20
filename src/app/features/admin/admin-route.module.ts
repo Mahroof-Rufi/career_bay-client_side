@@ -8,12 +8,13 @@ import { UsersComponent } from "./components/users/users.component";
 import { CompaniesComponent } from "./components/companies/companies.component";
 import { JobsComponent } from "./components/jobs/jobs.component";
 import { loadUsersGuard } from "./route-guards/load-users.guard";
+import { loadCompaniesGuard } from "./route-guards/load-companies.guard";
 const routes: Routes = [
     { path: 'admin', component:MainPageComponent, children:[
         { path: 'login', component: AdminLoginComponent },
         { path: 'dashboard', component: DashboardComponent, canActivate:[adminAuthGuard]  },
         { path: 'users', component:UsersComponent, canActivate:[loadUsersGuard] },
-        { path: 'companies', component:CompaniesComponent },
+        { path: 'companies', component:CompaniesComponent, canActivate:[loadCompaniesGuard] },
         { path: 'jobs', component:JobsComponent }
     ]} 
 ]

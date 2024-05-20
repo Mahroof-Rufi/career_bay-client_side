@@ -160,4 +160,16 @@ export class AuthService {
   adminLoadUsers():Observable<any> {
     return this.http.get('http://localhost:3000/admin/users')
   }
+
+  adminUserAction(user_id:string):Observable<any> {
+    return this.http.patch('http://localhost:3000/admin/users', { user_id:user_id })
+  }
+  
+  adminLoadCompanies():Observable<any> {
+    return this.http.get('http://localhost:3000/admin/companies')
+  }
+
+  adminEmployerAction(emplr_id:string):Observable<any> {
+    return this.http.patch('http://localhost:3000/admin/companies', { employer_id:emplr_id })
+  }
 }
