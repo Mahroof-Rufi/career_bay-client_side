@@ -8,9 +8,9 @@
         <div class="w-1/2 text-white flex flex-col justify-between py-5"> <!-- Center vertically -->
             <h1 class="text-3xl font-bannerText">{{ userMainDetails.firstName }} {{ userMainDetails.lastName}}</h1>
             <h3 class="text-lg font-bannerText">{{ userMainDetails.jobTitle }}</h3>
-            <h2><i class="fa-solid fa-location-dot text-xl text-white mr-3"></i> {{ userMainDetails.city }},{{ userMainDetails.state }}</h2>
-            <h3>{{ userMainDetails.DOB }}</h3>
-            <h3><i class="fa-solid fa-file text-xl text-white mr-3"></i>{{ userMainDetails.resume_url }}</h3>
+            <h2 class="text-sm font-bannerText"><i class="fa-solid fa-location-dot text-xl text-white mr-1"></i> {{ userMainDetails.city }}, {{ userMainDetails.state }}</h2>
+            <h3 class="text-sm font-bannerText">{{ userMainDetails.DOB | date }}</h3>
+            <h3 class="text-sm font-bannerText truncate"><i class="fa-solid fa-file text-xl text-white mr-3"></i>{{ userMainDetails.resume_url }}</h3>
         </div>
     
         <div class="w-1/2 text-white flex flex-col justify-between py-5 relative"> <!-- Center vertically and add relative positioning -->

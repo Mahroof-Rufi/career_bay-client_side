@@ -14,3 +14,15 @@ export const getCompaniesData = createSelector(getAdminState,
         return state.companies
     }
 );
+
+export const getUserById = (user_id:string) => createSelector(getAdminState,
+    (state: adminStateModel) => {
+        return state.users.find( user => user._id == user_id)
+    }
+) 
+
+export const getEmployerById = (employer_id:string) => createSelector(getAdminState,
+    (state: adminStateModel) => {
+        return state.companies.find( company => company._id == employer_id )
+    }
+)

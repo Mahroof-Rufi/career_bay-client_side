@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { User, adminStateModel } from '../../store/admin.model';
 import { getUsersData } from '../../store/admin.selector';
 import { userAction } from '../../store/admin.actions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users',
@@ -14,7 +15,8 @@ export class UsersComponent implements OnInit{
   users!:User[];
 
   constructor(
-    private adminStore:Store<{ admin:adminStateModel }>
+    private adminStore:Store<{ admin:adminStateModel }>,
+    private router:Router
   ) {}
 
   ngOnInit(): void {
@@ -32,4 +34,6 @@ export class UsersComponent implements OnInit{
   userAction(userId:string) {
     this.adminStore.dispatch(userAction({ user_id:userId }))
   }
+
+
 }

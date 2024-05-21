@@ -19,6 +19,6 @@ export class UserProfileExperienceColComponent {
   }
 
   deleteExperience(exp_id:string | undefined) {
-
+    this.profileEditService.openDeleteExperienceModal(exp_id)
   }
 }

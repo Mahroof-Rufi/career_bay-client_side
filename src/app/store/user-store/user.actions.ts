@@ -18,7 +18,7 @@ export const editUserEducation = createAction("addUserEducation", props<{ educat
 export const updateUserSkills = createAction("updateUserSkills", props<{ skills:string[], user_id:string }>());
 
 export const applyJob = createAction("applyJob", props<{ user_id:string, job_id:string }>());
-export const applyJobSucces = createAction("applyJobSucces", props<{ updatedUser:User, updatedJob:Job }>());
+export const applyJobSucces = createAction("applyJobSucces");
 
 export const isApplied = createAction("isApplied", props<{ userId:string, jobId:string }>());
 export const isAppliedSucces = createAction("isAppliedSucces", props<{ isVerified:boolean }>());
@@ -28,3 +28,9 @@ export const loadAppliedJobsSuccess = createAction("loadAppliedJobsSuccess", pro
 
 export const loadPosts = createAction("loadPosts");
 export const laodPostsSucces = createAction("loadPostsSucces", props<{ posts:Posts[] }>())
+
+export const deleteUserExperience = createAction("deleteUserExperience", props<{ exp_id:string }>());
+export const deleteUserExperienceSucces = createAction("deleteUserExperienceSucces", props<{ user:User }>());
+
+export const deleteUserEducation = createAction("deleteUserEducation", props<{ edu_id:string }>());
+export const deleteUserEducationSucces = createAction("deleteUserEducationSucces", props<{ user:User }>());

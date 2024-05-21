@@ -1,0 +1,18 @@
+<div class="flex-col bg-white rounded-xl shadow-lg w-full h-full">
+    <div class="flex justify-between px-5 pt-5 w-full">
+        <span class="flex text-mainGrey text-sm font-bannerText">Skills</span>
+    </div>
+    <div class="flex px-5 py-3 w-full">
+        @if (skills?.length) {
+            @for (skill of skills; track $index) {
+                <p class="text-lg text-mainGrey font-bannerText">
+                    {{ skill }} ,
+                </p>
+            }
+        } @else {
+            <div class="experience-section-placeholder text-center py-5 rounded">
+                <p class="placeholder-message text-lg text-red-600 font-bannerText">You haven't added any experience to your profile yet. Share your professional background to complete your profile.</p>
+            </div>
+        }    
+    </div>  
+</div>

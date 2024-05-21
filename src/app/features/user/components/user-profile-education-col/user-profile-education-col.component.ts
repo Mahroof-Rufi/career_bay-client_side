@@ -24,7 +24,7 @@ export class UserProfileEducationColComponent {
 
   deleteEducation(edct_id:string | undefined) {
     if (edct_id) {
-      
+      this.profileEditService.openDeleteEducationModal(edct_id)
     }
   } 
 

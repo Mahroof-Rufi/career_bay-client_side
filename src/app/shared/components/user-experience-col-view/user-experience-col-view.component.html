@@ -1,0 +1,28 @@
+<div class="flex justify-between w-full px-5 py-3">
+    <div class="border-2 rounded-lg w-full h-full">
+        <div class="flex-col w-full justify-start px-5">
+            <div class="flex w-full justify-between my-3">
+                <h1 class="text-4xl text-mainGrey font-bold">{{ experience?.jobTitle }}</h1>
+            </div>
+            <h2 class="text-2xl text-adminBlue font-bannerText">{{ experience?.companyName }} - {{ experience?.jobType }}</h2>
+            @if (experience?.present) {
+                <h3 class="text-sm text-thirdGrey font-bannerText">{{ experience?.startDate }} - Present  (1 Yr 3 Mos)</h3>
+            } @else { 
+                <h3 class="text-sm text-thirdGrey font-bannerText">{{ experience?.startDate }} - {{ experience?.endDate }}  (1 Yr 3 Mos)</h3>
+            }
+        </div>
+        <div class="flex-col w-full justify-center px-10">
+            @if (experience?.remort) {
+                <span class="flex items-center text-mainGrey text-sm font-bannerText my-2"><i class="fa-solid fa-location-dot text-adminBlue text-lg mr-1"></i>Remort (work from home)</span>
+            } @else {
+                <span class="flex items-center text-mainGrey text-sm font-bannerText my-2"><i class="fa-solid fa-location-dot text-adminBlue text-lg mr-1"></i>{{ experience?.city }}, {{ experience?.state }}</span>
+            }
+            <p class="text-sm text-mainGrey font-bannerText">{{ experience?.overView }}</p>
+            <p class="text-sm text-mainGrey font-bannerText py-3">
+                @for (technology of experience?.technologies; track $index) {
+                  {{ technology }}{{ ', '}}
+                }
+            </p>
+        </div>
+    </div>
+</div>

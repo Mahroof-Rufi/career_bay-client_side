@@ -40,8 +40,16 @@ export class AuthService {
     return this.http.patch(`http://localhost:3000/update-experience/${user_id}`, { exp:experience, exp_id:exp_id })
   }
 
+  deleteUserExperience(exp_id:string):Observable<any> {
+    return this.http.delete(`http://localhost:3000/delete-experience/${exp_id}`)
+  }
+
   userEditEducation(education:education, user_id:string, edcn_id?:string) {
     return this.http.patch(`http://localhost:3000/update-education/${user_id}`, { edctn:education, edcn_id:edcn_id })
+  }
+
+  deleteUserEducation(edct_id:string):Observable<any> {
+    return this.http.delete(`http://localhost:3000/delete-education/${edct_id}`)
   }
 
   userUpdateSkills(skills:string[], user_id:string) {

@@ -1,0 +1,18 @@
+<div class="flex-col bg-white rounded-xl shadow-xl w-full h-full">
+    <div class="flex justify-between px-5 pt-5 w-full">
+        <span class="flex text-mainGrey text-sm font-bannerText"><i class="fa-solid fa-pen text-sm text-adminBlue pr-1"></i>About</span>
+    </div>
+    
+    @if (about) {
+        <div class="flex py-5 px-5 w-full">
+            <div class="h-auto bg-adminBlue w-2.5"></div>
+            <div class="flex flex-grow">
+                <p class="font-bannerText pl-3">{{ about }}</p>
+            </div>
+        </div>
+    } @else {
+        <div class="flex justify-center items-center w-full h-full py-5 text-center">
+            <h1 class="text-lg text-rose-600 font-bannerText"><i class="fa-solid fa-circle-info pr-2"></i>You haven't added an "About" section to your profile yet. Share something about yourself to complete your profile.</h1>
+        </div>
+    }
+</div>

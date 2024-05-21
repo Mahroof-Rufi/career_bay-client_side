@@ -1,6 +1,6 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Injectable } from "@angular/core";
-import { loadUserJobs, loadUserJobsSuccess, loadUser, loadUserSuccess, updateUserAbout, updateUserAboutSuccess, addUserExperience, editUserEducation, updateUserSkills, applyJob, applyJobSucces, isApplied, isAppliedSucces, loadAppliedJobs, loadAppliedJobsSuccess, loadPosts, laodPostsSucces } from './user.actions';
+import { loadUserJobs, loadUserJobsSuccess, loadUser, loadUserSuccess, updateUserAbout, updateUserAboutSuccess, addUserExperience, editUserEducation, updateUserSkills, applyJob, applyJobSucces, isApplied, isAppliedSucces, loadAppliedJobs, loadAppliedJobsSuccess, loadPosts, laodPostsSucces, deleteUserExperience, deleteUserExperienceSucces, deleteUserEducation, deleteUserEducationSucces } from './user.actions';
 import { EMPTY, catchError, exhaustMap, map } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 
@@ -113,7 +113,7 @@ export class userEffects {
         exhaustMap((action) => {
             return this.apiService.userApplyJob(action.user_id, action.job_id).pipe(
                 map((data:any) => {
-                    return applyJobSucces({ updatedUser:data.updatedUserData, updatedJob:data.updatedJobData })
+                    return applyJobSucces()
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on applyJob effect:', error);
@@ -170,6 +170,36 @@ export class userEffects {
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on loadPosts effect:', error);
+                    return EMPTY;
+                })
+            )
+        })
+    ))
+
+    deleteUserExperience = createEffect(() => this.actions.pipe(
+        ofType(deleteUserExperience),
+        exhaustMap((action) => {            
+            return this.apiService.deleteUserExperience(action.exp_id).pipe(
+                map((data:any) => {
+                    return deleteUserExperienceSucces({ user:data.updatedData })
+                }),
+                catchError((error) => {
+                    console.error('HTTP Error on delete user exp effect:', error);
+                    return EMPTY;
+                })
+            )
+        })
+    ))
+
+    deleteUserEducation = createEffect(() => this.actions.pipe(
+        ofType(deleteUserEducation),
+        exhaustMap((action) => {
+            return this.apiService.deleteUserEducation(action.edu_id).pipe(
+                map((data:any) => {
+                    return deleteUserEducationSucces({ user:data.updatedData })
+                }),
+                catchError((error) => {
+                    console.error('HTTP Error on delete user edu effect:', error);
                     return EMPTY;
                 })
             )

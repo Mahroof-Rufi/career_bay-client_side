@@ -121,6 +121,8 @@ export class ForgotPasswordComponent {
           }).subscribe()
           this.changeView.emit('user-login')
         }, (err) => {
+          console.log(err);
+          
           this.alert.open('', {
             label: err.error,
             status: 'error',

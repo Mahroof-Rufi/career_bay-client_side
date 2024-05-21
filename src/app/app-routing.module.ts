@@ -1,16 +1,25 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 
 const routes: Routes = [
   { path:'', redirectTo:'/home', pathMatch:'full' },
   { path:'home', component:HomeComponent },
+  { path:'admin', loadChildren: () => import('./features/admin/admin-route.module')
+    .then((adminMod) => adminMod.adminRouteModule) 
+  },
+  { path:'employer', loadChildren: () => import('./features/company/company-route.module')
+    .then((empMod) => empMod.companyRouteModule)
+  },
+  { path:'user', loadChildren: () => import('./features/user/user-route.module')
+    .then((userMod) => userMod.userRouteModule)
+  }
   // { path:'**', component:NotFoundComponent }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

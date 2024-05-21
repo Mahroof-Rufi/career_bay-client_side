@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store"
 import { initialState } from "./user.store"
-import { applyJobSucces, isAppliedSucces, laodPostsSucces, loadAppliedJobsSuccess, loadUserJobsSuccess, loadUserSuccess, updateUserAboutSuccess } from "./user.actions"
+import { applyJobSucces, deleteUserEducationSucces, deleteUserExperienceSucces, isAppliedSucces, laodPostsSucces, loadAppliedJobsSuccess, loadUserJobsSuccess, loadUserSuccess, updateUserAboutSuccess } from "./user.actions"
 
 export const userReducer = createReducer(initialState,
     on(loadUserSuccess, (state,action) => {
@@ -22,13 +22,9 @@ export const userReducer = createReducer(initialState,
         }
     }),
     on(applyJobSucces, (state, action) => {
-        const updatedJobs = state.jobs.map(job =>
-            job._id === action.updatedJob._id ? action.updatedJob : job
-          );
         return {
             ...state,
-            user: action.updatedUser,
-            jobs: updatedJobs
+            isApplied: true
         }
     }),
     on(isAppliedSucces, (state,action) => {
@@ -47,6 +43,18 @@ export const userReducer = createReducer(initialState,
         return {
             ...state,
             posts: action.posts
+        }
+    }),
+    on(deleteUserExperienceSucces, (state, action) => {
+        return {
+            ...state,
+            user:action.user
+        }
+    }),
+    on(deleteUserEducationSucces, (state,action) => {
+        return {
+            ...state,
+            user:action.user
         }
     })
 )

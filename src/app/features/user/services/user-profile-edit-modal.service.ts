@@ -8,6 +8,7 @@ import { UserExperienceEditComponent } from '../components/user-experience-edit/
 import { UserEducationEditComponent } from '../components/user-education-edit/user-education-edit.component';
 import { UserSkillsEditComponent } from '../components/user-skills-edit/user-skills-edit.component';
 import { ChangeEmailComponent } from '../components/change-email/change-email.component';
+import { DeleteExperienxeComponent } from '../components/delete-experienxe/delete-experienxe.component';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,12 @@ export class UserProfileEditModalService {
 
   private changeEmailDialogue:Observable<any> | undefined;
   private changeEmailSubscription!: Subscription
+
+  private experienceDeleteDialogue:Observable<any> | undefined;
+  private experienceDeleteSubscription!: Subscription
+
+  private educationDeleteDialogue:Observable<any> | undefined;
+  private educationDeleteSubscription!: Subscription
 
   constructor(
     private dialogueService: TuiDialogService,
@@ -202,6 +209,52 @@ export class UserProfileEditModalService {
   closeChangeEmailModal() {
     if (this.changeEmailSubscription) {
       this.changeEmailSubscription.unsubscribe()
+    }
+  }
+
+  openDeleteExperienceModal(experienceId?:string) {
+    if (experienceId) {
+      this.experienceDeleteDialogue = this.dialogueService.open<any>(
+        new PolymorpheusComponent(DeleteExperienxeComponent, this.injector),
+        {
+          size:'m',
+          data:{_id:experienceId, type:'exp'}
+        }
+      )
+    }
+    if (this.experienceDeleteDialogue) {
+      this.experienceDeleteSubscription = this.experienceDeleteDialogue.subscribe((result) => {
+        
+      })
+    }
+  }
+
+  closeDeleteExperienceModal() {
+    if (this.experienceDeleteSubscription) {
+      this.experienceDeleteSubscription.unsubscribe()
+    }
+  }
+
+  openDeleteEducationModal(eductn_id?:string) {
+    if (eductn_id) {
+      this.educationDeleteDialogue = this.dialogueService.open<any>(
+        new PolymorpheusComponent(DeleteExperienxeComponent, this.injector),
+        {
+          size:'m',
+          data:{_id:eductn_id, type:'edu'}
+        }
+      )
+    }
+    if (this.educationDeleteDialogue) {      
+      this.educationDeleteSubscription = this.educationDeleteDialogue.subscribe((result) => {
+        
+      })
+    }
+  }
+
+  closeDeleteEducationModal() {
+    if (this.educationDeleteSubscription) {
+      this.educationDeleteSubscription.unsubscribe()
     }
   }
 }

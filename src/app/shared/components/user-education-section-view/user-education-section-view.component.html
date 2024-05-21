@@ -1,0 +1,16 @@
+<div class="flex-col bg-white rounded-xl shadow-lg w-full h-full">
+    <div class="flex justify-between px-5 pt-5 w-full">
+        <span class="flex text-mainGrey text-sm font-bannerText"><i class="fa-solid fa-graduation-cap text-sm text-adminBlue pr-1"></i>Education</span>
+    </div> 
+    @if (educations?.length) {
+        <div class="grid grid-cols-2 w-full">
+            @for (edction of educations; track $index) {
+                <app-user-education-col-view [education]="edction"></app-user-education-col-view>
+            }
+        </div>
+    } @else { 
+        <div class="experience-section-placeholder text-center py-5 rounded">
+            <p class="placeholder-message text-lg text-red-600 font-bannerText">You haven't added any education to your profile yet. Share your education background to complete your profile.</p>
+        </div>          
+    }
+</div>

@@ -26,6 +26,7 @@ import { ApplyJobConfirmationComponent } from './components/apply-job-confirmati
 import { AppliedJobsComponent } from './components/applied-jobs/applied-jobs.component';
 import { AppliedJobsColComponent } from './components/applied-jobs-col/applied-jobs-col.component';
 import { ChangeEmailComponent } from './components/change-email/change-email.component';
+import { DeleteExperienxeComponent } from './components/delete-experienxe/delete-experienxe.component';
 
 
 
@@ -54,6 +55,7 @@ import { ChangeEmailComponent } from './components/change-email/change-email.com
     AppliedJobsComponent,
     AppliedJobsColComponent,
     ChangeEmailComponent,
+    DeleteExperienxeComponent,
   ],
   imports: [
     CommonModule,

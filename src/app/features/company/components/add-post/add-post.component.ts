@@ -54,16 +54,12 @@ export class AddPostComponent implements OnInit{
       this.imageFiles.forEach((file, index) => {
         postData.append(`image${index + 1}`, file, file.name);
       });
-
-      console.log('senddddd');
       
       this.apiService.addPost(postData).subscribe( res => {
         console.log(res);
-        
-        this.addPostService.closeModal()
-        
       }, err => console.log(err))
 
+      this.addPostService.closeModal()
     } else {
       this.descriptionControl.markAllAsTouched()
     }

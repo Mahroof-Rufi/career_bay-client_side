@@ -22,7 +22,6 @@ export const initialState: userStateModel = {
     experiences: [],
     educations: [],
     skills: [],
-    appliedJobs: [],
   },
   jobs: [],
   isApplied: false,

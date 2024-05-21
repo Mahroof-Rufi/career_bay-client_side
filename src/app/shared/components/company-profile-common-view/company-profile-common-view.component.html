@@ -1,0 +1,78 @@
+
+<div class="flex">
+    <div class="bg-cover bg-center w-1/4 h-full mx-10 my-10">
+        <img class="rounded-xl" [src]="employerData?.profile_url" >
+    </div>
+    <div class="w-3/4 my-10">
+        <div class="flex items-end ">
+            <h1 class="text-4xl text-mainGrey font-bannerText mr-4">{{ employerData?.companyName }}</h1>
+            <span class="flex items-end">
+                <i class="fa-solid fa-location-dot text-2xl text-adminBlue"></i>
+                <h1 class="text-xl text-mainGrey font-bannerText ml-1">{{ employerData?.city }}, {{ employerData?.state }}</h1>
+            </span>                                                                                     
+        </div>
+        <span class="my-3">
+            <h1 class="text-lg text-thirdGrey font-bannerText">{{ employerData?.industry }}</h1>
+        </span>
+        @if (employerData?.noOfWorkersRange ) {
+            <span class="flex items-end">
+                <i class="fa-solid fa-people-group text-2xl text-mainGrey mr-2"></i>
+                <h1 class="text-lg text-secondGrey font-bannerText">{{ employerData?.noOfWorkersRange }}</h1>
+            </span>
+        }
+        @if (employerData?.about) {
+            <p class="text-sm text-black font-bannerText">
+                {{ employerData?.about }}
+            </p>
+        }
+    </div>
+</div>
+<div class="flex justify-between bg-adminBlue rounded-xl mx-10 mb-10">
+    
+    <div class="flex flex-col my-10 mx-10 items-start w-2/5"> 
+        <div class="flex text-white text-xl items-center mb-4">
+            <i class="fa-regular fa-envelope text-2xl"></i>
+            @if (employerData?.email) {
+                <h1 class="ml-2">{{ employerData?.email }}</h1>
+            }
+        </div>
+        <div class="flex text-white text-xl items-center mb-4">
+            <i class="fa-solid fa-phone text-2xl"></i>
+            @if (employerData?.phone) {
+                <h1 class="ml-2">{{ employerData?.phone }}</h1>
+            }
+        </div>
+        <div class="flex text-white text-xl items-center mb-4">
+            <i class="fa-solid fa-location-dot text-2xl"></i>
+            @if (employerData?.city && employerData?.state) {
+                <h1 class="ml-2">{{ employerData?.city }}, {{ employerData?.state }}</h1>
+            }
+        </div>
+    </div>
+
+    
+    <div class="h-auto my-12 bg-white w-0.5"></div>
+
+    
+    <div class="my-10 mx-10 items-start w-2/5"> 
+        <div class="flex text-white text-xl items-center mb-4 mr-auto">
+            <i class="fa-solid fa-link text-2xl ml-2"></i> 
+            @if (employerData?.web_url != 'null') {
+                <h1 class="ml-2">{{ employerData?.web_url }}</h1>
+            }
+        </div>
+        <div class="flex text-white text-xl items-center mb-4">
+            <i class="fa-brands fa-x-twitter text-3xl ml-2"></i>
+            @if (employerData?.X_url) {
+                <h1 class="ml-2">{{ employerData?.X_url }}</h1>
+            }
+        </div>
+        <div class="flex text-white text-xl items-center mb-4">
+            <i class="fa-brands fa-instagram text-3xl ml-2"></i>
+            @if (employerData?.instagram_url) {
+                <h1 class="ml-2">{{ employerData?.instagram_url }}</h1>
+            }
+        </div>
+    </div>
+</div>
+

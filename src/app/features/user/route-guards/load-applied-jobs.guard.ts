@@ -16,7 +16,6 @@ export const loadAppliedJobsGuard: CanActivateFn = (route, state) => {
     user_id = id
       
     if (user_id) {
-      console.log('going to dispatch');
       userStore.dispatch(loadAppliedJobs({ user_id:user_id }))
     }
     
