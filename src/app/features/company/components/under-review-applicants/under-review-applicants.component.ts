@@ -2,9 +2,9 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { initFlowbite } from 'flowbite';
-import { User } from '../../../../store/user-store/user.model';
-import { getApplicants } from '../../../../store/employer-store/employer.selector';
-import { AppliedUser, AppliedUsers } from '../../../../store/employer-store/employer.model';
+import { User } from '../../../user/user-store/user.model';
+import { getApplicants } from '../../store/employer.selector';
+import { AppliedUsers } from '../../store/employer.model';
 import { ApplicationsConfirmationModalService } from '../../services/applications-confirmation-modal.service';
 
 @Component({
@@ -22,15 +22,15 @@ export class UnderReviewApplicantsComponent implements AfterViewInit, OnInit{
   job_id!:string | null;
 
   constructor(
-    private activatedRoute:ActivatedRoute,
-    private userStore:Store<{ user:User }>,
-    private router:Router,
-    private confirmationService:ApplicationsConfirmationModalService
+    private readonly _activatedRoute:ActivatedRoute,
+    private readonly _userStore:Store<{ user:User }>,
+    private readonly _router:Router,
+    private readonly _confirmationService:ApplicationsConfirmationModalService
   ) {}
 
   ngOnInit(): void {
-    this.job_id = this.activatedRoute.snapshot.paramMap.get('job_id')
-    this.activatedRoute.queryParamMap.subscribe((values) => {
+    this.job_id = this._activatedRoute.snapshot.paramMap.get('job_id')
+    this._activatedRoute.queryParamMap.subscribe((values) => {
 
       if (values.get('applicants')) {
         this.routeQuery = values.get('applicants')
@@ -40,13 +40,10 @@ export class UnderReviewApplicantsComponent implements AfterViewInit, OnInit{
       
     })
 
-    this.userStore.select(getApplicants).subscribe((data) => {
+    this._userStore.select(getApplicants).subscribe((data) => {
       this.applicants = data  
       this.filterAppliedUsersByStatus(this.routeQuery)
-      console.log(this.filteredOptions);
     } )
-    
-    
   }
 
   ngAfterViewInit(): void {
@@ -61,25 +58,25 @@ export class UnderReviewApplicantsComponent implements AfterViewInit, OnInit{
     return id; 
   }  
 
-  navigateoptions(option:string) {
+  navigateOptions(option:string) {
     switch (option) {
       case 'under-review':
-        this.router.navigate([`/employer/job/applicants/${this.job_id}`], {queryParams:{ applicants:'under-review' }})
+        this._router.navigate([`/employer/job/applicants/${this.job_id}`], {queryParams:{ applicants:'under-review' }})
         break;
       case 'under-interview':
-        this.router.navigate([`/employer/job/applicants/${this.job_id}`], {queryParams:{ applicants:'under-interview' }})
+        this._router.navigate([`/employer/job/applicants/${this.job_id}`], {queryParams:{ applicants:'under-interview' }})
         break
       case 'finalists':
-        this.router.navigate([`/employer/job/applicants/${this.job_id}`], {queryParams:{ applicants:'finalists' }})
+        this._router.navigate([`/employer/job/applicants/${this.job_id}`], {queryParams:{ applicants:'finalists' }})
         break
       case 'on-hold':
-        this.router.navigate([`/employer/job/applicants/${this.job_id}`], {queryParams:{ applicants:'on-hold' }})
+        this._router.navigate([`/employer/job/applicants/${this.job_id}`], {queryParams:{ applicants:'on-hold' }})
         break
       case 'hired':
-        this.router.navigate([`/employer/job/applicants/${this.job_id}`], {queryParams:{ applicants:'hired' }})
+        this._router.navigate([`/employer/job/applicants/${this.job_id}`], {queryParams:{ applicants:'hired' }})
         break
       default:
-        this.router.navigate([`/employer/job/applicants/${this.job_id}`], {queryParams:{ applicants:'under-review' }})
+        this._router.navigate([`/employer/job/applicants/${this.job_id}`], {queryParams:{ applicants:'under-review' }})
         break;
     }
   }
@@ -91,15 +88,13 @@ export class UnderReviewApplicantsComponent implements AfterViewInit, OnInit{
   accept(user_id:string) {
     switch (this.routeQuery) {
       case 'under-review':
-        this.confirmationService.openApplicationStatusChangeDialogue(this.job_id, user_id, 'under-interview')
+        this._confirmationService.openApplicationStatusChangeDialogue(this.job_id, user_id, 'under-interview')
         break;
       case 'under-interview':
-        this.confirmationService.openApplicationStatusChangeDialogue(this.job_id, user_id, 'finalists')
+        this._confirmationService.openApplicationStatusChangeDialogue(this.job_id, user_id, 'finalists')
         break;
       case 'finalists':
-        this.confirmationService.openApplicationStatusChangeDialogue(this.job_id, user_id, 'on-hold')
-        break;
-      default:
+        this._confirmationService.openApplicationStatusChangeDialogue(this.job_id, user_id, 'on-hold')
         break;
     }
   }

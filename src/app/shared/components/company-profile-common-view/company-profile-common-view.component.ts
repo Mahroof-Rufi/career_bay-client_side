@@ -15,16 +15,16 @@ export class CompanyProfileCommonViewComponent implements OnInit{
   employerData:Employer | undefined;
 
   constructor(
-    private activatedRoute:ActivatedRoute,
-    private adminStore:Store<{ admin:adminStateModel }>
+    private readonly _activatedRoute:ActivatedRoute,
+    private readonly _adminStore:Store<{ admin:adminStateModel }>
   ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe( params => {
+    this._activatedRoute.paramMap.subscribe( params => {
       this.employer_id = params.get('id')
 
       if (this.employer_id) {
-        this.adminStore.select(getEmployerById(this.employer_id)).subscribe((data) => this.employerData = data)
+        this._adminStore.select(getEmployerById(this.employer_id)).subscribe((data) => this.employerData = data)
       }
     })
   }

@@ -1,21 +1,24 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { TuiFileLike } from '@taiga-ui/kit';
-import { Observable, Subject, finalize, map, of, switchMap, timer } from 'rxjs';
-import { noSpaceAllowed } from '../../validators/no-space-allowed.validator';
+import { Observable, Subject, Subscription, finalize, map, of, switchMap, timer } from 'rxjs';
 import { confirmPasswordValidator } from '../../validators/confirm-password.validator';
-import { AuthService } from '../../services/auth.service';
 import { TuiAlertService } from '@taiga-ui/core';
+import { AuthApiService } from '../../services/auth-api-service.service';
+import { environment } from '../../../environments/environment.development';
 
 @Component({
   selector: 'app-company-sign-up',
   templateUrl: './company-sign-up.component.html',
   styleUrl: './company-sign-up.component.scss'
 })
-export class CompanySignUpComponent implements OnInit {
-
+export class CompanySignUpComponent implements OnInit,OnDestroy{
   @Output() changeView:EventEmitter<string> = new EventEmitter()
+
+  OTPSuccessAlertSubscription!:Subscription;
+  OTPFailureAlertSubscription!:Subscription;
+  registrationSuccessAlertSubscription!:Subscription;
+  registrationFailureAlertSubscription!:Subscription;
 
   registrationForm!: FormGroup;
   document = new FormControl();
@@ -32,13 +35,13 @@ export class CompanySignUpComponent implements OnInit {
 
 
   constructor(
-    private authService:AuthService, 
-    private alert: TuiAlertService,
-    private formBuilder:FormBuilder
+    private readonly _authAPIs:AuthApiService, 
+    private readonly _alert: TuiAlertService,
+    private readonly _formBuilder:FormBuilder
   ) { }
 
   ngOnInit(): void {
-    this.registrationForm = this.formBuilder.group({
+    this.registrationForm = this._formBuilder.group({
       companyName: ['', Validators.required],
       profile_url: [''], 
       email: ['', [Validators.required, Validators.email]],
@@ -52,7 +55,7 @@ export class CompanySignUpComponent implements OnInit {
     }, { validators: [confirmPasswordValidator] });
   }
 
-  redirectlogin() {
+  redirectLogin() {
     this.changeView.emit('company-login')
   }
 
@@ -93,55 +96,62 @@ export class CompanySignUpComponent implements OnInit {
 
 
   requestOTP() {
-    const email = this.registrationForm.get('email')?.value    
-    this.authService.companyRequestOTP(email).subscribe((res) => {
-      console.log(res);
-      
-      this.alert.open('', {
-        label: 'OTP send successfully',
-        status: 'success',
-        autoClose: true,
-      }).subscribe()
-      this.OTP_BTN = 'Resend OTP'
-      this.time = this.startingMinute * 60;
-      this.timerInterval = setInterval(() => {
-        this.updateTimer();
-      }, 1000);
-    }, (err: any) => {
-      console.log(err);
-      this.alert.open('', {
-        label: err.error,
-        status: 'error',
-        autoClose: false,
-        hasCloseButton: true
-      }).subscribe({
-              
-      })
-    })
-  }
-
-  submitRegistrationForm() {
-    if (this.registrationForm.valid) {
-
-      this.registrationForm.patchValue({
-        profile_url: `https://avatar.iran.liara.run/username?username=[${this.registrationForm.value.companyName}]`
-      });      
-
-      this.authService.companyRegistration(this.registrationForm.value).subscribe((res) => {
-        this.alert.open('', {
-          label: 'Registration successfull',
+    const email = this.registrationForm.get('email')?.value  
+    
+    this._authAPIs.employerRequestOTP(email).subscribe({
+      next: response => {
+        this.OTPSuccessAlertSubscription = this._alert.open('', {
+          label: 'OTP send successfully',
           status: 'success',
           autoClose: true,
-        }).subscribe()       
-        this.changeView.emit('company-login')
-      }, (err: any) => {
-        this.alert.open('', {
+        }).subscribe()
+        this.OTP_BTN = 'Resend OTP'
+        this.time = this.startingMinute * 60;
+        this.timerInterval = setInterval(() => {
+          this.updateTimer();
+        }, 1000);
+      },
+
+      error: err => {
+        this.OTPFailureAlertSubscription = this._alert.open('', {
           label: err.error,
           status: 'error',
           autoClose: false,
           hasCloseButton: true
         }).subscribe()
+      }
+    })
+
+  }
+
+  submitRegistrationForm() {
+    if (this.registrationForm.valid) {
+      const companyName = this.registrationForm.value.companyName
+      this.registrationForm.patchValue({
+        profile_url: `${environment.defaultAvatarApi}/username?username=[${companyName}]`
+      });      
+
+      this._authAPIs.employerRegistration(this.registrationForm.value).subscribe({
+        next: response => {
+          this.changeView.emit('company-login')
+          this.registrationSuccessAlertSubscription = this._alert.open('', {
+            label: 'Registration successful',
+            status: 'success',
+            autoClose: false,
+            hasCloseButton: true,
+          }).subscribe()       
+        },
+
+        error: err => {
+          this.registrationFailureAlertSubscription = this._alert.open('', {
+            label: err.error,
+            status: 'error',
+            autoClose: false,
+            hasCloseButton: true
+          }).subscribe()
+        }
       })
+
     } else {
       this.registrationForm.markAllAsTouched()
     }
@@ -156,6 +166,13 @@ export class CompanySignUpComponent implements OnInit {
       this.time = 0
       clearInterval(this.timerInterval); 
     }
+  }
+
+  ngOnDestroy(): void {
+    this.OTPSuccessAlertSubscription?.unsubscribe()
+    this.OTPFailureAlertSubscription?.unsubscribe()
+    this.registrationSuccessAlertSubscription?.unsubscribe()
+    this.registrationFailureAlertSubscription?.unsubscribe()
   }
 
 }

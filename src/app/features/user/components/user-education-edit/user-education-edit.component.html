@@ -21,7 +21,7 @@
                         Subject
                         <input tuiTextfield type="text"/>
                     </tui-input>
-                    <small *ngIf="educationForm.get('subjectName')?.errors?.['required'] && educationForm.get('subjectName')?.touched" class="text-red-500 font-bannerText">
+                    <small *ngIf="educationForm.get('subject')?.errors?.['required'] && educationForm.get('subject')?.touched" class="text-red-500 font-bannerText">
                         *subject name required
                     </small>
                 </div>

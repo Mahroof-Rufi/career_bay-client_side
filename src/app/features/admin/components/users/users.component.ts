@@ -15,8 +15,7 @@ export class UsersComponent implements OnInit{
   users!:User[];
 
   constructor(
-    private adminStore:Store<{ admin:adminStateModel }>,
-    private router:Router
+    private readonly adminStore:Store<{ admin:adminStateModel }>,
   ) {}
 
   ngOnInit(): void {

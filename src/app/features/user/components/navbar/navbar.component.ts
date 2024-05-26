@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../../../../store/user-store/user.model';
+import { User } from '../../user-store/user.model';
 import { Store } from '@ngrx/store';
-import { getUserData } from '../../../../store/user-store/user.selector';
+import { getUserData } from '../../user-store/user.selector';
 import { Router } from '@angular/router';
 import { UserProfileEditModalService } from '../../services/user-profile-edit-modal.service';
 
@@ -12,28 +12,25 @@ import { UserProfileEditModalService } from '../../services/user-profile-edit-mo
 })
 export class NavbarComponent implements OnInit{
 
-  readonly waterplea = 'https://avatars.githubusercontent.com/u/11832552?v=4';
   userData!:User;
 
   constructor(
-    private userStore:Store<{ user:User }>,
-    private router:Router,
-    private profileEditService:UserProfileEditModalService,
+    private readonly _userStore:Store<{ user:User }>,
+    private readonly _router:Router,
+    private readonly _profileEditModal:UserProfileEditModalService,
   ) {}
 
   ngOnInit(): void {
-    this.userStore.select(getUserData).subscribe((res) => {
-      this.userData = res
-    })
+    this._userStore.select(getUserData).subscribe((res) => this.userData = res)
   }
 
   logout() {
     localStorage.removeItem('userToken')
-    this.router.navigateByUrl('/home')
+    this._router.navigateByUrl('/home')
   }
 
   changeEmail() {
-    this.profileEditService.openChangeEmailModal()
+    this._profileEditModal.openChangeEmailModal()
   }
 
 }

@@ -15,9 +15,9 @@
             }
             <h2 class="text-lg text-thirdGrey font-bannerText">{{ education.subject }}</h2>
             @if (education.present) {
-                <h3 class="text-lg text-secondGrey font-bannerText">{{ education.startDate }} - present</h3>
+                <h3 class="text-lg text-secondGrey font-bannerText">{{ education.startDate | date }} - present</h3>
             } @else {
-                <h3 class="text-lg text-secondGrey font-bannerText">{{ education.startDate }} - {{ education.endDate }}</h3>
+                <h3 class="text-lg text-secondGrey font-bannerText">{{ education.startDate | date }} - {{ education.endDate | date }}</h3>
             }
         </div>
     </div>

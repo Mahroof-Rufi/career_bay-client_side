@@ -4,13 +4,11 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Observable, Subscription } from 'rxjs';
 import { ApplyJobConfirmationComponent } from '../components/apply-job-confirmation/apply-job-confirmation.component';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ApplyJobConfirmationService {
 
   private applyJobConfirmation: Observable<any> | undefined;
-  private applyJobConfirmationSubsciption!: Subscription
+  private applyJobConfirmationSubscription!: Subscription
 
   job_id!:string;
 
@@ -33,13 +31,13 @@ export class ApplyJobConfirmationService {
     this.job_id = job_id
     this.initializeApplyJobConfirmationModal()
     if (this.applyJobConfirmation) {
-      this.applyJobConfirmationSubsciption = this.applyJobConfirmation?.subscribe()
+      this.applyJobConfirmationSubscription = this.applyJobConfirmation?.subscribe()
     }
   }
 
-  closeApplyjobConfirmationModal() {
-    if (this.applyJobConfirmationSubsciption) {
-      this.applyJobConfirmationSubsciption.unsubscribe()
+  closeApplyJobConfirmationModal() {
+    if (this.applyJobConfirmationSubscription) {
+      this.applyJobConfirmationSubscription.unsubscribe()
     }
   }
 }

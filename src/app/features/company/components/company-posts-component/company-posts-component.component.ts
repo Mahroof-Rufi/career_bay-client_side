@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { AddPostModalService } from '../../services/add-post-modal.service';
 import { Store } from '@ngrx/store';
-import { Employer, EmployerPosts, Post } from '../../../../store/employer-store/employer.model';
-import { getPosts } from '../../../../store/employer-store/employer.selector';
+import { Employer, EmployerPosts, Post } from '../../store/employer.model';
+import { getPosts } from '../../store/employer.selector';
 import { initFlowbite } from 'flowbite';
 
 @Component({
@@ -15,12 +15,12 @@ export class CompanyPostsComponentComponent implements OnInit{
   posts!:any;
 
   constructor(
-    private addPostService:AddPostModalService,
-    private employerStore:Store<{ employer:Employer }>
+    private readonly _addPostModal:AddPostModalService,
+    private readonly _employerStore:Store<{ employer:Employer }>
   ) {}
 
   ngOnInit(): void {
-    this.employerStore.select(getPosts).subscribe( res => {
+    this._employerStore.select(getPosts).subscribe( res => {
       this.posts = res;
       console.log(this.posts);
       
@@ -40,6 +40,6 @@ export class CompanyPostsComponentComponent implements OnInit{
   }
 
   addPost() {
-    this.addPostService.openAddPostDialogue()
+    this._addPostModal.openAddPostDialogue()
   }
 }

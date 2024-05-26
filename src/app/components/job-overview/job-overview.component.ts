@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrl: './job-overview.component.scss'
 })
 export class JobOverviewComponent {
-  sampleJobdata: any[] = [
+  sampleJobData: any[] = [
     {
       company_id: {
         profile_url:'../../../assets/company-dp-1.jpg', 

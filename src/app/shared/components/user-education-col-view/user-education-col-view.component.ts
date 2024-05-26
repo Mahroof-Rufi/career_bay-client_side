@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { education } from '../../../store/user-store/user.model';
+import { education } from '../../../features/user/user-store/user.model';
 
 @Component({
   selector: 'app-user-education-col-view',

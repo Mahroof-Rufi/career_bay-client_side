@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { education } from '../../../../store/user-store/user.model';
+import { education } from '../../user-store/user.model';
 import { UserProfileEditModalService } from '../../services/user-profile-edit-modal.service';
 
 @Component({
@@ -11,11 +11,11 @@ export class UserProfileEducationSectionComponent {
   @Input() educations:education[] | undefined
 
   constructor(
-    private profileEditService:UserProfileEditModalService
+    private readonly _profileEditModal:UserProfileEditModalService
   ) {}
 
   openEditEducation() {
-    this.profileEditService.openUserEducationEditModal()
+    this._profileEditModal.openUserEducationEditModal()
   }
 
 }

@@ -1,10 +1,10 @@
-import { User, experience } from './../../../../store/user-store/user.model';
+import { User, experience } from '../../user-store/user.model';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { addUserExperience } from '../../../../store/user-store/user.actions';
-import { getExperienceById, getUserId } from '../../../../store/user-store/user.selector';
+import { updateUserExperience } from '../../user-store/user.actions';
+import { getExperienceById, getUserId } from '../../user-store/user.selector';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { UserProfileEditModalService } from '../../services/user-profile-edit-modal.service';
 
@@ -16,8 +16,8 @@ import { UserProfileEditModalService } from '../../services/user-profile-edit-mo
 export class UserExperienceEditComponent implements OnInit{
 
   userId!:string;
-  jobtype:string[] = ['InterShip', 'Partime', 'FullTime']
-  states:string[] = ['Kerala', 'Karnataka','Tengala']
+  jobType:string[] = ['InterShip', 'ParTime', 'FullTime']
+  states:string[] = ['Kerala', 'Karnataka','Telengana']
 
   Heading:string = 'Add Experience'
   exp:experience | undefined;
@@ -25,24 +25,20 @@ export class UserExperienceEditComponent implements OnInit{
   experienceForm!:FormGroup;
 
   constructor(
-    private formBuilder:FormBuilder,
-    private userStore:Store<{ user:User }>,
+    private readonly _formBuilder:FormBuilder,
+    private readonly _userStore:Store<{ user:User }>,
     @Inject(POLYMORPHEUS_CONTEXT)
-    private readonly context: TuiDialogContext<string, string>,
-    private profileEditService: UserProfileEditModalService
+    private readonly _context: TuiDialogContext<string, string>,
+    private readonly _profileEditModal: UserProfileEditModalService
   ) {}
 
   ngOnInit(): void {
-    this.userStore.select(getUserId).subscribe((res) => {
-      this.userId = res
-    })
+    this._userStore.select(getUserId).subscribe((res) => this.userId = res)
     if(this.data) {
       this.Heading = 'Edit Experience'
-      this.userStore.select(getExperienceById(this.data)).subscribe( res => {
-        this.exp = res
-      } ) 
+      this._userStore.select(getExperienceById(this.data)).subscribe( res => this.exp = res) 
     }
-    this.experienceForm = this.formBuilder.group({
+    this.experienceForm = this._formBuilder.group({
       jobTitle: [this.exp?.jobTitle || '', [Validators.required]],
       companyName: [this.exp?.companyName || '', [Validators.required]],
       jobType: [this.exp?.jobType || '', [Validators.required]],
@@ -58,19 +54,19 @@ export class UserExperienceEditComponent implements OnInit{
   }
 
   initTechnologies() {
-    const skillsArray = this.formBuilder.array([])
+    const skillsArray = this._formBuilder.array([])
     if (this.exp && this.exp.technologies) {
       this.exp.technologies.forEach(res => {
-        skillsArray.push(this.formBuilder.control(res, Validators.required))
+        skillsArray.push(this._formBuilder.control(res, Validators.required))
       });
     } else {
-      skillsArray.push(this.formBuilder.control('', Validators.required))
+      skillsArray.push(this._formBuilder.control('', Validators.required))
     }
     return skillsArray
   }
 
   get data(): string {
-    return this.context.data
+    return this._context.data
   }
 
   get technologies(): FormArray {
@@ -81,7 +77,7 @@ export class UserExperienceEditComponent implements OnInit{
     (<FormArray>this.experienceForm.get('technologies')).push(new FormControl('', Validators.required))
   }
 
-  deletetechnology(index:number) {
+  deleteTechnology(index:number) {
     this.technologies.removeAt(index)
   }
 
@@ -106,35 +102,35 @@ export class UserExperienceEditComponent implements OnInit{
     const checkbox = event.target as HTMLInputElement;
     const remort = checkbox.checked;
 
-    const cityControll = this.experienceForm.get('city');
-    const stateControll = this.experienceForm.get('state')
+    const cityControl = this.experienceForm.get('city');
+    const stateControl = this.experienceForm.get('state')
 
     if (remort) {
-      cityControll?.setValue('');
-      stateControll?.setValue('');
-      cityControll?.disable();
-      stateControll?.disable();
-      cityControll?.clearValidators();
-      stateControll?.clearValidators();
+      cityControl?.setValue('');
+      stateControl?.setValue('');
+      cityControl?.disable();
+      stateControl?.disable();
+      cityControl?.clearValidators();
+      stateControl?.clearValidators();
     } else {
-      cityControll?.enable();
-      stateControll?.enable();
-      cityControll?.setValidators(Validators.required);
-      stateControll?.setValidators(Validators.required);
+      cityControl?.enable();
+      stateControl?.enable();
+      cityControl?.setValidators(Validators.required);
+      stateControl?.setValidators(Validators.required);
     }
 
-    cityControll?.updateValueAndValidity();
-    stateControll?.updateValueAndValidity();
+    cityControl?.updateValueAndValidity();
+    stateControl?.updateValueAndValidity();
   }
 
   submitExperience() {
     if (this.experienceForm.valid) {
       const experience = this.experienceForm.value
-      this.profileEditService.closeUserexperienceEditModal()
+      this._profileEditModal.closeUserExperienceEditModal()
       if (this.exp?._id) {
-        this.userStore.dispatch(addUserExperience({ experience:experience, userId:this.userId, exp_id:this.exp._id }))
+        this._userStore.dispatch(updateUserExperience({ experience:experience, exp_id:this.exp._id }))
       } else {
-        this.userStore.dispatch(addUserExperience({ experience:experience, userId:this.userId }))
+        this._userStore.dispatch(updateUserExperience({ experience:experience }))
       }
     } else {
       this.experienceForm.markAllAsTouched()

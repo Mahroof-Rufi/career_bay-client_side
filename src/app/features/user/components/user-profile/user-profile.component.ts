@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { User, UserMainDetails, education, experience } from '../../../../store/user-store/user.model';
+import { User, UserMainDetails, education, experience } from '../../user-store/user.model';
 import { Store } from '@ngrx/store';
-import { getUserData } from '../../../../store/user-store/user.selector';
+import { getUserData } from '../../user-store/user.selector';
 
 @Component({
   selector: 'app-user-profile',
@@ -17,33 +17,35 @@ export class UserProfileComponent implements OnInit{
   skills: string[] | undefined
 
   constructor(
-    private userStore:Store<{ user:User }>
+    private readonly _userStore:Store<{ user:User }>
   ) {}
 
   ngOnInit(): void {
-    this.userStore.select(getUserData).subscribe((res) => {
-      this.userMainDetails = {
-        _id: res._id,
-        email: res.email,
-        firstName: res.firstName,
-        lastName: res.lastName,
-        profile_url: res.profile_url,
-        jobTitle: res.jobTitle,
-        industry: res.industry,
-        city: res.city,
-        state: res.state,
-        remort: res.remort,
-        gender: res.gender,
-        DOB: res.DOB,
-        resume_url: res.resume_url,
-        phone: res.phone,
-        portfolio_url: res.portfolio_url,
-        gitHub_url: res.gitHub_url
+    this._userStore.select(getUserData).subscribe({
+      next: response => {
+        this.userMainDetails = {
+          _id: response._id,
+          email: response.email,
+          firstName: response.firstName,
+          lastName: response.lastName,
+          profile_url: response.profile_url,
+          jobTitle: response.jobTitle,
+          industry: response.industry,
+          city: response.city,
+          state: response.state,
+          remort: response.remort,
+          gender: response.gender,
+          DOB: response.DOB,
+          resume_url: response.resume_url,
+          phone: response.phone,
+          portfolio_url: response.portfolio_url,
+          gitHub_url: response.gitHub_url
+        }
+        this.about = response.about
+        this.experiences = response.experiences
+        this.educations = response.educations
+        this.skills = response.skills 
       }
-      this.about = res.about
-      this.experiences = res.experiences
-      this.educations = res.educations
-      this.skills = res.skills     
     })
   }
 

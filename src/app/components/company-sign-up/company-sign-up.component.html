@@ -6,7 +6,7 @@
         <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
             <ul class="flex flex-wrap -mb-px">
                 <li class="me-2">
-                    <p class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" (click)="redirectlogin()">Log In</p>
+                    <p class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" (click)="redirectLogin()">Log In</p>
                 </li>
                 <li class="me-2">
                     <p class="inline-block p-4 text-mainColor border-b-2 border-mainColor rounded-t-lg active dark:text-blue-500 dark:border-blue-500" aria-current="page">Register</p>
@@ -25,7 +25,7 @@
                         <input tuiTextfield type="text" />
                     </tui-input>
                     <small *ngIf="registrationForm.get('companyName')?.errors?.['required'] && registrationForm.get('companyName')?.touched" class="text-red-500 font-bannerText">
-                        *companyname required
+                        *company name required
                     </small>
                     <small *ngIf="registrationForm.get('companyName')?.errors?.['noSpaceAllowed']" class="text-red-500 font-bannerText">
                         *space not allowed
@@ -131,7 +131,7 @@
                     <tui-tooltip
                         content="Verification Process for Companies
 
-                        To ensure the authenticity and credibility of companies on our platform, we require verification of certain documents. Please provide documents such as business licenses, registration certificates, or other relevant credentials to verify your account. Once your documents are verified, you can continue using your account for hiring and other activities. Thank you for your cooperati"
+                        To ensure the authenticity and credibility of companies on our platform, we require verification of certain documents. Please provide documents such as business licenses, registration certificates, or other relevant credentials to verify your account. Once your documents are verified, you can continue using your account for hiring and other activities. Thank you for your corporation"
                         direction="right"
                     ></tui-tooltip>
                 </div>

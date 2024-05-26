@@ -8,24 +8,22 @@ import { UserExperienceEditComponent } from '../components/user-experience-edit/
 import { UserEducationEditComponent } from '../components/user-education-edit/user-education-edit.component';
 import { UserSkillsEditComponent } from '../components/user-skills-edit/user-skills-edit.component';
 import { ChangeEmailComponent } from '../components/change-email/change-email.component';
-import { DeleteExperienxeComponent } from '../components/delete-experienxe/delete-experienxe.component';
+import { DeleteExperienceComponent } from '../components/delete-experience/delete-experience.component';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class UserProfileEditModalService {
 
   private maniDetailsEditDialogue: Observable<any> | undefined;
-  private maniDetailsEditSubsciption!: Subscription
+  private maniDetailsEditSubscription!: Subscription
 
   private aboutEditDialogue: Observable<any> | undefined;
-  private aboutEditSubsciption!: Subscription
+  private aboutEditSubscription!: Subscription
 
-  private experienceAddandEditDialogue: Observable<any> | undefined;
-  private experienceAddandEditSubsciption!: Subscription
+  private experienceAddAndEditDialogue: Observable<any> | undefined;
+  private experienceAddAndEditSubscription!: Subscription
 
-  private educationAddandEditDialogue: Observable<any> | undefined;
-  private educationAddandEditSubsciption!: Subscription
+  private educationAddAndEditDialogue: Observable<any> | undefined;
+  private educationAddAndEditSubscription!: Subscription
 
   private skillsEditDialogue: Observable<any> | undefined;
   private skillsEditSubscription!: Subscription
@@ -70,7 +68,7 @@ export class UserProfileEditModalService {
   }
 
   private initializeUserExperienceEditDialog() {
-    this.experienceAddandEditDialogue = this.dialogueService.open<any>(
+    this.experienceAddAndEditDialogue = this.dialogueService.open<any>(
       new PolymorpheusComponent(UserExperienceEditComponent, this.injector),
       {
         size:'l'
@@ -79,7 +77,7 @@ export class UserProfileEditModalService {
   }
 
   private initializeUserEducationEditDialog() {
-    this.educationAddandEditDialogue = this.dialogueService.open<any>(
+    this.educationAddAndEditDialogue = this.dialogueService.open<any>(
       new PolymorpheusComponent(UserEducationEditComponent, this.injector),
       {
         size:'l'
@@ -107,39 +105,39 @@ export class UserProfileEditModalService {
 
   openUserMainDetailsModal() {
     if (this.maniDetailsEditDialogue) {
-      this.maniDetailsEditSubsciption = this.maniDetailsEditDialogue.subscribe((result) => {
+      this.maniDetailsEditSubscription = this.maniDetailsEditDialogue.subscribe((result) => {
         
       })
     }
   }
 
   closeUserMainDetailsModal() {
-    if (this.maniDetailsEditSubsciption) {
-      this.maniDetailsEditSubsciption.unsubscribe()
+    if (this.maniDetailsEditSubscription) {
+      this.maniDetailsEditSubscription.unsubscribe()
     }
   }
 
   
 
-  openUseraboutEditModal() {
+  openUserAboutEditModal() {
     if (this.aboutEditDialogue) {
-      this.aboutEditSubsciption = this.aboutEditDialogue.subscribe((result) => {
+      this.aboutEditSubscription = this.aboutEditDialogue.subscribe((result) => {
         
       })
     }
   }
 
-  closeUseraboutEditModal() {
-    if (this.aboutEditSubsciption) {
-      this.aboutEditSubsciption.unsubscribe()
+  closeUserAboutEditModal() {
+    if (this.aboutEditSubscription) {
+      this.aboutEditSubscription.unsubscribe()
     }
   }
 
 
 
-  openUserexperienceEditModal(experienceId?:string) {
+  openUserExperienceEditModal(experienceId?:string) {
     if (experienceId) {
-      this.experienceAddandEditDialogue = this.dialogueService.open<any>(
+      this.experienceAddAndEditDialogue = this.dialogueService.open<any>(
         new PolymorpheusComponent(UserExperienceEditComponent, this.injector),
         {
           size:'l',
@@ -147,40 +145,40 @@ export class UserProfileEditModalService {
         }
       )
     }
-    if (this.experienceAddandEditDialogue) {
-      this.experienceAddandEditSubsciption = this.experienceAddandEditDialogue.subscribe((result) => {
+    if (this.experienceAddAndEditDialogue) {
+      this.experienceAddAndEditSubscription = this.experienceAddAndEditDialogue.subscribe((result) => {
         
       })
     }
   }
 
-  closeUserexperienceEditModal() {
-    if (this.experienceAddandEditSubsciption) {
-      this.experienceAddandEditSubsciption.unsubscribe()
+  closeUserExperienceEditModal() {
+    if (this.experienceAddAndEditSubscription) {
+      this.experienceAddAndEditSubscription.unsubscribe()
     }
   }
 
 
 
-  openUserEducationEditModal(edct_id?:string) {
-    if (edct_id) {
-      this.educationAddandEditDialogue = this.dialogueService.open<any>(
+  openUserEducationEditModal(education_id?:string) {
+    if (education_id) {
+      this.educationAddAndEditDialogue = this.dialogueService.open<any>(
         new PolymorpheusComponent(UserEducationEditComponent, this.injector),
         {
           size:'l',
-          data:edct_id
+          data:education_id
         })
     }
-    if (this.educationAddandEditDialogue) {
-      this.educationAddandEditSubsciption = this.educationAddandEditDialogue.subscribe((result) => {
+    if (this.educationAddAndEditDialogue) {
+      this.educationAddAndEditSubscription = this.educationAddAndEditDialogue.subscribe((result) => {
 
       })
     }
   }
 
-  closeUserEducationEditModdal() {
-    if (this.educationAddandEditSubsciption) {
-      this.educationAddandEditSubsciption.unsubscribe()
+  closeUserEducationEditModal() {
+    if (this.educationAddAndEditSubscription) {
+      this.educationAddAndEditSubscription.unsubscribe()
     }
   }
 
@@ -215,7 +213,7 @@ export class UserProfileEditModalService {
   openDeleteExperienceModal(experienceId?:string) {
     if (experienceId) {
       this.experienceDeleteDialogue = this.dialogueService.open<any>(
-        new PolymorpheusComponent(DeleteExperienxeComponent, this.injector),
+        new PolymorpheusComponent(DeleteExperienceComponent, this.injector),
         {
           size:'m',
           data:{_id:experienceId, type:'exp'}
@@ -235,13 +233,13 @@ export class UserProfileEditModalService {
     }
   }
 
-  openDeleteEducationModal(eductn_id?:string) {
-    if (eductn_id) {
+  openDeleteEducationModal(education_id?:string) {
+    if (education_id) {
       this.educationDeleteDialogue = this.dialogueService.open<any>(
-        new PolymorpheusComponent(DeleteExperienxeComponent, this.injector),
+        new PolymorpheusComponent(DeleteExperienceComponent, this.injector),
         {
           size:'m',
-          data:{_id:eductn_id, type:'edu'}
+          data:{_id:education_id, type:'edu'}
         }
       )
     }

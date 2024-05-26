@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { UserMainDetails } from '../../../../store/user-store/user.model';
+import { UserMainDetails } from '../../user-store/user.model';
 import { UserProfileEditModalService } from '../../services/user-profile-edit-modal.service';
 
 @Component({
@@ -11,11 +11,11 @@ export class UserProfileMainDetailsComponent {
   @Input() userMainDetails!:UserMainDetails;
 
   constructor(
-    private profileEditServeice:UserProfileEditModalService
+    private readonly _profileEditModal:UserProfileEditModalService
   ) {}
 
   openMainDetailsEdit() {
-    this.profileEditServeice.openUserMainDetailsModal()
+    this._profileEditModal.openUserMainDetailsModal()
   }
 
 }

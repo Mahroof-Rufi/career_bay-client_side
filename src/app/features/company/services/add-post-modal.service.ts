@@ -4,9 +4,7 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Observable, Subscription } from 'rxjs';
 import { AddPostComponent } from '../components/add-post/add-post.component';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AddPostModalService {
 
   private addPostDialogue: Observable<any> | undefined;
@@ -31,6 +29,12 @@ export class AddPostModalService {
   openAddPostDialogue() {
     if (this.addPostDialogue) {
       this.addPostDialogueSubscription = this.addPostDialogue.subscribe()
+    }
+  }
+
+  closeAddPostDialogue() {
+    if (this.addPostDialogueSubscription) {
+      this.addPostDialogueSubscription.unsubscribe()
     }
   }
 

@@ -1,13 +1,13 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { Employer } from '../../../../store/employer-store/employer.model';
-import {TuiCountryIsoCode} from '@taiga-ui/i18n';
+import { Component } from '@angular/core';
+import { Employer } from '../../store/employer.model';
+import { TuiCountryIsoCode } from '@taiga-ui/i18n';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../../../services/auth.service';
-import { EmployerEditProfileModalService } from '../../../../services/employer-edit-profile-modal.service';
+import { EmployerEditProfileModalService } from '../../services/employer-edit-profile-modal.service';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { getEmployerData } from '../../../../store/employer-store/employer.selector';
-import { updateEmployer } from '../../../../store/employer-store/employer.actions';
+import { getEmployerData } from '../../store/employer.selector';
+import { updateEmployer } from '../../store/employer.actions';
+import { EmployerApiServiceService } from '../../services/employer-api-service.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -27,15 +27,15 @@ export class EditProfileComponent {
   countryIsoCode = TuiCountryIsoCode.IN
 
   constructor(
-    private authService:AuthService,
-    private editProfileModalService:EmployerEditProfileModalService,
-    private router:Router,
-    private employerStore:Store<{ employer:Employer }>,
-    private formBuilder: FormBuilder
+    private readonly _employerAPIs:EmployerApiServiceService,
+    private readonly _editProfileModal:EmployerEditProfileModalService,
+    private readonly _router:Router,
+    private readonly _employerStore:Store<{ employer:Employer }>,
+    private readonly _formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
-    this.employerStore.select(getEmployerData).subscribe((res) => {
+    this._employerStore.select(getEmployerData).subscribe((res) => {
       this.employerData = res
     })
 
@@ -89,17 +89,15 @@ export class EditProfileComponent {
         formData.append('profile-img',fileInput.files[0])       
       } 
       
-      this.authService.companyUpdateProfile(formData).subscribe((res) => {    
-        console.log(res);
-        console.log(res.updatedData);
-        
-            
-      this.employerStore.dispatch(updateEmployer({ newData:res.updatedData }))
-      this.editProfileModalService.closeModal()
-      this.router.navigateByUrl('/employer/profile')
-      }, (err) => {
-        console.log(err);
-        
+      this._employerAPIs.companyUpdateProfile(formData).subscribe({
+        next: response => {
+          this._employerStore.dispatch(updateEmployer({ newData:response.updatedData }))
+          this._editProfileModal.closeModal()
+          this._router.navigateByUrl('/employer/profile')
+        },
+        error: err => {
+          console.log(err);
+        }
       })
 
     } else {

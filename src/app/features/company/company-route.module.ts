@@ -11,13 +11,13 @@ import { loadJobApplicantsGuard } from "./route-guards/load-job-applicants.guard
 import { CompanyPostsComponentComponent } from "./components/company-posts-component/company-posts-component.component";
 import { loadEmployerPostsGuard } from "./route-guards/load-employer-posts.guard";
 const routes: Routes = [
-    { path: 'employer', component:MainComponentComponent, children:[
+    { path: '', component:MainComponentComponent, children:[
         { path:'', redirectTo:'profile', pathMatch:'full' },
-        { path: 'profile', component:ProfileComponent, canActivate:[loadEmployerDataGuard] },
-        { path: 'jobs', component:JobComponent, canActivate:[loadEmployerJobsGuard] },
-        { path: 'job/applicants/:job_id', component:UnderReviewApplicantsComponent, canActivate:[loadEmployerDataGuard,loadJobApplicantsGuard] },
-        { path: 'posts', component:CompanyPostsComponentComponent, canActivate:[loadEmployerPostsGuard] }
-    ] , canActivate:[employerAuthGuard,loadEmployerJobsGuard]}
+        { path: 'profile', component:ProfileComponent },
+        { path: 'jobs', component:JobComponent },
+        { path: 'job/applicants/:job_id', component:UnderReviewApplicantsComponent },
+        { path: 'posts', component:CompanyPostsComponentComponent },
+    ] }
 ]
 
 @NgModule({

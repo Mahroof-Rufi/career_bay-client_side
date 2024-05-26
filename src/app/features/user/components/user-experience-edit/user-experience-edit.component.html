@@ -33,7 +33,7 @@
                             <input tuiTextfield class="w-full">
                             <tui-data-list-wrapper
                                 *tuiDataList
-                                [items]="jobtype"
+                                [items]="jobType"
                             ></tui-data-list-wrapper>
                         </tui-select>
                         <small *ngIf="experienceForm.get('jobType')?.errors?.['required'] && experienceForm.get('jobType')?.touched" class="text-red-500 font-bannerText">
@@ -128,7 +128,7 @@
                             <input tuiTextfield type="text" class="w-full">
                         </tui-input>
                         @if (i != 0) {
-                            <button class="ml-2 bg-red-600 py-3 rounded-lg px-5" (click)="deletetechnology(i)">
+                            <button class="ml-2 bg-red-600 py-3 rounded-lg px-5" (click)="deleteTechnology(i)">
                                 <i class="fa-solid fa-trash text-white"></i>
                             </button>
                         }

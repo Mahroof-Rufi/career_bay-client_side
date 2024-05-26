@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { experience } from '../../../../store/user-store/user.model';
+import { experience } from '../../user-store/user.model';
 import { UserProfileEditModalService } from '../../services/user-profile-edit-modal.service';
 
 @Component({
@@ -11,14 +11,14 @@ export class UserProfileExperienceColComponent {
   @Input() experience!:experience;
 
   constructor(
-    private profileEditService:UserProfileEditModalService
+    private readonly _profileEditModal:UserProfileEditModalService
   ) {}
 
   openEditExperience(exp_id:string | undefined) {
-    exp_id ? this.profileEditService.openUserexperienceEditModal(exp_id) : this.profileEditService.openUserexperienceEditModal()
+    exp_id ? this._profileEditModal.openUserExperienceEditModal(exp_id) : this._profileEditModal.openUserExperienceEditModal()
   }
 
   deleteExperience(exp_id:string | undefined) {
-    this.profileEditService.openDeleteExperienceModal(exp_id)
+    this._profileEditModal.openDeleteExperienceModal(exp_id)
   }
 }

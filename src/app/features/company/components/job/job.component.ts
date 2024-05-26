@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { AddJobPostService } from '../../../../services/add-job-post.service';
-import { Employer, Job } from '../../../../store/employer-store/employer.model';
-import { AuthService } from '../../../../services/auth.service';
+import { AddJobPostService } from '../../services/add-job-post-modal.service';
+import { Employer, Job } from '../../store/employer.model';
 import { Store } from '@ngrx/store';
-import { getJobsData } from '../../../../store/employer-store/employer.selector';
+import { getJobsData } from '../../store/employer.selector';
 import { Router } from '@angular/router';
-import { TuiAlertService, TuiDialogService, TuiSizeL, TuiSizeS } from '@taiga-ui/core';
-import { DeleteJobConfirmationService } from '../../../../services/delete-job-confirmation.service';
+import { TuiAlertService } from '@taiga-ui/core';
+import { DeleteJobConfirmationService } from '../../services/delete-job-confirmation.service';
+import { JobsApiServiceService } from '../../../../shared/services/jobs-api-service.service';
 
 @Component({
   selector: 'app-job',
@@ -18,21 +18,16 @@ export class JobComponent implements OnInit{
   jobs!:Job[]
 
   constructor(
-    private addJobModalService:AddJobPostService,
-    private APIService:AuthService,
-    private router:Router,
-    private alert: TuiAlertService,
-    private employerState: Store<{employer:Employer}>,
-    private deleteJobConfirmation: DeleteJobConfirmationService,
+    private readonly _addJobModal:AddJobPostService,
+    private readonly _jobsAPIs:JobsApiServiceService,
+    private readonly _router:Router,
+    private readonly _alert: TuiAlertService,
+    private readonly _employerStore: Store<{employer:Employer}>,
+    private readonly _deleteJobConfirmation: DeleteJobConfirmationService,
   ) {}
 
   ngOnInit(): void {
-    this.employerState.select(getJobsData).subscribe((res:any) => {
-        
-      this.jobs = res
-      
-      
-    })
+    this._employerStore.select(getJobsData).subscribe((res:any) =>  this.jobs = res)
   }
 
   trackByFn(job: Job): string {
@@ -40,10 +35,10 @@ export class JobComponent implements OnInit{
   }  
   
   addJob(_id?:string) {
-    _id ? this.addJobModalService.openModal(_id) : this.addJobModalService.openModal()
+    _id ? this._addJobModal.openModal(_id) : this._addJobModal.openModal()
   }
 
   deleteJob(jobId:string) {
-    this.deleteJobConfirmation.openModal(jobId)
+    this._deleteJobConfirmation.openModal(jobId)
   }
 }

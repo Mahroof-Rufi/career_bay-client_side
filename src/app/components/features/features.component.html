@@ -2,7 +2,7 @@
 
     <span class="flex flex-row justify-center text-5xl font-bannerText mt-20">
         <h2 class="text-mainGrey">Why</h2>
-        <h2 class="text-mainColor ml-3">Carrer-Bay</h2>
+        <h2 class="text-mainColor ml-3">Career-Bay</h2>
     </span>
 
     <div class="flex flex-row mx-10 space-x-5 mt-5"><!-- first main div starts -->
@@ -22,7 +22,7 @@
             <div class="bg-white rounded-lg flex flex-col justify-center items-center my-6 mx-5 py-3"><!-- 2nd inside div starts -->
                 <h3 class="text-2xl font-bannerText">Job that Match you</h3>
                 <div class="flex flex-row mx-5 my-4 space-x-5">
-                    <ng-container *ngFor="let job of sampleJobdata" >
+                    <ng-container *ngFor="let job of sampleJobData" >
                       <app-job [jobData]="job"></app-job>
                     </ng-container>
                 </div>
@@ -44,7 +44,7 @@
                 <h1 class="text-4xl text-center font-semibold">Application status</h1>
 
                 <div class="flex flex-row">
-                    <app-application-timeline [Applicationdata]="sampleApplicationData"></app-application-timeline>
+                    <app-application-timeline [ApplicationData]="sampleApplicationData"></app-application-timeline>
                 </div>
 
                 <div class="flex flex-col justify-center items-center mx-5">
@@ -61,11 +61,11 @@
     <div class="flex flex-row mx-10 space-x-5 mt-5"><!-- second main div starts -->
 
         <div class="bg-bg_grey rounded-lg w-1/2 mb-5"><!-- feature 1 div starts here -->
-            <ng-container *ngFor="let user of sampleUsersdata" >
+            <ng-container *ngFor="let user of sampleUsersData" >
                 <app-users class="py-4 mx-1" [userData]="user"></app-users>
             </ng-container>
             <div class="flex flex-col justify-center items-center mx-5 my-4">
-                <h2 class="text-2xl font-bannerText text-mainGrey">Hire Skilled Indivituals</h2>
+                <h2 class="text-2xl font-bannerText text-mainGrey">Hire Skilled Individuals</h2>
                 <span class="text-sm font-bannerText text-secondGrey">Connect with top talent effortlessly. Our platform simplifies the hiring process, helping you find skilled individuals who fit your company's needs perfectly.</span>
             </div>
         </div><!-- feature 1 div ends -->

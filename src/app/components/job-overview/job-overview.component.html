@@ -4,7 +4,7 @@
         <h1 class="text-5xl font-bannerText flex justify-center mt-2 text-mainColor">Job Here</h1>
     </div>
     <div class="grid grid-cols-5 gap-2 my-4 w-full">
-        @for (job of sampleJobdata; track $index) {
+        @for (job of sampleJobData; track $index) {
           <app-job [jobData]="job"></app-job>
         }
     </div>

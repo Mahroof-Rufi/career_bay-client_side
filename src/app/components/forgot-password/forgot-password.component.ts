@@ -1,17 +1,30 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
 import { TuiAlertService } from '@taiga-ui/core';
 import { confirmPasswordValidator } from '../../validators/confirm-password.validator';
+import { Subscription } from 'rxjs';
+import { AuthApiService } from '../../services/auth-api-service.service';
 
 @Component({
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
   styleUrl: './forgot-password.component.scss'
 })
-export class ForgotPasswordComponent {
+export class ForgotPasswordComponent implements OnDestroy{
   @Output() changeView: EventEmitter<string> = new EventEmitter()
   @Input() isUser: boolean = true;
+
+  userRequestOTPSuccessSub!:Subscription;
+  userRequestOTPFailureSub!:Subscription;
+
+  employerRequestOTPSuccessSub!:Subscription;
+  employerRequestOTPFailureSub!:Subscription;
+
+  userSubmitFormSuccessSub!:Subscription;
+  userSubmitFormFailureSub!:Subscription;
+
+  employerSubmitFormSuccessSub!:Subscription;
+  employerSubmitFormFailureSub!:Subscription;
 
   forgotPasswordForm!: FormGroup;
 
@@ -24,8 +37,9 @@ export class ForgotPasswordComponent {
   timerInterval: any;
 
   constructor(
-    private authService: AuthService,
-    private alert: TuiAlertService) { }
+    private readonly _authAPIs:AuthApiService,
+    private readonly _alert: TuiAlertService
+  ) { }
 
   ngOnInit(): void {
     this.forgotPasswordForm = new FormGroup({
@@ -47,51 +61,58 @@ export class ForgotPasswordComponent {
   requestOTP() {
     if (this.forgotPasswordForm.get('email')?.valid) {
       if (this.isUser) {
-        this.authService.userForgorPasswordRequestOTP(this.forgotPasswordForm.get('email')?.value).subscribe((res) => {
-          this.otpButton = 'Resend OTP'
-          this.time = this.startingMinute * 60;
-          this.timerInterval = setInterval(() => {
-            this.updateTimer();
-          }, 1000);
-          this.alert.open('', {
-            label: 'OTP send Successfully',
-            status: 'success',
-            autoClose: true,
-            hasCloseButton: true
-          }).subscribe()
-        }, (err) => {
-          this.alert.open('', {
-            label: err.error,
-            status: 'error',
-            autoClose: false,
-            hasCloseButton: true
-          }).subscribe()
+        this._authAPIs.userForgotPasswordRequestOTP(this.forgotPasswordForm.get('email')?.value).subscribe({
+          next: response => {
+            this.otpButton = 'Resend OTP'
+            this.time = this.startingMinute * 60;
+            this.timerInterval = setInterval(() => {
+              this.updateTimer();
+            }, 1000);
+            this.userRequestOTPSuccessSub = this._alert.open('', {
+              label: 'OTP send Successfully',
+              status: 'success',
+              autoClose: true,
+              hasCloseButton: true
+            }).subscribe()
+          },
+
+          error: err => {
+            this.userRequestOTPFailureSub = this._alert.open('', {
+              label: err.error,
+              status: 'error',
+              autoClose: false,
+              hasCloseButton: true
+            }).subscribe()
+          }
         })
+
       } else {
-        this.authService.companyForgorPasswordRequestOTP(this.forgotPasswordForm.get('email')?.value).subscribe((res) => {
+        this._authAPIs.companyForgotPasswordRequestOTP(this.forgotPasswordForm.get('email')?.value).subscribe({
+          next: response => {
+            this.otpButton = 'Resend OTP'
+            this.time = this.startingMinute * 60;
+            this.timerInterval = setInterval(() => {
+              this.updateTimer();
+            }, 1000);
+            this.employerRequestOTPSuccessSub = this._alert.open('', {
+              label: 'OTP send Successfully',
+              status: 'success',
+              autoClose: true,
+              hasCloseButton: true
+            }).subscribe()
+          },
 
-          this.otpButton = 'Resend OTP'
-          this.time = this.startingMinute * 60;
-          this.timerInterval = setInterval(() => {
-            this.updateTimer();
-          }, 1000);
-          this.alert.open('', {
-            label: 'OTP send Successfully',
-            status: 'success',
-            autoClose: true,
-            hasCloseButton: true
-          }).subscribe()
-        }, (err) => {
-
-          this.alert.open('', {
-            label: err.error,
-            status: 'error',
-            autoClose: false,
-            hasCloseButton: true
-          }).subscribe()
+          error: err => {
+            this._alert.open('', {
+              label: err.error,
+              status: 'error',
+              autoClose: false,
+              hasCloseButton: true
+            }).subscribe()
+          }
         })
       }
-    } else {
+    }else {
       this.forgotPasswordForm.get('email')?.markAsTouched()
     }
   }
@@ -109,49 +130,66 @@ export class ForgotPasswordComponent {
 
   submitOTP() {
     if (this.forgotPasswordForm.valid) {
-
       if (this.isUser) {
-        this.authService.userResetPassword(this.forgotPasswordForm.value).subscribe((res) => {
+        this._authAPIs.userResetPassword(this.forgotPasswordForm.value).subscribe({
+          next: response => {
+            this.userSubmitFormSuccessSub = this._alert.open('', {
+              label: 'Password updated Successfully',
+              status: 'success',
+              autoClose: true,
+              hasCloseButton: true
+            }).subscribe()
+            this.changeView.emit('user-login')
+          },
 
-          this.alert.open('', {
-            label: 'Password updated Successfully',
-            status: 'success',
-            autoClose: true,
-            hasCloseButton: true
-          }).subscribe()
-          this.changeView.emit('user-login')
-        }, (err) => {
-          console.log(err);
-          
-          this.alert.open('', {
-            label: err.error,
-            status: 'error',
-            autoClose: true,
-            hasCloseButton: true
-          }).subscribe()
+          error: err => {
+            this.userSubmitFormFailureSub = this._alert.open('', {
+              label: err.error,
+              status: 'error',
+              autoClose: true,
+              hasCloseButton: true
+            }).subscribe()
+          }
         })
       } else {
-        this.authService.companyResetPassword(this.forgotPasswordForm.value).subscribe((res) => {
-          console.log('here the comp reset pass res', res);
-          this.alert.open('', {
-            label: 'Password updated Successfully',
-            status: 'success',
-            autoClose: true,
-            hasCloseButton: true
-          }).subscribe()
-          this.changeView.emit('company-login')
-        }, (err) => {
-          this.alert.open('', {
-            label: err.error,
-            status: 'error',
-            autoClose: true,
-            hasCloseButton: true
-          }).subscribe()
+        this._authAPIs.companyResetPassword(this.forgotPasswordForm.value).subscribe({
+          next: response => {
+            this.employerSubmitFormSuccessSub = this._alert.open('', {
+              label: 'Password updated Successfully',
+              status: 'success',
+              autoClose: true,
+              hasCloseButton: true
+            }).subscribe()
+            this.changeView.emit('company-login')
+          },
+
+          error: err => {
+            this.employerSubmitFormFailureSub = this._alert.open('', {
+              label: err.error,
+              status: 'error',
+              autoClose: true,
+              hasCloseButton: true
+            }).subscribe()
+          }
         })
       }
     } else {
       this.forgotPasswordForm.markAllAsTouched()
     }
+  }
+
+  ngOnDestroy(): void {
+    this.userRequestOTPSuccessSub?.unsubscribe()
+    this.userRequestOTPFailureSub?.unsubscribe()
+
+    this.employerRequestOTPSuccessSub?.unsubscribe()
+    this.employerRequestOTPFailureSub?.unsubscribe()
+
+    this.userSubmitFormSuccessSub?.unsubscribe()
+    this.userSubmitFormFailureSub?.unsubscribe()
+
+    this.employerSubmitFormSuccessSub?.unsubscribe()
+    this.employerSubmitFormFailureSub?.unsubscribe()
   }
 }
 

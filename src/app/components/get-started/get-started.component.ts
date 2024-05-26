@@ -1,5 +1,5 @@
-import { Component, Injector } from '@angular/core';
-import { ModalService } from '../../services/modal.service';
+import { Component } from '@angular/core';
+import { AuthModalService } from '../../services/auth-modal-service.service';
 import { Router } from '@angular/router';
 
 
@@ -11,13 +11,11 @@ import { Router } from '@angular/router';
 export class GetStartedComponent {
 
   constructor(
-    private modalService:ModalService,
-    private router:Router
+    private readonly _authModal:AuthModalService,
+    private readonly router:Router
   ) { }
 
-  showDialog(): void {
-    console.log('clicked');
-    
+  showDialog(): void {    
     const userToken = localStorage.getItem('userToken')
     const employerToken = localStorage.getItem('employerToken')
     
@@ -26,7 +24,7 @@ export class GetStartedComponent {
     } else if (employerToken) {
       this.router.navigateByUrl('/employer/profile') 
     } else {
-      this.modalService.openModal()
+      this._authModal.openModal()
     }
   }
 

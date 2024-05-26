@@ -1,24 +1,38 @@
 declare var google: any;
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { TuiAlertService } from '@taiga-ui/core';
-import { ModalService } from '../../services/modal.service';
+import { Subscription } from 'rxjs';
+import { AuthModalService } from '../../services/auth-modal-service.service';
+import { environment } from '../../../environments/environment.development';
+import { AuthApiService } from '../../services/auth-api-service.service';
+
+
 @Component({
   selector: 'app-user-login',
   templateUrl: './user-login.component.html',
   styleUrl: './user-login.component.scss'
 })
-export class userLoginComponent implements OnInit {
-
+export class userLoginComponent implements OnInit,OnDestroy {
   @Output() changeView:EventEmitter<string> = new EventEmitter()
   @Output() renderForgotPassword: EventEmitter<boolean> = new EventEmitter()
 
-  constructor(private authService: AuthService,
-    private router: Router,
-    private alert: TuiAlertService,
-    private modalService:ModalService) { }
+  private _gAuthAPISubscription!:Subscription;
+  private _loginAPISubscription!:Subscription;
+
+  private _gAuthSuccessAlertSubscription!:Subscription;
+  private _gAuthFailureAlertSubscription!:Subscription;
+
+  private _loginFailureAlertSubscription!:Subscription;
+  private _loginSuccessAlertSubscription!:Subscription;
+
+  constructor(
+    private readonly _authAPIs: AuthApiService,
+    private readonly _router: Router,
+    private readonly _alert: TuiAlertService,
+    private readonly _authModal :AuthModalService
+  ) { }
 
   loginForm!: FormGroup;
 
@@ -34,8 +48,8 @@ export class userLoginComponent implements OnInit {
     })
 
     google.accounts.id.initialize({
-      client_id: '1030200020686-7dolvpabdb7oc0v66ukaabpok6uk4v6c.apps.googleusercontent.com',
-      callback: (res: any) => this.handleCrendentials(res)
+      client_id: environment.googleClientId,
+      callback: (res: any) => this.handleCredentials(res)
     });
 
     google.accounts.id.renderButton(document.getElementById("google-btn"), {
@@ -50,44 +64,43 @@ export class userLoginComponent implements OnInit {
     return JSON.parse(atob(token.split(".")[1]))
   }
 
-  handleCrendentials(res: any) {
+  handleCredentials(res: any) {
     if (res) {
-      const payloud = this.decodeToken(res.credential);
+      const payLoud = this.decodeToken(res.credential);
       const userData = {
-        fullName: payloud.name,
-        email: payloud.email,
-        password: 'hctd45#$%$E%$x',
-        google_id: payloud.sub,
+        fullName: payLoud.name,
+        email: payLoud.email,
+        password: 'cdt45#$%$E%$x',
+        google_id: payLoud.sub,
       }
-      this.authService.userGoogleRegistration(userData).subscribe((res) => {
-        this.alert.open('', {
-          label: 'Login Successfully',
-          status: 'success',
-          autoClose: true,
-          hasCloseButton: false,
-        }).subscribe()
-        this.router.navigateByUrl('/user/dashboard')
-      }, err => {
-        this.alert.open('', {
-          label: err.error.user.message,
-          status: 'error',
-          autoClose: false,
-          hasCloseButton: true,
-        }).subscribe({
-          complete: () => console.log('notification closed')
-        })
-      });
+      this._gAuthAPISubscription = this._authAPIs.userGoogleRegistration(userData).subscribe({
+        next: response => {
+          this._gAuthSuccessAlertSubscription = this._alert.open('', {
+            label: 'Login Successfully',
+            status: 'success',
+            autoClose: true,
+            hasCloseButton: false,
+          }).subscribe()
+          this._router.navigateByUrl('/user/dashboard')
+        },
+        error: err => {
+          this._gAuthFailureAlertSubscription = this._alert.open('', {
+            label: err.error.user.message,
+            status: 'error',
+            autoClose: false,
+            hasCloseButton: true,
+          }).subscribe()
+        }
+      })
     }
   }
 
   redirectSignUp() {
-    // this.router.navigateByUrl('/auth/user/register')
     this.changeView.emit('user-register')
   }
 
   forHiring() {
     this.changeView.emit('company-login')
-    // this.router.navigateByUrl('/auth/employer/login')
   }
 
   forgotPassword() {
@@ -97,42 +110,40 @@ export class userLoginComponent implements OnInit {
 
   submitLogin() {
     if (this.loginForm.valid) {
+      this._loginAPISubscription = this._authAPIs.userLogin(this.loginForm.value).subscribe({
+        next: response => {          
+          this._loginSuccessAlertSubscription = this._alert.open('', {
+            label: response.user.message,
+            status: 'success',
+            autoClose: true,
+            hasCloseButton: false,
+          }).subscribe()
+          this._authModal.closeModal()
+          this._router.navigateByUrl('/user/dashboard')
+        },
 
-      this.authService.userLogin(this.loginForm.value).subscribe((res) => {
-        const statusCode = res.user.status;
-        console.log(res);
-
-        switch (statusCode) {
-          case 200:
-            this.alert.open('', {
-              label: 'Login Successfully',
-              status: 'success',
-              autoClose: true,
-              hasCloseButton: false,
-            }).subscribe()
-            this.modalService.closeModal()
-            this.router.navigateByUrl('/user/dashboard')
-            break;
+        error: err => {          
+          this._loginSuccessAlertSubscription = this._alert.open('', {
+            label: err.error.user.message,
+            status: 'error',
+            autoClose: false,
+            hasCloseButton: true,
+          }).subscribe()
         }
-
-      }, (err) => {
-        console.log(err);
-
-        this.alert.open('', {
-          label: err.error.user.message,
-          status: 'error',
-          autoClose: false,
-          hasCloseButton: true,
-        }).subscribe({
-          complete: () => console.log('notification closed')
-        })
-      });
-
+      })
     } else {
       this.loginForm.markAllAsTouched()
     }
-
   }
 
+  ngOnDestroy(): void {
+    this._gAuthAPISubscription?.unsubscribe()
+    this._loginAPISubscription?.unsubscribe()
 
+    this._gAuthSuccessAlertSubscription?.unsubscribe()
+    this._gAuthFailureAlertSubscription?.unsubscribe()
+
+    this._loginSuccessAlertSubscription?.unsubscribe()
+    this._loginFailureAlertSubscription?.unsubscribe()
+  }
 }

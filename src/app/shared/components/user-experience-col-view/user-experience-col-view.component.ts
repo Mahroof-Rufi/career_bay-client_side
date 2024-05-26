@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { experience } from '../../../store/user-store/user.model';
+import { experience } from '../../../features/user/user-store/user.model';
 
 @Component({
   selector: 'app-user-experience-col-view',

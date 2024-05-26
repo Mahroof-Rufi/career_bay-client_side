@@ -27,15 +27,10 @@ import { AdminModule } from "./features/admin/admin.module";
 import { provideHttpClient, withInterceptors } from "@angular/common/http";
 import { setTokenInterceptor } from "./interceptors/set-token.interceptor";
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
-import { StoreModule } from "@ngrx/store";
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { employerReducer } from './store/employer-store/employer.reducer';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { StoreModule } from "@ngrx/store";
 import { EffectsModule } from "@ngrx/effects";
-import { userEffects } from "./store/user-store/user.effects";
-import { userReducer } from "./store/user-store/user.reducer";
-import { appState } from "./store/app/appReducer";
-import { employerEffects } from "./store/employer-store/employer.effects";
 
 
 @NgModule({
@@ -70,8 +65,8 @@ import { employerEffects } from "./store/employer-store/employer.effects";
     UserModule,
     CompanyModule,
     AdminModule,
-    StoreModule.forRoot({user:userReducer,employer:employerReducer}),
-    EffectsModule.forRoot([userEffects, employerEffects]),
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
 ],
   providers: [

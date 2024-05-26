@@ -26,7 +26,14 @@ import { ApplyJobConfirmationComponent } from './components/apply-job-confirmati
 import { AppliedJobsComponent } from './components/applied-jobs/applied-jobs.component';
 import { AppliedJobsColComponent } from './components/applied-jobs-col/applied-jobs-col.component';
 import { ChangeEmailComponent } from './components/change-email/change-email.component';
-import { DeleteExperienxeComponent } from './components/delete-experienxe/delete-experienxe.component';
+import { DeleteExperienceComponent } from './components/delete-experience/delete-experience.component';
+import { UserAPIServiceService } from './services/user-api-service.service';
+import { UserProfileEditModalService } from './services/user-profile-edit-modal.service';
+import { ApplyJobConfirmationService } from './services/apply-job-confirmation.service';
+import { StoreModule } from '@ngrx/store';
+import { userReducer } from './user-store/user.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { userEffects } from './user-store/user.effects';
 
 
 
@@ -55,13 +62,20 @@ import { DeleteExperienxeComponent } from './components/delete-experienxe/delete
     AppliedJobsComponent,
     AppliedJobsColComponent,
     ChangeEmailComponent,
-    DeleteExperienxeComponent,
+    DeleteExperienceComponent,
   ],
   imports: [
     CommonModule,
     SharedModule,
-    RouterModule
+    RouterModule,
+    StoreModule.forFeature('user',userReducer),
+    EffectsModule.forFeature([userEffects])
   ],
-  exports:[SharedModule,userRouteModule]
+  exports:[SharedModule,userRouteModule],
+  providers:[
+    UserAPIServiceService,
+    UserProfileEditModalService,
+    ApplyJobConfirmationService
+  ]
 })
 export class UserModule { }

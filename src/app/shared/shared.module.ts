@@ -32,6 +32,8 @@ import { UserEducationColViewComponent } from './components/user-education-col-v
 import { UserEducationSectionViewComponent } from './components/user-education-section-view/user-education-section-view.component';
 import { UserSkillsSectionViewComponent } from './components/user-skills-section-view/user-skills-section-view.component';
 import { CompanyProfileCommonViewComponent } from './components/company-profile-common-view/company-profile-common-view.component';
+import { JobsApiServiceService } from './services/jobs-api-service.service';
+import { PostsApiServiceService } from './services/posts-api-service.service';
 
 @NgModule({
   declarations: [
@@ -107,6 +109,10 @@ import { CompanyProfileCommonViewComponent } from './components/company-profile-
     TuiDataListDropdownManagerModule,
     TuiDataListWrapperModule ,
     TuiHostedDropdownModule
+  ],
+  providers: [
+    JobsApiServiceService,
+    PostsApiServiceService
   ]
 })
 export class SharedModule { }

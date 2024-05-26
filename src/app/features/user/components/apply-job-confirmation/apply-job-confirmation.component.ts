@@ -1,43 +1,49 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { ApplyJobConfirmationService } from '../../services/apply-job-confirmation.service';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { Store } from '@ngrx/store';
-import { User } from '../../../../store/user-store/user.model';
-import { getUserId } from '../../../../store/user-store/user.selector';
-import { applyJob } from '../../../../store/user-store/user.actions';
+import { User } from '../../user-store/user.model';
+import { getUserId } from '../../user-store/user.selector';
+import { applyJob } from '../../user-store/user.actions';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-apply-job-confirmation',
   templateUrl: './apply-job-confirmation.component.html',
   styleUrl: './apply-job-confirmation.component.scss'
 })
-export class ApplyJobConfirmationComponent implements OnInit{
+export class ApplyJobConfirmationComponent implements OnInit,OnDestroy{
 
   user_id!:string
+  getUserIdSubscription!:Subscription;
 
   constructor(
-    private applyJobConfirmationService:ApplyJobConfirmationService,
+    private readonly _applyJobConfirmationService:ApplyJobConfirmationService,
     @Inject(POLYMORPHEUS_CONTEXT)
-    private readonly context: TuiDialogContext<string, string>,
-    private userStore:Store<{ user:User }>
+    private readonly _context: TuiDialogContext<string, string>,
+    private readonly _userStore:Store<{ user:User }>
   ) {}
 
 
   ngOnInit(): void {
-    this.userStore.select(getUserId).subscribe((res) => this.user_id = res)
+    this.getUserIdSubscription = this._userStore.select(getUserId).subscribe((res) => this.user_id = res)
   }
 
   get data(): string {
-    return this.context.data
+    return this._context.data
   }
 
   closeDialog() {
-    this.applyJobConfirmationService.closeApplyjobConfirmationModal()
+    this._applyJobConfirmationService.closeApplyJobConfirmationModal()
   }
 
   confirmApply() {  
-    this.userStore.dispatch(applyJob({ job_id:this.data, user_id:this.user_id }))
-    this.applyJobConfirmationService.closeApplyjobConfirmationModal()
+    this._userStore.dispatch(applyJob({ job_id:this.data }))
+    this._applyJobConfirmationService.closeApplyJobConfirmationModal()
+  }
+
+  ngOnDestroy(): void {
+    this.getUserIdSubscription.unsubscribe()
   }
 }

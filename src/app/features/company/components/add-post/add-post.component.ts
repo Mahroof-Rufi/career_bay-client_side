@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { AuthService } from '../../../../services/auth.service';
-import { AddJobPostService } from '../../../../services/add-job-post.service';
+import { AddPostModalService } from '../../services/add-post-modal.service';
+import { Store } from '@ngrx/store';
+import { Employer } from '../../../admin/store/admin.model';
+import { PostsApiServiceService } from '../../../../shared/services/posts-api-service.service';
 
 @Component({
   selector: 'app-add-post',
@@ -15,8 +17,9 @@ export class AddPostComponent implements OnInit{
   imageUrls: string[] = [];
 
   constructor(
-    private apiService:AuthService,
-    private addPostService:AddJobPostService,
+    private readonly _postsAPIS:PostsApiServiceService,
+    private readonly _addPostModal:AddPostModalService,
+    private readonly _employerStore:Store<{ employer:Employer }>
   ) {}
 
   ngOnInit(): void {
@@ -50,16 +53,19 @@ export class AddPostComponent implements OnInit{
     if (this.descriptionControl.valid) {
       const postData = new FormData()
       postData.append('description', this.descriptionControl.value);
-
       this.imageFiles.forEach((file, index) => {
         postData.append(`image${index + 1}`, file, file.name);
       });
-      
-      this.apiService.addPost(postData).subscribe( res => {
-        console.log(res);
-      }, err => console.log(err))
 
-      this.addPostService.closeModal()
+      this._postsAPIS.addPost(postData).subscribe({
+        next: response => {
+          this._addPostModal.closeAddPostDialogue()
+        },
+
+        error: err => {
+          console.error(err);          
+        }
+      })
     } else {
       this.descriptionControl.markAllAsTouched()
     }

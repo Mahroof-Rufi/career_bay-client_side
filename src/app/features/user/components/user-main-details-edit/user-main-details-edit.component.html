@@ -20,9 +20,12 @@
                         First Name
                         <input tuiTextfield type="text" />
                     </tui-input>
-                    <!-- <small *ngIf="updateProfileForm.get('companyName')?.errors?.['required'] && updateProfileForm.get('companyName')?.touched" class="text-red-500 font-bannerText">
-                    *company name required
-                    </small> -->
+                    <small *ngIf="profileForm.get('firstName')?.errors?.['required'] && profileForm.get('firstName')?.touched" class="text-red-500 font-bannerText">
+                    *first name required
+                    </small>
+                    <small *ngIf="profileForm.get('firstName')?.errors?.['noSpaceAllowed']" class="text-red-500 font-bannerText">
+                        *space not allowed
+                    </small>
                 </div>
             </div>
 
@@ -32,9 +35,9 @@
                         Last Name
                         <input tuiTextfield type="text" />
                     </tui-input>
-                    <!-- <small *ngIf="updateProfileForm.get('industry')?.errors?.['required'] && updateProfileForm.get('industry')?.touched" class="text-red-500 font-bannerText">
-                        *industry required
-                    </small> -->
+                    <small *ngIf="profileForm.get('lastName')?.errors?.['required'] && profileForm.get('lastName')?.touched" class="text-red-500 font-bannerText">
+                        *last name required
+                    </small>
                 </div>
             </div>
 
@@ -43,9 +46,9 @@
                     City
                     <input tuiTextfield type="text" class="w-full" >
                 </tui-input>
-                <!-- <small *ngIf="updateProfileForm.get('city')?.errors?.['required'] && updateProfileForm.get('city')?.touched" class="text-red-500 font-bannerText">
+                <small *ngIf="profileForm.get('city')?.errors?.['required'] && profileForm.get('city')?.touched" class="text-red-500 font-bannerText">
                     *city required
-                </small> -->
+                </small>
                 <tui-select formControlName="state" class="w-full">
                     Select State
                     <input tuiTextfield class="w-full">
@@ -54,9 +57,9 @@
                         [items]="states"
                     ></tui-data-list-wrapper>
                 </tui-select>
-                <!-- <small *ngIf="updateProfileForm.get('state')?.errors?.['required'] && updateProfileForm.get('state')?.touched" class="text-red-500 font-bannerText">
+                <small *ngIf="profileForm.get('state')?.errors?.['required'] && profileForm.get('state')?.touched" class="text-red-500 font-bannerText">
                     *state required
-                </small> -->
+                </small>
             </div>
 
         </div>
@@ -71,9 +74,9 @@
                     Job Title
                     <input tuiTextfield type="text"/>
                 </tui-input>
-                <!-- <small *ngIf="updateProfileForm.get('noOfWorkersRange')?.errors?.['required'] && updateProfileForm.get('noOfWorkersRange')?.touched" class="text-red-500 font-bannerText">
-                    *no:of workers range required
-                </small> -->
+                <small *ngIf="profileForm.get('jobTitle')?.errors?.['required'] && profileForm.get('jobTitle')?.touched" class="text-red-500 font-bannerText">
+                    *job title required
+                </small>
             </div>
         </div>
 
@@ -90,9 +93,9 @@
                         
                     ></tui-data-list-wrapper>
                 </tui-select>
-                <!-- <small *ngIf="updateProfileForm.get('phone')?.errors?.['required'] && updateProfileForm.get('phone')?.touched" class="text-red-500 font-bannerText">
-                    *phone required
-                </small> -->
+                <small *ngIf="profileForm.get('industry')?.errors?.['required'] && profileForm.get('industry')?.touched" class="text-red-500 font-bannerText">
+                    *industry required
+                </small>
             </div>
         </div>
         
@@ -107,24 +110,24 @@
                     <input tuiTextfield />
                     <tui-data-list-wrapper *tuiDataList [items]="genders"></tui-data-list-wrapper>
                 </tui-select>
-                <!-- <small *ngIf="updateProfileForm.get('noOfWorkersRange')?.errors?.['required'] && updateProfileForm.get('noOfWorkersRange')?.touched" class="text-red-500 font-bannerText">
-                    *no:of workers range required
-                </small> -->
+                <small *ngIf="profileForm.get('gender')?.errors?.['required'] && profileForm.get('gender')?.touched" class="text-red-500 font-bannerText">
+                    *gender required
+                </small>
             </div>
             <div class="w-1/2 ">
                 <tui-input-date formControlName="DOB">
                     Choose a date
                     <input tuiTextfield />
                 </tui-input-date>
+                <small *ngIf="profileForm.get('DOB')?.errors?.['required'] && profileForm.get('DOB')?.touched" class="text-red-500 font-bannerText">
+                    *DOB required
+                </small>
             </div>
         </div>
 
         <div class="flex w-1/2 pr-3">
             <div class="w-full">
                 <input class="block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="resume-file" type="file">
-                <!-- <small *ngIf="updateProfileForm.get('phone')?.errors?.['required'] && updateProfileForm.get('phone')?.touched" class="text-red-500 font-bannerText">
-                    *phone required
-                </small> -->
             </div>
         </div>
         
@@ -138,9 +141,9 @@
                     PortFolio URL
                     <input tuiTextfield type="text" />
                 </tui-input>
-                <!-- <small *ngIf="updateProfileForm.get('X_url')?.errors?.['required'] && updateProfileForm.get('X_url')?.touched" class="text-red-500 font-bannerText">
-                    *instagram url required
-                </small> -->
+                <small *ngIf="profileForm.get('portfolio_url')?.errors?.['required'] && profileForm.get('portfolio_url')?.touched" class="text-red-500 font-bannerText">
+                    *portfolio url required
+                </small>
             </div>
         </div>
 
@@ -150,9 +153,9 @@
                     Github URL
                     <input tuiTextfield type="text" />
                 </tui-input>
-                <!-- <small *ngIf="updateProfileForm.get('instagram_url')?.errors?.['required'] && updateProfileForm.get('instagram_url')?.touched" class="text-red-500 font-bannerText">
-                    *X url required
-                </small> -->
+                <small *ngIf="profileForm.get('gitHub_url')?.errors?.['required'] && profileForm.get('gitHub_url')?.touched" class="text-red-500 font-bannerText">
+                    *github url required
+                </small>
             </div>
         </div>
     </div>

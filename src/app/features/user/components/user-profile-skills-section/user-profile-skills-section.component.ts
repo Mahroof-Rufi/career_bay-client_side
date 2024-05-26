@@ -10,11 +10,11 @@ export class UserProfileSkillsSectionComponent {
   @Input() skills:string[] | undefined
 
   constructor(
-    private profileEditService:UserProfileEditModalService
+    private readonly _profileEditModal:UserProfileEditModalService
   ) {}
 
   openUserSkillsEdit() {
-    this.profileEditService.openUserSkillsEditModal()
+    this._profileEditModal.openUserSkillsEditModal()
   }
 
 }

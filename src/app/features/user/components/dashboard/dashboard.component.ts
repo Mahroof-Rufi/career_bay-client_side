@@ -1,8 +1,8 @@
-import { Posts } from './../../../../store/user-store/user.model';
+import { Posts } from '../../user-store/user.model';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Job, User } from '../../../../store/user-store/user.model';
-import { getJobsData, getPosts } from '../../../../store/user-store/user.selector';
+import { Job, User } from '../../user-store/user.model';
+import { getJobsData, getPosts } from '../../user-store/user.selector';
 import { initFlowbite } from 'flowbite';
 
 @Component({
@@ -17,20 +17,12 @@ export class DashboardComponent implements OnInit,AfterViewInit{
   userData!:User;
 
   constructor(
-    private userState:Store<{ user:User }>
+    private readonly _userState:Store<{ user:User }>
   ) {} 
 
   ngOnInit(): void {
-    // this.userState.select()
-    this.userState.select(getJobsData).subscribe((res) => {      
-      this.jobs = res
-    })
-    this.userState.select(getPosts).subscribe( res => {
-      this.posts = res
-      
-      console.log(this.posts[0].posts);
-      
-    })
+    this._userState.select(getJobsData).subscribe((res) => this.jobs = res)
+    this._userState.select(getPosts).subscribe( res => this.posts = res)
   }
 
   ngAfterViewInit(): void {

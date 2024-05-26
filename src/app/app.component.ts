@@ -7,8 +7,6 @@ import { initFlowbite } from 'flowbite';
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit{
-  
-  globalVariable!: boolean;
 
   constructor() { }
 

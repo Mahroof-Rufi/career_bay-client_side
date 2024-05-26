@@ -1,51 +1,55 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { companyAction, companyActionSuccess, loadCompanies, loadCompaniesSuccess, loadUserSuccess, loadUsers, userAction, userActionSuccess } from "./admin.actions";
-import { AuthService } from "../../../services/auth.service";
 import { EMPTY, catchError, exhaustMap, map } from "rxjs";
+import { AdminApiServiceService } from "../services/admin-api-service.service";
+import { UserAPIServiceService } from "../../user/services/user-api-service.service";
+import { EmployerApiServiceService } from "../../company/services/employer-api-service.service";
 
 @Injectable()
 export class adminEffects {
 
     constructor(
-        private actions:Actions,
-        private apiService:AuthService
+        private readonly _actions:Actions,
+        private readonly _adminAPIs:AdminApiServiceService,
+        private readonly _userAPIs:UserAPIServiceService,
+        private readonly _employerAPIs:EmployerApiServiceService,
     ) { }
 
-    loadUsers = createEffect(() => this.actions.pipe(        
+    loadUsers = createEffect(() => this._actions.pipe(        
         ofType(loadUsers),
         exhaustMap(() => {
-            return this.apiService.adminLoadUsers().pipe(
+            return this._adminAPIs.adminLoadUsers().pipe(
                 map((data) => {
-                    return loadUserSuccess({ users:data.data })
+                    return loadUserSuccess({ users:data })
                 }),
                 catchError((error) => {
-                    console.error('HTTP Error on admin loaduser effect:',error);
+                    console.error('HTTP Error on admin loadUser effect:',error);
                     return EMPTY
                 })
             )
         })
     ))
 
-    userAction = createEffect(() => this.actions.pipe(
+    userAction = createEffect(() => this._actions.pipe(
         ofType(userAction),
         exhaustMap((action) => {
-            return this.apiService.adminUserAction(action.user_id).pipe(
+            return this._adminAPIs.adminUserAction(action.user_id).pipe(
                 map((data) => {                 
                     return userActionSuccess({ user:data.updatedUser })
                 }),
                 catchError((error) => {
-                    console.error('HTTP Error on admin useraction effect:',error);
+                    console.error('HTTP Error on admin userAction effect:',error);
                     return EMPTY
                 })
             )
         })
     ))
 
-    loadCompanies = createEffect(() => this.actions.pipe(
+    loadCompanies = createEffect(() => this._actions.pipe(
         ofType(loadCompanies),
         exhaustMap((action) => {
-            return this.apiService.adminLoadCompanies().pipe(
+            return this._adminAPIs.adminLoadCompanies().pipe(
                 map((data) => {
                     return loadCompaniesSuccess({ companies:data.data })
                 }),
@@ -57,10 +61,10 @@ export class adminEffects {
         })
     ))
 
-    companyActionSuccess = createEffect(() => this.actions.pipe(
+    companyActionSuccess = createEffect(() => this._actions.pipe(
         ofType(companyAction),
         exhaustMap((action) => {
-            return this.apiService.adminEmployerAction(action.emplyr_id).pipe(
+            return this._adminAPIs.adminEmployerAction(action.employer_id).pipe(
                 map((data) => {
                     console.log(data);
                     

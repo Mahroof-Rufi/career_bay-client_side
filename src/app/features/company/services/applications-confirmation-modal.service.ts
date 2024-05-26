@@ -4,9 +4,7 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Observable, Subscription } from 'rxjs';
 import { ApplicationsConfirmationModalComponent } from '../components/applications-confirmation-modal/applications-confirmation-modal.component';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ApplicationsConfirmationModalService {
 
   private applicationStatusChangeDialogue: Observable<any> | undefined;

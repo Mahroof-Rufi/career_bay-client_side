@@ -1,27 +1,30 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
 import { TuiAlertService } from '@taiga-ui/core';
-import { ModalService } from '../../services/modal.service';
-import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+import { AuthApiService } from '../../services/auth-api-service.service';
+import { AuthModalService } from '../../services/auth-modal-service.service';
 
 @Component({
   selector: 'app-company-login',
   templateUrl: './company-login.component.html',
   styleUrl: './company-login.component.scss'
 })
-export class CompanyLoginComponent implements OnInit{
-
+export class CompanyLoginComponent implements OnInit,OnDestroy{
   @Output() changeView:EventEmitter<string> = new EventEmitter()
   @Output() renderForgotPassword: EventEmitter<boolean> = new EventEmitter()
 
+  successAlertSubscription!:Subscription;
+  failureAlertSubscription!:Subscription;
+
   loginForm!:FormGroup;
 
-  constructor(private router:Router, 
-    private authService:AuthService,  
-    private alert: TuiAlertService,
-    private modalService:ModalService,
+  constructor(
+    private readonly _router:Router,
+    private readonly _authAPIs:AuthApiService,
+    private readonly _alert: TuiAlertService,
+    private readonly _authModal:AuthModalService,
   ) {}
 
   ngOnInit(): void {
@@ -42,42 +45,40 @@ export class CompanyLoginComponent implements OnInit{
 
   submitLogin() {
     if (this.loginForm.valid) {
-      this.authService.companyLogin(this.loginForm.value).subscribe((res) => {
-        console.log(res);
-        
-        const statusCode = res.employer.status; 
-    
-          switch (statusCode) {
-            case 200:
-              this.alert.open('', {
-                label: 'Login Successfully',
-                status: 'success',
-                autoClose: true,
-                hasCloseButton: false,
-              }).subscribe()
-              this.modalService.closeModal()
-              this.router.navigateByUrl('/employer/profile')
-              break;
-          }
-      }, err => {
-        console.log('eer',err)
-        this.alert.open('', {          
-          label: err.error.employer.message,
-          status: 'error',
-          autoClose: true,
-          hasCloseButton: true,
-        }).subscribe({
-          complete: () => console.log('notification closed')        
-        })
-      });
+      this._authAPIs.EmployerLogin(this.loginForm.value).subscribe({
+        next: response => {
+          this.successAlertSubscription = this._alert.open('', {
+            label: 'Login Successfully',
+            status: 'success',
+            autoClose: true,
+            hasCloseButton: false,
+          }).subscribe()
+          this._authModal.closeModal()
+          this._router.navigateByUrl('/employer/profile')
+        },
+
+        error: err => {
+          this.failureAlertSubscription = this._alert.open('', {          
+            label: err.error.employer.message,
+            status: 'error',
+            autoClose: true,
+            hasCloseButton: true,
+          }).subscribe()
+        }
+
+      })
     } else {
       this.loginForm.markAllAsTouched()
     }
   } 
 
   forJobSearching() {
-    // this.router.navigateByUrl('auth/user/login')
     this.changeView.emit('user-login')
+  }
+
+  ngOnDestroy(): void {
+    this.successAlertSubscription?.unsubscribe()
+    this.failureAlertSubscription?.unsubscribe()
   }
 
 }

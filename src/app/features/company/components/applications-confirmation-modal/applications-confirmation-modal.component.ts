@@ -2,10 +2,10 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { Store } from '@ngrx/store';
-import { Employer } from '../../../../store/employer-store/employer.model';
-import { getEmployerId } from '../../../../store/employer-store/employer.selector';
+import { Employer } from '../../store/employer.model';
+import { getEmployerId } from '../../store/employer.selector';
 import { ApplicationsConfirmationModalService } from '../../services/applications-confirmation-modal.service';
-import { updateCandidateStatus } from '../../../../store/employer-store/employer.actions';
+import { updateApplicantsStatus } from '../../store/employer.actions';
 
 @Component({
   selector: 'app-applications-confirmation-modal',
@@ -18,28 +18,26 @@ export class ApplicationsConfirmationModalComponent implements OnInit{
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
-    private readonly context: TuiDialogContext<string, string>,
-    private employerStore: Store<{ employer:Employer }>,
-    private applicationConfirmationService:ApplicationsConfirmationModalService,
+    private readonly _context: TuiDialogContext<string, string>,
+    private readonly _employerStore: Store<{ employer:Employer }>,
+    private readonly _applicationConfirmationModal:ApplicationsConfirmationModalService,
   ) {}
 
   ngOnInit(): void {
-    this.employerStore.select(getEmployerId).subscribe((id) => this.employerId = id)
-    console.log(this.data);
-    
+    this._employerStore.select(getEmployerId).subscribe((id) => this.employerId = id)    
   }
 
   get data(): any {
-    return this.context.data
+    return this._context.data
   }
 
   cancel() {
-    this.applicationConfirmationService.closeApplicationsStatusChangeDialogue()
+    this._applicationConfirmationModal.closeApplicationsStatusChangeDialogue()
   }
 
   confirm() {
-    this.applicationConfirmationService.closeApplicationsStatusChangeDialogue()
-    this.employerStore.dispatch(updateCandidateStatus({ 
+    this._applicationConfirmationModal.closeApplicationsStatusChangeDialogue()
+    this._employerStore.dispatch(updateApplicantsStatus({ 
       employer_id:this.employerId, 
       job_id:this.data.jobId, 
       user_id:this.data.userId,

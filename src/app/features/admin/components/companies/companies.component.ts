@@ -14,14 +14,12 @@ export class CompaniesComponent implements OnInit{
   companies!:Employer[];
 
   constructor(
-    private adminStore:Store<{ admin:adminStateModel }>
+    private readonly _adminStore:Store<{ admin:adminStateModel }>
   ) {}
 
   ngOnInit(): void {
-    this.adminStore.select(getCompaniesData).subscribe((data) => {
+    this._adminStore.select(getCompaniesData).subscribe((data) => {
       this.companies = data;
-      console.log(this.companies);
-      
     })
   }
 
@@ -30,7 +28,7 @@ export class CompaniesComponent implements OnInit{
   }  
 
   employerAction(emp_id:string) {
-    this.adminStore.dispatch(companyAction({ emplyr_id:emp_id }))
+    this._adminStore.dispatch(companyAction({ employer_id:emp_id }))
   }
 
 }

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Job, User } from '../../../../store/user-store/user.model';  
-import { getJobById, getJobIsApplid, getUserId } from '../../../../store/user-store/user.selector';
+import { Job, User } from '../../user-store/user.model';  
+import { getJobById, getJobIsApplied as getJobIsApplied, getUserId } from '../../user-store/user.selector';
 import { ApplyJobConfirmationService } from '../../services/apply-job-confirmation.service';
-import { AuthService } from '../../../../services/auth.service';
+import { JobsApiServiceService } from '../../../../shared/services/jobs-api-service.service';
+import { isApplied } from '../../user-store/user.actions';
 
 @Component({
   selector: 'app-job-detailed-view',
@@ -20,25 +21,22 @@ export class JobDetailedViewComponent implements OnInit{
   isApplied: boolean | null = null;
 
   constructor(
-    private route:ActivatedRoute,
-    private userStore:Store<{ user:User }>,
-    private applyConfirmationService:ApplyJobConfirmationService,
-    private apiService:AuthService
+    private readonly _route:ActivatedRoute,
+    private readonly _userStore:Store<{ user:User }>,
+    private readonly _applyConfirmationModal:ApplyJobConfirmationService,
+    private readonly _jobsAPIs:JobsApiServiceService
   ) {}
 
   ngOnInit(): void {
-    this.jobId = this.route.snapshot.params['id'];
-    this.userStore.select(getUserId).subscribe((id) => this.user_id = id)
-
-    this.userStore.select(getJobIsApplid).subscribe((value) => this.isApplied = value)
-
-    this.userStore.select(getJobById(this.jobId)).subscribe((res) => {
-      this.jobData = res      
-    })
+    this.jobId = this._route.snapshot.params['id'];
+    this._userStore.dispatch(isApplied({ jobId:this.jobId }))
+    this._userStore.select(getUserId).subscribe(userId => this.user_id = userId)
+    this._userStore.select(getJobIsApplied).subscribe((value) => this.isApplied = value)
+    this._userStore.select(getJobById(this.jobId)).subscribe((res) => this.jobData = res)
   }
 
   applyJob(job_id:string) {
-    this.applyConfirmationService.openApplyJobConfirmationModal(job_id)
+    this._applyConfirmationModal.openApplyJobConfirmationModal(job_id)
   }
 
 }

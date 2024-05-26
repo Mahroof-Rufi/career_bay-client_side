@@ -16,13 +16,12 @@
         @if (filteredOptions && filteredOptions.length) {
             @for (option of filteredOptions; track $index) {
                 <li>
-                    <p (click)="navigateoptions(option)" class="block px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{option | titlecase}}</p>
+                    <p (click)="navigateOptions(option)" class="block px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{option | titlecase}}</p>
                 </li>
             }
         } @else {
-            <h1>emply</h1>
+            <h1>empty</h1>
         }
-          
         </ul>
     </div>
     </div>

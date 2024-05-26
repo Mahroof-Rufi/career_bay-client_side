@@ -12,7 +12,7 @@ import { loadCompaniesGuard } from "./route-guards/load-companies.guard";
 import { UserProfileCommonViewComponent } from "../../shared/components/user-profile-common-view/user-profile-common-view.component";
 import { CompanyProfileCommonViewComponent } from "../../shared/components/company-profile-common-view/company-profile-common-view.component";
 const routes: Routes = [
-    { path: 'admin', component:MainPageComponent, children:[
+    { path: '', component:MainPageComponent, children:[
         { path: 'dashboard', component: DashboardComponent, canActivate:[adminAuthGuard]  },
         { path: 'users', component:UsersComponent, canActivate:[loadUsersGuard] },
         { path: 'user/:id', component:UserProfileCommonViewComponent, canActivate:[loadUsersGuard] },

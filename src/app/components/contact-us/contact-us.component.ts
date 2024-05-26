@@ -23,7 +23,6 @@ export class ContactUsComponent implements OnInit{
 
   contactUsFromSubmit() {
     console.log(this.contactForm);
-    
   }
   
 }

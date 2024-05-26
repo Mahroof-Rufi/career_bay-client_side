@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { User, education } from '../../../../store/user-store/user.model';
+import { User, education } from '../../user-store/user.model';
 import { UserProfileEditModalService } from '../../services/user-profile-edit-modal.service';
 import { Store } from '@ngrx/store';
 
@@ -12,19 +12,19 @@ export class UserProfileEducationColComponent {
   @Input() education!:education;
 
   constructor(
-    private profileEditService:UserProfileEditModalService,
-    private userStore: Store<{ user:User }>
+    private _profileEditModal:UserProfileEditModalService,
+    private _userStore: Store<{ user:User }>
   ) {}
 
-  openEditEducation(edct_id:string | undefined) {
-    if (edct_id) {
-      this.profileEditService.openUserEducationEditModal(edct_id)
+  openEditEducation(education_id:string | undefined) {
+    if (education_id) {
+      this._profileEditModal.openUserEducationEditModal(education_id)
     }
   }
 
-  deleteEducation(edct_id:string | undefined) {
-    if (edct_id) {
-      this.profileEditService.openDeleteEducationModal(edct_id)
+  deleteEducation(education_id:string | undefined) {
+    if (education_id) {
+      this._profileEditModal.openDeleteEducationModal(education_id)
     }
   } 
 

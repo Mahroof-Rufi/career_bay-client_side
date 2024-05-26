@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Job, User } from '../../../../store/user-store/user.model';
+import { Job, User } from '../../user-store/user.model';
 import { Store } from '@ngrx/store';
-import { getJobsData } from '../../../../store/user-store/user.selector';
+import { getJobsData } from '../../user-store/user.selector';
 
 @Component({
   selector: 'app-job-list',
@@ -13,13 +13,11 @@ export class JobListComponent implements OnInit{
   jobsData!:Job[];
 
   constructor(
-    private userStore:Store<{ user:User }>
+    private _userStore:Store<{ user:User }>
   ) {}
 
   ngOnInit(): void {
-    this.userStore.select(getJobsData).subscribe((data) => {
-      this.jobsData = data
-    })
+    this._userStore.select(getJobsData).subscribe((data) => this.jobsData = data)
   }
 
 }

@@ -1,9 +1,9 @@
 import { inject } from '@angular/core';
 import { CanActivateFn } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { User } from '../../../store/user-store/user.model';
-import { loadAppliedJobs } from '../../../store/user-store/user.actions';
-import { getUserId } from '../../../store/user-store/user.selector';
+import { User } from '../user-store/user.model';
+import { loadAppliedJobs } from '../user-store/user.actions';
+import { getUserId } from '../user-store/user.selector';
 
 export const loadAppliedJobsGuard: CanActivateFn = (route, state) => {
   

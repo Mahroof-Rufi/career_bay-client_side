@@ -10,10 +10,10 @@ export class UserProfileAboutSectionComponent {
   @Input() about:string | undefined;
 
   constructor(
-    private userProfileEditService:UserProfileEditModalService
+    private readonly _userProfileEditService:UserProfileEditModalService
   ) {}
 
   openEditAbout() {
-    this.userProfileEditService.openUseraboutEditModal()
+    this._userProfileEditService.openUserAboutEditModal()
   }
 }

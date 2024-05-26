@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { adminStateModel } from '../../../features/admin/store/admin.model';
 import { getUserById } from '../../../features/admin/store/admin.selector';
-import { User } from '../../../store/user-store/user.model';
+import { User } from '../../../features/user/user-store/user.model';
 
 @Component({
   selector: 'app-user-profile-common-view',

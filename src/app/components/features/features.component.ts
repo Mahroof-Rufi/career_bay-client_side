@@ -14,7 +14,7 @@ export class FeaturesComponent {
     { title: 'Hire', status: 'pending' }
   ]
 
-  sampleJobdata: any[] = [
+  sampleJobData: any[] = [
     {
       company_id: {
         profile_url:'../../../assets/company-dp-1.jpg', 
@@ -45,7 +45,7 @@ export class FeaturesComponent {
     }
   ]
 
-  sampleUsersdata: any[] = [
+  sampleUsersData: any[] = [
     { profile_url: '../../../assets/profile-3.jpg', fullName: 'Don Thomas', jobTitle: 'Full Stack Development' },
     { profile_url: '../../../assets/profile-5.jpg', fullName: 'Justin George', jobTitle: 'Content Writer' },
     { profile_url: '../../../assets/profile-3.jpg', fullName: 'Edwin Emanual', jobTitle: 'UI UX Designer' }

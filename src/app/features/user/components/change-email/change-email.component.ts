@@ -1,15 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { sameEmailValidator } from '../../../../validators/same-email-validator';
-import { AuthService } from '../../../../services/auth.service';
 import { TuiAlertService } from '@taiga-ui/core';
+import { Subscription } from 'rxjs';
+import { UserAPIServiceService } from '../../services/user-api-service.service';
+import { AuthApiService } from '../../../../services/auth-api-service.service';
 
 @Component({
   selector: 'app-change-email',
   templateUrl: './change-email.component.html',
   styleUrl: './change-email.component.scss'
 })
-export class ChangeEmailComponent implements OnInit{
+export class ChangeEmailComponent implements OnInit,OnDestroy{
+
+  apiServiceSubscription!:Subscription;
+  successAlertSubscription!:Subscription;
+  failureAlertSubscription!:Subscription;
 
   changeEmailForm!:FormGroup;
 
@@ -28,13 +34,14 @@ export class ChangeEmailComponent implements OnInit{
   timerInterval2: any; 
 
   constructor(
-    private formBuilder:FormBuilder,
-    private apiService:AuthService,
-    private alert: TuiAlertService,
+    private readonly _formBuilder:FormBuilder,
+    private readonly _authAPIs:AuthApiService,
+    private readonly _userAPIs:UserAPIServiceService,
+    private readonly _alert: TuiAlertService,
   ) {}
 
   ngOnInit(): void {
-    this.changeEmailForm = this.formBuilder.group({
+    this.changeEmailForm = this._formBuilder.group({
       currentEmail: ['', [Validators.required, Validators.email]],
       currentEmailOTP: ['', [Validators.required, Validators.maxLength(6)]],
       newEmail: ['', [Validators.required, Validators.email]],
@@ -45,27 +52,32 @@ export class ChangeEmailComponent implements OnInit{
   sendCurrentEmailOTP() {
     if (this.changeEmailForm.get('currentEmail')?.valid) {
       const currentEmail = this.changeEmailForm.get('currentEmail')?.value
-      this.apiService.changeEmailSendOTP(currentEmail).subscribe((res) => {
-        this.OTP_BTN1 = 'Resend OTP'
-        this.time1 = this.startingMinute1 * 60;
-        this.timerInterval1 = setInterval(() => {
-          this.updateTimer(1);
-        }, 1000);
-        this.alert.open('', {
-          label: res.message,
-          status: 'success',
-          autoClose: true,
-          hasCloseButton: true
-        }).subscribe()
 
-      }, (err:any) => {
-        this.alert.open('', {
-          label: err.error.message,
-          status: 'error',
-          autoClose: true,
-          hasCloseButton: true
-        }).subscribe()
+      this.apiServiceSubscription = this._userAPIs.changeEmailSendOTP(currentEmail).subscribe({
+        next: response => {
+          this.OTP_BTN1 = 'Resend OTP'
+          this.time1 = this.startingMinute1 * 60;
+          this.timerInterval1 = setInterval(() => {
+            this.updateTimer(1);
+          }, 1000);
+          this.successAlertSubscription = this._alert.open('', {
+            label: response.message,
+            status: 'success',
+            autoClose: true,
+            hasCloseButton: true
+          }).subscribe()
+        },
+
+        error: err => {
+          this.failureAlertSubscription = this._alert.open('', {
+            label: err.error.message,
+            status: 'error',
+            autoClose: true,
+            hasCloseButton: true
+          }).subscribe()
+        }
       })
+
     } else {
       this.changeEmailForm.get('currentEmail')?.markAsTouched()
     }
@@ -74,25 +86,30 @@ export class ChangeEmailComponent implements OnInit{
   sendNewEmailOTP() {
     if (this.changeEmailForm.get('newEmail')?.valid) {
       const newEmail = this.changeEmailForm.get('newEmail')?.value
-      this.apiService.userRequestOTP(newEmail).subscribe((res) => {
-        this.OTP_BTN2 = 'Resend OTP'
-        this.time2 = this.startingMinute1 * 60;
-        this.timerInterval2 = setInterval(() => {
-          this.updateTimer(2);
-        }, 1000);
-        this.alert.open('', {
-          label: res,
-          status: 'success',
-          autoClose: true,
-          hasCloseButton: true
-        }).subscribe()
-      }, (err) => {
-        this.alert.open('', {
-          label: err.error,
-          status: 'error',
-          autoClose: true,
-          hasCloseButton: true
-        }).subscribe()
+
+      this._authAPIs.userRequestOTP(newEmail).subscribe({
+        next: response => {
+          this.OTP_BTN2 = 'Resend OTP'
+          this.time2 = this.startingMinute1 * 60;
+          this.timerInterval2 = setInterval(() => {
+            this.updateTimer(2);
+          }, 1000);
+          this._alert.open('', {
+            label: response,
+            status: 'success',
+            autoClose: true,
+            hasCloseButton: true
+          }).subscribe()
+        },
+
+        error: err => {
+          this._alert.open('', {
+            label: err.error,
+            status: 'error',
+            autoClose: true,
+            hasCloseButton: true
+          }).subscribe()
+        }
       })
     
     } else {
@@ -103,22 +120,26 @@ export class ChangeEmailComponent implements OnInit{
   submitChangeEmail() {
     if (this.changeEmailForm.valid) {
       const formData = this.changeEmailForm.value;
-      this.apiService.userUpdateEmail(formData).subscribe((res) => {
-        console.log(res);
-        this.alert.open('', {
-          label: res.message,
-          status: 'success',
-          autoClose: true,
-          hasCloseButton: true
-        }).subscribe()
-      }, (err) => {
-        this.alert.open('', {
-          label: err.error.message,
-          status: 'error',
-          autoClose: true,
-          hasCloseButton: true
-        }).subscribe()
+
+      this._userAPIs.userUpdateEmail(formData).subscribe({
+        next: response => {
+          this._alert.open('', {
+            label: response.message,
+            status: 'success',
+            autoClose: true,
+            hasCloseButton: true
+          }).subscribe()
+        },
+        error: err => {
+          this._alert.open('', {
+            label: err.error.message,
+            status: 'error',
+            autoClose: true,
+            hasCloseButton: true
+          }).subscribe()
+        }
       })
+
     } else {
       this.changeEmailForm.markAllAsTouched()
     }
@@ -145,5 +166,11 @@ export class ChangeEmailComponent implements OnInit{
       }
     }
   } 
+
+  ngOnDestroy(): void {
+    this.apiServiceSubscription.unsubscribe()
+    this.successAlertSubscription.unsubscribe()
+    this.failureAlertSubscription.unsubscribe()
+  }
 
 }

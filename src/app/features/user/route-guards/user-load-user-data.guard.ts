@@ -1,8 +1,8 @@
 import { inject } from '@angular/core';
 import { CanActivateFn } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { User } from '../../../store/user-store/user.model';
-import { loadUser } from '../../../store/user-store/user.actions';
+import { User } from '../user-store/user.model';
+import { loadUser } from '../user-store/user.actions';
 
 export const userLoadUserDataGuard: CanActivateFn = (route, state) => {
 
