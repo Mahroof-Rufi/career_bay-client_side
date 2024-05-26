@@ -16,7 +16,6 @@ export class MainComponentComponent implements OnInit{
 
   ngOnInit(): void {
     this._employerStore.dispatch(loadEmployer())
-    this._employerStore.dispatch(loadEmployerJobs())
   }
 
 }

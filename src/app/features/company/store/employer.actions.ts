@@ -41,10 +41,10 @@ export const updateJob = createAction(UPDATE_EMPLOYER_JOB, props<{ id: string, u
 
 export const deleteJob = createAction(DELETE_EMPLOYER_JOB, props<{ id: string }>())
 
-export const loadApplicants = createAction(LOAD_EMPLOYER_JOB_APPLICANTS, props<{ jobId:string, employer_id:string }>())
+export const loadApplicants = createAction(LOAD_EMPLOYER_JOB_APPLICANTS, props<{ jobId:string }>())
 export const loadApplicantsSuccess = createAction(LOAD_EMPLOYER_JOB_APPLICANTS_SUCCESS, props<{ applicants:AppliedUsers }>())
 
-export const updateApplicantsStatus= createAction(UPDATE_EMPLOYER_JOB_APPLICANTS, props<{ job_id:string, user_id:string, newStatus:string, employer_id:string }>())
+export const updateApplicationStatus= createAction(UPDATE_EMPLOYER_JOB_APPLICANTS, props<{ job_id:string, user_id:string, newStatus:string, employer_id:string }>())
 
 export const loadEmployerPosts = createAction(LOAD_EMPLOYER_POSTS)
 export const loadEmployerPostsSuccess = createAction(LOAD_EMPLOYER_POSTS_SUCCESS, props<{ posts:EmployerPosts[] }>())

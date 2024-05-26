@@ -34,12 +34,13 @@ export class AdminLoginComponent implements OnInit,OnDestroy{
     if (this.loginForm.valid) {
       this._loginSubscription = this._authAPIs.adminLogin(this.loginForm.value).subscribe({
         next: response => {
+          this._router.navigateByUrl('/admin/dashboard')
           this._loginSuccessAlertSubscription = this._alert.open('', {
             label: 'Login Successful',
             status: 'success',
             autoClose: true,
+            hasCloseButton: true,
           }).subscribe()
-          this._router.navigateByUrl('/admin/dashboard')
         },
         error: err => {
           this._loginFailureAlertSubscription = this._alert.open('', {

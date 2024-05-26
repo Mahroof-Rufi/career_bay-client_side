@@ -39,17 +39,17 @@ export class EditProfileComponent {
       this.employerData = res
     })
 
-    this.updateProfileForm = new FormGroup({
-      companyName: new FormControl(this.employerData.companyName, Validators.required),
-      industry: new FormControl(this.employerData.industry, Validators.required),
-      city: new FormControl(this.employerData.city, Validators.required),
-      state: new FormControl(this.employerData.state, Validators.required),
-      noOfWorkersRange: new FormControl(this.employerData.noOfWorkersRange, Validators.required),
-      phone: new FormControl(this.employerData.phone, Validators.required),
-      web_url: new FormControl(this.employerData.web_url),
-      instagram_url: new FormControl(this.employerData.instagram_url, Validators.required),
-      about: new FormControl(this.employerData.about, [Validators.required, Validators.maxLength(600)]),
-      X_url: new FormControl(this.employerData.X_url, Validators.required)
+    this.updateProfileForm = this._formBuilder.group({
+      companyName: [this.employerData.companyName, [Validators.required]],
+      industry: [this.employerData.industry, [Validators.required]],
+      city: [this.employerData.city, [Validators.required]],
+      state: [this.employerData.state, [Validators.required]],
+      noOfWorkersRange: [this.employerData.noOfWorkersRange, [Validators.required]],
+      phone: [this.employerData.phone, [Validators.required]],
+      web_url: [this.employerData.web_url],
+      instagram_url: [this.employerData.instagram_url, [Validators.required]],
+      about: [this.employerData.about, [Validators.required, Validators.maxLength(600)]],
+      X_url: [this.employerData.X_url, [Validators.required]]
     });
   }
 
@@ -70,16 +70,16 @@ export class EditProfileComponent {
     if(this.updateProfileForm.valid) {
       let formData = new FormData()
 
-      formData.append('companyName', this.updateProfileForm.get('companyName')!.value);
-      formData.append('industry', this.updateProfileForm.get('industry')!.value);
-      formData.append('city', this.updateProfileForm.get('city')!.value);
-      formData.append('state', this.updateProfileForm.get('state')!.value);
-      formData.append('noOfWorkersRange', this.updateProfileForm.get('noOfWorkersRange')!.value);
-      formData.append('phone', this.updateProfileForm.get('phone')!.value);
-      formData.append('web_url', this.updateProfileForm.get('web_url')!.value);
-      formData.append('instagram_url', this.updateProfileForm.get('instagram_url')!.value);
-      formData.append('X_url', this.updateProfileForm.get('X_url')!.value);
-      formData.append('about', this.updateProfileForm.get('about')!.value);
+      formData.append('companyName', this.updateProfileForm.get('companyName')?.value);
+      formData.append('industry', this.updateProfileForm.get('industry')?.value);
+      formData.append('city', this.updateProfileForm.get('city')?.value);
+      formData.append('state', this.updateProfileForm.get('state')?.value);
+      formData.append('noOfWorkersRange', this.updateProfileForm.get('noOfWorkersRange')?.value);
+      formData.append('phone', this.updateProfileForm.get('phone')?.value);
+      formData.append('web_url', this.updateProfileForm.get('web_url')?.value);
+      formData.append('instagram_url', this.updateProfileForm.get('instagram_url')?.value);
+      formData.append('X_url', this.updateProfileForm.get('X_url')?.value);
+      formData.append('about', this.updateProfileForm.get('about')?.value);
       formData.append('profile_url', this.employerData.profile_url);
       formData.append('email', this.employerData.email);
 

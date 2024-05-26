@@ -23,7 +23,7 @@ export class AddJobPostService {
       {
         size:'l',
         data: this.editId
-    },
+      },
     );
   }
 
@@ -31,15 +31,13 @@ export class AddJobPostService {
     _id ? this.editId = _id : this.editId = ''
     this.initializeDialog();
     if (this.addJobDialogue) {
-      this.subscription = this.addJobDialogue.subscribe((result) => {
-        
-      })
+      this.subscription = this.addJobDialogue.subscribe()
     }
   }
 
   closeModal() {
     if (this.subscription) {
-      this.subscription.unsubscribe()
+      this.subscription?.unsubscribe()
     }
   }
 }

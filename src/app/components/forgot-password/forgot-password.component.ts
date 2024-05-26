@@ -61,7 +61,8 @@ export class ForgotPasswordComponent implements OnDestroy{
   requestOTP() {
     if (this.forgotPasswordForm.get('email')?.valid) {
       if (this.isUser) {
-        this._authAPIs.userForgotPasswordRequestOTP(this.forgotPasswordForm.get('email')?.value).subscribe({
+        const email = this.forgotPasswordForm.get('email')?.value
+        this._authAPIs.userForgotPasswordRequestOTP(email).subscribe({
           next: response => {
             this.otpButton = 'Resend OTP'
             this.time = this.startingMinute * 60;

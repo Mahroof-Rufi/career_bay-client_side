@@ -20,11 +20,11 @@ export class AdminApiServiceService {
   }
   
   adminLoadCompanies():Observable<any> {
-    return this._http.get(environment.baseURL + 'admin/companies')
+    return this._http.get(environment.baseURL + 'admin/employers')
   }
 
   adminEmployerAction(employer_id:string):Observable<any> {
-    return this._http.patch(environment.baseURL + 'admin/companies', { employer_id:employer_id })
+    return this._http.patch(environment.baseURL + 'admin/employers', { employer_id:employer_id })
   }
 
 }

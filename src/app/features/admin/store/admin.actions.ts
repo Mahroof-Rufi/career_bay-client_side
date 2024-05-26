@@ -22,8 +22,8 @@ export const loadUserSuccess = createAction(LOAD_USERS_SUCCESS, props<{ users:Us
 export const userAction = createAction(USER_ACTION, props<{ user_id:string }>())
 export const userActionSuccess = createAction(USER_ACTION_SUCCESS, props<{ user:User }>())
 
-export const loadCompanies = createAction(LOAD_EMPLOYERS)
-export const loadCompaniesSuccess = createAction(LOAD_EMPLOYERS_SUCCESS, props<{ companies:Employer[] }>())
+export const loadEmployers = createAction(LOAD_EMPLOYERS)
+export const loadEmployersSuccess = createAction(LOAD_EMPLOYERS_SUCCESS, props<{ employers:Employer[] }>())
 
-export const companyAction = createAction(EMPLOYER_ACTION, props<{ employer_id:string }>())
-export const companyActionSuccess = createAction(EMPLOYER_ACTION_SUCCESS, props<{ employer:Employer }>())
+export const employerAction = createAction(EMPLOYER_ACTION, props<{ employer_id:string }>())
+export const employerActionSuccess = createAction(EMPLOYER_ACTION_SUCCESS, props<{ employer:Employer }>())

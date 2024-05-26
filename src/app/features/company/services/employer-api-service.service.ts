@@ -15,7 +15,7 @@ export class EmployerApiServiceService {
   }
 
   companyUpdateProfile(profileData:FormData):Observable<any> {
-    return this._http.put(environment.baseURL + 'employer/update-profile', profileData)
+    return this._http.put(environment.baseURL + 'employers/update-profile', profileData)
   }
 
 }

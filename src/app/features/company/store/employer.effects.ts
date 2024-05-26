@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core"
 import { Actions, createEffect, ofType } from "@ngrx/effects"
 import { EMPTY, catchError, exhaustMap, map } from "rxjs"
-import { LOAD_EMPLOYER, LOAD_EMPLOYER_JOBS, loadApplicants, loadApplicantsSuccess, loadEmployer, loadEmployerJobs, loadEmployerJobsSuccess, loadEmployerPosts, loadEmployerPostsSuccess, loadEmployerSuccess, updateApplicantsStatus } from "./employer.actions"
+import { LOAD_EMPLOYER, LOAD_EMPLOYER_JOBS, LOAD_EMPLOYER_POSTS, loadApplicants, loadApplicantsSuccess, loadEmployer, loadEmployerJobs, loadEmployerJobsSuccess, loadEmployerPosts, loadEmployerPostsSuccess, loadEmployerSuccess, updateApplicationStatus } from "./employer.actions"
 import { EmployerApiServiceService } from "../services/employer-api-service.service"
 import { JobsApiServiceService } from "../../../shared/services/jobs-api-service.service"
 import { PostsApiServiceService } from "../../../shared/services/posts-api-service.service"
@@ -60,50 +60,68 @@ export class employerEffects {
         })
     ))
 
-    loadJobApplication = createEffect(() => this._actions.pipe(
+    _loadPosts = createEffect(() => this._actions.pipe(
+        ofType(LOAD_EMPLOYER_POSTS),
+        exhaustMap((action) => {
+            return this._postAPIs.fetchPosts().pipe(
+                map((data:any) => {
+                    return loadEmployerPostsSuccess({ posts:data.posts })
+                }),
+                catchError((error) => {
+                    console.error('HTTP Error on updateCandidateStatus effect:', error);
+                    this._alert.open('', {
+                        label: error.error.message,
+                        status: 'error',
+                        autoClose: true,
+                        hasCloseButton: true
+                    }).subscribe()
+                    return EMPTY;
+                })
+            )
+        })
+    ))
+
+    _loadJobApplications = createEffect(() => this._actions.pipe(
         ofType(loadApplicants),
         exhaustMap((action) => {
-            return this._jobsAPIs.companyLoadJobApplicants(action.employer_id, action.jobId).pipe(
+            return this._jobsAPIs.companyLoadJobApplicants(action.jobId).pipe(
                 map((data) => {
                     return loadApplicantsSuccess({ applicants:data.appliedUsers })
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on loadEmployerApplicants effect:', error);
+                    this._alert.open('', {
+                        label: error.error.message,
+                        status: 'error',
+                        autoClose: true,
+                        hasCloseButton: true
+                    }).subscribe()
                     return EMPTY;
                 })
             )
         })
     ))
 
-    updateCandidateStatus = createEffect(() => this._actions.pipe(
-        ofType(updateApplicantsStatus),
+    _updateCandidateStatus = createEffect(() => this._actions.pipe(
+        ofType(updateApplicationStatus),
         exhaustMap((action) => {
-            return this._jobsAPIs.updateCandidateStatus(action.employer_id, action.job_id, action.user_id, action.newStatus).pipe(
+            return this._jobsAPIs.updateCandidateStatus(action.job_id, action.user_id, action.newStatus).pipe(
                 map((data) => {
                     return loadApplicantsSuccess({ applicants:data.updatedData })
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on updateCandidateStatus effect:', error);
+                    this._alert.open('', {
+                        label: error.error.message,
+                        status: 'error',
+                        autoClose: true,
+                        hasCloseButton: true
+                    }).subscribe()
                     return EMPTY;
                 })
             )
         })
     ))
 
-    loadPosts = createEffect(() => this._actions.pipe(
-        ofType(loadEmployerPosts),
-        exhaustMap((action) => {
-            return this._postAPIs.fetchPosts().pipe(
-                map((data:any) => {
-                    console.log(data);
-                    
-                    return loadEmployerPostsSuccess({ posts:data.posts })
-                }),
-                catchError((error) => {
-                    console.error('HTTP Error on updateCandidateStatus effect:', error);
-                    return EMPTY;
-                })
-            )
-        })
-    ))
+
 }

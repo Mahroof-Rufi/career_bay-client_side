@@ -4,8 +4,9 @@ import { Store } from '@ngrx/store';
 import { initFlowbite } from 'flowbite';
 import { User } from '../../../user/user-store/user.model';
 import { getApplicants } from '../../store/employer.selector';
-import { AppliedUsers } from '../../store/employer.model';
+import { AppliedUsers, EmployerState } from '../../store/employer.model';
 import { ApplicationsConfirmationModalService } from '../../services/applications-confirmation-modal.service';
+import { loadApplicants } from '../../store/employer.actions';
 
 @Component({
   selector: 'app-under-review-applicants',
@@ -16,34 +17,41 @@ export class UnderReviewApplicantsComponent implements AfterViewInit, OnInit{
 
   routeQuery:string | null = 'under-review' ;
   options:string[] = ['under-review', 'under-interview', 'finalists', 'on-hold', 'hired'];
-  filteredOptions:string[] = ['under-interview', 'finalists', 'on-hold', 'hired'];
   applicants!:AppliedUsers
   filteredApplicants!:any[]
   job_id!:string | null;
 
   constructor(
     private readonly _activatedRoute:ActivatedRoute,
-    private readonly _userStore:Store<{ user:User }>,
+    private readonly _employerStore:Store<{ 'employer':EmployerState }>,
     private readonly _router:Router,
     private readonly _confirmationService:ApplicationsConfirmationModalService
   ) {}
 
   ngOnInit(): void {
     this.job_id = this._activatedRoute.snapshot.paramMap.get('job_id')
+    
     this._activatedRoute.queryParamMap.subscribe((values) => {
 
-      if (values.get('applicants')) {
-        this.routeQuery = values.get('applicants')
-        this.filterAppliedUsersByStatus(this.routeQuery)
-        this.filterOptions();
+      if (this.job_id) {
+        this._employerStore.dispatch(loadApplicants({ jobId: this.job_id }));
+    }
+
+      if (values.has('applicants')) {
+        this.routeQuery = values.get('applicants');
+        this.filterAppliedUsersByStatus(this.routeQuery);
+      } else {
+          this.routeQuery = 'under-review';
+          this.filterAppliedUsersByStatus('under-review');
       }
       
     })
 
-    this._userStore.select(getApplicants).subscribe((data) => {
+    this._employerStore.select(getApplicants).subscribe((data) => {
       this.applicants = data  
       this.filterAppliedUsersByStatus(this.routeQuery)
     } )
+    
   }
 
   ngAfterViewInit(): void {
@@ -81,9 +89,6 @@ export class UnderReviewApplicantsComponent implements AfterViewInit, OnInit{
     }
   }
 
-  filterOptions(): void {    
-    this.filteredOptions = this.options.filter(option => option !== this.routeQuery);
-  }
 
   accept(user_id:string) {
     switch (this.routeQuery) {

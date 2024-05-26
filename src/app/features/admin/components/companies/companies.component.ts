@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Employer, adminStateModel } from '../../store/admin.model';
 import { getCompaniesData } from '../../store/admin.selector';
-import { companyAction } from '../../store/admin.actions';
+import { employerAction, loadEmployers } from '../../store/admin.actions';
 
 @Component({
   selector: 'app-companies',
@@ -18,6 +18,7 @@ export class CompaniesComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
+    this._adminStore.dispatch(loadEmployers())
     this._adminStore.select(getCompaniesData).subscribe((data) => {
       this.companies = data;
     })
@@ -28,7 +29,7 @@ export class CompaniesComponent implements OnInit{
   }  
 
   employerAction(emp_id:string) {
-    this._adminStore.dispatch(companyAction({ employer_id:emp_id }))
+    this._adminStore.dispatch(employerAction({ employer_id:emp_id }))
   }
 
 }

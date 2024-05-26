@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { Employer } from '../../store/employer.model';
 import { getEmployerId } from '../../store/employer.selector';
 import { ApplicationsConfirmationModalService } from '../../services/applications-confirmation-modal.service';
-import { updateApplicantsStatus } from '../../store/employer.actions';
+import { updateApplicationStatus } from '../../store/employer.actions';
 
 @Component({
   selector: 'app-applications-confirmation-modal',
@@ -37,7 +37,7 @@ export class ApplicationsConfirmationModalComponent implements OnInit{
 
   confirm() {
     this._applicationConfirmationModal.closeApplicationsStatusChangeDialogue()
-    this._employerStore.dispatch(updateApplicantsStatus({ 
+    this._employerStore.dispatch(updateApplicationStatus({ 
       employer_id:this.employerId, 
       job_id:this.data.jobId, 
       user_id:this.data.userId,

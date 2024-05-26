@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Employer, EmployerPosts, Post } from '../../store/employer.model';
 import { getPosts } from '../../store/employer.selector';
 import { initFlowbite } from 'flowbite';
+import { loadEmployerPosts } from '../../store/employer.actions';
 
 @Component({
   selector: 'app-company-posts-component',
@@ -20,9 +21,9 @@ export class CompanyPostsComponentComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
+    this._employerStore.dispatch(loadEmployerPosts())
     this._employerStore.select(getPosts).subscribe( res => {
       this.posts = res;
-      console.log(this.posts);
       
     })
   }

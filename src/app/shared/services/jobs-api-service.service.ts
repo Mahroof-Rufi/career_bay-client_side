@@ -37,23 +37,23 @@ export class JobsApiServiceService {
   }
 
   companyAddJobPost(jobData:FormData):Observable<any> {
-    return this._http.post(environment.baseURL + 'employer/job', jobData)
+    return this._http.post(environment.baseURL + 'jobs/employer-jobs', jobData)
   }
 
   companyEditJobPost(jobId:string, jobData:FormData):Observable<any> {
-    return this._http.put(environment.baseURL + `employer/job/${jobId}`, jobData)
+    return this._http.put(environment.baseURL + 'jobs/employer-jobs', { jobId:jobId, newJobData:jobData })
   }
 
   companyDeleteJob(jobId:string):Observable<any> {
-    return this._http.delete(environment.baseURL + `employer/job/${jobId}`)
+    return this._http.delete(environment.baseURL + `jobs/employer-delete-job/${jobId}`)
   }
 
-  companyLoadJobApplicants(employerId:string,job_id:string):Observable<any> {
-    return this._http.post(environment.baseURL + `employer/applicants/${employerId}`, {job_id:job_id})
+  companyLoadJobApplicants(job_id:string):Observable<any> {
+    return this._http.post(environment.baseURL + 'job-applicants/applicants', {job_id:job_id})
   }
 
-  updateCandidateStatus(employer_id:string,job_id:string,user_id:string,newStatus:string):Observable<any> {
-    return this._http.patch(environment.baseURL + `employer/applicants/${employer_id}`, { job_id:job_id, user_id:user_id, newStatus:newStatus })
+  updateCandidateStatus(job_id:string,user_id:string,newStatus:string):Observable<any> {
+    return this._http.patch(environment.baseURL + 'job-applicants/applicants/', { job_id:job_id, user_id:user_id, newStatus:newStatus })
   }
 
 }

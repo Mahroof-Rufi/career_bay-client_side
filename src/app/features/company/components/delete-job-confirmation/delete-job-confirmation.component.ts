@@ -41,7 +41,6 @@ export class DeleteJobConfirmationComponent implements OnInit{
 
   confirmDelete(jobId:string) {
     this._jobAPIs.companyDeleteJob(jobId).subscribe( res => {
-      console.log(res);
       this._employerState.dispatch(deleteJob({ id:jobId }))
       this._alert.open('', {
         label: 'Job Post delete successful',
@@ -51,7 +50,13 @@ export class DeleteJobConfirmationComponent implements OnInit{
       }).subscribe()  
       this._confirmDeleteDialogue.closeModal()
     }, err => {
-      console.log(err);      
+      console.log(err);
+      this._alert.open('', {
+        label: err.error.message,
+        status: 'error',
+        autoClose: true,
+        hasCloseButton: true
+    }).subscribe()      
     })
   }
 }

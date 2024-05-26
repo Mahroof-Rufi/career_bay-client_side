@@ -1,37 +1,45 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { companyAction, companyActionSuccess, loadCompanies, loadCompaniesSuccess, loadUserSuccess, loadUsers, userAction, userActionSuccess } from "./admin.actions";
+import { LOAD_USERS, employerAction, employerActionSuccess, loadEmployers, loadEmployersSuccess, loadUserSuccess, loadUsers, userAction, userActionSuccess } from "./admin.actions";
 import { EMPTY, catchError, exhaustMap, map } from "rxjs";
 import { AdminApiServiceService } from "../services/admin-api-service.service";
 import { UserAPIServiceService } from "../../user/services/user-api-service.service";
 import { EmployerApiServiceService } from "../../company/services/employer-api-service.service";
+import { TuiAlertService } from "@taiga-ui/core";
 
 @Injectable()
 export class adminEffects {
 
     constructor(
         private readonly _actions:Actions,
+        private readonly _alert:TuiAlertService,
         private readonly _adminAPIs:AdminApiServiceService,
         private readonly _userAPIs:UserAPIServiceService,
         private readonly _employerAPIs:EmployerApiServiceService,
     ) { }
 
-    loadUsers = createEffect(() => this._actions.pipe(        
-        ofType(loadUsers),
+    _loadUsers = createEffect(() => this._actions.pipe(        
+        ofType(LOAD_USERS),
         exhaustMap(() => {
             return this._adminAPIs.adminLoadUsers().pipe(
                 map((data) => {
-                    return loadUserSuccess({ users:data })
+                    return loadUserSuccess({ users:data.users })
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on admin loadUser effect:',error);
+                    this._alert.open('', {
+                        label: error.error.message,
+                        status: 'error',
+                        autoClose: true,
+                        hasCloseButton: true
+                    }).subscribe()
                     return EMPTY
                 })
             )
         })
     ))
 
-    userAction = createEffect(() => this._actions.pipe(
+    _userAction = createEffect(() => this._actions.pipe(
         ofType(userAction),
         exhaustMap((action) => {
             return this._adminAPIs.adminUserAction(action.user_id).pipe(
@@ -46,12 +54,12 @@ export class adminEffects {
         })
     ))
 
-    loadCompanies = createEffect(() => this._actions.pipe(
-        ofType(loadCompanies),
+    _loadCompanies = createEffect(() => this._actions.pipe(
+        ofType(loadEmployers),
         exhaustMap((action) => {
             return this._adminAPIs.adminLoadCompanies().pipe(
                 map((data) => {
-                    return loadCompaniesSuccess({ companies:data.data })
+                    return loadEmployersSuccess({ employers:data.employers })
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on admin load companies effect:',error);
@@ -61,14 +69,12 @@ export class adminEffects {
         })
     ))
 
-    companyActionSuccess = createEffect(() => this._actions.pipe(
-        ofType(companyAction),
+    _employerActionSuccess = createEffect(() => this._actions.pipe(
+        ofType(employerAction),
         exhaustMap((action) => {
             return this._adminAPIs.adminEmployerAction(action.employer_id).pipe(
                 map((data) => {
-                    console.log(data);
-                    
-                    return companyActionSuccess({ employer:data.updatedEmployer })
+                    return employerActionSuccess({ employer:data.updatedEmployer })
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on admin company action effect:',error);

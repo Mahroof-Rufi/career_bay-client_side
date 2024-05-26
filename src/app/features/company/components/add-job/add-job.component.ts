@@ -145,7 +145,7 @@ export class AddJobComponent implements OnInit{
       if (this.editJob) {
         this._jobsAPIs.companyEditJobPost(this.editJob._id, jobData).subscribe({
           next: response => {
-            this._employerStore.dispatch(updateJob({ id:response.updateJob._id, updatedJob:response.updateJob }))
+            this._employerStore.dispatch(updateJob({ id:response.updatedJob._id, updatedJob:response.updatedJob }))
             this._addJobModal.closeModal()
             this._alert.open('', {
               label: 'Job Post updated successful',
@@ -166,7 +166,7 @@ export class AddJobComponent implements OnInit{
       } else {
         this._jobsAPIs.companyAddJobPost(jobData).subscribe({
           next: response => {
-            this._employerStore.dispatch(addJobPost({ job:response.data }))
+            this._employerStore.dispatch(addJobPost({ job:response.job }))
             this._addJobModal.closeModal()
             this._alert.open('', {
               label: 'Job Post Successful',

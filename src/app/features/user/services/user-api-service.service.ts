@@ -45,11 +45,11 @@ export class UserAPIServiceService {
   }
  
   changeEmailSendOTP(currentEmail:string):Observable<any> {
-    return this._http.post(environment.baseURL+'users/changeEmail', { currentEmail:currentEmail })
+    return this._http.post(environment.baseURL + 'users/change-email', { currentEmail:currentEmail })
   }
 
   userUpdateEmail(data:any):Observable<any> {
-    return this._http.patch(environment.baseURL+'users/changeEmail', data)
+    return this._http.patch(environment.baseURL + 'users/change-email', data)
   }
 
 }

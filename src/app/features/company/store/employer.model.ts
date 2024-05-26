@@ -60,6 +60,7 @@ export interface Post {
 
 export interface EmployerPosts {
     employer_id?: String;
+    _id: String,
     posts: Post[];
 }
 

@@ -4,6 +4,8 @@ import { AddPostModalService } from '../../services/add-post-modal.service';
 import { Store } from '@ngrx/store';
 import { Employer } from '../../../admin/store/admin.model';
 import { PostsApiServiceService } from '../../../../shared/services/posts-api-service.service';
+import { TuiAlertService } from '@taiga-ui/core';
+import { addPostSuccess } from '../../store/employer.actions';
 
 @Component({
   selector: 'app-add-post',
@@ -19,6 +21,7 @@ export class AddPostComponent implements OnInit{
   constructor(
     private readonly _postsAPIS:PostsApiServiceService,
     private readonly _addPostModal:AddPostModalService,
+    private readonly _alert:TuiAlertService,
     private readonly _employerStore:Store<{ employer:Employer }>
   ) {}
 
@@ -59,11 +62,18 @@ export class AddPostComponent implements OnInit{
 
       this._postsAPIS.addPost(postData).subscribe({
         next: response => {
+          this._employerStore.dispatch(addPostSuccess({ posts:response.updatedPosts }))
           this._addPostModal.closeAddPostDialogue()
         },
 
         error: err => {
-          console.error(err);          
+          console.error(err); 
+          this._alert.open('', {
+            label: err.error.message,
+            status: 'error',
+            autoClose: true,
+            hasCloseButton: true
+        }).subscribe()         
         }
       })
     } else {

@@ -17,11 +17,11 @@ export class PostsApiServiceService {
   }
 
   fetchPosts() {
-    return this._http.get(environment.baseURL + 'employer/post')
+    return this._http.get(environment.baseURL + 'posts/employer-posts')
   }
 
   addPost(data:FormData):Observable<any> {
-    return this._http.post(environment.baseURL + 'employer/post', data)
+    return this._http.post(environment.baseURL + 'posts/employer-posts', data)
   }
 
   companyEditJobPost(jobId:string, jobData:FormData):Observable<any> {
