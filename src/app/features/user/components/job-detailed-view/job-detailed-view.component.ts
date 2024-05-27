@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Job, User } from '../../user-store/user.model';  
-import { getJobById, getJobIsApplied as getJobIsApplied, getUserId } from '../../user-store/user.selector';
+import { getJobById, getJobIsApplied as getJobIsApplied, getJobIsSaved, getUserId } from '../../user-store/user.selector';
 import { ApplyJobConfirmationService } from '../../services/apply-job-confirmation.service';
 import { JobsApiServiceService } from '../../../../shared/services/jobs-api-service.service';
-import { isApplied } from '../../user-store/user.actions';
+import { isApplied, isSaved } from '../../user-store/user.actions';
 
 @Component({
   selector: 'app-job-detailed-view',
@@ -19,6 +19,7 @@ export class JobDetailedViewComponent implements OnInit{
   jobData:any;
 
   isApplied: boolean | null = null;
+  isSaved!: boolean;
 
   constructor(
     private readonly _route:ActivatedRoute,
@@ -30,13 +31,23 @@ export class JobDetailedViewComponent implements OnInit{
   ngOnInit(): void {
     this.jobId = this._route.snapshot.params['id'];
     this._userStore.dispatch(isApplied({ jobId:this.jobId }))
+    this._userStore.dispatch(isSaved({ jobId:this.jobId }))
     this._userStore.select(getUserId).subscribe(userId => this.user_id = userId)
     this._userStore.select(getJobIsApplied).subscribe((value) => this.isApplied = value)
+    this._userStore.select(getJobIsSaved).subscribe((value) => this.isSaved = value)
     this._userStore.select(getJobById(this.jobId)).subscribe((res) => this.jobData = res)
   }
 
-  applyJob(job_id:string) {
+  applyJob(job_id:string,applyJob:boolean = true) {
     this._applyConfirmationModal.openApplyJobConfirmationModal(job_id)
+  }
+
+  saveJob(job_id:string) {
+    this._applyConfirmationModal.openSaveJobConfirmationModal(job_id)
+  }
+
+  unSaveJob(job_id:string) {
+    this._applyConfirmationModal.openUnSaveJobConfirmationModal(job_id)
   }
 
 }

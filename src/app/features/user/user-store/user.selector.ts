@@ -60,6 +60,12 @@ export const getJobIsApplied = createSelector(getUserState,
     }
 )
 
+export const getJobIsSaved = createSelector(getUserState,
+    (state: userStateModel) => {
+        return state.isSaved
+    }
+)
+
 export const getAppliedJobs = createSelector(getUserState,
     (state: userStateModel) => {
         return state.AppliedJobs

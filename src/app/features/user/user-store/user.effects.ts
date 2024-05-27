@@ -1,6 +1,6 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Injectable } from "@angular/core";
-import { loadUserJobs, loadUserJobsSuccess, loadUser, loadUserSuccess, updateUserProfile, updateUserProfileSuccess, updateUserExperience, editUserEducation, updateUserSkills, applyJob, applyJobSuccess, isApplied, isAppliedSuccess, loadAppliedJobs, loadAppliedJobsSuccess, loadPosts, loadPostsSuccess, deleteUserExperience, deleteUserExperienceSuccess, deleteUserEducation, deleteUserEducationSuccess, LOAD_USER, LOAD_JOBS, LOAD_POSTS, UPDATE_USER_ABOUT, updateUserAbout, updateUserAboutSuccess } from './user.actions';
+import { loadUserJobs, loadUserJobsSuccess, loadUser, loadUserSuccess, updateUserProfile, updateUserProfileSuccess, updateUserExperience, editUserEducation, updateUserSkills, applyJob, applyJobSuccess, isApplied, isAppliedSuccess, loadAppliedJobs, loadAppliedJobsSuccess, loadPosts, loadPostsSuccess, deleteUserExperience, deleteUserExperienceSuccess, deleteUserEducation, deleteUserEducationSuccess, LOAD_USER, LOAD_JOBS, LOAD_POSTS, UPDATE_USER_ABOUT, updateUserAbout, updateUserAboutSuccess, saveJob, saveJobSuccess, isSaved, isSavedSuccess, unSaveJob, unSaveJobSuccess } from './user.actions';
 import { EMPTY, catchError, exhaustMap, map } from 'rxjs';
 import { UserAPIServiceService } from '../services/user-api-service.service';
 import { JobsApiServiceService } from '../../../shared/services/jobs-api-service.service';
@@ -306,6 +306,75 @@ export class userEffects {
             return this._jobsAPIs.userLoadAppliedJobs().pipe(
                 map((data:any) => {
                     return loadAppliedJobsSuccess({ appliedJobs:data.appliedJobs })
+                }),
+                catchError((error) => {
+                    console.error('HTTP Error on loadAppliedJobs effect:', error);
+                    this._alert.open('', {
+                        label: error.error.message,
+                        status: 'error',
+                        autoClose: false,
+                        hasCloseButton: true
+                    }).subscribe()
+                    return EMPTY;
+                })
+            )
+        })
+    ))
+
+    _saveJobPost = createEffect(() => this._actions.pipe(
+        ofType(saveJob),
+        exhaustMap((action) => {
+            return this._jobsAPIs.userSaveJob(action.job_id).pipe(
+                map((data:any) => {
+                    this._alert.open('', {
+                        label: 'Job post saved successfully',
+                        status: 'success',
+                        autoClose: false,
+                        hasCloseButton: true
+                    }).subscribe()
+                    return saveJobSuccess()
+                }),
+                catchError((error) => {
+                    console.error('HTTP Error on loadAppliedJobs effect:', error);
+                    this._alert.open('', {
+                        label: error.error.message,
+                        status: 'error',
+                        autoClose: false,
+                        hasCloseButton: true
+                    }).subscribe()
+                    return EMPTY;
+                })
+            )
+        })
+    ))
+
+    _isSaved = createEffect(() => this._actions.pipe(
+        ofType(isSaved),
+        exhaustMap((action) => {
+            return this._jobsAPIs.userIsJobSaved(action.jobId).pipe(
+                map((data:any) => {
+                    return isSavedSuccess({ isSaved:data.isSaved })
+                }),
+                catchError((error) => {
+                    console.error('HTTP Error on loadAppliedJobs effect:', error);
+                    return EMPTY;
+                })
+            )
+        })
+    ))
+
+    _unSaveJob = createEffect(() => this._actions.pipe(
+        ofType(unSaveJob),
+        exhaustMap((action) => {
+            return this._jobsAPIs.userUnSaveJob(action.job_id).pipe(
+                map((data:any) => {
+                    this._alert.open('', {
+                        label: 'Job post unsaved successfully',
+                        status: 'success',
+                        autoClose: false,
+                        hasCloseButton: true
+                    }).subscribe()
+                    return unSaveJobSuccess()
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on loadAppliedJobs effect:', error);

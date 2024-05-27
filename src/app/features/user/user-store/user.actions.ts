@@ -30,6 +30,15 @@ export const UPDATE_USER_SKILLS = '[user] update user skills';
 export const APPLY_JOB = '[user] apply for job';
 export const APPLY_JOB_SUCCESS = '[user] apply job success';
 
+export const SAVE_JOB = '[jobs] save job post';
+export const SAVE_JOB_SUCCESS = '[jobs] save job post success';
+
+export const UNSAVE_JOB = '[jobs] unsave job post';
+export const UNSAVE_JOB_SUCCESS = '[jobs] unsave job post success';
+
+export const IS_SAVED = '[jobs] is job saved';
+export const IS_SAVED_SUCCESS = '[jobs] is job saved success';
+
 export const IS_APPLIED = '[user] is applied';
 export const IS_APPLIED_SUCCESS = '[user] is applied success';
 
@@ -68,6 +77,15 @@ export const updateUserSkills = createAction(UPDATE_USER_SKILLS, props<{ skills:
 
 export const applyJob = createAction(APPLY_JOB, props<{ job_id:string }>());
 export const applyJobSuccess = createAction(APPLY_JOB_SUCCESS, props<{ updatedAppliedJobs:AppliedJobs }>());
+
+export const saveJob = createAction(SAVE_JOB, props<{ job_id:string }>());
+export const saveJobSuccess = createAction(SAVE_JOB_SUCCESS)
+
+export const unSaveJob = createAction(UNSAVE_JOB, props<{ job_id:string }>()); 
+export const unSaveJobSuccess = createAction(UNSAVE_JOB_SUCCESS);
+
+export const isSaved = createAction(IS_SAVED, props<{ jobId:string }>())
+export const isSavedSuccess = createAction(IS_SAVED_SUCCESS, props<{ isSaved:boolean }>())
 
 export const isApplied = createAction(IS_APPLIED, props<{ jobId:string }>());
 export const isAppliedSuccess = createAction(IS_APPLIED_SUCCESS, props<{ isVerified:boolean }>());

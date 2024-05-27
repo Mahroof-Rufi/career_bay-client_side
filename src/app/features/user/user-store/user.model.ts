@@ -112,9 +112,10 @@ export interface EditUser {
 export interface userStateModel {
     user:User,
     jobs:Job[],
-    isApplied:boolean,
     AppliedJobs: AppliedJobs[]
-    posts:Posts[]
+    posts:Posts[],
+    isApplied:boolean,
+    isSaved:boolean,
 }
 
 export interface AppliedJob {

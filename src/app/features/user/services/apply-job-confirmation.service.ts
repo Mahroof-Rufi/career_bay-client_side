@@ -10,6 +10,12 @@ export class ApplyJobConfirmationService {
   private applyJobConfirmation: Observable<any> | undefined;
   private applyJobConfirmationSubscription!: Subscription
 
+  private saveJobConfirmation: Observable<any> | undefined;
+  private saveJobConfirmationSubscription!: Subscription;
+
+  private unSaveJobConfirmation: Observable<any> | undefined;
+  private unSaveJobConfirmationSubscription!: Subscription;
+
   job_id!:string;
 
   constructor(
@@ -22,10 +28,11 @@ export class ApplyJobConfirmationService {
       new PolymorpheusComponent(ApplyJobConfirmationComponent, this.injector),
       {
         size:'m',
-        data: this.job_id
+        data: { jobId:this.job_id, type:'applyJob' }
       },
     );
   }
+  
   
   openApplyJobConfirmationModal(job_id:string) {
     this.job_id = job_id
@@ -39,5 +46,43 @@ export class ApplyJobConfirmationService {
     if (this.applyJobConfirmationSubscription) {
       this.applyJobConfirmationSubscription.unsubscribe()
     }
+  }
+
+  openSaveJobConfirmationModal(job_id:string) {
+    this.job_id = job_id
+    this.saveJobConfirmation = this.dialogueService.open<any>(
+      new PolymorpheusComponent(ApplyJobConfirmationComponent, this.injector),
+      {
+        size:'m',
+        data: { jobId:this.job_id, type:'save-Job' }
+      },
+    );
+
+    if (this.saveJobConfirmation) {
+      this.saveJobConfirmationSubscription = this.saveJobConfirmation.subscribe()
+    }
+  }
+
+  closeSaveJobConfirmation() {
+    this.saveJobConfirmationSubscription?.unsubscribe()
+  }
+
+  openUnSaveJobConfirmationModal(job_id:string) {
+    this.job_id = job_id
+    this.unSaveJobConfirmation = this.dialogueService.open<any>(
+      new PolymorpheusComponent(ApplyJobConfirmationComponent, this.injector),
+      {
+        size:'m',
+        data: { jobId:this.job_id, type:'unSave-Job' }
+      },
+    );
+
+    if (this.unSaveJobConfirmation) {
+      this.unSaveJobConfirmationSubscription = this.unSaveJobConfirmation.subscribe()
+    }
+  }
+
+  closeUnSaveJobConfirmation() {
+    this.unSaveJobConfirmationSubscription?.unsubscribe()
   }
 }

@@ -15,13 +15,16 @@
         <div id="userDropdown" class="z-10 hidden bg-slate-200 divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
             <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="avatarButton">
                 <li>
-                    <a routerLink="/user/profile/:id" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profile</a>
+                    <a [routerLink]="['/user/profile', userData._id]" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profile</a>
                 </li>
                 <li>
                     <a routerLink="/user/notifications/:id" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Notifications</a>
                 </li>
                 <li>
-                    <a routerLink="/user/applied-jobs/:id" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Applied Jobs</a>
+                    <a [routerLink]="['/user/applied-jobs', userData._id]" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Applied Jobs</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user/saved-jobs-Posts', userData._id]" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Saved Jobs and Posts</a>
                 </li>
                 <li>
                     <p (click)="changeEmail()" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer">Change Email</p>
