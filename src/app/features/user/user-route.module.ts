@@ -8,14 +8,14 @@ import { UserProfileComponent } from "./components/user-profile/user-profile.com
 import { AppliedJobsComponent } from "./components/applied-jobs/applied-jobs.component";
 
 const routes: Routes = [
-    { path: '', component:UserHomeComponent, children: [
+    { path: 'user', component:UserHomeComponent, children: [
         { path: '', redirectTo:'dashboard', pathMatch:"full" },
         { path: 'dashboard', component:DashboardComponent, },
         { path: 'profile/:id', component:UserProfileComponent, },
         { path: 'jobs', component:JobListComponent, },
         { path: 'job/:id', component:JobDetailedViewComponent, },
         { path: 'applied-jobs/:id', component:AppliedJobsComponent, },
-    ]}
+    ], canActivate:[]}
 ]
 
 @NgModule({

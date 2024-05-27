@@ -25,7 +25,6 @@ export class JobDetailedViewComponent implements OnInit{
     private readonly _route:ActivatedRoute,
     private readonly _userStore:Store<{ user:User }>,
     private readonly _applyConfirmationModal:ApplyJobConfirmationService,
-    private readonly _jobsAPIs:JobsApiServiceService
   ) {}
 
   ngOnInit(): void {

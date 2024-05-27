@@ -52,4 +52,8 @@ export class UserAPIServiceService {
     return this._http.patch(environment.baseURL + 'users/change-email', data)
   }
 
+  isUserBlocked():Observable<any> {
+    return this._http.get(environment.baseURL + 'user/is-blocked')
+  }
+
 }

@@ -6,6 +6,7 @@ import { UserAPIServiceService } from '../services/user-api-service.service';
 import { JobsApiServiceService } from '../../../shared/services/jobs-api-service.service';
 import { PostsApiServiceService } from '../../../shared/services/posts-api-service.service';
 import { TuiAlertService } from '@taiga-ui/core';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class userEffects {
@@ -13,6 +14,7 @@ export class userEffects {
     constructor(
         private readonly _actions: Actions,
         private readonly _alert: TuiAlertService,
+        private readonly _router:Router,
         private readonly _userAPIs:UserAPIServiceService,
         private readonly _jobsAPIs:JobsApiServiceService,
         private readonly _postsAPIs:PostsApiServiceService
@@ -27,6 +29,9 @@ export class userEffects {
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on loadUserEffect:', error);
+                    if (error.status == 403) {
+                        this._router.navigateByUrl('/home')
+                    }
                     this._alert.open('', {
                         label: error.error.message,
                         status: 'error',
@@ -48,6 +53,9 @@ export class userEffects {
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on loadUserJobs effect:', error);
+                    if (error.status == 403) {
+                        this._router.navigateByUrl('/home')
+                    }
                     this._alert.open('', {
                         label: error.error.message,
                         status: 'error',
@@ -69,6 +77,9 @@ export class userEffects {
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on loadPosts effect:', error);
+                    if (error.status == 403) {
+                        this._router.navigateByUrl('/home')
+                    }
                     this._alert.open('', {
                         label: error.error.message,
                         status: 'error',
@@ -90,6 +101,9 @@ export class userEffects {
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on updateUserProfile effect:', error);
+                    if (error.status == 403) {
+                        this._router.navigateByUrl('/home')
+                    }
                     this._alert.open('', {
                         label: error.error.message,
                         status: 'error',
@@ -111,6 +125,9 @@ export class userEffects {
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on updateUserProfile effect:', error);
+                    if (error.status == 403) {
+                        this._router.navigateByUrl('/home')
+                    }
                     this._alert.open('', {
                         label: error.error.message,
                         status: 'error',
@@ -132,6 +149,9 @@ export class userEffects {
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on addUserExperience effect:', error);
+                    if (error.status == 403) {
+                        this._router.navigateByUrl('/home')
+                    }
                     this._alert.open('', {
                         label: error.error.message,
                         status: 'error',
@@ -158,6 +178,9 @@ export class userEffects {
                     return deleteUserExperienceSuccess({ user:data.updatedData })
                 }),
                 catchError((error) => {
+                    if (error.status == 403) {
+                        this._router.navigateByUrl('/home')
+                    }
                     this._alert.open('', {
                         label: error.error.message,
                         status: 'error',
@@ -186,6 +209,9 @@ export class userEffects {
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on edit user education effect:', error);
+                    if (error.status == 403) {
+                        this._router.navigateByUrl('/home')
+                    }
                     this._alert.open('', {
                         label: error.error.message,
                         status: 'error',
@@ -212,6 +238,9 @@ export class userEffects {
                     return deleteUserEducationSuccess({ user:data.updatedData })
                 }),
                 catchError((error) => {
+                    if (error.status == 403) {
+                        this._router.navigateByUrl('/home')
+                    }
                     this._alert.open('', {
                         label: error.error.message,
                         status: 'error',
@@ -240,6 +269,9 @@ export class userEffects {
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on edit user skills effect:', error);
+                    if (error.status == 403) {
+                        this._router.navigateByUrl('/home')
+                    }
                     this._alert.open('', {
                         label: error.error.message,
                         status: 'error',
@@ -261,9 +293,12 @@ export class userEffects {
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on is applied effect:', error);
+                    if (error.status == 403) {
+                        this._router.navigateByUrl('/home')
+                    }
                     this._alert.open('', {
                         label: error.error.message,
-                        status: 'success',
+                        status: 'error',
                         autoClose: true,
                         hasCloseButton: true
                     }).subscribe()
@@ -288,6 +323,9 @@ export class userEffects {
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on applyJob effect:', error);
+                    if (error.status == 403) {
+                        this._router.navigateByUrl('/home')
+                    }
                     this._alert.open('', {
                         label: error.error.message,
                         status: 'error',
@@ -309,6 +347,9 @@ export class userEffects {
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on loadAppliedJobs effect:', error);
+                    if (error.status == 403) {
+                        this._router.navigateByUrl('/home')
+                    }
                     this._alert.open('', {
                         label: error.error.message,
                         status: 'error',
@@ -336,6 +377,9 @@ export class userEffects {
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on loadAppliedJobs effect:', error);
+                    if (error.status == 403) {
+                        this._router.navigateByUrl('/home')
+                    }
                     this._alert.open('', {
                         label: error.error.message,
                         status: 'error',
@@ -357,6 +401,9 @@ export class userEffects {
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on loadAppliedJobs effect:', error);
+                    if (error.status == 403) {
+                        this._router.navigateByUrl('/home')
+                    }
                     return EMPTY;
                 })
             )
@@ -378,6 +425,9 @@ export class userEffects {
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on loadAppliedJobs effect:', error);
+                    if (error.status == 403) {
+                        this._router.navigateByUrl('/home')
+                    }
                     this._alert.open('', {
                         label: error.error.message,
                         status: 'error',

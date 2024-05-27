@@ -6,6 +6,7 @@ import { EmployerApiServiceService } from "../services/employer-api-service.serv
 import { JobsApiServiceService } from "../../../shared/services/jobs-api-service.service"
 import { PostsApiServiceService } from "../../../shared/services/posts-api-service.service"
 import { TuiAlertService } from "@taiga-ui/core"
+import { Router } from "@angular/router"
 
 @Injectable()
 export class employerEffects {
@@ -13,6 +14,7 @@ export class employerEffects {
     constructor(
         private readonly _actions: Actions,
         private readonly _alert:TuiAlertService,
+        private readonly _router:Router,
         private readonly _employerAPIs: EmployerApiServiceService,
         private readonly _jobsAPIs: JobsApiServiceService,
         private readonly _postAPIs: PostsApiServiceService
