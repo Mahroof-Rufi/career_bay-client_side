@@ -68,4 +68,8 @@ export class JobsApiServiceService {
     return this._http.patch(environment.baseURL + 'job-applicants/applicants/', { job_id:job_id, user_id:user_id, newStatus:newStatus })
   }
 
+  rejectCandidateApplication(job_id:string, user_id:string): Observable<any> {
+    return this._http.patch(environment.baseURL + 'job-applicants/reject-application', { job_id:job_id, user_id:user_id })
+  }
+
 }

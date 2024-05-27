@@ -59,7 +59,7 @@ export class UnderReviewApplicantsComponent implements AfterViewInit, OnInit{
   }
 
   filterAppliedUsersByStatus(status: string | null): void {
-    this.filteredApplicants = this.applicants.appliedUsers.filter((user:any) => user.status === status);
+    this.filteredApplicants = this.applicants?.appliedUsers.filter((user:any) => user.status === status && !user.rejected);
   }
 
   trackByFn(id: string): string {
@@ -102,6 +102,10 @@ export class UnderReviewApplicantsComponent implements AfterViewInit, OnInit{
         this._confirmationService.openApplicationStatusChangeDialogue(this.job_id, user_id, 'on-hold')
         break;
     }
+  }
+
+  reject(user_id:string) {
+    this._confirmationService.openApplicationRejectDialogue(this.job_id, user_id, 'reject')
   }
   
 }

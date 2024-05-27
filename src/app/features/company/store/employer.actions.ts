@@ -21,6 +21,8 @@ export const LOAD_EMPLOYER_JOB_APPLICANTS_SUCCESS = '[job applicants] load emplo
 
 export const UPDATE_EMPLOYER_JOB_APPLICANTS = '[job applicants] update employer job applicant status';
 
+export const REJECT_EMPLOYER_JOB_APPLICANTS = '[job applicants] reject employer job application';
+
 export const LOAD_EMPLOYER_POSTS = '[posts] load employer posts';
 export const LOAD_EMPLOYER_POSTS_SUCCESS = '[posts] load employer posts success';
 
@@ -44,7 +46,9 @@ export const deleteJob = createAction(DELETE_EMPLOYER_JOB, props<{ id: string }>
 export const loadApplicants = createAction(LOAD_EMPLOYER_JOB_APPLICANTS, props<{ jobId:string }>())
 export const loadApplicantsSuccess = createAction(LOAD_EMPLOYER_JOB_APPLICANTS_SUCCESS, props<{ applicants:AppliedUsers }>())
 
-export const updateApplicationStatus= createAction(UPDATE_EMPLOYER_JOB_APPLICANTS, props<{ job_id:string, user_id:string, newStatus:string, employer_id:string }>())
+export const updateApplicationStatus = createAction(UPDATE_EMPLOYER_JOB_APPLICANTS, props<{ job_id:string, user_id:string, newStatus:string, employer_id:string }>())
+
+export const rejectApplication = createAction(REJECT_EMPLOYER_JOB_APPLICANTS, props<{ job_id:string, user_id:string }>())
 
 export const loadEmployerPosts = createAction(LOAD_EMPLOYER_POSTS)
 export const loadEmployerPostsSuccess = createAction(LOAD_EMPLOYER_POSTS_SUCCESS, props<{ posts:EmployerPosts[] }>())

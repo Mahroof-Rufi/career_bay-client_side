@@ -44,7 +44,7 @@ export class ApplyJobConfirmationComponent implements OnInit,OnDestroy{
   }
 
   confirmApply() {  
-    this._userStore.dispatch(applyJob({ job_id:this.data }))
+    this._userStore.dispatch(applyJob({ job_id:this.job_id }))
     this._applyJobConfirmationService.closeApplyJobConfirmationModal()
   }
 

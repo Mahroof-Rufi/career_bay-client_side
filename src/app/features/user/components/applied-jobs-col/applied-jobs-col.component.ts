@@ -9,11 +9,13 @@ export class AppliedJobsColComponent implements OnInit{
   @Input() Job:any;
 
   showStatus: boolean = false;
-  status!:string
+  status!:string;
+  isRejected!:boolean;
 
   ngOnInit(): void {
     console.log(this.Job);
     this.status = this.Job.status
+    this.isRejected = this.Job.rejected
   }
 
   toggleStatus() {

@@ -11,7 +11,20 @@
             <button class="bg-green-500 hover:bg-green-400 text-white font-bannerText py-2 px-4 rounded" (click)="confirm()">Send Offer</button>
         </div>
     </div>    
-}@else {
+} @else if (data.newStatus == 'reject') {
+    <div class="flex flex-col items-center">
+        <i class="fa-regular fa-circle-question text-6xl text-red-600   "></i>
+        <div class="flex flex-col items-center mt-3">
+            <h1 class="text-center text-2xl text-red-600     font-bannerText">Reject Application</h1>
+            <p class="text-center text-lg text-mainGrey font-bannerText">Are you sure you want to reject this candidate's application?</p>
+            <p class="text-center text-lg text-red-600 font-bannerText">This action cannot be undone!</p>
+        </div>
+        <div class="mt-4">
+            <button class="bg-gray-300 hover:bg-gray-400 text-mainGrey font-bannerText py-2 px-4 rounded mr-2" (click)="cancelReject()">Cancel</button>
+            <button class="bg-red-600    hover:bg-red-300 text-white font-bannerText py-2 px-4 rounded" (click)="confirmReject()">Reject Application</button>
+        </div>
+    </div>    
+} @else {
     <div class="flex flex-col items-center">
         <i class="fa-regular fa-circle-question text-6xl text-green-500"></i>
         <div class="flex flex-col items-center mt-3">

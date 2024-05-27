@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core"
 import { Actions, createEffect, ofType } from "@ngrx/effects"
 import { EMPTY, catchError, exhaustMap, map } from "rxjs"
-import { LOAD_EMPLOYER, LOAD_EMPLOYER_JOBS, LOAD_EMPLOYER_POSTS, loadApplicants, loadApplicantsSuccess, loadEmployer, loadEmployerJobs, loadEmployerJobsSuccess, loadEmployerPosts, loadEmployerPostsSuccess, loadEmployerSuccess, updateApplicationStatus } from "./employer.actions"
+import { LOAD_EMPLOYER, LOAD_EMPLOYER_JOBS, LOAD_EMPLOYER_POSTS, loadApplicants, loadApplicantsSuccess, loadEmployer, loadEmployerJobs, loadEmployerJobsSuccess, loadEmployerPosts, loadEmployerPostsSuccess, loadEmployerSuccess, rejectApplication, updateApplicationStatus } from "./employer.actions"
 import { EmployerApiServiceService } from "../services/employer-api-service.service"
 import { JobsApiServiceService } from "../../../shared/services/jobs-api-service.service"
 import { PostsApiServiceService } from "../../../shared/services/posts-api-service.service"
@@ -123,5 +123,30 @@ export class employerEffects {
         })
     ))
 
-
+    _rejectCandidate = createEffect(() => this._actions.pipe(
+        ofType(rejectApplication),
+        exhaustMap((action) => {
+            return this._jobsAPIs.rejectCandidateApplication(action.job_id, action.user_id).pipe(
+                map((data:any) => {
+                    this._alert.open('', {
+                        label: 'Application rejected successfully',
+                        status: 'success',
+                        autoClose: true,
+                        hasCloseButton: true
+                    }).subscribe()
+                    return loadApplicantsSuccess({ applicants:data })
+                }),
+                catchError((error) => {
+                    console.error('HTTP Error on updateCandidateStatus effect:', error);
+                    this._alert.open('', {
+                        label: error.error.message,
+                        status: 'error',
+                        autoClose: true,
+                        hasCloseButton: true
+                    }).subscribe()
+                    return EMPTY;
+                })
+            )
+        })
+    ))
 }

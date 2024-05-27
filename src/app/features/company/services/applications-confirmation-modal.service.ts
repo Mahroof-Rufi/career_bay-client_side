@@ -10,6 +10,9 @@ export class ApplicationsConfirmationModalService {
   private applicationStatusChangeDialogue: Observable<any> | undefined;
   private applicationStatusChangeSubscription!: Subscription
 
+  private applicationRejectDialogue: Observable<any> | undefined;
+  private applicationRejectSubscription!: Subscription
+
   constructor(
     private dialogueService: TuiDialogService,
     private injector: Injector
@@ -35,6 +38,29 @@ export class ApplicationsConfirmationModalService {
   closeApplicationsStatusChangeDialogue() {
     if (this.applicationStatusChangeSubscription) {
       this.applicationStatusChangeSubscription.unsubscribe()
+    }
+  }
+
+
+  openApplicationRejectDialogue(job_id:string | null, user_id:string, status:string) {
+    this.applicationRejectDialogue = this.dialogueService.open<any>(
+      new PolymorpheusComponent(ApplicationsConfirmationModalComponent, this.injector),
+      {
+        size:'m',
+        data:{jobId:job_id, userId:user_id, newStatus:status}
+      } 
+    )
+    
+
+    if (this.applicationRejectDialogue) {
+      this.applicationRejectSubscription = this.applicationRejectDialogue.subscribe()
+    }
+
+  }
+
+  closeApplicationRejectionDialogue() {
+    if (this.applicationRejectSubscription) {
+      this.applicationRejectSubscription?.unsubscribe()
     }
   }
 }

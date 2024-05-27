@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { Employer } from '../../store/employer.model';
 import { getEmployerId } from '../../store/employer.selector';
 import { ApplicationsConfirmationModalService } from '../../services/applications-confirmation-modal.service';
-import { updateApplicationStatus } from '../../store/employer.actions';
+import { rejectApplication, updateApplicationStatus } from '../../store/employer.actions';
 
 @Component({
   selector: 'app-applications-confirmation-modal',
@@ -45,4 +45,12 @@ export class ApplicationsConfirmationModalComponent implements OnInit{
     }))
   }
 
+  cancelReject() {
+    this._applicationConfirmationModal.closeApplicationRejectionDialogue()
+  }
+
+  confirmReject() {
+    this._applicationConfirmationModal.closeApplicationRejectionDialogue()
+    this._employerStore.dispatch(rejectApplication({ job_id:this.data.jobId, user_id:this.data.userId }))
+  }
 }

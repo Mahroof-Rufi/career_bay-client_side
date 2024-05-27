@@ -141,7 +141,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if (!filteredApplicants.length) {
+                        @if (filteredApplicants && !filteredApplicants.length) {
                             <tr *ngIf="filteredApplicants.length === 0" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                 <td colspan="4" class="px-6 py-4 text-center text-lg font-medium text-gray-900 dark:text-white">
                                     No candidates available at the moment.
@@ -177,7 +177,7 @@
                                         </td>
                                     }
                                     <td class="px-6 py-4 text-center">
-                                        <button class="bg-red-600 hover:bg-red-400 rounded-lg py-2 text-white text-lg font-bannerText w-full">Reject</button>
+                                        <button (click)="reject(user.user_id._id)" class="bg-red-600 hover:bg-red-400 rounded-lg py-2 text-white text-lg font-bannerText w-full">Reject</button>
                                     </td>
                                 </tr>
                             }
