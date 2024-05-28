@@ -34,6 +34,9 @@ import { StoreModule } from '@ngrx/store';
 import { userReducer } from './user-store/user.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { userEffects } from './user-store/user.effects';
+import { SavedJobsAndPostsComponent } from './components/saved-jobs-and-posts/saved-jobs.component';
+import { SavedPostsComponent } from './components/saved-posts/saved-posts.component';
+import { PostsComponent } from './components/posts/posts.component';
 
 
 
@@ -63,6 +66,9 @@ import { userEffects } from './user-store/user.effects';
     AppliedJobsColComponent,
     ChangeEmailComponent,
     DeleteExperienceComponent,
+    SavedJobsAndPostsComponent,
+    SavedPostsComponent,
+    PostsComponent,
   ],
   imports: [
     CommonModule,

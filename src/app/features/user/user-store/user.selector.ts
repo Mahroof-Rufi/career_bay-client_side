@@ -77,3 +77,9 @@ export const getPosts = createSelector(getUserState,
         return state.posts
     }
 )
+
+export const getSavedJobs = createSelector(getUserState,
+    (state: userStateModel) => {
+        return state.savedJobs
+    }
+)

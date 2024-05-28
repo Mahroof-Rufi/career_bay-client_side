@@ -40,6 +40,10 @@ export class JobsApiServiceService {
     return this._http.post(environment.baseURL + 'jobs/unsave-job', { job_id:job_id })
   }
 
+  userLoadSavedJobs():Observable<any> {
+    return this._http.get(environment.baseURL + 'jobs/saved-jobs')
+  }
+
   companyFetchJobs(title?:string):Observable<any> {
     let param = new HttpParams()
     if (title) {

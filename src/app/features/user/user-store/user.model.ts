@@ -112,6 +112,7 @@ export interface EditUser {
 export interface userStateModel {
     user:User,
     jobs:Job[],
+    savedJobs:Job[],
     AppliedJobs: AppliedJobs[]
     posts:Posts[],
     isApplied:boolean,

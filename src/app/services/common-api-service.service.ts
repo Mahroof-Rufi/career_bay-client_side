@@ -25,7 +25,7 @@ export class commonAPIService {
         url = `${environment.baseURL}users?search?=${query}`;
         break;
       case 'companyJobs':
-        url = `${environment.baseURL}employer/job?search=${query}`;
+        url = `${environment.baseURL}jobs/employer-jobs?search=${query}`;
         break;
       case 'companyPosts':
         url = `${environment.baseURL}employer/post?search=${query}`;

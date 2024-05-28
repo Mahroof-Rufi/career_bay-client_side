@@ -1,0 +1,37 @@
+@if (showJob) {
+  <div class="flex justify-center py-5">
+    <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
+        <ul class="flex flex-wrap -mb-px">
+            <li class="me-2">
+                <p class="inline-block p-4 text-mainColor border-b-2 border-mainColor rounded-t-lg active dark:text-blue-500 dark:border-blue-500 cursor-pointer">Jobs</p>
+            </li>
+            <li class="me-2">
+                <p (click)="showPosts()" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 cursor-pointer" aria-current="page">Posts</p>
+            </li>
+        </ul>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 my-3 px-3">
+    @for (job of savedJobs; track $index) {
+        <div class="flex flex-col">
+            <a [routerLink]="['/user/job', job.job_id._id]">
+                <app-job [jobData]="job?.job_id"></app-job>
+            </a>
+        </div>
+    }
+  </div>
+} @else {
+  <div class="flex justify-center py-5">
+    <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
+        <ul class="flex flex-wrap -mb-px">
+            <li class="me-2">
+                <p (click)="showJobs()" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 cursor-pointer">Jobs</p>
+            </li>
+            <li class="me-2">
+                <p class="inline-block p-4 text-mainColor border-b-2 border-mainColor rounded-t-lg active dark:text-blue-500 dark:border-blue-500 cursor-pointer" aria-current="page">Posts</p>
+            </li>
+        </ul>
+    </div>
+  </div>
+}
