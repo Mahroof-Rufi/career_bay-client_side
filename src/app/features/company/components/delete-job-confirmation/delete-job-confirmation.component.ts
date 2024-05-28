@@ -4,7 +4,7 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { DeleteJobConfirmationService } from '../../services/delete-job-confirmation.service';
 import { Store } from '@ngrx/store';
 import { Employer } from '../../store/employer.model';
-import { deleteJob } from '../../store/employer.actions';
+import { closeHiring, deleteJob } from '../../store/employer.actions';
 import { JobsApiServiceService } from '../../../../shared/services/jobs-api-service.service';
 
 @Component({
@@ -24,10 +24,13 @@ export class DeleteJobConfirmationComponent implements OnInit{
   ) {}
 
   editJobId!:string;
+  messageType!:'deleteJob' | 'CloseHiring';
 
   ngOnInit(): void {
     if(this.data) {
-      this.editJobId = this.data
+      const data:any = this.data
+      this.editJobId = data.job_id
+      this.messageType = data.messageType
     }
   }
 
@@ -58,5 +61,10 @@ export class DeleteJobConfirmationComponent implements OnInit{
         hasCloseButton: true
     }).subscribe()      
     })
+  }
+
+  closeHiring(job_id:string) {
+    this._confirmDeleteDialogue.closeModal()
+    this._employerState.dispatch(closeHiring({ job_id:job_id }))
   }
 }

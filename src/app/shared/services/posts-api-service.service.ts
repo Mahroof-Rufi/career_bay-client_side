@@ -16,8 +16,10 @@ export class PostsApiServiceService {
     return this._http.get(environment.baseURL + 'posts/')
   }
 
-  fetchPosts() {
-    return this._http.get(environment.baseURL + 'posts/employer-posts')
+  fetchPosts(pageNo:number) {
+    console.log('going to start');
+    
+    return this._http.get(environment.baseURL + `posts/employer-posts?page=${pageNo}`)
   }
 
   addPost(data:FormData):Observable<any> {

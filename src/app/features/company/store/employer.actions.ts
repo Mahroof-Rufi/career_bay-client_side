@@ -28,6 +28,9 @@ export const LOAD_EMPLOYER_POSTS_SUCCESS = '[posts] load employer posts success'
 
 export const ADD_EMPLOYER_POSTS = '[posts] add employer posts';
 
+export const CLOSE_HIRING = '[jobs] employer close hiring';
+export const CLOSE_HIRING_SUCCESS = '[jobs] employer close hiring success';
+
 
 export const loadEmployer = createAction(LOAD_EMPLOYER);
 export const loadEmployerSuccess = createAction(LOAD_EMPLOYER_SUCCESS, props<{ employer:Employer }>())
@@ -54,3 +57,6 @@ export const loadEmployerPosts = createAction(LOAD_EMPLOYER_POSTS)
 export const loadEmployerPostsSuccess = createAction(LOAD_EMPLOYER_POSTS_SUCCESS, props<{ posts:EmployerPosts[] }>())
 
 export const addPostSuccess = createAction(ADD_EMPLOYER_POSTS, props<{ posts:EmployerPosts[] }>())
+
+export const closeHiring = createAction(CLOSE_HIRING, props<{ job_id:string }>())
+export const closeHiringSuccess = createAction(CLOSE_HIRING_SUCCESS, props<{ job_id:string }>())

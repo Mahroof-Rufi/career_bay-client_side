@@ -22,6 +22,8 @@ export const employerReducer = createReducer(initialState,
         }
     }),
     on(addJobPost, (state,action) => {
+        console.log(action.job);
+        
         return {
             ...state,
             jobs: [...state.jobs, action.job]

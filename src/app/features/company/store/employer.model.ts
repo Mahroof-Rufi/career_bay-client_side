@@ -15,6 +15,7 @@ export interface Employer {
 }
 
 export interface Job {
+    posts(posts: any): unknown;
     _id: string,
     company_id: string,
     jobTitle: string,

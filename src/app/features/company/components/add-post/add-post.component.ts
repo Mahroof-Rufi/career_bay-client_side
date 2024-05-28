@@ -61,8 +61,8 @@ export class AddPostComponent implements OnInit{
       });
 
       this._postsAPIS.addPost(postData).subscribe({
-        next: response => {
-          this._employerStore.dispatch(addPostSuccess({ posts:response.updatedPosts }))
+        next: response => {          
+          this._employerStore.dispatch(addPostSuccess({ posts:response.updatedPosts.posts }))
           this._addPostModal.closeAddPostDialogue()
         },
 

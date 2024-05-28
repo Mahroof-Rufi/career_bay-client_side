@@ -1,10 +1,12 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, Output } from '@angular/core';
 import { AddPostModalService } from '../../services/add-post-modal.service';
 import { Store } from '@ngrx/store';
 import { Employer, EmployerPosts, Post } from '../../store/employer.model';
 import { getPosts } from '../../store/employer.selector';
 import { initFlowbite } from 'flowbite';
-import { loadEmployerPosts } from '../../store/employer.actions';
+import { loadEmployerPosts, loadEmployerPostsSuccess } from '../../store/employer.actions';
+import { ActivatedRoute } from '@angular/router';
+import { PostsApiServiceService } from '../../../../shared/services/posts-api-service.service';
 
 @Component({
   selector: 'app-company-posts-component',
@@ -12,19 +14,44 @@ import { loadEmployerPosts } from '../../store/employer.actions';
   styleUrl: './company-posts-component.component.scss'
 })
 export class CompanyPostsComponentComponent implements OnInit{
-
-  posts!:any;
+  @Output() posts!:any
+  @Output() totalPosts!:number;
+  @Output() maxItemInPerPage:number = 5;
+  @Output() pageNo:number = 1
 
   constructor(
     private readonly _addPostModal:AddPostModalService,
-    private readonly _employerStore:Store<{ employer:Employer }>
+    private readonly _employerStore:Store<{ employer:Employer }>,
+    private readonly _activatedRoute:ActivatedRoute,
+    private readonly _postAPIs:PostsApiServiceService
   ) {}
 
   ngOnInit(): void {
-    this._employerStore.dispatch(loadEmployerPosts())
-    this._employerStore.select(getPosts).subscribe( res => {
+    // this._employerStore.dispatch(loadEmployerPosts())
+    this._activatedRoute.queryParamMap.subscribe({
+      next: response => {
+        const query = response.get('page')
+        if (query) {
+          this.pageNo = parseInt(query)
+        }
+
+        this._postAPIs.fetchPosts(this.pageNo || 1).subscribe({
+          next: (response:any) => {  
+            console.log(response);
+                
+            this._employerStore.dispatch(loadEmployerPostsSuccess({ posts:response.posts }))
+            this.totalPosts = response.totalNoOfPosts
+          },
+    
+          error: err => {
+    
+          }
+        })
+      }
+    })
+
+    this._employerStore.select(getPosts).subscribe( res => {     
       this.posts = res;
-      
     })
   }
 
@@ -34,11 +61,7 @@ export class CompanyPostsComponentComponent implements OnInit{
 
   trackByFn(id: string): string {
     return id; 
-  }  
-
-  generateDropdownToggle(): string {
-    return 'dropdownDots_' + Math.random().toString(36).substr(2, 9);
-  }
+  } 
 
   addPost() {
     this._addPostModal.openAddPostDialogue()

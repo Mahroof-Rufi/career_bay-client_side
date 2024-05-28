@@ -9,7 +9,7 @@
 <div class="bg-white rounded-2xl  mx-5">
 
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        @if (jobs.length) {
+        @if (jobs && jobs.length) {
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-white uppercase bg-mainColor dark:bg-gray-700 dark:text-gray-400">
                     <tr>
@@ -37,7 +37,7 @@
                 @for (job of jobs; track job._id; let idx = $index) {
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ idx + 1 }}
+                            {{ (pageNo - 1) * maxItemInPerPage + idx + 1 }}
                         </th>
                         <td class="px-6 py-4">
                             {{ job.jobTitle }}
@@ -55,13 +55,14 @@
                             </td>
                         }
                         <td class="px-6 py-4">
-                            {{ job.postedAt }}
+                            {{ job.postedAt | date }}
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex justify-between text-mainGrey text-sm">
                                 <i class="fa-regular fa-pen-to-square cursor-pointer" (click)="addJob(job._id)"></i>
                                 <i class="fa-solid fa-trash cursor-pointer" (click)="deleteJob(job._id)"></i>
                                 <i class="fa-solid fa-list-check cursor-pointer" [routerLink]="['/employer/job/applicants', job._id]"></i>
+                                <i class="fa-solid fa-circle-xmark cursor-pointer" (click)="closeHiring(job._id)"></i>
                             </div> 
                         </td>
                     </tr>
@@ -76,25 +77,6 @@
     </div>
 
 </div>
-@if (jobs.length) {
-    <div class="flex flex-col items-center my-2">
-        <span class="text-sm text-gray-700 dark:text-gray-400">
-            Showing <span class="font-semibold text-mainGrey dark:text-white">1</span> to <span class="font-semibold text-mainGrey dark:text-white">10</span> of <span class="font-semibold text-main dark:text-white">100</span> Entries
-        </span>
-        <div class="inline-flex space-x-3 mt-3 xs:mt-0">
-          
-          <button class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-mainColor rounded-lg hover:bg-orange-400 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-              <svg class="w-3.5 h-3.5 me-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5H1m0 0 4 4M1 5l4-4"/>
-              </svg>
-              Prev
-          </button>
-          <button class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-mainColor border-0 border-s rounded-lg hover:bg-orange-400 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-              Next
-              <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-            </svg>
-          </button>
-        </div>
-    </div>
+@if (jobs && jobs.length) {
+    <app-pagination [currentPageNo]="pageNo" [maxItemInPerPage]="maxItemInPerPage" [totalNoOfEntries]="totalJobs" [typeOfEntries]="'employerJobs'" [noOfShowingEntries]="jobs.length"></app-pagination>
 }

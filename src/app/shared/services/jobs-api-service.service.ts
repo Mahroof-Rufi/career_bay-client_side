@@ -44,12 +44,12 @@ export class JobsApiServiceService {
     return this._http.get(environment.baseURL + 'jobs/saved-jobs')
   }
 
-  companyFetchJobs(title?:string):Observable<any> {
+  companyFetchJobs(page:number, title?:string):Observable<any> {
     let param = new HttpParams()
     if (title) {
       param = param.append('title', title)
     }
-    return this._http.get(environment.baseURL + 'jobs/employer-jobs', { params: param });
+    return this._http.get(environment.baseURL + `jobs/employer-jobs?page=${page}`, { params: param });
   }
 
   companyAddJobPost(jobData:FormData):Observable<any> {
@@ -74,6 +74,10 @@ export class JobsApiServiceService {
 
   rejectCandidateApplication(job_id:string, user_id:string): Observable<any> {
     return this._http.patch(environment.baseURL + 'job-applicants/reject-application', { job_id:job_id, user_id:user_id })
+  }
+
+  closeHiring(job_id:string): Observable<any> {
+    return this._http.patch(environment.baseURL + 'jobs/close-hiring', { job_id:job_id })
   }
 
 }

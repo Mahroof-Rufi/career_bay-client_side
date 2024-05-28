@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core"
 import { Actions, createEffect, ofType } from "@ngrx/effects"
 import { EMPTY, catchError, exhaustMap, map } from "rxjs"
-import { LOAD_EMPLOYER, LOAD_EMPLOYER_JOBS, LOAD_EMPLOYER_POSTS, loadApplicants, loadApplicantsSuccess, loadEmployer, loadEmployerJobs, loadEmployerJobsSuccess, loadEmployerPosts, loadEmployerPostsSuccess, loadEmployerSuccess, rejectApplication, updateApplicationStatus } from "./employer.actions"
+import { LOAD_EMPLOYER, LOAD_EMPLOYER_JOBS, LOAD_EMPLOYER_POSTS, closeHiring, closeHiringSuccess, loadApplicants, loadApplicantsSuccess, loadEmployer, loadEmployerJobs, loadEmployerJobsSuccess, loadEmployerPosts, loadEmployerPostsSuccess, loadEmployerSuccess, rejectApplication, updateApplicationStatus } from "./employer.actions"
 import { EmployerApiServiceService } from "../services/employer-api-service.service"
 import { JobsApiServiceService } from "../../../shared/services/jobs-api-service.service"
 import { PostsApiServiceService } from "../../../shared/services/posts-api-service.service"
@@ -41,47 +41,47 @@ export class employerEffects {
         })
     ))
 
-    _loadEmployerJobs = createEffect(() => this._actions.pipe(
-        ofType(LOAD_EMPLOYER_JOBS),
-        exhaustMap((action) => {
-            return this._jobsAPIs.companyFetchJobs().pipe(
-                map((data) => {
-                    return loadEmployerJobsSuccess({jobs:data.jobs})
-                }),
-                catchError((error) => {
-                    console.error('HTTP Error on loadEmployerJobs effect:', error);
-                    this._alert.open('', {
-                        label: error.error.message,
-                        status: 'error',
-                        autoClose: true,
-                        hasCloseButton: true
-                    }).subscribe()
-                    return EMPTY;
-                })
-            )
-        })
-    ))
+    // _loadEmployerJobs = createEffect(() => this._actions.pipe(
+    //     ofType(LOAD_EMPLOYER_JOBS),
+    //     exhaustMap((action) => {
+    //         return this._jobsAPIs.companyFetchJobs().pipe(
+    //             map((data) => {
+    //                 return loadEmployerJobsSuccess({jobs:data.jobs})
+    //             }),
+    //             catchError((error) => {
+    //                 console.error('HTTP Error on loadEmployerJobs effect:', error);
+    //                 this._alert.open('', {
+    //                     label: error.error.message,
+    //                     status: 'error',
+    //                     autoClose: true,
+    //                     hasCloseButton: true
+    //                 }).subscribe()
+    //                 return EMPTY;
+    //             })
+    //         )
+    //     })
+    // ))
 
-    _loadPosts = createEffect(() => this._actions.pipe(
-        ofType(LOAD_EMPLOYER_POSTS),
-        exhaustMap((action) => {
-            return this._postAPIs.fetchPosts().pipe(
-                map((data:any) => {
-                    return loadEmployerPostsSuccess({ posts:data.posts })
-                }),
-                catchError((error) => {
-                    console.error('HTTP Error on updateCandidateStatus effect:', error);
-                    this._alert.open('', {
-                        label: error.error.message,
-                        status: 'error',
-                        autoClose: true,
-                        hasCloseButton: true
-                    }).subscribe()
-                    return EMPTY;
-                })
-            )
-        })
-    ))
+    // _loadPosts = createEffect(() => this._actions.pipe(
+    //     ofType(LOAD_EMPLOYER_POSTS),
+    //     exhaustMap((action) => {
+    //         return this._postAPIs.fetchPosts().pipe(
+    //             map((data:any) => {
+    //                 return loadEmployerPostsSuccess({ posts:data.posts })
+    //             }),
+    //             catchError((error) => {
+    //                 console.error('HTTP Error on updateCandidateStatus effect:', error);
+    //                 this._alert.open('', {
+    //                     label: error.error.message,
+    //                     status: 'error',
+    //                     autoClose: true,
+    //                     hasCloseButton: true
+    //                 }).subscribe()
+    //                 return EMPTY;
+    //             })
+    //         )
+    //     })
+    // ))
 
     _loadJobApplications = createEffect(() => this._actions.pipe(
         ofType(loadApplicants),
@@ -137,6 +137,33 @@ export class employerEffects {
                         hasCloseButton: true
                     }).subscribe()
                     return loadApplicantsSuccess({ applicants:data })
+                }),
+                catchError((error) => {
+                    console.error('HTTP Error on updateCandidateStatus effect:', error);
+                    this._alert.open('', {
+                        label: error.error.message,
+                        status: 'error',
+                        autoClose: true,
+                        hasCloseButton: true
+                    }).subscribe()
+                    return EMPTY;
+                })
+            )
+        })
+    ))
+
+    _closeHiring = createEffect(() => this._actions.pipe(
+        ofType(closeHiring),
+        exhaustMap((action) => {
+            return this._jobsAPIs.closeHiring(action.job_id).pipe(
+                map((data:any) => {
+                    this._alert.open('', {
+                        label: 'Close hiring successfully',
+                        status: 'success',
+                        autoClose: true,
+                        hasCloseButton: true
+                    }).subscribe()
+                    return closeHiringSuccess({ job_id:action.job_id })
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on updateCandidateStatus effect:', error);

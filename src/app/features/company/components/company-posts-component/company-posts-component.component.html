@@ -10,8 +10,8 @@
 </div>
 
 <div class="bg-white flex flex-wrap rounded-2xl w-full mx-2">
-    @if (posts.posts) {
-        @for (post of posts.posts; track post._id; let idx = $index) {
+    @if (posts) {
+        @for (post of posts; track post._id; let idx = $index) {
             <div class="w-full mx-auto p-4">
                 <div class="bg-white p-4 rounded-lg shadow mb-6 w-full">
                     @if (post.image_urls?.length) {
@@ -34,9 +34,13 @@
                 </div>
             </div>
         }
+        <div class="mx-auto">
+            <app-pagination [currentPageNo]="pageNo" [maxItemInPerPage]="maxItemInPerPage" [totalNoOfEntries]="totalPosts" [typeOfEntries]="'employerPosts'"></app-pagination>
+        </div>
     } @else {
         <div class="w-full text-center py-10">
             <p class="text-lg text-mainColor">No posts uploaded yet.</p>
         </div>
     }
+
 </div>

@@ -9,6 +9,7 @@ export class DeleteJobConfirmationService {
 
   private confirmationDialogue: Observable<any> | undefined;
   private subscription!: Subscription
+
   private deleteJobId!: string
 
   constructor(
@@ -16,19 +17,19 @@ export class DeleteJobConfirmationService {
     private injector: Injector,
   ) {}
 
-  private initializeDialog() {
+  private initializeDialog(messageType:'deleteJob' | 'CloseHiring') {
     this.confirmationDialogue = this.dialogueService.open<any>(
       new PolymorpheusComponent(DeleteJobConfirmationComponent, this.injector),
       {
         size:'m',
-        data:this.deleteJobId ? this.deleteJobId : ''
+        data:this.deleteJobId ? { job_id:this.deleteJobId, messageType:messageType } : { job_id:'', messageType:messageType }
     },
     );
   }
 
   openModal(jobId:string) {
     this.deleteJobId = jobId
-    this.initializeDialog()
+    this.initializeDialog('deleteJob')
 
     if (this.confirmationDialogue) {
       this.subscription = this.confirmationDialogue.subscribe((result) => {
@@ -40,6 +41,15 @@ export class DeleteJobConfirmationService {
   closeModal() {
     if (this.subscription) {
       this.subscription.unsubscribe()
+    }
+  }
+
+  openCloseHiringConfirmation(job_id:string) {
+    this.deleteJobId = job_id
+    this.initializeDialog('CloseHiring')
+
+    if (this.confirmationDialogue) {
+      this.subscription = this.confirmationDialogue.subscribe()
     }
   }
 
