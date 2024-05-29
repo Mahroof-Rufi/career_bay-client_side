@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { EmployerState } from "./employer.store";
-import { Job } from "./employer.model";
+import { EmployerPosts, Job, Post } from "./employer.model";
 
 const getEmployerState = createFeatureSelector<EmployerState>('employer');
 
@@ -37,5 +37,11 @@ export const getApplicants = createSelector(getEmployerState,
 export const getPosts = createSelector(getEmployerState,
     (state: EmployerState) => {
         return state.posts
+    }
+)
+
+export const getPostById = (post_id:string) => createSelector(getEmployerState,
+    (state: EmployerState) => {
+        return state.posts.find((post:any) => post._id === post_id)
     }
 )

@@ -66,4 +66,12 @@ export class CompanyPostsComponentComponent implements OnInit{
   addPost() {
     this._addPostModal.openAddPostDialogue()
   }
+
+  editPost(post_id:string) {
+    this._addPostModal.openEditPostDialogue(post_id)
+  }
+
+  deletePost(post_id:string) {
+    this._addPostModal.openDeletePostConfirmation(post_id)
+  }
 }

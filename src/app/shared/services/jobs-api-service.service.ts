@@ -45,6 +45,9 @@ export class JobsApiServiceService {
   }
 
   companyFetchJobs(page:number, title?:string):Observable<any> {
+
+    // const queryString = Object.keys(queryParams).filter(key => key !== 'page').map(key => `${key}=${queryParams[key]}`).join('&');
+
     let param = new HttpParams()
     if (title) {
       param = param.append('title', title)

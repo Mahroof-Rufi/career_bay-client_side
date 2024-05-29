@@ -17,8 +17,6 @@ export class PostsApiServiceService {
   }
 
   fetchPosts(pageNo:number) {
-    console.log('going to start');
-    
     return this._http.get(environment.baseURL + `posts/employer-posts?page=${pageNo}`)
   }
 
@@ -26,8 +24,16 @@ export class PostsApiServiceService {
     return this._http.post(environment.baseURL + 'posts/employer-posts', data)
   }
 
+  editPost(postData:FormData):Observable<any> {
+    return this._http.put(environment.baseURL + 'posts/employer-posts', postData)
+  }
+
   companyEditJobPost(jobId:string, jobData:FormData):Observable<any> {
     return this._http.put(environment.baseURL + 'employer/post', { jobId:jobId, jobData:jobData })
+  }
+
+  deletePost(post_id:string) {
+    return this._http.delete(environment.baseURL + `posts/delete-post/${post_id}`,)
   }
   
 }

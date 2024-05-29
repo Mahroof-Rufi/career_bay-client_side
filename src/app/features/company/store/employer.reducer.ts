@@ -1,5 +1,5 @@
 import { createReducer, on } from "@ngrx/store"
-import { addJobPost, addPostSuccess, deleteJob, loadApplicantsSuccess, loadEmployerJobsSuccess, loadEmployerPostsSuccess, loadEmployerSuccess, updateEmployer, updateJob } from "./employer.actions"
+import { addJobPost, addPostSuccess, deleteJob, deletePostSuccess, loadApplicantsSuccess, loadEmployerJobsSuccess, loadEmployerPostsSuccess, loadEmployerSuccess, updateEmployer, updateJob } from "./employer.actions"
 import { initialState } from "./employer.store"
 
 export const employerReducer = createReducer(initialState,
@@ -48,18 +48,21 @@ export const employerReducer = createReducer(initialState,
         }
     }),
     on(loadEmployerPostsSuccess, (state, action) => {
-        console.log('red',action.posts);
         return {
             ...state,
             posts: action.posts
         }
     }),
-    on(addPostSuccess, (state, action) => {
-        console.log('red',action.posts);
-        
+    on(addPostSuccess, (state, action) => {        
         return {
             ...state,
             posts:action.posts
+        }
+    }),
+    on(deletePostSuccess, (state, action) => {
+        return {
+            ...state,
+            posts: state.posts.filter(post => post._id != action.post_id)
         }
     })
 )

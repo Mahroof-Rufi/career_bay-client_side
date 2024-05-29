@@ -22,6 +22,7 @@ export class AddPostModalService {
       new PolymorpheusComponent(AddPostComponent, this.injector),
       {
         size:'l',
+        data:{messageType:'addjob'}
       } 
     )
   }
@@ -41,6 +42,34 @@ export class AddPostModalService {
   closeApplicationsStatusChangeDialogue() {
     if (this.addPostDialogueSubscription) {
       this.addPostDialogueSubscription.unsubscribe()
+    }
+  }
+
+  openDeletePostConfirmation(post_id:string) {
+    this.addPostDialogue = this.dialogueService.open<any>(
+      new PolymorpheusComponent(AddPostComponent, this.injector),
+      {
+        size:'l',
+        data:{post_id:post_id, messageType:'deleteJob'}
+      } 
+    )
+
+    if (this.addPostDialogue) {
+      this.addPostDialogueSubscription = this.addPostDialogue.subscribe()
+    }
+  }
+
+  openEditPostDialogue(post_id:string) {
+    this.addPostDialogue = this.dialogueService.open<any>(
+      new PolymorpheusComponent(AddPostComponent, this.injector),
+      {
+        size:'l',
+        data:{post_id:post_id, messageType:'editPost'}
+      } 
+    )
+
+    if (this.addPostDialogue) {
+      this.addPostDialogueSubscription = this.addPostDialogue.subscribe()
     }
   }
 }
