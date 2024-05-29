@@ -12,8 +12,8 @@ export class PostsApiServiceService {
     private readonly _http:HttpClient
   ) { }
 
-  loadPosts():Observable<any> {
-    return this._http.get(environment.baseURL + 'posts/')
+  loadPosts(pageNo:number):Observable<any> {
+    return this._http.get(environment.baseURL + `posts?page=${pageNo}`)
   }
 
   fetchPosts(pageNo:number) {

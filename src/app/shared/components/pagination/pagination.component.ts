@@ -26,7 +26,7 @@ export class PaginationComponent implements OnChanges{
     }
   }
 
-  updatePaginationInfo() {
+  updatePaginationInfo() {    
     this.from = (this.currentPageNo - 1) * this.maxItemInPerPage + 1;
     this.to = Math.min(this.currentPageNo * this.maxItemInPerPage, this.totalNoOfEntries);
   }
@@ -39,6 +39,12 @@ export class PaginationComponent implements OnChanges{
       case 'employerPosts':
         this._router.navigateByUrl(`/employer/posts?page=${this.currentPageNo - 1}`)
         break;
+      case 'userJobs':
+        this._router.navigateByUrl(`/user/jobs?page=${this.currentPageNo - 1}`)
+        break;
+      case 'userPosts':
+        this._router.navigateByUrl(`/user/posts?page=${this.currentPageNo - 1}`)
+        break;
     }
   }
 
@@ -49,6 +55,12 @@ export class PaginationComponent implements OnChanges{
         break;
       case 'employerPosts':
         this._router.navigateByUrl(`/employer/posts?page=${this.currentPageNo + 1}`)
+        break;
+      case 'userJobs':
+        this._router.navigateByUrl(`/user/jobs?page=${this.currentPageNo + 1}`)
+        break
+      case 'userPosts':
+        this._router.navigateByUrl(`/user/posts?page=${this.currentPageNo + 1}`)
         break;
     }
   }

@@ -47,7 +47,7 @@ export class userEffects {
     _loadJobs = createEffect(() => this._actions.pipe(
         ofType(LOAD_JOBS),
         exhaustMap((action) => {
-            return this._jobsAPIs.userFetchALLJobs().pipe(
+            return this._jobsAPIs.userFetchALLJobs(1).pipe(
                 map((data) => {
                     return loadUserJobsSuccess({jobs:data.data})
                 }),
@@ -71,7 +71,7 @@ export class userEffects {
     _loadPosts = createEffect(() => this._actions.pipe(
         ofType(LOAD_POSTS),
         exhaustMap((action) => {
-            return this._postsAPIs.loadPosts().pipe(
+            return this._postsAPIs.loadPosts(1).pipe(
                 map((data:any) => {
                     return loadPostsSuccess({ posts:data.posts })                    
                 }),

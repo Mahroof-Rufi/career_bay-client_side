@@ -12,8 +12,8 @@ export class JobsApiServiceService {
     private readonly _http:HttpClient
   ) { }
 
-  userFetchALLJobs():Observable<any> {
-    return this._http.get(environment.baseURL+'jobs/')
+  userFetchALLJobs(pageNo:number):Observable<any> {
+    return this._http.get(environment.baseURL+`jobs/jobs?page=${pageNo}`)
   }
 
   userApplyJob(job_id:string):Observable<any> {
