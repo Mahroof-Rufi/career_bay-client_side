@@ -16,6 +16,14 @@ export class UserAPIServiceService {
     return this._http.get(environment.baseURL+'users/')
   }
 
+  fetchUsers():Observable<any> {
+    return this._http.get(environment.baseURL + 'users/users')
+  }
+
+  fetchEmployersData():Observable<any> {
+    return this._http.get(environment.baseURL + 'users/employers')
+  }
+
   userUpdateProfile(newData:EditUser | FormData) {
     return this._http.patch(environment.baseURL+'users/update-profile', newData )
   }

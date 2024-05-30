@@ -46,7 +46,7 @@ export interface User {
     experiences?: experience[],
     educations?: education[],
     skills?: string[],
-    isActive:boolean
+    isActive:boolean,
 }
 
 export interface Employer {

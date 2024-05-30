@@ -1,3 +1,5 @@
+import { Employer } from "../../company/store/employer.model"
+
 export interface User {
     _id: string,
     firstName: string,
@@ -115,6 +117,8 @@ export interface userStateModel {
     savedJobs:Job[],
     AppliedJobs: AppliedJobs[]
     posts:Posts[],
+    users:User[],
+    companies:Employer[],
     isApplied:boolean,
     isSaved:boolean,
 }

@@ -1,0 +1,17 @@
+<div class="flex bg-white rounded-lg border-2 border-gray-200 mx-2 my-2 p-4">
+    <div class="flex-shrink-0">
+        <img [src]="employerData.profile_url" alt="profile" class="w-32 h-32 rounded-lg">
+    </div>
+    <div class="flex-grow ml-4">
+        <div class="flex justify-between items-center">
+            <div>
+                <h3 class="text-lg font-bold text-gray-800">{{ employerData.companyName }}</h3>
+                <h4 class="text-lg text-gray-600">{{ employerData.industry }}</h4>
+            </div>
+            <button class="ml-auto font-semibold px-4 py-2 bg-orange-500 text-white rounded-lg">Connect</button>
+        </div>
+        <p class="mt-2 text-sm text-gray-600">
+            {{ employerData.about }}
+        </p>
+    </div>
+</div>

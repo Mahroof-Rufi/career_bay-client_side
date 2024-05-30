@@ -37,6 +37,7 @@ import { userEffects } from './user-store/user.effects';
 import { SavedJobsAndPostsComponent } from './components/saved-jobs-and-posts/saved-jobs.component';
 import { SavedPostsComponent } from './components/saved-posts/saved-posts.component';
 import { PostsComponent } from './components/posts/posts.component';
+import { NetworksComponent } from './components/networks/networks.component';
 
 
 
@@ -69,6 +70,7 @@ import { PostsComponent } from './components/posts/posts.component';
     SavedJobsAndPostsComponent,
     SavedPostsComponent,
     PostsComponent,
+    NetworksComponent,
   ],
   imports: [
     CommonModule,

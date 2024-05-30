@@ -1,0 +1,30 @@
+<div class="flex-col justify-center h-full px-5 py-10">
+
+    <div class="flex flex-col gap-2 items-center">
+        <h1 class="text-5xl text-mainColor font-bannerText">Connect Industry Experts</h1>
+        <h1 class="text-5xl text-mainGrey font-bannerText">with CareerBay</h1>
+        <div class="flex my-2 items-center">
+            <app-search [searchType]="'users'"></app-search>
+            <i class="fa-solid fa-sliders text-mainGrey text-4xl mx-2 cursor-pointer"></i>
+        </div>
+    </div>
+    
+    <div class="w-full px-5">
+        <h1 class="text-sm font-bannerText text-mainGrey items-center">Connect peoples<i class="fa-solid fa-arrow-right ml-2"></i></h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+            @for (user of users.slice(0,5); track $index) {
+                <app-people [userData]="user"></app-people>
+            }
+        </div>
+    </div>
+
+    <div class="w-full px-5 py-3">
+        <h1 class="text-sm font-bannerText text-mainGrey items-center">Connect companies<i class="fa-solid fa-arrow-right ml-2"></i></h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+            @for (employer of employers.slice(0,5); track $index) {
+                <app-company [employerData]="employer"></app-company>
+            }
+        </div>
+    </div>
+
+</div>

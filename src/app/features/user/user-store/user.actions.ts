@@ -1,6 +1,6 @@
 import { createAction, props } from "@ngrx/store";
 import { AppliedJobs, EditUser, Posts, User, education, experience } from "./user.model";
-import { Job } from "../../company/store/employer.model";
+import { Employer, Job } from "../../company/store/employer.model";
 
 
 export const LOAD_USER = '[user] load user';
@@ -50,6 +50,10 @@ export const LOAD_USER_APPLIED_JOBS_SUCCESS = '[user] load user applied jobs suc
 
 export const LOAD_POSTS = '[posts] load posts';
 export const LOAD_POSTS_SUCCESS = '[posts] load posts success';
+
+export const LOAD_USERS_SUCCESS = '[users] load users success';
+
+export const LOAD_EMPLOYERS_SUCCESS = '[employers] load employers success'
 
 
 
@@ -101,3 +105,7 @@ export const loadAppliedJobsSuccess = createAction(LOAD_USER_APPLIED_JOBS_SUCCES
 
 export const loadPosts = createAction(LOAD_POSTS);
 export const loadPostsSuccess = createAction(LOAD_POSTS_SUCCESS, props<{ posts:Posts[] }>())
+
+export const loadUsersSuccess = createAction(LOAD_USERS_SUCCESS, props<{ users:User[] }>());
+
+export const loadEmployersSuccess = createAction(LOAD_EMPLOYERS_SUCCESS, props<{ employers:Employer[] }>())

@@ -101,7 +101,7 @@ export class AddPostComponent implements OnInit{
         this._postsAPIS.editPost( postData).subscribe({
           next: response => {
             console.log(response);
-            this._employerStore.dispatch(loadEmployerPostsSuccess({ posts:response.posts }))
+            this._employerStore.dispatch(loadEmployerPostsSuccess({ posts:response.updatedPosts }))
           },
 
           error: err => {

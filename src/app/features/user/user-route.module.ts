@@ -9,6 +9,7 @@ import { AppliedJobsComponent } from "./components/applied-jobs/applied-jobs.com
 import { SavedJobsAndPostsComponent } from "./components/saved-jobs-and-posts/saved-jobs.component";
 import { SavedPostsComponent } from "./components/saved-posts/saved-posts.component";
 import { PostsComponent } from "./components/posts/posts.component";
+import { NetworksComponent } from "./components/networks/networks.component";
 
 const routes: Routes = [
     { path: 'user', component:UserHomeComponent, children: [
@@ -18,6 +19,7 @@ const routes: Routes = [
         { path: 'jobs', component:JobListComponent, },
         { path: 'job/:id', component:JobDetailedViewComponent, },
         { path: 'posts', component:PostsComponent },
+        { path: 'networks', component:NetworksComponent },
         { path: 'applied-jobs/:id', component:AppliedJobsComponent, },
         { path: 'saved-jobs/:id', component:SavedJobsAndPostsComponent },
         { path: 'saved-posts/:id', component:SavedPostsComponent },

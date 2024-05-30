@@ -36,6 +36,8 @@ import { JobsApiServiceService } from './services/jobs-api-service.service';
 import { PostsApiServiceService } from './services/posts-api-service.service';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { FilterComponent } from './components/filter/filter.component';
+import { PeopleComponent } from './components/people/people.component';
+import { CompanyComponent } from './components/company/company.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +56,8 @@ import { FilterComponent } from './components/filter/filter.component';
     CompanyProfileCommonViewComponent,
     PaginationComponent,
     FilterComponent,
+    PeopleComponent,
+    CompanyComponent,
   ],
   imports: [
     CommonModule,
@@ -114,7 +118,9 @@ import { FilterComponent } from './components/filter/filter.component';
     TuiDataListWrapperModule ,
     TuiHostedDropdownModule,
     PaginationComponent,
-    FilterComponent
+    FilterComponent,
+    PeopleComponent,
+    CompanyComponent
   ],
   providers: [
     JobsApiServiceService,

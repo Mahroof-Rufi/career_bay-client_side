@@ -22,7 +22,7 @@ export class AddPostModalService {
       new PolymorpheusComponent(AddPostComponent, this.injector),
       {
         size:'l',
-        data:{messageType:'addjob'}
+        data:{messageType:'addPost'}
       } 
     )
   }

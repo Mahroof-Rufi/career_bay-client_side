@@ -83,3 +83,15 @@ export const getSavedJobs = createSelector(getUserState,
         return state.savedJobs
     }
 )
+
+export const getUsers = createSelector(getUserState,
+    (state: userStateModel) => {
+        return state.users
+    }
+)
+
+export const getEmployers = createSelector(getUserState,
+    (state: userStateModel) => {
+        return state.companies
+    }
+)
