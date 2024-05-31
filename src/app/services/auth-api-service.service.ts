@@ -11,7 +11,9 @@ import { Router } from '@angular/router';
 })
 export class AuthApiService{
 
-  $tokenRefreshed = new Subject<boolean>
+  $userTokenRefreshed = new Subject<boolean>
+  $employerTokenRefreshed = new Subject<boolean>
+  $adminTokenRefreshed = new Subject<boolean>
 
   constructor(
     private readonly _http:HttpClient,
@@ -29,12 +31,12 @@ export class AuthApiService{
       next: (response:any) => {            
         localStorage.setItem('adminAccessToken',response.accessToken)
         localStorage.setItem('adminRefreshToken',response.refreshToken)
-        this.$tokenRefreshed.next(true)
+        this.$adminTokenRefreshed.next(true)
       },
       
       error: err => {        
         this._alert.open('', {
-          label: err.error.message+'mm',
+          label: err.error.message,
           status: 'error',
           autoClose: true,
           hasCloseButton: true
@@ -67,12 +69,12 @@ export class AuthApiService{
         console.log('started')            
         localStorage.setItem('userAccessToken',response.accessToken)
         localStorage.setItem('userRefreshToken',response.refreshToken)
-        this.$tokenRefreshed.next(true)
+        this.$userTokenRefreshed.next(true)
       },
       
       error: err => {        
         this._alert.open('', {
-          label: err.error.message+'mm',
+          label: err.error.message,
           status: 'error',
           autoClose: true,
           hasCloseButton: true
@@ -126,12 +128,12 @@ export class AuthApiService{
         console.log('started')            
         localStorage.setItem('employerAccessToken',response.accessToken)
         localStorage.setItem('employerRefreshToken',response.refreshToken)
-        this.$tokenRefreshed.next(true)
+        this.$employerTokenRefreshed.next(true)
       },
       
       error: err => {        
         this._alert.open('', {
-          label: err.error.message+'mm',
+          label: err.error.message,
           status: 'error',
           autoClose: true,
           hasCloseButton: true

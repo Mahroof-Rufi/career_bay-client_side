@@ -7,6 +7,7 @@ import { getApplicants } from '../../store/employer.selector';
 import { AppliedUsers, EmployerState } from '../../store/employer.model';
 import { ApplicationsConfirmationModalService } from '../../services/applications-confirmation-modal.service';
 import { loadApplicants } from '../../store/employer.actions';
+import { AuthApiService } from '../../../../services/auth-api-service.service';
 
 @Component({
   selector: 'app-under-review-applicants',
@@ -22,6 +23,7 @@ export class UnderReviewApplicantsComponent implements AfterViewInit, OnInit{
   job_id!:string | null;
 
   constructor(
+    private readonly _authService:AuthApiService,
     private readonly _activatedRoute:ActivatedRoute,
     private readonly _employerStore:Store<{ 'employer':EmployerState }>,
     private readonly _router:Router,
@@ -35,7 +37,15 @@ export class UnderReviewApplicantsComponent implements AfterViewInit, OnInit{
 
       if (this.job_id) {
         this._employerStore.dispatch(loadApplicants({ jobId: this.job_id }));
-    }
+      }
+
+      this._authService.$employerTokenRefreshed.subscribe({
+        next: response => {
+          if (this.job_id) {
+            this._employerStore.dispatch(loadApplicants({ jobId: this.job_id }));
+          }
+        }
+      })
 
       if (values.has('applicants')) {
         this.routeQuery = values.get('applicants');

@@ -7,6 +7,7 @@ import { initFlowbite } from 'flowbite';
 import { loadEmployerPosts, loadEmployerPostsSuccess } from '../../store/employer.actions';
 import { ActivatedRoute } from '@angular/router';
 import { PostsApiServiceService } from '../../../../shared/services/posts-api-service.service';
+import { AuthApiService } from '../../../../services/auth-api-service.service';
 
 @Component({
   selector: 'app-company-posts-component',
@@ -20,6 +21,7 @@ export class CompanyPostsComponentComponent implements OnInit{
   @Output() pageNo:number = 1
 
   constructor(
+    private readonly _authService:AuthApiService,
     private readonly _addPostModal:AddPostModalService,
     private readonly _employerStore:Store<{ employer:Employer }>,
     private readonly _activatedRoute:ActivatedRoute,
@@ -27,7 +29,6 @@ export class CompanyPostsComponentComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
-    // this._employerStore.dispatch(loadEmployerPosts())
     this._activatedRoute.queryParamMap.subscribe({
       next: response => {
         const query = response.get('page')
@@ -43,8 +44,19 @@ export class CompanyPostsComponentComponent implements OnInit{
             this.totalPosts = response.totalNoOfPosts
           },
     
-          error: err => {
-    
+          error: err => {}
+        })
+
+        this._authService.$employerTokenRefreshed.subscribe({
+          next: response => {
+            this._postAPIs.fetchPosts(this.pageNo || 1).subscribe({
+              next: (response:any) => { 
+                this._employerStore.dispatch(loadEmployerPostsSuccess({ posts:response.posts }))
+                this.totalPosts = response.totalNoOfPosts
+              },
+        
+              error: err => {}
+            })
           }
         })
       }

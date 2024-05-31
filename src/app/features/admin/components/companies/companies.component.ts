@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Employer, adminStateModel } from '../../store/admin.model';
 import { getCompaniesData } from '../../store/admin.selector';
 import { employerAction, loadEmployers } from '../../store/admin.actions';
+import { AuthApiService } from '../../../../services/auth-api-service.service';
 
 @Component({
   selector: 'app-companies',
@@ -14,11 +15,14 @@ export class CompaniesComponent implements OnInit{
   companies!:Employer[];
 
   constructor(
+    private readonly _authService:AuthApiService,
     private readonly _adminStore:Store<{ admin:adminStateModel }>
   ) {}
 
   ngOnInit(): void {
     this._adminStore.dispatch(loadEmployers())
+    this._authService.$adminTokenRefreshed.subscribe(res => this._adminStore.dispatch(loadEmployers()))
+
     this._adminStore.select(getCompaniesData).subscribe((data) => {
       this.companies = data;
     })

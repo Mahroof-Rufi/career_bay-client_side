@@ -10,6 +10,7 @@ import { JobsApiServiceService } from '../../../../shared/services/jobs-api-serv
 import { closeHiring, loadEmployerJobs, loadEmployerJobsSuccess } from '../../store/employer.actions';
 import { initFlowbite } from 'flowbite';
 import { FilterOptions } from '../../../../models/filterOptions';
+import { AuthApiService } from '../../../../services/auth-api-service.service';
 
 @Component({
   selector: 'app-job',
@@ -32,6 +33,7 @@ export class JobComponent implements OnInit, AfterViewInit{
   ]
 
   constructor(
+    private readonly _authService:AuthApiService,
     private readonly _addJobModal:AddJobPostService,
     private readonly _jobsAPIs:JobsApiServiceService,
     private readonly _router:Router,
@@ -45,7 +47,6 @@ export class JobComponent implements OnInit, AfterViewInit{
 
     this._activatedRoute.queryParamMap.subscribe({
       next: response => {
-        console.log(response);
         
         const queryParams:any = {};
         response.keys.forEach(key => {
@@ -57,14 +58,16 @@ export class JobComponent implements OnInit, AfterViewInit{
           this.pageNo = parseInt(query)
         }        
 
-        this._jobsAPIs.companyFetchJobs(this.pageNo || 1).subscribe({
-          next: response => {      
-            this._employerStore.dispatch(loadEmployerJobsSuccess({ jobs:response.jobs }))
-            this.totalJobs = response.noOfJobs
-          },
-    
-          error: err => {
-    
+        this._authService.$employerTokenRefreshed.subscribe({
+          next: response => {
+            this._jobsAPIs.companyFetchJobs(this.pageNo || 1).subscribe({
+              next: response => {      
+                this._employerStore.dispatch(loadEmployerJobsSuccess({ jobs:response.jobs }))
+                this.totalJobs = response.noOfJobs
+              },
+        
+              error: err => {}
+            })
           }
         })
       }

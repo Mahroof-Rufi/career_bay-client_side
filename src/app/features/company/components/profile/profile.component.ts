@@ -34,7 +34,8 @@ export class ProfileComponent implements OnInit, AfterViewInit{
   }
 
   logOutEmployer() {
-    localStorage.removeItem('employerToken')
+    localStorage.removeItem('employerAccessToken')
+    localStorage.removeItem('employerRefreshToken')
     this._router.navigateByUrl('/home')
   }
 }

@@ -21,7 +21,7 @@ export class UserHomeComponent implements OnInit{
     this._userStore.dispatch(loadUserJobs())
     this._userStore.dispatch(loadPosts())
 
-    this._authAPIs.$tokenRefreshed.subscribe({
+    this._authAPIs.$userTokenRefreshed.subscribe({
       next : res => {
         this._userStore.dispatch(loadUser())
         this._userStore.dispatch(loadUserJobs())
