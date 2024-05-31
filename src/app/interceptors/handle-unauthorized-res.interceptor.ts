@@ -1,35 +1,45 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
-import { Inject, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { inject } from '@angular/core';
 import { TuiAlertService } from '@taiga-ui/core';
 import { catchError, throwError } from 'rxjs';
 import { AuthApiService } from '../services/auth-api-service.service';
 
 export const handleUnauthorizedResInterceptor: HttpInterceptorFn = (req, next) => {
 
-  const alert = inject(TuiAlertService)
   const authAPIs = inject(AuthApiService)
-  const router = inject(Router)
   
   return next(req).pipe(
     catchError((err: any) => {
       if (err instanceof HttpErrorResponse) {   
         if (err.status === 401) {
-          console.log('going to start');
+          console.log('fds',err.error.message);
           
-          const refreshToken = localStorage.getItem('userRefreshToken')
+          switch (err.error.message) {
+            case 'Unauthorized user access denied':
+            case 'User token expired':
+              const userRefreshToken = localStorage.getItem('userRefreshToken');
+              authAPIs.userRefreshToken(userRefreshToken)
+              break;
 
-          authAPIs.userRefreshToken(refreshToken)
+            case 'Unauthorized employer access denied':
+            case 'Employer token expired':
+              const employerRefreshToken = localStorage.getItem('employerRefreshToken');
+              authAPIs.employerRefreshToken(employerRefreshToken)
+              break;
+
+            case 'Unauthorized admin access denied':
+              case 'Admin token expired':
+                const adminRefreshToken = localStorage.getItem('adminRefreshToken');
+                authAPIs.adminRefreshToken(adminRefreshToken)
+                break;
+          }
         } else {
           
-          // console.log('HTTP log:', err);
         }
       } else {
-        // Handle non-HTTP logs
         console.log('An error occurred:', err);
       }
 
-      // Re-throw the error to propagate it further
       return throwError(() => err); 
     })
   );;

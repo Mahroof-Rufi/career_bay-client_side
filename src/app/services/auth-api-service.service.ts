@@ -23,6 +23,29 @@ export class AuthApiService{
     return this._http.post(environment.baseURL + 'auth/admin/login', loginData)
   }
 
+  adminRefreshToken(refreshToken:string | null): void {
+    this._http.post(environment.baseURL + 'auth/admin/refresh-token', { refreshToken:refreshToken }).subscribe({
+      
+      next: (response:any) => {            
+        localStorage.setItem('adminAccessToken',response.accessToken)
+        localStorage.setItem('adminRefreshToken',response.refreshToken)
+        this.$tokenRefreshed.next(true)
+      },
+      
+      error: err => {        
+        this._alert.open('', {
+          label: err.error.message+'mm',
+          status: 'error',
+          autoClose: true,
+          hasCloseButton: true
+        }).subscribe()   
+        localStorage.removeItem('adminAccessToken')
+        localStorage.removeItem('adminRefreshToken')
+        this._router.navigateByUrl('/admin/login')
+      }
+    })
+  }
+
 
   
   userRequestOTP(email:string) {
@@ -47,9 +70,7 @@ export class AuthApiService{
         this.$tokenRefreshed.next(true)
       },
       
-      error: err => {
-        console.log('refexp',err);
-        
+      error: err => {        
         this._alert.open('', {
           label: err.error.message+'mm',
           status: 'error',
@@ -96,6 +117,30 @@ export class AuthApiService{
 
   companyResetPassword(data:FormGroup):Observable<any> {
     return this._http.patch(environment.baseURL + 'auth/employer/forgot-password', data)
+  }
+
+  employerRefreshToken(refreshToken:string | null): void {
+    this._http.post(environment.baseURL + 'auth/employer/refresh-token', { refreshToken:refreshToken }).subscribe({
+      
+      next: (response:any) => {  
+        console.log('started')            
+        localStorage.setItem('employerAccessToken',response.accessToken)
+        localStorage.setItem('employerRefreshToken',response.refreshToken)
+        this.$tokenRefreshed.next(true)
+      },
+      
+      error: err => {        
+        this._alert.open('', {
+          label: err.error.message+'mm',
+          status: 'error',
+          autoClose: true,
+          hasCloseButton: true
+        }).subscribe()   
+        localStorage.removeItem('employerAccessToken')
+        localStorage.removeItem('employerRefreshToken')
+        this._router.navigateByUrl('/home')
+      }
+    })
   }
 
 }

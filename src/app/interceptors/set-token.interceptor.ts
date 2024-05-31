@@ -4,16 +4,16 @@ import { catchError, tap } from 'rxjs';
 export const setTokenInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next) => {
 
   const userAccessToken = localStorage.getItem('userAccessToken');
-  const employerToken = localStorage.getItem('employerToken')
-  const adminToken = localStorage.getItem('adminToken')
+  const employerAccessToken = localStorage.getItem('employerAccessToken')
+  const adminAccessToken = localStorage.getItem('adminAccessToken')
 
   let newReq
   if(userAccessToken) {
     newReq = req.clone({ headers: req.headers.set('User-Token', userAccessToken) }) 
-  } else if (employerToken) {
-    newReq = req.clone({ headers: req.headers.set('Employer-Token', employerToken) })
-  } else if (adminToken) {
-    newReq = req.clone({ headers: req.headers.set('Admin-Token', adminToken) }) 
+  } else if (employerAccessToken) {
+    newReq = req.clone({ headers: req.headers.set('Employer-Token', employerAccessToken) })
+  } else if (adminAccessToken) {
+    newReq = req.clone({ headers: req.headers.set('Admin-Token', adminAccessToken) }) 
   } else {
     newReq = req
   }
@@ -24,15 +24,22 @@ export const setTokenInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, ne
         
         const userAccessToken = (event as HttpResponse<any>).body?.user?.accessToken;
         const userRefreshToken = (event as HttpResponse<any>).body?.user?.refreshToken;
-        const employerToken = (event as HttpResponse<any>).body?.employer?.token;
-        const adminToken = (event as HttpResponse<any>).body?.admin?.adminToken;
+
+        const employerAccessToken = (event as HttpResponse<any>).body?.employer?.accessToken;
+        const employerRefreshToken = (event as HttpResponse<any>).body?.employer?.refreshToken;
+
+        const adminAccessToken = (event as HttpResponse<any>).body?.admin?.accessToken;
+        const adminRefreshToken = (event as HttpResponse<any>).body?.admin?.refreshToken;
+
         if (userAccessToken && userRefreshToken) {
           localStorage.setItem('userAccessToken', userAccessToken);
           localStorage.setItem('userRefreshToken', userRefreshToken);
-        } else if (employerToken) {
-          localStorage.setItem('employerToken', employerToken);
-        } else if (adminToken) {
-          localStorage.setItem('adminToken', adminToken)
+        } else if (employerAccessToken && employerRefreshToken) {
+          localStorage.setItem('employerAccessToken', employerAccessToken);
+          localStorage.setItem('employerRefreshToken', employerRefreshToken);
+        } else if (adminAccessToken && adminRefreshToken) {
+          localStorage.setItem('adminAccessToken', adminAccessToken);
+          localStorage.setItem('adminRefreshToken', adminRefreshToken);
         }
       }
     })
