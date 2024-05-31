@@ -59,7 +59,7 @@ export class DeleteJobConfirmationComponent implements OnInit{
         status: 'error',
         autoClose: true,
         hasCloseButton: true
-    }).subscribe()      
+      }).subscribe()      
     })
   }
 

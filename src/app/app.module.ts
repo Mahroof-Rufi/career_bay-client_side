@@ -31,6 +31,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { StoreModule } from "@ngrx/store";
 import { EffectsModule } from "@ngrx/effects";
+import { handleUnauthorizedResInterceptor } from "./interceptors/handle-unauthorized-res.interceptor";
 
 
 @NgModule({
@@ -72,6 +73,7 @@ import { EffectsModule } from "@ngrx/effects";
   providers: [
     {provide: TUI_SANITIZER, useClass: NgDompurifySanitizer},
     provideHttpClient(withInterceptors([setTokenInterceptor])),
+    provideHttpClient(withInterceptors([handleUnauthorizedResInterceptor]))
   ],
 
   bootstrap: [AppComponent]

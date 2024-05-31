@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Job, User } from '../../user-store/user.model';
 import { getJobsData, getPosts } from '../../user-store/user.selector';
 import { initFlowbite } from 'flowbite';
+import { AuthApiService } from '../../../../services/auth-api-service.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,7 +18,8 @@ export class DashboardComponent implements OnInit,AfterViewInit{
   userData!:User;
 
   constructor(
-    private readonly _userState:Store<{ user:User }>
+    private readonly _userState:Store<{ user:User }>,
+    private readonly _authAPIs:AuthApiService,
   ) {} 
 
   ngOnInit(): void {

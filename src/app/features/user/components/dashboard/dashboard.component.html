@@ -2,10 +2,12 @@
     <div class="w-4/6">
         <p class="text-mainGrey text-2xl font-bannerText my-3">Top Job picks for you</p>
         <div class="flex overflow-x-auto gap-2">
-            @for (job of jobs.slice(0,6); track $index) {
-                <a [routerLink]="['/user/job', job._id]">
-                    <app-job [jobData]="job" class="flex-none"></app-job>
-                </a>
+            @if (jobs.length) {
+                @for (job of jobs.slice(0,6); track $index) {
+                    <a [routerLink]="['/user/job', job._id]">
+                        <app-job [jobData]="job" class="flex-none"></app-job>
+                    </a>
+                }
             }
             <a routerLink="/user/jobs" class="my-auto"><i class="fa-solid fa-circle-arrow-right text-3xl text-mainColor"></i></a>    
         </div>

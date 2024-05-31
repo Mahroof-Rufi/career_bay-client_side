@@ -1,15 +1,15 @@
 import { HttpInterceptorFn, HttpRequest, HttpResponse } from '@angular/common/http';
-import { tap } from 'rxjs';
+import { catchError, tap } from 'rxjs';
 
 export const setTokenInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next) => {
 
-  const token = localStorage.getItem('userToken');
+  const userAccessToken = localStorage.getItem('userAccessToken');
   const employerToken = localStorage.getItem('employerToken')
   const adminToken = localStorage.getItem('adminToken')
 
   let newReq
-  if(token) {
-    newReq = req.clone({ headers: req.headers.set('User-Token', token) }) 
+  if(userAccessToken) {
+    newReq = req.clone({ headers: req.headers.set('User-Token', userAccessToken) }) 
   } else if (employerToken) {
     newReq = req.clone({ headers: req.headers.set('Employer-Token', employerToken) })
   } else if (adminToken) {
@@ -22,11 +22,13 @@ export const setTokenInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, ne
     tap(event => {
       if (event instanceof HttpResponse) {
         
-        const responseToken = (event as HttpResponse<any>).body?.user?.token;
+        const userAccessToken = (event as HttpResponse<any>).body?.user?.accessToken;
+        const userRefreshToken = (event as HttpResponse<any>).body?.user?.refreshToken;
         const employerToken = (event as HttpResponse<any>).body?.employer?.token;
         const adminToken = (event as HttpResponse<any>).body?.admin?.adminToken;
-        if (responseToken) {
-          localStorage.setItem('userToken', responseToken);
+        if (userAccessToken && userRefreshToken) {
+          localStorage.setItem('userAccessToken', userAccessToken);
+          localStorage.setItem('userRefreshToken', userRefreshToken);
         } else if (employerToken) {
           localStorage.setItem('employerToken', employerToken);
         } else if (adminToken) {

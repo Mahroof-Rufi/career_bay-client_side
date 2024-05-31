@@ -10,6 +10,7 @@ import { SavedJobsAndPostsComponent } from "./components/saved-jobs-and-posts/sa
 import { SavedPostsComponent } from "./components/saved-posts/saved-posts.component";
 import { PostsComponent } from "./components/posts/posts.component";
 import { NetworksComponent } from "./components/networks/networks.component";
+import { validateUserTokenGuard } from "./route-guards/validate-user-token.guard";
 
 const routes: Routes = [
     { path: 'user', component:UserHomeComponent, children: [
@@ -23,7 +24,7 @@ const routes: Routes = [
         { path: 'applied-jobs/:id', component:AppliedJobsComponent, },
         { path: 'saved-jobs/:id', component:SavedJobsAndPostsComponent },
         { path: 'saved-posts/:id', component:SavedPostsComponent },
-    ], canActivate:[]}
+    ], canActivateChild:[validateUserTokenGuard]}
 ]
 
 @NgModule({

@@ -1,16 +1,22 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { environment } from '../../environments/environment.development';
+import { TuiAlertService } from '@taiga-ui/core';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthApiService{
 
+  $tokenRefreshed = new Subject<boolean>
+
   constructor(
-    private readonly _http:HttpClient
+    private readonly _http:HttpClient,
+    private readonly _alert:TuiAlertService,
+    private readonly _router:Router
   ) { }
 
   adminLogin(loginData:FormGroup):Observable<any> {
@@ -29,6 +35,32 @@ export class AuthApiService{
 
   userLogin(loginData: FormGroup):Observable<any> {
     return this._http.post(environment.baseURL+'auth/user/login', loginData)
+  }
+
+  userRefreshToken(refreshToken:string | null): void {
+    this._http.post(environment.baseURL + 'auth/user/refresh-token', { refreshToken:refreshToken }).subscribe({
+      
+      next: (response:any) => {  
+        console.log('started')            
+        localStorage.setItem('userAccessToken',response.accessToken)
+        localStorage.setItem('userRefreshToken',response.refreshToken)
+        this.$tokenRefreshed.next(true)
+      },
+      
+      error: err => {
+        console.log('refexp',err);
+        
+        this._alert.open('', {
+          label: err.error.message+'mm',
+          status: 'error',
+          autoClose: true,
+          hasCloseButton: true
+        }).subscribe()   
+        localStorage.removeItem('userAccessToken')
+        localStorage.removeItem('userRefreshToken')
+        this._router.navigateByUrl('/home')
+      }
+    })
   }
 
   userGoogleRegistration(userData: any):Observable<any> {

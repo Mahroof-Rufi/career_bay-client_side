@@ -16,10 +16,10 @@ export class GetStartedComponent {
   ) { }
 
   showDialog(): void {    
-    const userToken = localStorage.getItem('userToken')
-    const employerToken = localStorage.getItem('employerToken')
+    const userToken = localStorage.getItem('userAccessToken')
+    const employerToken = localStorage.getItem('employerAccessToken')
     
-    if (userToken) {
+    if (userToken) {      
       this.router.navigateByUrl('/user/dashboard')
     } else if (employerToken) {
       this.router.navigateByUrl('/employer/profile') 

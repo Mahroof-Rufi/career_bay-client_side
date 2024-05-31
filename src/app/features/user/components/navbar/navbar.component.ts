@@ -25,7 +25,8 @@ export class NavbarComponent implements OnInit{
   }
 
   logout() {
-    localStorage.removeItem('userToken')
+    localStorage.removeItem('userAccessToken')
+    localStorage.removeItem('userRefreshToken')
     this._router.navigateByUrl('/home')
   }
 
