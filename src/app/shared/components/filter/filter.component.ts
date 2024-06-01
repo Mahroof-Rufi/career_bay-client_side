@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FilterOptions } from '../../../models/filterOptions';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-filter',
@@ -12,7 +12,10 @@ export class FilterComponent {
 
   queryParams: { [key: string]: string } = {};
 
-  constructor(private readonly _router:Router) {}
+  constructor(
+    private readonly _router:Router,
+    private readonly _activatedRoute:ActivatedRoute
+  ) {}
 
   generateQueryParameter(key: string, value: string, type:'RadioButton'|'CheckBox') {
 
@@ -43,6 +46,13 @@ export class FilterComponent {
     const url = queryParamsString ? `/employer/jobs?${queryParamsString}` : '/employer/jobs';
 
     this._router.navigateByUrl(url);
+  }
+
+  removeAllQuery() {    
+    this._router.navigate([], {
+      relativeTo: this._activatedRoute,
+      queryParams: {},
+    });
   }
 }
 
