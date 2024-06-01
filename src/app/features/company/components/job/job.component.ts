@@ -17,87 +17,106 @@ import { AuthApiService } from '../../../../services/auth-api-service.service';
   templateUrl: './job.component.html',
   styleUrl: './job.component.scss'
 })
-export class JobComponent implements OnInit, AfterViewInit{
-  @Output() jobs!:Job[]
-  @Output() totalJobs!:number;
-  @Output() maxItemInPerPage:number = 10;
-  @Output() pageNo:number = 1
+export class JobComponent implements OnInit, AfterViewInit {
+  @Output() jobs!: Job[]
+  @Output() totalJobs!: number;
+  @Output() maxItemInPerPage: number = 10;
+  @Output() pageNo: number = 1
+
+  sort!:string;
 
   // exp_lvl!:string = 
 
-  @Output() filterOptions:FilterOptions[] = [
-    { label:'job status', subOptions:['active jobs', 'closed jobs'], type:'Radio' },
-    { label:'job type', subOptions:['full time', 'part time', 'internship', 'contract',], type:'CheckBox' },
-    { label:'job location', subOptions:['on-site', 'remort'], type:'CheckBox' },
-    { label:'experience level', subOptions:['entry level', 'junior level', 'mid level', 'senior level', 'manager', 'director'], type:'CheckBox' },
+  @Output() filterOptions: FilterOptions[] = [
+    { label: 'sort by posted date', subOptions: [{ label: 'newest first', key: 'sort', value: 'newest' }, { label: 'oldest', key: 'sort', value: 'oldest' }], type: 'Radio' },
+    { label: 'job status', subOptions: [{ label: 'active jobs', key: 'active', value: 'true' }, { label: 'closed jobs', key: 'active', value: 'false' }], type: 'Radio' },
+    { label: 'job type', subOptions: [{ label: 'full time', key: 'jobType', value: 'FullTime' }, { label: 'part time', key: 'jobType', value: 'PartTime' }, { label: 'internship', key: 'jobType', value: 'InterShip' }, { label: 'contract', key: 'jobType', value: 'Contract' },], type: 'CheckBox' },
+    { label: 'job location', subOptions: [{ label: 'on-site', key: 'remort', value: 'false' }, { label: 'remort', key: 'remort', value: 'true' }], type: 'CheckBox' },
+    { label: 'experience level', subOptions: [{ label: 'entry level', key: 'experienceLevel', value: 'EntryLevel' }, { label: 'junior level', key: 'experienceLevel', value: 'Junior' }, { label: 'mid level', key: 'experienceLevel', value: 'Mid Level' }, { label: 'senior level', key: 'experienceLevel', value: 'Senior level' }, { label: 'manager', key: 'experienceLevel', value: 'Manager' }, { label: 'director', key: 'experienceLevel', value: 'Director' }], type: 'CheckBox' },
   ]
 
   constructor(
-    private readonly _authService:AuthApiService,
-    private readonly _addJobModal:AddJobPostService,
-    private readonly _jobsAPIs:JobsApiServiceService,
-    private readonly _router:Router,
+    private readonly _authService: AuthApiService,
+    private readonly _addJobModal: AddJobPostService,
+    private readonly _jobsAPIs: JobsApiServiceService,
+    private readonly _router: Router,
     private readonly _alert: TuiAlertService,
-    private readonly _employerStore: Store<{employer:Employer}>,
-    private readonly _activatedRoute:ActivatedRoute,
+    private readonly _employerStore: Store<{ employer: Employer }>,
+    private readonly _activatedRoute: ActivatedRoute,
     private readonly _deleteJobConfirmation: DeleteJobConfirmationService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
 
     this._activatedRoute.queryParamMap.subscribe({
       next: response => {
-        
-        const queryParams:any = {};
+
+        const queryParams: any = {};
         response.keys.forEach(key => {
           queryParams[key] = response.get(key);
         });
-        
+
         const query = response.get('page')
-        if (query) {
-          this.pageNo = parseInt(query)
-        }        
+        const sortQuery = response.get('sort')
+        console.log(sortQuery);
+        
+        if (query ) {
+          this.pageNo = parseInt(query)          
+        }
+
+        if (sortQuery) {
+          this.sort = sortQuery
+        }
+
+        this._jobsAPIs.companyFetchJobs(this.pageNo || 1, this.sort).subscribe({
+          next: response => {
+            this._employerStore.dispatch(loadEmployerJobsSuccess({ jobs: response.jobs }))
+            this.totalJobs = response.noOfJobs
+          },
+
+          error: err => { }
+        })
 
         this._authService.$employerTokenRefreshed.subscribe({
           next: response => {
-            this._jobsAPIs.companyFetchJobs(this.pageNo || 1).subscribe({
-              next: response => {      
-                this._employerStore.dispatch(loadEmployerJobsSuccess({ jobs:response.jobs }))
+            this._jobsAPIs.companyFetchJobs(this.pageNo || 1,this.sort).subscribe({
+              next: response => {
+                this._employerStore.dispatch(loadEmployerJobsSuccess({ jobs: response.jobs }))
                 this.totalJobs = response.noOfJobs
               },
-        
-              error: err => {}
+
+              error: err => { }
             })
           }
         })
       }
     })
 
-    this._employerStore.select(getJobsData).subscribe((res:any) =>  {
+    this._employerStore.select(getJobsData).subscribe((res: any) => {
       this.jobs = res
       console.log(this.jobs);
-      
-    } )
-    
+
+    })
+
   }
 
-  ngAfterViewInit():void {
+  ngAfterViewInit(): void {
     initFlowbite();
   }
 
   trackByFn(job: Job): string {
-    return job._id; 
-  }  
-  
-  addJob(_id?:string) {
+    return job._id;
+  }
+
+  addJob(_id?: string) {
     _id ? this._addJobModal.openModal(_id) : this._addJobModal.openModal()
   }
 
-  deleteJob(jobId:string) {
+  deleteJob(jobId: string) {
     this._deleteJobConfirmation.openModal(jobId)
   }
 
-  closeHiring(job_id:string) {
+  closeHiring(job_id: string) {
     // this._employerStore.dispatch(closeHiring({ job_id:job_id }))
     this._deleteJobConfirmation.openCloseHiringConfirmation(job_id)
   }
