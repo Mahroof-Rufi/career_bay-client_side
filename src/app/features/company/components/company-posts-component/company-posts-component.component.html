@@ -3,9 +3,14 @@
         <app-search [searchType]="'companyPosts'"></app-search>
     </div>
     <div class="my-auto mr-5">
+
+        <app-filter [filterOptions]="filterOptions"></app-filter>
+
         <button type="button" (click)="addPost()"
             class="text-white bg-mainColor hover:bg-orange-400 font-bannerText rounded-xl text-sm px-6 py-3"><i
-                class="fa-solid fa-plus mr-2"></i>Add</button>
+            class="fa-solid fa-plus mr-2"></i>
+            Add
+        </button>
     </div>
 </div>
 

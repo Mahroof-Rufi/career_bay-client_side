@@ -42,10 +42,11 @@ export class FilterComponent {
       this.queryParams[key] = value;
     }
 
-    const queryParamsString = Object.keys(this.queryParams).map(k => `${encodeURIComponent(k)}=${encodeURIComponent(this.queryParams[k])}`).join('&');
-    const url = queryParamsString ? `/employer/jobs?${queryParamsString}` : '/employer/jobs';
-
-    this._router.navigateByUrl(url);
+    this._router.navigate([], {
+      relativeTo: this._activatedRoute,
+      queryParams: this.queryParams,
+      queryParamsHandling: 'merge' // This will merge the new query params with the existing ones
+    });
   }
 
   removeAllQuery() {    

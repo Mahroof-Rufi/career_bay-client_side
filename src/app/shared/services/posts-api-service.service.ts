@@ -16,8 +16,8 @@ export class PostsApiServiceService {
     return this._http.get(environment.baseURL + `posts?page=${pageNo}`)
   }
 
-  fetchPosts(pageNo:number) {
-    return this._http.get(environment.baseURL + `posts/employer-posts?page=${pageNo}`)
+  fetchPosts(pageNo:number, sortAndSearchQueries?:string ) {    
+    return this._http.get(environment.baseURL + `posts/employer-posts?page=${pageNo}&${sortAndSearchQueries}`)
   }
 
   addPost(data:FormData):Observable<any> {

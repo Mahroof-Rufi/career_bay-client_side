@@ -84,7 +84,7 @@ export class JobComponent implements OnInit, AfterViewInit {
 
         this._authService.$employerTokenRefreshed.subscribe({
           next: response => {
-            this._jobsAPIs.companyFetchJobs(this.pageNo || 1,this.sort).subscribe({
+            this._jobsAPIs.companyFetchJobs(this.pageNo || 1, this.sort).subscribe({
               next: response => {
                 this._employerStore.dispatch(loadEmployerJobsSuccess({ jobs: response.jobs }))
                 this.totalJobs = response.noOfJobs

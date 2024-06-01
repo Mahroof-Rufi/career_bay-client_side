@@ -8,17 +8,24 @@ import { loadEmployerPosts, loadEmployerPostsSuccess } from '../../store/employe
 import { ActivatedRoute } from '@angular/router';
 import { PostsApiServiceService } from '../../../../shared/services/posts-api-service.service';
 import { AuthApiService } from '../../../../services/auth-api-service.service';
+import { FilterOptions } from '../../../../models/filterOptions';
 
 @Component({
   selector: 'app-company-posts-component',
   templateUrl: './company-posts-component.component.html',
   styleUrl: './company-posts-component.component.scss'
 })
-export class CompanyPostsComponentComponent implements OnInit{
+export class CompanyPostsComponentComponent implements OnInit, AfterViewInit{
   @Output() posts!:any
   @Output() totalPosts!:number;
   @Output() maxItemInPerPage:number = 5;
   @Output() pageNo:number = 1
+
+  @Output() filterOptions: FilterOptions[] = [
+    { label: 'sort by posted date', subOptions: [{ label: 'newest first', key: 'sort', value: 'newest' }, { label: 'oldest first', key: 'sort', value: 'oldest' }], type: 'Radio' },
+  ]
+
+  sort!:string;
 
   constructor(
     private readonly _authService:AuthApiService,
@@ -31,15 +38,27 @@ export class CompanyPostsComponentComponent implements OnInit{
   ngOnInit(): void {
     this._activatedRoute.queryParamMap.subscribe({
       next: response => {
-        const query = response.get('page')
-        if (query) {
-          this.pageNo = parseInt(query)
-        }
+        console.log('nnnnnnn');
+        
+        const queryParams: any = {};
+        response.keys.forEach(key => {
+          if (key == 'page') {
+            this.pageNo = Number(response.get(key))
+          }
+          queryParams[key] = response.getAll(key);
+        });
+        
+        // if (query) {
+        //   this.pageNo = parseInt(query)
+        // }
 
-        this._postAPIs.fetchPosts(this.pageNo || 1).subscribe({
-          next: (response:any) => {  
-            console.log(response);
-                
+        // if (sortQuery) {
+        //   this.sort = sortQuery          
+        // }
+        const filterQueryString = this.constructQueryString(queryParams);
+
+        this._postAPIs.fetchPosts(this.pageNo || 1, filterQueryString).subscribe({
+          next: (response:any) => {                 
             this._employerStore.dispatch(loadEmployerPostsSuccess({ posts:response.posts }))
             this.totalPosts = response.totalNoOfPosts
           },
@@ -65,6 +84,13 @@ export class CompanyPostsComponentComponent implements OnInit{
     this._employerStore.select(getPosts).subscribe( res => {     
       this.posts = res;
     })
+  }
+
+  private constructQueryString(params: { [key: string]: string[] }): string {
+    const queryStrings = Object.keys(params).map(key => {
+      return `${encodeURIComponent(key)}=${encodeURIComponent(params[key].join(','))}`;
+    });
+    return queryStrings.join('&');
   }
 
   ngAfterViewInit(): void {
