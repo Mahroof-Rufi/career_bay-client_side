@@ -53,12 +53,15 @@ export class JobComponent implements OnInit, AfterViewInit {
 
         const queryParams: any = {};
         response.keys.forEach(key => {
-          queryParams[key] = response.get(key);
+          if (key !== 'page' && key !== 'sort') {
+            queryParams[key] = response.getAll(key);
+          }
         });
+        
+        
 
         const query = response.get('page')
         const sortQuery = response.get('sort')
-        console.log(sortQuery);
         
         if (query ) {
           this.pageNo = parseInt(query)          
@@ -68,7 +71,9 @@ export class JobComponent implements OnInit, AfterViewInit {
           this.sort = sortQuery
         }
 
-        this._jobsAPIs.companyFetchJobs(this.pageNo || 1, this.sort).subscribe({
+        const filterQueryString = this.constructQueryString(queryParams);
+
+        this._jobsAPIs.companyFetchJobs(this.pageNo || 1, this.sort, filterQueryString).subscribe({
           next: response => {
             this._employerStore.dispatch(loadEmployerJobsSuccess({ jobs: response.jobs }))
             this.totalJobs = response.noOfJobs
@@ -98,6 +103,13 @@ export class JobComponent implements OnInit, AfterViewInit {
 
     })
 
+  }
+
+  private constructQueryString(params: { [key: string]: string[] }): string {
+    const queryStrings = Object.keys(params).map(key => {
+      return `${encodeURIComponent(key)}=${encodeURIComponent(params[key].join(','))}`;
+    });
+    return queryStrings.join('&');
   }
 
   ngAfterViewInit(): void {

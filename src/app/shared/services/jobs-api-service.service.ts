@@ -44,15 +44,15 @@ export class JobsApiServiceService {
     return this._http.get(environment.baseURL + 'jobs/saved-jobs')
   }
 
-  companyFetchJobs(page:number, sort?:string ,title?:string):Observable<any> {
-
-    // const queryString = Object.keys(queryParams).filter(key => key !== 'page').map(key => `${key}=${queryParams[key]}`).join('&');
+  companyFetchJobs(page:number, sort?:string , filterQuery?:any, title?:string):Observable<any> {
 
     let param = new HttpParams()
     if (title) {
       param = param.append('title', title)
     }
-    return this._http.get(environment.baseURL + `jobs/employer-jobs?page=${page}&sort=${sort}`, { params: param });
+    console.log(filterQuery);
+    
+    return this._http.get(environment.baseURL + `jobs/employer-jobs?page=${page}&sort=${sort}&${filterQuery}`, { params: param });
   }
 
   companyAddJobPost(jobData:FormData):Observable<any> {
