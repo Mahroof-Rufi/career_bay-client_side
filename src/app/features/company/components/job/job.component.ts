@@ -57,8 +57,6 @@ export class JobComponent implements OnInit, AfterViewInit {
             queryParams[key] = response.getAll(key);
           }
         });
-        
-        
 
         const query = response.get('page')
         const sortQuery = response.get('sort')
@@ -75,6 +73,8 @@ export class JobComponent implements OnInit, AfterViewInit {
 
         this._jobsAPIs.companyFetchJobs(this.pageNo || 1, this.sort, filterQueryString).subscribe({
           next: response => {
+            console.log('res',response);
+            
             this._employerStore.dispatch(loadEmployerJobsSuccess({ jobs: response.jobs }))
             this.totalJobs = response.noOfJobs
           },

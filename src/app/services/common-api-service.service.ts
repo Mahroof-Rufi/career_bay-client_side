@@ -16,19 +16,19 @@ export class commonAPIService {
     let url = '';
     switch (searchType) {
       case 'jobs':
-        url = `${environment.baseURL}jobs?search=${query}`;
+        url = `search=${query}`;
         break;
       case 'posts':
-        url = `${environment.baseURL}posts?search?=${query}`;
+        url = `search?=${query}`;
         break;
       case 'users':
-        url = `${environment.baseURL}users?search?=${query}`;
+        url = `search?=${query}`;
         break;
       case 'companyJobs':
-        url = `${environment.baseURL}jobs/employer-jobs?search=${query}`;
+        url = `search=${query}`;
         break;
       case 'companyPosts':
-        url = `${environment.baseURL}employer/post?search=${query}`;
+        url = `search=${query}`;
         break;
     }
     return this.http.get(url);
