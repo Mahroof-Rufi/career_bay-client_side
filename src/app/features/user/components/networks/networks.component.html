@@ -9,32 +9,54 @@
         </div>
     </div>
     
-    <div class="w-full px-5">
-        <h1 class="text-sm font-bannerText text-mainGrey items-center">Connect peoples<i class="fa-solid fa-arrow-right ml-2"></i></h1>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-            @for (user of users.slice(0,5); track $index) {
-                <app-people [userData]="user"></app-people>
-            }
+    @if (profileType && profileType == 'users') {
+        <div class="w-full px-5">
+            <h1 class="text-sm font-bannerText text-mainGrey items-center">Connect peoples<i class="fa-solid fa-arrow-right ml-2"></i></h1>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                @for (user of users; track $index) {
+                    <app-people [userData]="user"></app-people>
+                }
+            </div>
+            <app-pagination [typeOfEntries]="'userUsersProfiles'" [currentPageNo]="currentPageNo" [maxItemInPerPage]="12" [totalNoOfEntries]="totalUserProfile" [noOfShowingEntries]="users.length"></app-pagination>
         </div>
-        <div class="flex justify-center w-full">
-            @if (users.length > 6) {
-                <button class="my-2 px-3 py-2 bg-mainColor rounded-lg text-white font-bannerText">Show more</button>
-            }
+    } @else if (profileType && profileType == 'companies') {
+        <div class="w-full px-5 py-3">
+            <h1 class="text-sm font-bannerText text-mainGrey items-center">Connect companies<i class="fa-solid fa-arrow-right ml-2"></i></h1>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                @for (employer of employers; track $index) {
+                    <app-company [employerData]="employer"></app-company>
+                }
+            </div>
+            <app-pagination [typeOfEntries]="'userEmployersProfiles'" [currentPageNo]="currentPageNo" [maxItemInPerPage]="12" [totalNoOfEntries]="totalEmployerProfile" [noOfShowingEntries]="employers.length"></app-pagination>
         </div>
-    </div>
-
-    <div class="w-full px-5 py-3">
-        <h1 class="text-sm font-bannerText text-mainGrey items-center">Connect companies<i class="fa-solid fa-arrow-right ml-2"></i></h1>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-            @for (employer of employers.slice(0,5); track $index) {
-                <app-company [employerData]="employer"></app-company>
-            }
+    } @else {
+        <div class="w-full px-5">
+            <h1 class="text-sm font-bannerText text-mainGrey items-center">Connect peoples<i class="fa-solid fa-arrow-right ml-2"></i></h1>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                @for (user of users.slice(0,5); track $index) {
+                    <app-people [userData]="user"></app-people>
+                }
+            </div>
+            <div class="flex justify-center w-full">
+                @if (users.length > 6) {
+                    <button class="my-2 px-3 py-2 bg-mainColor rounded-lg text-white font-bannerText">Show more</button>
+                }
+            </div>
         </div>
-        <div class="flex justify-center w-full">
-            @if (employers.length > 6) {
-                <button class="my-2 px-3 py-2 bg-mainColor rounded-lg text-white font-bannerText">Show more</button>
-            }
+    
+        <div class="w-full px-5 py-3">
+            <h1 class="text-sm font-bannerText text-mainGrey items-center">Connect companies<i class="fa-solid fa-arrow-right ml-2"></i></h1>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                @for (employer of employers.slice(0,5); track $index) {
+                    <app-company [employerData]="employer"></app-company>
+                }
+            </div>
+            <div class="flex justify-center w-full">
+                @if (employers.length > 6) {
+                    <button class="my-2 px-3 py-2 bg-mainColor rounded-lg text-white font-bannerText">Show more</button>
+                }
+            </div>
         </div>
-    </div>
+    }
 
 </div>

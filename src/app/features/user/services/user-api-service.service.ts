@@ -16,12 +16,12 @@ export class UserAPIServiceService {
     return this._http.get(environment.baseURL+'users/')
   }
 
-  fetchUsers():Observable<any> {
-    return this._http.get(environment.baseURL + 'users/users')
+  fetchUsers(pageNo:number, filterQuery:any):Observable<any> {
+    return this._http.get(environment.baseURL + `users/users?page=${pageNo}&${filterQuery}`)
   }
 
-  fetchEmployersData():Observable<any> {
-    return this._http.get(environment.baseURL + 'users/employers')
+  fetchEmployersData(pageNo:number, filterQuery:any):Observable<any> {
+    return this._http.get(environment.baseURL + `users/employers?page=${pageNo}&${filterQuery}`)
   }
 
   userUpdateProfile(newData:EditUser | FormData) {

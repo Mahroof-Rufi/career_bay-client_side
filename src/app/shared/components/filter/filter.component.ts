@@ -45,15 +45,17 @@ export class FilterComponent {
     this._router.navigate([], {
       relativeTo: this._activatedRoute,
       queryParams: this.queryParams,
-      queryParamsHandling: 'merge' // This will merge the new query params with the existing ones
+      queryParamsHandling: 'merge'
     });
   }
 
   removeAllQuery() {    
     this._router.navigate([], {
       relativeTo: this._activatedRoute,
-      queryParams: {},
+      queryParams: null ,
     });
+
+    this.queryParams = {}
   }
 }
 

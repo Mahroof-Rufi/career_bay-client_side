@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   styleUrl: './pagination.component.scss'
 })
 export class PaginationComponent implements OnChanges{
-  @Input() typeOfEntries!: 'userJobs' | 'employerJobs' | 'userPosts' | 'employerPosts'
+  @Input() typeOfEntries!: 'userJobs' | 'employerJobs' | 'userPosts' | 'employerPosts' | 'userUsersProfiles' | 'userEmployersProfiles'
   @Input() currentPageNo!:number
   @Input() maxItemInPerPage!:number
   @Input() totalNoOfEntries!:number
