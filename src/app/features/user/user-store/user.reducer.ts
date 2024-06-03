@@ -1,6 +1,7 @@
 import { createReducer, on } from "@ngrx/store"
 import { initialState } from "./user.store"
-import { applyJobSuccess, deleteUserEducationSuccess, deleteUserExperienceSuccess, isAppliedSuccess, loadPostsSuccess, loadAppliedJobsSuccess, loadUserJobsSuccess, loadUserSuccess, updateUserProfileSuccess, updateUserAboutSuccess, isSavedSuccess, unSaveJobSuccess, saveJobSuccess, loadSavedJobsSuccess, loadUsersSuccess, loadEmployersSuccess } from "./user.actions"
+import { applyJobSuccess, deleteUserEducationSuccess, deleteUserExperienceSuccess, isAppliedSuccess, loadPostsSuccess, loadAppliedJobsSuccess, loadUserJobsSuccess, loadUserSuccess, updateUserProfileSuccess, updateUserAboutSuccess, isSavedSuccess, unSaveJobSuccess, saveJobSuccess, loadSavedJobsSuccess, loadUsersSuccess, loadEmployersSuccess, triggerPostSuccess } from "./user.actions"
+import { Post } from "./user.model"
 
 export const userReducer = createReducer(initialState,
     on(loadUserSuccess, (state,action) => {
@@ -16,9 +17,18 @@ export const userReducer = createReducer(initialState,
         }
     }),
     on(loadPostsSuccess, (state, action) => {
+        console.log('res post',action.posts);
+        
         return {
             ...state,
             posts: action.posts
+        }
+    }),
+    on(triggerPostSuccess, (state, action) => {
+        const updatedPosts = state.posts.map((post:any) => post._id == action.updatedPost._id ? action.updatedPost : post)        
+        return {
+            ...state,
+            posts: updatedPosts
         }
     }),
     on(updateUserProfileSuccess, (state,action) => {

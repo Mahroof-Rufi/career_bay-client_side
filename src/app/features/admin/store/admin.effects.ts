@@ -19,11 +19,11 @@ export class adminEffects {
     ) { }
 
     _loadUsers = createEffect(() => this._actions.pipe(        
-        ofType(LOAD_USERS),
-        exhaustMap(() => {
-            return this._adminAPIs.adminLoadUsers().pipe(
+        ofType(loadUsers),
+        exhaustMap((action) => {
+            return this._adminAPIs.adminLoadUsers(action.pageNo, action.queries).pipe(
                 map((data) => {
-                    return loadUserSuccess({ users:data.users })
+                    return loadUserSuccess({ users:data.users, totalUsersCount:data.totalUsersCount })
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on admin loadUser effect:',error);
@@ -57,9 +57,9 @@ export class adminEffects {
     _loadCompanies = createEffect(() => this._actions.pipe(
         ofType(loadEmployers),
         exhaustMap((action) => {
-            return this._adminAPIs.adminLoadCompanies().pipe(
+            return this._adminAPIs.adminLoadCompanies(action.pageNo, action.queries).pipe(
                 map((data) => {
-                    return loadEmployersSuccess({ employers:data.employers })
+                    return loadEmployersSuccess({ employers:data.employers, totalEmployersCount:data.totalUsersCount })
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on admin load companies effect:',error);

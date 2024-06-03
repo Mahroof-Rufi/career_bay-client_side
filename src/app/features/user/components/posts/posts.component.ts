@@ -1,10 +1,10 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { Post, userStateModel } from '../../user-store/user.model';
 import { Store } from '@ngrx/store';
-import { getPosts } from '../../user-store/user.selector';
+import { getPosts, getUserId } from '../../user-store/user.selector';
 import { ActivatedRoute } from '@angular/router';
 import { PostsApiServiceService } from '../../../../shared/services/posts-api-service.service';
-import { loadPostsSuccess } from '../../user-store/user.actions';
+import { loadPostsSuccess, triggerPostLike } from '../../user-store/user.actions';
 
 @Component({
   selector: 'app-posts',
@@ -17,6 +17,7 @@ export class PostsComponent implements OnInit{
   @Output() totalNoOfPosts!:number;
   @Output() posts!:any[];
 
+  user_id!:string;
 
   constructor(
     private readonly _userStore:Store<{ 'user':userStateModel }>,
@@ -24,7 +25,7 @@ export class PostsComponent implements OnInit{
     private readonly _activatedRoute:ActivatedRoute
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
     this._activatedRoute.queryParamMap.subscribe({
       next: queries => {
         const query = queries.get('page')
@@ -45,8 +46,16 @@ export class PostsComponent implements OnInit{
         })
       }
     })
+    this._userStore.select(getUserId).subscribe( id => this.user_id = id)
+    this._userStore.select(getPosts).subscribe( data => {
+      this.posts = data
+      console.log(this.posts);
+      
+    })    
+  }
 
-    this._userStore.select(getPosts).subscribe( data => this.posts = data)
+  likeTrigger(employerId:string,post_id:any) {  
+    this._userStore.dispatch(triggerPostLike({ employer_id:employerId, post_id:post_id }))
   }
 
 }

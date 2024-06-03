@@ -116,7 +116,7 @@ export interface userStateModel {
     jobs:Job[],
     savedJobs:Job[],
     AppliedJobs: AppliedJobs[]
-    posts:Posts[],
+    posts:any,
     users:User[],
     companies:Employer[],
     isApplied:boolean,
@@ -139,6 +139,8 @@ export interface Comment {
 }
 
 export interface Post {
+    _id: string;
+    employer_id: string,
     image_urls: string[];
     description: string;
     likes: string[];
@@ -147,6 +149,5 @@ export interface Post {
 }
 
 export interface Posts {
-    employer_id?: String;
     posts: Post[];
 }

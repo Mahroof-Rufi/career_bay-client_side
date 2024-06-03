@@ -68,5 +68,7 @@ export interface Employer {
 
 export interface adminStateModel {
     users:User[],
+    totalUsersCount:number,
     companies:Employer[],
+    totalCompaniesCount:number,
 }

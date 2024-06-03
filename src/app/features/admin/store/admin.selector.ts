@@ -5,13 +5,19 @@ const getAdminState = createFeatureSelector<adminStateModel>('admin');
 
 export const getUsersData = createSelector(getAdminState,
     (state: adminStateModel) => {
-        return state.users
+        return {
+            users:state.users,
+            totalUsersCount:state.totalUsersCount
+        }
     }
 );
 
 export const getCompaniesData = createSelector(getAdminState,
     (state: adminStateModel) => {
-        return state.companies
+        return {
+            employers:state.companies,
+            totalEmployersCount:state.totalCompaniesCount
+        }
     }
 );
 

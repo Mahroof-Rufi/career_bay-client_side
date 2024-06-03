@@ -16,6 +16,10 @@ export class PostsApiServiceService {
     return this._http.get(environment.baseURL + `posts?page=${pageNo}`)
   }
 
+  triggerPostLike(employer_id:string, post_id:string) {
+    return this._http.post(environment.baseURL + 'posts', { employer_id:employer_id, post_id:post_id })
+  }
+
   fetchPosts(pageNo:number, sortAndSearchQueries?:string ) {    
     return this._http.get(environment.baseURL + `posts/employer-posts?page=${pageNo}&${sortAndSearchQueries}`)
   }

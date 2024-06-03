@@ -7,7 +7,8 @@ export const adminReducer = createReducer(adminInitialStore,
     on(loadUserSuccess, (state, action) => {
         return{
             ...state,
-            users:action.users
+            users:action.users,
+            totalUsersCount: action.totalUsersCount
         }
     }),
     on(userActionSuccess, (state, action) => {
@@ -20,7 +21,8 @@ export const adminReducer = createReducer(adminInitialStore,
     on(loadEmployersSuccess, (state, action) => {
         return {
             ...state,
-            companies: action.employers
+            companies: action.employers,
+            totalCompaniesCount: action.totalEmployersCount
         }
     }),
     on(employerActionSuccess, (state, action) => {

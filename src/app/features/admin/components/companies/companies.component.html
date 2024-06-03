@@ -2,6 +2,9 @@
     <div class="relative py-2 mx-5 w-2/5">
         <app-search></app-search>
     </div>
+    <div class="float-end">
+        <app-filter [filterOptions]="filterOptions"></app-filter>
+    </div>
 </div>
 
 <div class="bg-secndWhite rounded-2xl my-3 mx-5">
@@ -55,6 +58,6 @@
                 }
             </tbody>
         </table>
-
+        <app-pagination [currentPageNo]="currentPageNo" [maxItemInPerPage]="maxItemPerPage" [totalNoOfEntries]="totalEmployerProfile" [noOfShowingEntries]="companies.length"></app-pagination>
     </div>
 </div>

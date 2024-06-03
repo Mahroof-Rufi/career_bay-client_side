@@ -26,7 +26,7 @@
                         </div>
                     </div>
                 } 
-            <app-pagination [typeOfEntries]="'userUsersProfiles'" [currentPageNo]="currentPageNo" [maxItemInPerPage]="12" [totalNoOfEntries]="totalUserProfile" [noOfShowingEntries]="users.length"></app-pagination>
+            <app-pagination [typeOfEntries]="'userUsersProfiles'" [currentPageNo]="currentPageNo" [maxItemInPerPage]="maxItemPerPage" [totalNoOfEntries]="totalUserProfile" [noOfShowingEntries]="users.length"></app-pagination>
         </div>
     } @else if (profileType && profileType == 'companies') {
         <div class="w-full px-5 py-3">

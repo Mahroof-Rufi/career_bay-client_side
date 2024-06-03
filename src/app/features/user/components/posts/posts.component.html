@@ -1,21 +1,24 @@
 <div class="w-full py-3">
-    @for (post of posts; track post._id; let idx = $index) {
-        @for (npost of post.posts; track $index) {
+        @for (post of posts; track $index) {
             <div class="w-full mx-auto p-4">
                 <div class="bg-white p-4 rounded-lg shadow mb-6 w-full">
-                    @if (npost.image_urls?.length) {
+                    @if (post.image_urls?.length) {
                         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2">
-                            @for (img of npost.image_urls; track $index) {
+                            @for (img of post.image_urls; track $index) {
                                 <img [src]="img" class="rounded-xl" alt="">
                             }
                         </div>
                     }
                     <p class="text-mainGrey text-sm pt-5">
-                        {{ npost.description }}
+                        {{ post.description }}
                     </p>
                     <div class="flex w-full">
                         <div class="ml-auto flex gap-3 pr-3">
-                            <i class="fa-regular fa-heart text-2xl text-mainGrey cursor-pointer"></i>
+                            @if (post.likes.includes(user_id)) {
+                                <i class="fa-solid fa-heart text-red-600 text-2xl cursor-pointer" (click)="likeTrigger(post.employer_id,post._id)"></i>
+                            } @else {
+                                <i class="fa-regular fa-heart text-2xl text-mainGrey cursor-pointer" (click)="likeTrigger(post.employer_id,post._id)"></i>
+                            }
                             <i class="fa-regular fa-comment text-2xl text-mainGrey cursor-pointer"></i>
                             <i class="fa-regular fa-bookmark text-2xl text-mainGrey cursor-pointer"></i>
                         </div>
@@ -23,6 +26,5 @@
                 </div>
             </div>
         }
-    }
     <app-pagination [typeOfEntries]="'userPosts'" [currentPageNo]="currentPageNo" [maxItemInPerPage]="maxItemPerPage" [totalNoOfEntries]="totalNoOfPosts" [noOfShowingEntries]="posts.length"></app-pagination>
 </div>

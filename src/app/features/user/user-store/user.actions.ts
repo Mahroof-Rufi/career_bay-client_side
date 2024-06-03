@@ -1,5 +1,5 @@
 import { createAction, props } from "@ngrx/store";
-import { AppliedJobs, EditUser, Posts, User, education, experience } from "./user.model";
+import { AppliedJobs, EditUser, Post, Posts, User, education, experience } from "./user.model";
 import { Employer, Job } from "../../company/store/employer.model";
 
 
@@ -50,6 +50,9 @@ export const LOAD_USER_APPLIED_JOBS_SUCCESS = '[user] load user applied jobs suc
 
 export const LOAD_POSTS = '[posts] load posts';
 export const LOAD_POSTS_SUCCESS = '[posts] load posts success';
+
+export const TRIGGER_POST_LIKE = '[posts] trigger post like';
+export const TRIGGER_POST_LIKE_SUCCESS = '[posts] trigger post like success';
 
 export const LOAD_USERS_SUCCESS = '[users] load users success';
 
@@ -105,6 +108,9 @@ export const loadAppliedJobsSuccess = createAction(LOAD_USER_APPLIED_JOBS_SUCCES
 
 export const loadPosts = createAction(LOAD_POSTS);
 export const loadPostsSuccess = createAction(LOAD_POSTS_SUCCESS, props<{ posts:Posts[] }>())
+
+export const triggerPostLike = createAction(TRIGGER_POST_LIKE, props<{ employer_id:string, post_id:string }>())
+export const triggerPostSuccess = createAction(TRIGGER_POST_LIKE_SUCCESS, props<{ updatedPost:Post }>())
 
 export const loadUsersSuccess = createAction(LOAD_USERS_SUCCESS, props<{ users:User[] }>());
 

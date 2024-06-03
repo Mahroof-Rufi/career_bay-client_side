@@ -16,14 +16,14 @@ export const EMPLOYER_ACTION_SUCCESS = '[employer] employer action success'
 
 
 
-export const loadUsers = createAction(LOAD_USERS)
-export const loadUserSuccess = createAction(LOAD_USERS_SUCCESS, props<{ users:User[] }>())
+export const loadUsers = createAction(LOAD_USERS, props<{ pageNo:number,queries?:any }>())
+export const loadUserSuccess = createAction(LOAD_USERS_SUCCESS, props<{ users:User[], totalUsersCount:number }>())
 
 export const userAction = createAction(USER_ACTION, props<{ user_id:string }>())
 export const userActionSuccess = createAction(USER_ACTION_SUCCESS, props<{ user:User }>())
 
-export const loadEmployers = createAction(LOAD_EMPLOYERS)
-export const loadEmployersSuccess = createAction(LOAD_EMPLOYERS_SUCCESS, props<{ employers:Employer[] }>())
+export const loadEmployers = createAction(LOAD_EMPLOYERS, props<{ pageNo:number, queries?:any }>())
+export const loadEmployersSuccess = createAction(LOAD_EMPLOYERS_SUCCESS, props<{ employers:Employer[], totalEmployersCount:number }>())
 
 export const employerAction = createAction(EMPLOYER_ACTION, props<{ employer_id:string }>())
 export const employerActionSuccess = createAction(EMPLOYER_ACTION_SUCCESS, props<{ employer:Employer }>())

@@ -7,7 +7,6 @@ import { MainPageComponent } from "./components/main-page/main-page.component";
 import { UsersComponent } from "./components/users/users.component";
 import { CompaniesComponent } from "./components/companies/companies.component";
 import { JobsComponent } from "./components/jobs/jobs.component";
-import { loadUsersGuard } from "./route-guards/load-users.guard";
 import { UserProfileCommonViewComponent } from "../../shared/components/user-profile-common-view/user-profile-common-view.component";
 import { CompanyProfileCommonViewComponent } from "../../shared/components/company-profile-common-view/company-profile-common-view.component";
 const routes: Routes = [
