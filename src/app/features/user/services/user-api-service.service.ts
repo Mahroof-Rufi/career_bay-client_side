@@ -16,6 +16,10 @@ export class UserAPIServiceService {
     return this._http.get(environment.baseURL+'users/')
   }
 
+  fetchUserProfileById(user_id:string):Observable<any> {
+    return this._http.post(environment.baseURL + 'users/', {user_id:user_id})
+  }
+
   fetchUsers(pageNo:number, filterQuery:any):Observable<any> {
     return this._http.get(environment.baseURL + `users/users?page=${pageNo}&${filterQuery}`)
   }

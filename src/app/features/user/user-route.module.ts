@@ -11,6 +11,7 @@ import { SavedPostsComponent } from "./components/saved-posts/saved-posts.compon
 import { PostsComponent } from "./components/posts/posts.component";
 import { NetworksComponent } from "./components/networks/networks.component";
 import { validateUserTokenGuard } from "./route-guards/validate-user-token.guard";
+import { UserProfileCommonViewComponent } from "../../shared/components/user-profile-common-view/user-profile-common-view.component";
 
 const routes: Routes = [
     { path: 'user', component:UserHomeComponent, children: [
@@ -21,6 +22,7 @@ const routes: Routes = [
         { path: 'job/:id', component:JobDetailedViewComponent, },
         { path: 'posts', component:PostsComponent },
         { path: 'networks', component:NetworksComponent },
+        { path: 'user-profile/:id', component:UserProfileCommonViewComponent },
         { path: 'applied-jobs/:id', component:AppliedJobsComponent, },
         { path: 'saved-jobs/:id', component:SavedJobsAndPostsComponent },
         { path: 'saved-posts/:id', component:SavedPostsComponent },

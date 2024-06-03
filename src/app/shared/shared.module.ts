@@ -38,6 +38,7 @@ import { PaginationComponent } from './components/pagination/pagination.componen
 import { FilterComponent } from './components/filter/filter.component';
 import { PeopleComponent } from './components/people/people.component';
 import { CompanyComponent } from './components/company/company.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -85,7 +86,8 @@ import { CompanyComponent } from './components/company/company.component';
     TuiAvatarModule,
     TuiDataListDropdownManagerModule,
     TuiDataListWrapperModule,
-    TuiHostedDropdownModule
+    TuiHostedDropdownModule,
+    RouterModule
   ],
   exports: [
     TuiInputModule,
