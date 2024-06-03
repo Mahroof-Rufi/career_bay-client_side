@@ -55,6 +55,10 @@ export class JobsApiServiceService {
     return this._http.get(environment.baseURL + `jobs/employer-jobs?page=${page}&sort=${sort}&${filterQuery}`, { params: param });
   }
 
+  companyFetchJobsById(employer_id:string, pageNo:number):Observable<any> {
+    return this._http.get(environment.baseURL + `jobs/employer-jobs?employer_id=${employer_id}&page=${pageNo}`)
+  }
+
   companyAddJobPost(jobData:FormData):Observable<any> {
     return this._http.post(environment.baseURL + 'jobs/employer-jobs', jobData)
   }

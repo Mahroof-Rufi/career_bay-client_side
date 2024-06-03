@@ -76,3 +76,15 @@
     </div>
 </div>
 
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 my-2 mx-10">
+    @if (employerJobs && employerJobs.length) {
+        @for (job of employerJobs; track $index) {
+            <div class="flex flex-col">
+                <a [routerLink]="['/user/job', job._id]">
+                    <app-job [jobData]="job"></app-job>
+                </a>
+            </div>
+        }
+    }
+    <app-pagination [currentPageNo]="currentPageNo" [totalNoOfEntries]="totalNoOfJobs" [maxItemInPerPage]="maxItemsPerPage" [noOfShowingEntries]="employerJobs.length"></app-pagination>
+</div>
