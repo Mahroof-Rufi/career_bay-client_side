@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Employer, adminStateModel } from '../../../features/admin/store/admin.model';
 import { getEmployerById } from '../../../features/admin/store/admin.selector';
+import { EmployerApiServiceService } from '../../../features/company/services/employer-api-service.service';
+import { UserAPIServiceService } from '../../../features/user/services/user-api-service.service';
 
 @Component({
   selector: 'app-company-profile-common-view',
@@ -16,7 +18,8 @@ export class CompanyProfileCommonViewComponent implements OnInit{
 
   constructor(
     private readonly _activatedRoute:ActivatedRoute,
-    private readonly _adminStore:Store<{ admin:adminStateModel }>
+    private readonly _adminStore:Store<{ admin:adminStateModel }>,
+    private readonly _userAPIs:UserAPIServiceService
   ) {}
 
   ngOnInit(): void {
@@ -24,7 +27,11 @@ export class CompanyProfileCommonViewComponent implements OnInit{
       this.employer_id = params.get('id')
 
       if (this.employer_id) {
-        this._adminStore.select(getEmployerById(this.employer_id)).subscribe((data) => this.employerData = data)
+        this._userAPIs.fetchEmployerProfileById(this.employer_id).subscribe({
+          next: response => {
+            this.employerData = response.employerData
+          }
+        })
       }
     })
   }

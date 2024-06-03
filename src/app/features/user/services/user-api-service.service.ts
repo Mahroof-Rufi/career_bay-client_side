@@ -20,6 +20,10 @@ export class UserAPIServiceService {
     return this._http.post(environment.baseURL + 'users/', {user_id:user_id})
   }
 
+  fetchEmployerProfileById(employer_id:string):Observable<any> {
+    return this._http.post(environment.baseURL + 'users/employer-profile', {employer_id:employer_id})
+  }
+
   fetchUsers(pageNo:number, filterQuery:any):Observable<any> {
     return this._http.get(environment.baseURL + `users/users?page=${pageNo}&${filterQuery}`)
   }
