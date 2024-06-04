@@ -7,6 +7,7 @@ import { EmployerApiServiceService } from '../../../features/company/services/em
 import { UserAPIServiceService } from '../../../features/user/services/user-api-service.service';
 import { Job } from '../../../features/user/user-store/user.model';
 import { JobsApiServiceService } from '../../services/jobs-api-service.service';
+import { AdminApiServiceService } from '../../../features/admin/services/admin-api-service.service';
 
 @Component({
   selector: 'app-company-profile-common-view',
@@ -28,7 +29,8 @@ export class CompanyProfileCommonViewComponent implements OnInit {
     private readonly _activatedRoute: ActivatedRoute,
     private readonly _adminStore: Store<{ admin: adminStateModel }>,
     private readonly _userAPIs: UserAPIServiceService,
-    private readonly _jobsAPIs: JobsApiServiceService
+    private readonly _jobsAPIs: JobsApiServiceService,
+    private readonly _adminAPIs: AdminApiServiceService
   ) {}
 
   ngOnInit(): void {
@@ -38,11 +40,17 @@ export class CompanyProfileCommonViewComponent implements OnInit {
       this.employer_id = params.get('id');
 
       if(this.employer_id) {
-        this._userAPIs.fetchEmployerProfileById(this.employer_id).subscribe({
-          next: response => {
-            this.employerData = response.employerData;
-          }
-        });
+        if (this.isUser) {
+          this._userAPIs.fetchEmployerProfileById(this.employer_id).subscribe({
+            next: response => {
+              this.employerData = response.employerData;
+            }
+          });
+        } else {
+          this._adminAPIs.adminFetchEmployerById(this.employer_id).subscribe({
+            next: response => this.employerData = response.employerData
+          })
+        }
       }
       
     });
@@ -54,13 +62,15 @@ export class CompanyProfileCommonViewComponent implements OnInit {
       }      
 
              
-      if (this.currentPageNo && this.employer_id) {
-        this._jobsAPIs.companyFetchJobsById(this.employer_id, this.currentPageNo).subscribe({
-          next: response => {
-            this.employerJobs = response.employerJobs;
-            this.totalNoOfJobs = response.totalNoOfJobs;
-          }
-        });
+      if (this.employer_id) {
+        if (this.isUser) {
+          this._jobsAPIs.companyFetchJobsById(this.employer_id, this.currentPageNo).subscribe({
+            next: response => {
+              this.employerJobs = response.employerJobs;
+              this.totalNoOfJobs = response.totalNoOfJobs;
+            }
+          });
+        }
       }
     })
   }

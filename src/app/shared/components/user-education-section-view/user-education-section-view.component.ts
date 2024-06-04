@@ -8,5 +8,5 @@ import { education } from '../../../features/user/user-store/user.model';
 })
 export class UserEducationSectionViewComponent {
   @Input() educations:education[] | undefined
-
+  @Input() isUser!:boolean;
 }

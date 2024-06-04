@@ -8,5 +8,5 @@ import { experience } from '../../../features/admin/store/admin.model';
 })
 export class UserExperienceSectionViewComponent {
   @Input() experiences:experience[] | undefined
-
+  @Input() isUser!:boolean;
 }

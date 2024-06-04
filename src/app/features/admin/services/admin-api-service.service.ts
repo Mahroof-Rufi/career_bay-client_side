@@ -15,12 +15,20 @@ export class AdminApiServiceService {
     return this._http.get(environment.baseURL + `admin/users?page=${pageNo}&${queries}`)
   }
 
+  adminFetchUserById(user_id:string): Observable<any> {
+    return this._http.get(environment.baseURL + `admin/user?user_id=${user_id}`)
+  }
+
   adminUserAction(user_id:string):Observable<any> {
     return this._http.patch(environment.baseURL + 'admin/users', { user_id:user_id })
   }
   
   adminLoadCompanies(pageNo:number, quires?:any):Observable<any> {
     return this._http.get(environment.baseURL + `admin/employers?page=${pageNo}&${quires}`)
+  }
+
+  adminFetchEmployerById(employer_id:string):Observable<any> {
+    return this._http.get(environment.baseURL + `admin/employer?employer_id=${employer_id}`)
   }
 
   adminEmployerAction(employer_id:string):Observable<any> {

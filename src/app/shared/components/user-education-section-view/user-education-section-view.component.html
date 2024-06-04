@@ -1,11 +1,11 @@
 <div class="flex-col bg-white rounded-xl shadow-lg w-full h-full">
     <div class="flex justify-between px-5 pt-5 w-full">
-        <span class="flex text-mainGrey text-sm font-bannerText"><i class="fa-solid fa-graduation-cap text-sm text-adminBlue pr-1"></i>Education</span>
+        <span class="flex text-mainGrey text-sm font-bannerText"><i class="fa-solid fa-graduation-cap text-sm pr-1" [ngClass]="{ 'text-mainColor':isUser, 'text-adminBlue':!isUser }"></i>Education</span>
     </div> 
     @if (educations?.length) {
         <div class="grid grid-cols-2 w-full">
             @for (edction of educations; track $index) {
-                <app-user-education-col-view [education]="edction"></app-user-education-col-view>
+                <app-user-education-col-view [education]="edction" [isUser]="isUser"></app-user-education-col-view>
             }
         </div>
     } @else { 

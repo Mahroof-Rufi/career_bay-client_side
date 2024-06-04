@@ -7,4 +7,5 @@ import { Component, Input } from '@angular/core';
 })
 export class UserProfileAboutViewComponent {
   @Input() about:string | undefined;
+  @Input() isUser!:boolean;
 }

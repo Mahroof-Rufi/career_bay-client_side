@@ -1,11 +1,11 @@
 <div class="flex-col bg-white rounded-xl shadow-xl w-full h-full">
     <div class="flex justify-between px-5 pt-5 w-full">
-        <span class="flex text-mainGrey text-sm font-bannerText"><i class="fa-solid fa-pen text-sm text-adminBlue pr-1"></i>About</span>
+        <span class="flex text-mainGrey text-sm font-bannerText"><i class="fa-solid fa-pen text-sm pr-1" [ngClass]="{ 'text-mainColor':isUser, 'text-adminBlue':!isUser }"></i>About</span>
     </div>
     
     @if (about) {
         <div class="flex py-5 px-5 w-full">
-            <div class="h-auto bg-adminBlue w-2.5"></div>
+            <div class="h-auto w-2.5"></div>
             <div class="flex flex-grow">
                 <p class="font-bannerText pl-3">{{ about }}</p>
             </div>

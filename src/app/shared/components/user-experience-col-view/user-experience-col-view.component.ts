@@ -8,4 +8,5 @@ import { experience } from '../../../features/user/user-store/user.model';
 })
 export class UserExperienceColViewComponent {
   @Input() experience:experience | undefined
+  @Input() isUser!:boolean
 }

@@ -7,9 +7,9 @@
                 </div>
             </div>
             @if (education?.distance) {
-                <span class="flex items-center text-mainGrey text-sm font-bannerText my-2"><i class="fa-solid fa-location-dot text-adminBlue text-lg mr-1"></i>Distance Education</span>
+                <span class="flex items-center text-mainGrey text-sm font-bannerText my-2"><i class="fa-solid fa-location-dot text-lg mr-1" [ngClass]="{ 'text-mainColor':isUser, 'text-adminBlue':!isUser }"></i>Distance Education</span>
             } @else {
-                <span class="flex items-center text-mainGrey text-sm font-bannerText my-2"><i class="fa-solid fa-location-dot text-adminBlue text-lg mr-1"></i>{{ education?.city }}, {{ education?.state }}</span>
+                <span class="flex items-center text-mainGrey text-sm font-bannerText my-2"><i class="fa-solid fa-location-dot text-lg mr-1" [ngClass]="{ 'text-mainColor':isUser, 'text-adminBlue':!isUser }"></i>{{ education?.city }}, {{ education?.state }}</span>
             }
             <h2 class="text-lg text-thirdGrey font-bannerText">{{ education?.subject }}</h2>
             @if (education?.present) {

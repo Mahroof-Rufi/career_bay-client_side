@@ -7,13 +7,14 @@ import { AuthApiService } from '../services/auth-api-service.service';
 export const handleUnauthorizedResInterceptor: HttpInterceptorFn = (req, next) => {
 
   const authAPIs = inject(AuthApiService)
-  
+  const alert = inject(TuiAlertService)
+
   return next(req).pipe(
     catchError((err: any) => {
-      if (err instanceof HttpErrorResponse) {   
+
+      if (err instanceof HttpErrorResponse) {
+
         if (err.status === 401) {
-          console.log('fds',err.error.message);
-          
           switch (err.error.message) {
             case 'Unauthorized user access denied':
             case 'User token expired':
@@ -28,19 +29,25 @@ export const handleUnauthorizedResInterceptor: HttpInterceptorFn = (req, next) =
               break;
 
             case 'Unauthorized admin access denied':
-              case 'Admin token expired':
-                const adminRefreshToken = localStorage.getItem('adminRefreshToken');
-                authAPIs.adminRefreshToken(adminRefreshToken)
-                break;
+            case 'Admin token expired':
+              const adminRefreshToken = localStorage.getItem('adminRefreshToken');
+              authAPIs.adminRefreshToken(adminRefreshToken)
+              break;
           }
+
         } else {
-          
+          alert.open('', {
+            label: err.error.message,
+            status: 'error',
+            autoClose: false,
+            hasCloseButton: true
+          }).subscribe()
         }
       } else {
         console.log('An error occurred:', err);
       }
 
-      return throwError(() => err); 
+      return throwError(() => err);
     })
   );;
 };

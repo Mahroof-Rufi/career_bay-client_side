@@ -1,5 +1,5 @@
 <div class="px-20 py-5 space-x-5 bg-bg_grey">
-    <div class="flex  bg-adminBlue rounded-xl shadow-lg w-full h-full">
+    <div class="flex rounded-xl shadow-lg w-full h-full" [ngClass]="{ 'bg-mainColor':isUser, 'bg-adminBlue':!isUser }">
 
         <div class="w-2/12 rounded-full my-auto px-3">
             <img [src]="userData?.profile_url" alt="" class="h-auto w-auto rounded-full">
@@ -24,8 +24,8 @@
         </div>
         
     </div>
-    <app-user-profile-about-view [about]="userData?.about"></app-user-profile-about-view>
-    <app-user-experience-section-view [experiences]="userData?.experiences"></app-user-experience-section-view>
-    <app-user-education-section-view [educations]="userData?.educations"></app-user-education-section-view>
-    <app-user-skills-section-view [skills]="userData?.skills"></app-user-skills-section-view>
+    <app-user-profile-about-view [about]="userData?.about" [isUser]="isUser"></app-user-profile-about-view>
+    <app-user-experience-section-view [experiences]="userData?.experiences" [isUser]="isUser"></app-user-experience-section-view>
+    <app-user-education-section-view [educations]="userData?.educations" [isUser]="isUser"></app-user-education-section-view>
+    <app-user-skills-section-view [skills]="userData?.skills" [isUser]="isUser"></app-user-skills-section-view>
 </div>

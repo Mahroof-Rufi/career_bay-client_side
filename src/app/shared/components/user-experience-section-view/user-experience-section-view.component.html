@@ -1,11 +1,11 @@
 <div class="flex-col bg-white rounded-xl shadow-lg w-full h-full">
     <div class="flex justify-between px-5 pt-5 w-full">
-        <span class="flex text-mainGrey text-sm font-bannerText"><i class="fa-solid fa-briefcase text-sm text-adminBlue pr-1"></i>Experience</span>
+        <span class="flex text-mainGrey text-sm font-bannerText"><i class="fa-solid fa-briefcase text-sm pr-1" [ngClass]="{ 'text-mainColor':isUser, 'text-adminBlue':!isUser }"></i>Experience</span>
     </div>
     @if (experiences?.length) {
         <div class="grid grid-cols-2 w-full">
             @for (exp of experiences; track $index) {
-                <app-user-experience-col-view [experience]="exp"></app-user-experience-col-view>
+                <app-user-experience-col-view [experience]="exp" [isUser]="isUser"></app-user-experience-col-view>
             }
         </div>
     } @else { 
