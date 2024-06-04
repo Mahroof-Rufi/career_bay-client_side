@@ -120,8 +120,12 @@ export class JobComponent implements OnInit, AfterViewInit {
     return job._id;
   }
 
-  addJob(_id?: string) {
-    _id ? this._addJobModal.openModal(_id) : this._addJobModal.openModal()
+  addJob() {
+    this._addJobModal.openModal(null)
+  }
+
+  editJob(id:string) {
+    this._addJobModal.openModal(id)
   }
 
   deleteJob(jobId: string) {

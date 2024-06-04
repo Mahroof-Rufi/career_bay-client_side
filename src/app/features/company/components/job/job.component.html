@@ -1,18 +1,16 @@
-<div class="flex justify-between bg-white rounded-2xl">
-    <div class="relative my-4 mx-5 w-2/5">
+<div class="flex justify-between items-center bg-white rounded-2xl my-3">
+    <div class="mx-5 w-2/5">
         <app-search [searchType]="'companyJobs'"></app-search>
     </div>
-    <div class="my-auto mr-5">
-
-        <app-filter [filterOptions]="filterOptions" ></app-filter>
-
-    </div>
-    <div class="my-auto mr-5">
-        <button type="button" (click)="addJob()"
-            class="text-white bg-mainColor hover:bg-orange-400 font-bannerText rounded-xl text-sm px-6 py-3"><i
-                class="fa-solid fa-plus mr-2"></i>Add</button>
+    <div class="flex items-center mr-5">
+        <app-filter [filterOptions]="filterOptions"></app-filter>
+        <button type="button" (click)="addJob()" class="text-white bg-mainColor hover:bg-orange-400 font-bannerText rounded-xl text-sm py-3 px-6 ml-4">
+            <i class="fa-solid fa-plus mr-2"></i>
+            Add
+        </button>
     </div>
 </div>
+
 <div class="bg-white rounded-2xl  mx-5">
 
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -68,7 +66,7 @@
                     </td>
                     <td class="px-6 py-4">
                         <div class="flex justify-between text-mainGrey text-sm">
-                            <i class="fa-regular fa-pen-to-square cursor-pointer" (click)="addJob(job._id)"></i>
+                            <i class="fa-regular fa-pen-to-square cursor-pointer" (click)="editJob(job._id)"></i>
                             <i class="fa-solid fa-trash cursor-pointer" (click)="deleteJob(job._id)"></i>
                             <i class="fa-solid fa-list-check cursor-pointer"
                                 [routerLink]="['/employer/job/applicants', job._id]"></i>

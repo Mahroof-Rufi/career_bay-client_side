@@ -10,26 +10,28 @@ export class AddJobPostService {
   private addJobDialogue: Observable<any> | undefined;
   private subscription!: Subscription
 
-  editId!:string | undefined;
-
   constructor(
     private dialogueService: TuiDialogService,
     private injector: Injector,
   ) {}
 
-  private initializeDialog() {
-    this.addJobDialogue = this.dialogueService.open<any>(
-      new PolymorpheusComponent(AddJobComponent, this.injector),
-      {
-        size:'l',
-        data: this.editId
-      },
-    );
-  }
-
-  openModal(_id?:string) {    
-    _id ? this.editId = _id : this.editId = ''
-    this.initializeDialog();
+  openModal(_id:string | null) {    
+    if (_id) {
+      this.addJobDialogue = this.dialogueService.open<any>(
+        new PolymorpheusComponent(AddJobComponent, this.injector),
+        {
+          size:'l',
+          data: _id
+        },
+      );
+    } else {
+      this.addJobDialogue = this.dialogueService.open<any>(
+        new PolymorpheusComponent(AddJobComponent, this.injector),
+        {
+          size:'l',
+        },
+      );
+    }
     if (this.addJobDialogue) {
       this.subscription = this.addJobDialogue.subscribe()
     }

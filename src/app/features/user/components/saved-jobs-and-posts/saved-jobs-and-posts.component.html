@@ -12,7 +12,7 @@
     </div>
   </div>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 my-3 px-3">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 my-3 px-3">
     @for (job of savedJobs; track $index) {
         <div class="flex flex-col">
             <a [routerLink]="['/user/job', job.job_id._id]">

@@ -64,7 +64,11 @@
                     </p>
                     <div class="flex w-full">
                         <div class="ml-auto flex gap-3 pr-3">
-                            <i class="fa-regular fa-heart text-2xl text-mainGrey cursor-pointer"></i>
+                            @if (post.likes.includes(user_id)) {
+                                <i class="fa-solid fa-heart text-red-600 text-2xl cursor-pointer" (click)="likeTrigger(post.employer_id,post._id)"></i>
+                            } @else {
+                                <i class="fa-regular fa-heart text-2xl text-mainGrey cursor-pointer" (click)="likeTrigger(post.employer_id,post._id)"></i>
+                            }
                             <i class="fa-regular fa-comment text-2xl text-mainGrey cursor-pointer"></i>
                             <i class="fa-regular fa-bookmark text-2xl text-mainGrey cursor-pointer"></i>
                         </div>

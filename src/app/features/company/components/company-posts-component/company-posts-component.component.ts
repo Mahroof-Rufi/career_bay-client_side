@@ -48,13 +48,6 @@ export class CompanyPostsComponentComponent implements OnInit, AfterViewInit{
           queryParams[key] = response.getAll(key);
         });
         
-        // if (query) {
-        //   this.pageNo = parseInt(query)
-        // }
-
-        // if (sortQuery) {
-        //   this.sort = sortQuery          
-        // }
         const filterQueryString = this.constructQueryString(queryParams);
 
         this._postAPIs.fetchPosts(this.pageNo || 1, filterQueryString).subscribe({

@@ -22,12 +22,13 @@ export class AddPostModalService {
       new PolymorpheusComponent(AddPostComponent, this.injector),
       {
         size:'l',
-        data:{messageType:'addPost'}
+        data:{ messageType:'addPost' }
       } 
     )
   }
 
   openAddPostDialogue() {
+    this.initAddPostDialogue()
     if (this.addPostDialogue) {
       this.addPostDialogueSubscription = this.addPostDialogue.subscribe()
     }

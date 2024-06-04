@@ -1,14 +1,11 @@
-<div class="flex justify-between bg-white rounded-2xl">
-    <div class="relative my-4 mx-5 w-2/5">
+<div class="flex justify-between items-center bg-white rounded-2xl my-3">
+    <div class="mx-5 w-2/5">
         <app-search [searchType]="'companyPosts'"></app-search>
     </div>
-    <div class="my-auto mr-5">
-
+    <div class="flex items-center mr-5">
         <app-filter [filterOptions]="filterOptions"></app-filter>
-
-        <button type="button" (click)="addPost()"
-            class="text-white bg-mainColor hover:bg-orange-400 font-bannerText rounded-xl text-sm px-6 py-3"><i
-            class="fa-solid fa-plus mr-2"></i>
+        <button type="button" (click)="addPost()" class="text-white bg-mainColor hover:bg-orange-400 font-bannerText rounded-xl text-sm px-6 py-3 ml-4">
+            <i class="fa-solid fa-plus mr-2"></i>
             Add
         </button>
     </div>
