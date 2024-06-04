@@ -7,7 +7,7 @@
         <div class="flex items-end ">
             <h1 class="text-4xl text-mainGrey font-bannerText mr-4">{{ employerData?.companyName }}</h1>
             <span class="flex items-end">
-                <i class="fa-solid fa-location-dot text-2xl text-adminBlue"></i>
+                <i class="fa-solid fa-location-dot text-2xl" [ngClass]="{ 'text-mainColor':isUser, 'text-adminBlue':!isUser }"></i>
                 <h1 class="text-xl text-mainGrey font-bannerText ml-1">{{ employerData?.city }}, {{ employerData?.state }}</h1>
             </span>                                                                                     
         </div>
@@ -27,7 +27,7 @@
         }
     </div>
 </div>
-<div class="flex justify-between bg-adminBlue rounded-xl mx-10 mb-10">
+<div class="flex justify-betwee rounded-xl mx-10 mb-10" [ngClass]="{ 'bg-mainColor':isUser, 'bg-adminBlue':!isUser }">
     
     <div class="flex flex-col my-10 mx-10 items-start w-2/5"> 
         <div class="flex text-white text-xl items-center mb-4">
@@ -76,6 +76,7 @@
     </div>
 </div>
 
+<h1 class="text-mainGrey text-lg font-bannerText ml-10">Jobs<i class="fa-solid fa-arrow-right ml-2"></i></h1>
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 my-2 mx-10">
     @if (employerJobs && employerJobs.length) {
         @for (job of employerJobs; track $index) {
@@ -86,5 +87,7 @@
             </div>
         }
     }
-    <app-pagination [currentPageNo]="currentPageNo" [totalNoOfEntries]="totalNoOfJobs" [maxItemInPerPage]="maxItemsPerPage" [noOfShowingEntries]="employerJobs.length"></app-pagination>
 </div>
+@if (employerJobs && employerJobs.length) {
+    <app-pagination [currentPageNo]="currentPageNo" [totalNoOfEntries]="totalNoOfJobs" [maxItemInPerPage]="maxItemsPerPage" [noOfShowingEntries]="employerJobs.length"></app-pagination>
+}

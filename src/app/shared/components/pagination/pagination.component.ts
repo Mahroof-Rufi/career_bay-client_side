@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-pagination',
@@ -17,7 +17,8 @@ export class PaginationComponent implements OnChanges{
   to!:number;
 
   constructor(
-    private readonly _router:Router
+    private readonly _router:Router,
+    private readonly _activatedRoute:ActivatedRoute,
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -32,37 +33,20 @@ export class PaginationComponent implements OnChanges{
   }
 
   prev() {
-    switch (this.typeOfEntries) {
-      case 'employerJobs':
-        this._router.navigateByUrl(`/employer/jobs?page=${this.currentPageNo - 1}`)
-        break;
-      case 'employerPosts':
-        this._router.navigateByUrl(`/employer/posts?page=${this.currentPageNo - 1}`)
-        break;
-      case 'userJobs':
-        this._router.navigateByUrl(`/user/jobs?page=${this.currentPageNo - 1}`)
-        break;
-      case 'userPosts':
-        this._router.navigateByUrl(`/user/posts?page=${this.currentPageNo - 1}`)
-        break;
-    }
+    this.navigateWithPageNo(this.currentPageNo - 1);
   }
 
   next() {
-    switch (this.typeOfEntries) {
-      case 'employerJobs':
-        this._router.navigateByUrl(`/employer/jobs?page=${this.currentPageNo + 1}`)
-        break;
-      case 'employerPosts':
-        this._router.navigateByUrl(`/employer/posts?page=${this.currentPageNo + 1}`)
-        break;
-      case 'userJobs':
-        this._router.navigateByUrl(`/user/jobs?page=${this.currentPageNo + 1}`)
-        break
-      case 'userPosts':
-        this._router.navigateByUrl(`/user/posts?page=${this.currentPageNo + 1}`)
-        break;
-    }
+    this.navigateWithPageNo(this.currentPageNo + 1);
+  }
+
+  private navigateWithPageNo(pageNo: number) {
+    const queryParams = { page: pageNo };
+    this._router.navigate([], {
+      relativeTo: this._activatedRoute,
+      queryParams,
+      queryParamsHandling: 'merge'
+    });
   }
 
 }

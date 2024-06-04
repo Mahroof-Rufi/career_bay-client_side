@@ -24,7 +24,7 @@ export class DashboardComponent implements OnInit,AfterViewInit{
 
   ngOnInit(): void {
     this._userState.select(getJobsData).subscribe((res) => this.jobs = res)
-    this._userState.select(getPosts).subscribe( res => this.posts = res)
+    this._userState.select(getPosts).subscribe( res => this.posts = res)    
   }
 
   ngAfterViewInit(): void {
