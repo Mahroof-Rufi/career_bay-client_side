@@ -13,7 +13,8 @@ import { loadAppliedJobs } from '../../user-store/user.actions';
 export class AppliedJobsComponent implements OnInit,OnDestroy{
 
   appliedJobs!:any
-  userStoreSubscription!:Subscription
+
+  private _userStoreSubscription!:Subscription
 
   constructor(
     private readonly _userStore:Store<{ user:User }>
@@ -21,13 +22,13 @@ export class AppliedJobsComponent implements OnInit,OnDestroy{
 
   ngOnInit(): void {
     this._userStore.dispatch(loadAppliedJobs())
-    this.userStoreSubscription = this._userStore.select(getAppliedJobs).subscribe((res) => {
+    this._userStoreSubscription = this._userStore.select(getAppliedJobs).subscribe((res) => {
       this.appliedJobs = res
     })
   }  
 
   ngOnDestroy(): void {
-    this.userStoreSubscription.unsubscribe()
+    this._userStoreSubscription.unsubscribe()
   }
 
 }

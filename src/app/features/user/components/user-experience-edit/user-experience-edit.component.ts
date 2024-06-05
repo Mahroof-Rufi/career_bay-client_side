@@ -1,5 +1,5 @@
 import { User, experience } from '../../user-store/user.model';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
@@ -7,13 +7,14 @@ import { updateUserExperience } from '../../user-store/user.actions';
 import { getExperienceById, getUserId } from '../../user-store/user.selector';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { UserProfileEditModalService } from '../../services/user-profile-edit-modal.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-experience-edit',
   templateUrl: './user-experience-edit.component.html',
   styleUrl: './user-experience-edit.component.scss'
 })
-export class UserExperienceEditComponent implements OnInit{
+export class UserExperienceEditComponent implements OnInit, OnDestroy{
 
   userId!:string;
   jobType:string[] = ['InterShip', 'ParTime', 'FullTime']
@@ -24,6 +25,8 @@ export class UserExperienceEditComponent implements OnInit{
 
   experienceForm!:FormGroup;
 
+  private _userStoreSubscription!:Subscription;
+
   constructor(
     private readonly _formBuilder:FormBuilder,
     private readonly _userStore:Store<{ user:User }>,
@@ -33,10 +36,10 @@ export class UserExperienceEditComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
-    this._userStore.select(getUserId).subscribe((res) => this.userId = res)
+    this._userStoreSubscription = this._userStore.select(getUserId).subscribe((res) => this.userId = res)
     if(this.data) {
       this.Heading = 'Edit Experience'
-      this._userStore.select(getExperienceById(this.data)).subscribe( res => this.exp = res) 
+      this._userStoreSubscription = this._userStore.select(getExperienceById(this.data)).subscribe( res => this.exp = res) 
     }
     this.experienceForm = this._formBuilder.group({
       jobTitle: [this.exp?.jobTitle || '', [Validators.required]],
@@ -135,6 +138,10 @@ export class UserExperienceEditComponent implements OnInit{
     } else {
       this.experienceForm.markAllAsTouched()
     }
+  }
+
+  ngOnDestroy(): void {
+    this._userStoreSubscription?.unsubscribe()
   }
 
 }

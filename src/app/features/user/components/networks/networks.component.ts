@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, Output } from '@angular/core';
 import { User, userStateModel } from '../../user-store/user.model';
 import { UserAPIServiceService } from '../../services/user-api-service.service';
 import { EmployerApiServiceService } from '../../../company/services/employer-api-service.service';
@@ -9,13 +9,14 @@ import { Employer } from '../../../company/store/employer.model';
 import { FilterOptions } from '../../../../models/filterOptions';
 import { initFlowbite } from 'flowbite';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-networks',
   templateUrl: './networks.component.html',
   styleUrl: './networks.component.scss'
 })
-export class NetworksComponent implements OnInit, AfterViewInit{
+export class NetworksComponent implements OnInit, AfterViewInit, OnDestroy{
   @Output() currentPageNo:number = 1;
   @Output() maxItemPerPage:number = 12;
   @Output() totalUserProfile!:number;
@@ -64,6 +65,10 @@ export class NetworksComponent implements OnInit, AfterViewInit{
 
   profileType!:'users' | 'companies' | null
 
+  private _queryParamsSubscription!:Subscription;
+  private _userAPIsSubscription!:Subscription;
+  private _userStoreSubscription!:Subscription;
+
   constructor(
     private readonly _userAPIs: UserAPIServiceService,
     private readonly _employerAPIs: EmployerApiServiceService,
@@ -72,7 +77,7 @@ export class NetworksComponent implements OnInit, AfterViewInit{
   ) { }
 
   ngOnInit(): void {
-    this._activatedRoute.queryParamMap.subscribe({
+    this._queryParamsSubscription = this._activatedRoute.queryParamMap.subscribe({
       next: queries => {
 
         const query = queries.get('profileType')
@@ -106,7 +111,7 @@ export class NetworksComponent implements OnInit, AfterViewInit{
       
         console.log(this.profileType);
         
-        this._userAPIs.fetchUsers(this.currentPageNo, filterUserQueryString).subscribe({
+        this._userAPIsSubscription = this._userAPIs.fetchUsers(this.currentPageNo, filterUserQueryString).subscribe({
           next: response => {
             this._userStore.dispatch(loadUsersSuccess({ users: response.users }))
             this.totalUserProfile = response.totalNoOfUsers
@@ -117,7 +122,7 @@ export class NetworksComponent implements OnInit, AfterViewInit{
           }
         })
     
-        this._userAPIs.fetchEmployersData(this.currentPageNo, filterEmployerQueryString).subscribe({
+        this._userAPIsSubscription = this._userAPIs.fetchEmployersData(this.currentPageNo, filterEmployerQueryString).subscribe({
           next: response => {
             console.log(response.employers);
             this._userStore.dispatch(loadEmployersSuccess({ employers: response.employers }))
@@ -131,7 +136,7 @@ export class NetworksComponent implements OnInit, AfterViewInit{
       }
     })
 
-    this._userStore.select(getUsers).subscribe({
+    this._userStoreSubscription = this._userStore.select(getUsers).subscribe({
       next: response => {
         console.log('usr',response);
         
@@ -139,7 +144,7 @@ export class NetworksComponent implements OnInit, AfterViewInit{
       }
     })
 
-    this._userStore.select(getEmployers).subscribe({
+    this._userAPIsSubscription = this._userStore.select(getEmployers).subscribe({
       next: response => {
         console.log('emp',response);
         
@@ -157,6 +162,12 @@ export class NetworksComponent implements OnInit, AfterViewInit{
       return `${encodeURIComponent(key)}=${encodeURIComponent(params[key].join(','))}`;
     });
     return queryStrings.join('&');
+  }
+
+  ngOnDestroy(): void {
+    this._queryParamsSubscription?.unsubscribe()
+    this._userAPIsSubscription?.unsubscribe()
+    this._userStoreSubscription?.unsubscribe()
   }
 
 }

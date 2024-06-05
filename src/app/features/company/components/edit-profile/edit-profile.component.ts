@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Employer } from '../../store/employer.model';
 import { TuiCountryIsoCode } from '@taiga-ui/i18n';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -8,13 +8,14 @@ import { Store } from '@ngrx/store';
 import { getEmployerData } from '../../store/employer.selector';
 import { updateEmployer } from '../../store/employer.actions';
 import { EmployerApiServiceService } from '../../services/employer-api-service.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
   styleUrl: './edit-profile.component.scss'
 })
-export class EditProfileComponent {
+export class EditProfileComponent implements OnDestroy{
 
   employerData!: Employer;
   industries:string[] = ['IT Service and Consulting','Media']
@@ -25,6 +26,9 @@ export class EditProfileComponent {
 
   readonly countries = Object.values(TuiCountryIsoCode);
   countryIsoCode = TuiCountryIsoCode.IN
+
+  private _employerStoreSubscription!:Subscription;
+  private _employerAPIsSubscription!:Subscription;
 
   constructor(
     private readonly _employerAPIs:EmployerApiServiceService,
@@ -103,6 +107,11 @@ export class EditProfileComponent {
     } else {
       this.updateProfileForm.markAllAsTouched()
     }  
+  }
+
+  ngOnDestroy(): void {
+    this._employerAPIsSubscription?.unsubscribe()
+    this._employerStoreSubscription?.unsubscribe()
   }
 
 }

@@ -1,21 +1,24 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { User } from '../../user-store/user.model';
 import { getUserId, getUserSkills } from '../../user-store/user.selector';
 import { updateUserSkills } from '../../user-store/user.actions';
 import { UserProfileEditModalService } from '../../services/user-profile-edit-modal.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-skills-edit',
   templateUrl: './user-skills-edit.component.html',
   styleUrl: './user-skills-edit.component.scss'
 })
-export class UserSkillsEditComponent implements OnInit{
+export class UserSkillsEditComponent implements OnInit, OnDestroy{
 
   userSkills:string[] | undefined;
   skillsForm!:FormGroup;
   user_id!:string;
+
+  private _userStoreSubscription!:Subscription;
 
   constructor(
     private readonly _formBuilder:FormBuilder,
@@ -24,8 +27,8 @@ export class UserSkillsEditComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
-    this._userStore.select(getUserSkills).subscribe((skills) => this.userSkills = skills)
-    this._userStore.select(getUserId).subscribe((id) => this.user_id = id)
+    this._userStoreSubscription = this._userStore.select(getUserSkills).subscribe((skills) => this.userSkills = skills)
+    this._userStoreSubscription = this._userStore.select(getUserId).subscribe((id) => this.user_id = id)
     this.skillsForm = this._formBuilder.group({
       skills : this.initSkills() 
     })
@@ -65,4 +68,7 @@ export class UserSkillsEditComponent implements OnInit{
     }
   }
 
+  ngOnDestroy(): void {
+    this._userStoreSubscription?.unsubscribe()
+  }
 }

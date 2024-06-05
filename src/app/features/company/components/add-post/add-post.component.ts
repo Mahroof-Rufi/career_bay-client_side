@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { AddPostModalService } from '../../services/add-post-modal.service';
 import { Store } from '@ngrx/store';
@@ -9,13 +9,14 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { addPostSuccess, deletePostSuccess, loadEmployerPostsSuccess } from '../../store/employer.actions';
 import { getPostById } from '../../store/employer.selector';
 import { EmployerPosts, Post } from '../../store/employer.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-add-post',
   templateUrl: './add-post.component.html',
   styleUrl: './add-post.component.scss'
 })
-export class AddPostComponent implements OnInit{
+export class AddPostComponent implements OnInit, OnDestroy{
 
   descriptionControl!:FormControl;
   imageFiles: File[] = [];
@@ -25,6 +26,10 @@ export class AddPostComponent implements OnInit{
   post_id!:string;
 
   postDescription!:string;
+
+  private _employerStoreSubscription!:Subscription;
+  private _postAPIsSubscription!:Subscription;
+  private _alertSubscription!:Subscription;
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
@@ -40,7 +45,7 @@ export class AddPostComponent implements OnInit{
     this.messageType = data?.messageType
     this.post_id = data.post_id
     if (this.messageType == 'editPost') {
-      this._employerStore.select(getPostById(this.post_id)).subscribe({
+      this._employerStoreSubscription = this._employerStore.select(getPostById(this.post_id)).subscribe({
         next: (response:any) => {
           console.log(response);
           
@@ -98,15 +103,14 @@ export class AddPostComponent implements OnInit{
         if (this.oldImageUrls && this.oldImageUrls.length > 0) {
           postData.append('oldImageUrls', JSON.stringify(this.oldImageUrls));
         }
-        this._postsAPIS.editPost( postData).subscribe({
+        this._postAPIsSubscription = this._postsAPIS.editPost( postData).subscribe({
           next: response => {
             console.log(response);
             this._employerStore.dispatch(loadEmployerPostsSuccess({ posts:response.updatedPosts }))
           },
 
           error: err => {
-            console.error(err); 
-            this._alert.open('', {
+            this._alertSubscription = this._alert.open('', {
               label: err.error.message,
               status: 'error',
               autoClose: true,
@@ -116,14 +120,13 @@ export class AddPostComponent implements OnInit{
 
         })
       } else {
-        this._postsAPIS.addPost(postData).subscribe({
+        this._postAPIsSubscription = this._postsAPIS.addPost(postData).subscribe({
           next: response => {          
             this._employerStore.dispatch(addPostSuccess({ posts:response.updatedPosts }))
           },
   
           error: err => {
-            console.error(err); 
-            this._alert.open('', {
+            this._alertSubscription = this._alert.open('', {
               label: err.error.message,
               status: 'error',
               autoClose: true,
@@ -143,13 +146,13 @@ export class AddPostComponent implements OnInit{
   }
 
   confirmDelete(postId:string) {
-    this._postsAPIS.deletePost(postId).subscribe({
+    this._postAPIsSubscription = this._postsAPIS.deletePost(postId).subscribe({
       next: (response:any) => {
         this._employerStore.dispatch(deletePostSuccess({ post_id:response.post_id }))
       },
        
       error: err => {
-        this._alert.open('', {
+        this._alertSubscription = this._alert.open('', {
           label: err.error.message,
           status: 'error',
           autoClose: true,
@@ -158,5 +161,11 @@ export class AddPostComponent implements OnInit{
       },
     })
     this._addPostModal.closeAddPostDialogue()
+  }
+
+  ngOnDestroy(): void {
+    this._employerStoreSubscription?.unsubscribe()
+    this._postAPIsSubscription?.unsubscribe()
+    this._alertSubscription?.unsubscribe()
   }
 }

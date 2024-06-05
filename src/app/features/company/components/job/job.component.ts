@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, Output } from '@angular/core';
 import { AddJobPostService } from '../../services/add-job-post-modal.service';
 import { Employer, Job } from '../../store/employer.model';
 import { Store } from '@ngrx/store';
@@ -11,13 +11,14 @@ import { closeHiring, loadEmployerJobs, loadEmployerJobsSuccess } from '../../st
 import { initFlowbite } from 'flowbite';
 import { FilterOptions } from '../../../../models/filterOptions';
 import { AuthApiService } from '../../../../services/auth-api-service.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-job',
   templateUrl: './job.component.html',
   styleUrl: './job.component.scss'
 })
-export class JobComponent implements OnInit, AfterViewInit {
+export class JobComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() jobs!: Job[]
   @Output() totalJobs!: number;
   @Output() maxItemInPerPage: number = 10;
@@ -34,6 +35,10 @@ export class JobComponent implements OnInit, AfterViewInit {
     { label: 'job location', subOptions: [{ label: 'on-site', key: 'remort', value: 'false' }, { label: 'remort', key: 'remort', value: 'true' }], type: 'CheckBox' },
     { label: 'experience level', subOptions: [{ label: 'entry level', key: 'experienceLevel', value: 'EntryLevel' }, { label: 'junior level', key: 'experienceLevel', value: 'Junior' }, { label: 'mid level', key: 'experienceLevel', value: 'Mid Level' }, { label: 'senior level', key: 'experienceLevel', value: 'Senior level' }, { label: 'manager', key: 'experienceLevel', value: 'Manager' }, { label: 'director', key: 'experienceLevel', value: 'Director' }], type: 'CheckBox' },
   ]
+
+  private _queryParamsSubscription!:Subscription;
+  private _jobsAPIsSubscription!:Subscription;
+  private _employerRefreshTokenSubscription!:Subscription;
 
   constructor(
     private readonly _authService: AuthApiService,
@@ -135,5 +140,11 @@ export class JobComponent implements OnInit, AfterViewInit {
   closeHiring(job_id: string) {
     // this._employerStore.dispatch(closeHiring({ job_id:job_id }))
     this._deleteJobConfirmation.openCloseHiringConfirmation(job_id)
+  }
+
+  ngOnDestroy(): void {
+    this._jobsAPIsSubscription?.unsubscribe()
+    this._queryParamsSubscription?.unsubscribe()
+    this._employerRefreshTokenSubscription?.unsubscribe()
   }
 }

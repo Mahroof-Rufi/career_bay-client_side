@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '../../user-store/user.model';
 import { Store } from '@ngrx/store';
@@ -6,13 +6,14 @@ import { getUserData } from '../../user-store/user.selector';
 import { noSpaceAllowed } from '../../../../validators/no-space-allowed.validator';
 import { updateUserProfile } from '../../user-store/user.actions';
 import { UserProfileEditModalService } from '../../services/user-profile-edit-modal.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-main-details-edit',
   templateUrl: './user-main-details-edit.component.html',
   styleUrl: './user-main-details-edit.component.scss'
 })
-export class UserMainDetailsEditComponent implements OnInit{
+export class UserMainDetailsEditComponent implements OnInit, OnDestroy{
 
   profileForm!:FormGroup;
   states:string[] = ['Kerala', 'TamilNad', 'Karnataka']
@@ -21,6 +22,8 @@ export class UserMainDetailsEditComponent implements OnInit{
   user_id!:string;
   profile_url:string | undefined | ArrayBuffer | null;
 
+  private _userStoreSubscription!:Subscription;
+
   constructor(
     private readonly _formBuilder:FormBuilder,
     private readonly _userStore:Store<{ user:User }>,
@@ -28,7 +31,7 @@ export class UserMainDetailsEditComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
-    this._userStore.select(getUserData).subscribe({
+    this._userStoreSubscription = this._userStore.select(getUserData).subscribe({
       next: userData => {
         this.profileForm = this._formBuilder.group({
           firstName: [userData.firstName || '', [Validators.required, noSpaceAllowed]],
@@ -92,6 +95,10 @@ export class UserMainDetailsEditComponent implements OnInit{
       this.profileForm.markAllAsTouched()
       
     }
+  }
+
+  ngOnDestroy(): void {
+    this._userStoreSubscription?.unsubscribe()
   }
 
 }

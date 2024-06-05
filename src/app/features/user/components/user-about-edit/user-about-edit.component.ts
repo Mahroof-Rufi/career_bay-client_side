@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { User } from '../../user-store/user.model';
@@ -7,16 +7,19 @@ import { getUserAbout } from '../../user-store/user.selector';
 import { UserProfileEditModalService } from '../../services/user-profile-edit-modal.service';
 import { Router } from '@angular/router';
 import { updateUserAbout } from '../../user-store/user.actions';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-about-edit',
   templateUrl: './user-about-edit.component.html',
   styleUrl: './user-about-edit.component.scss'
 })
-export class UserAboutEditComponent implements OnInit{
+export class UserAboutEditComponent implements OnInit, OnDestroy{
 
   aboutForm!:FormGroup;
   userId!:string;
+
+  private _userStoreSubscription!:Subscription;
   
   constructor(
     private readonly _formBuilder:FormBuilder,
@@ -25,7 +28,7 @@ export class UserAboutEditComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
-    this._userStore.select(getUserAbout).subscribe({
+    this._userStoreSubscription = this._userStore.select(getUserAbout).subscribe({
       next: response => {
         this.aboutForm = this._formBuilder.group({
           about: [response.about, [Validators.required, Validators.maxLength(600)]]
@@ -46,6 +49,10 @@ export class UserAboutEditComponent implements OnInit{
     } else {
       this.aboutForm.markAllAsTouched()
     }
+  }
+
+  ngOnDestroy(): void {
+    this._userStoreSubscription?.unsubscribe()
   }
 
 }

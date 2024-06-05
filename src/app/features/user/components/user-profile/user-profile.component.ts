@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { User, UserMainDetails, education, experience } from '../../user-store/user.model';
 import { Store } from '@ngrx/store';
 import { getUserData } from '../../user-store/user.selector';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss'
 })
-export class UserProfileComponent implements OnInit{
+export class UserProfileComponent implements OnInit, OnDestroy{
 
   userMainDetails!:UserMainDetails;
   about:string | undefined;
@@ -16,12 +17,14 @@ export class UserProfileComponent implements OnInit{
   educations: education[] | undefined
   skills: string[] | undefined
 
+  private _userStoreSubscription!:Subscription;
+
   constructor(
     private readonly _userStore:Store<{ user:User }>
   ) {}
 
   ngOnInit(): void {
-    this._userStore.select(getUserData).subscribe({
+    this._userStoreSubscription = this._userStore.select(getUserData).subscribe({
       next: response => {
         this.userMainDetails = {
           _id: response._id,
@@ -47,6 +50,10 @@ export class UserProfileComponent implements OnInit{
         this.skills = response.skills 
       }
     })
+  }
+
+  ngOnDestroy(): void {
+    this._userStoreSubscription?.unsubscribe()
   }
 
 }

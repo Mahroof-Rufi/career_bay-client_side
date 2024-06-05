@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -9,13 +9,14 @@ import { Store } from '@ngrx/store';
 import { getJobById } from '../../store/employer.selector';
 import { addJobPost, updateJob } from '../../store/employer.actions';
 import { JobsApiServiceService } from '../../../../shared/services/jobs-api-service.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-add-job',
   templateUrl: './add-job.component.html',
   styleUrl: './add-job.component.scss'
 })
-export class AddJobComponent implements OnInit{
+export class AddJobComponent implements OnInit, OnDestroy{
 
   states:string[] = ['Kerala','Karnataka','Telengana'];
   jobTypes:string[] = ['FullTime', 'PartTime', 'Contract'];
@@ -27,6 +28,10 @@ export class AddJobComponent implements OnInit{
 
   editJob!:Job | undefined;
   heading:string = 'Add Job Post';
+
+  private _jobAPISubscription!:Subscription;
+  private _alertSubscription!:Subscription;
+  private _employerStoreSubscription!:Subscription;
   
   constructor(
     private readonly _formBuilder:FormBuilder,
@@ -42,7 +47,7 @@ export class AddJobComponent implements OnInit{
   ngOnInit(): void {
     if(this.data) {
       this.heading = 'Edit Job Post'
-      this._employerStore.select(getJobById(this.data)).subscribe( res => {
+      this._employerStoreSubscription = this._employerStore.select(getJobById(this.data)).subscribe( res => {
         this.editJob = res
       } ) 
     }
@@ -143,11 +148,11 @@ export class AddJobComponent implements OnInit{
     if (this.jobPostFrom.valid) {
       const jobData:FormData = this.jobPostFrom.value
       if (this.editJob) {
-        this._jobsAPIs.companyEditJobPost(this.editJob._id, jobData).subscribe({
+        this._jobAPISubscription = this._jobsAPIs.companyEditJobPost(this.editJob._id, jobData).subscribe({
           next: response => {
             this._employerStore.dispatch(updateJob({ id:response.updatedJob._id, updatedJob:response.updatedJob }))
             this._addJobModal.closeModal()
-            this._alert.open('', {
+            this._alertSubscription = this._alert.open('', {
               label: 'Job Post updated successful',
               status: 'success',
               autoClose: true,
@@ -155,7 +160,7 @@ export class AddJobComponent implements OnInit{
             }).subscribe()
           },
           error: err => {
-            this._alert.open('', {
+            this._alertSubscription = this._alert.open('', {
               label: err.message,
               status: 'error',
               autoClose: true,
@@ -164,11 +169,11 @@ export class AddJobComponent implements OnInit{
           }
         })
       } else {
-        this._jobsAPIs.companyAddJobPost(jobData).subscribe({
+        this._jobAPISubscription = this._jobsAPIs.companyAddJobPost(jobData).subscribe({
           next: response => {
             this._employerStore.dispatch(addJobPost({ job:response.job }))
             this._addJobModal.closeModal()
-            this._alert.open('', {
+            this._alertSubscription = this._alert.open('', {
               label: 'Job Post Successful',
               status: 'success',
               autoClose: true,
@@ -178,7 +183,7 @@ export class AddJobComponent implements OnInit{
           
           error: err => {
             this._router.navigateByUrl('/home')
-            this._alert.open('', {
+            this._alertSubscription = this._alert.open('', {
               label: err.error.message,
               status: 'error',
               autoClose: true,
@@ -190,6 +195,12 @@ export class AddJobComponent implements OnInit{
     } else {      
       this.jobPostFrom.markAllAsTouched()
     }
+  }
+
+  ngOnDestroy(): void {
+    this._jobAPISubscription?.unsubscribe()
+    this._employerStoreSubscription?.unsubscribe()
+    this._alertSubscription?.unsubscribe()
   }
 
 }

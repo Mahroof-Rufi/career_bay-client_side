@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { User, adminStateModel } from '../../store/admin.model';
 import { getUsersData } from '../../store/admin.selector';
@@ -7,13 +7,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthApiService } from '../../../../services/auth-api-service.service';
 import { FilterOptions } from '../../../../models/filterOptions';
 import { initFlowbite } from 'flowbite';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss'
 })
-export class UsersComponent implements OnInit, AfterViewInit{
+export class UsersComponent implements OnInit, AfterViewInit, OnDestroy{
   @Output() currentPageNo:number = 1;
   @Output() maxItemPerPage:number = 10;
   @Output() totalUserProfiles!:number;
@@ -49,6 +50,9 @@ export class UsersComponent implements OnInit, AfterViewInit{
 
   users!:User[];
 
+  queryParamSubscription!:Subscription;
+  adminTokenRefreshedSubscription!:Subscription;
+
   constructor(
     private readonly _authService:AuthApiService,
     private readonly _activatedRoute:ActivatedRoute,
@@ -56,7 +60,7 @@ export class UsersComponent implements OnInit, AfterViewInit{
   ) {}
 
   ngOnInit(): void {
-    this._activatedRoute.queryParamMap.subscribe({
+    this.queryParamSubscription = this._activatedRoute.queryParamMap.subscribe({
       next: queries => {
 
         const pageNo = queries.get('page')
@@ -77,7 +81,8 @@ export class UsersComponent implements OnInit, AfterViewInit{
         this._adminStore.dispatch(loadUsers({ pageNo:this.currentPageNo, queries:filterQueryString }))
       }
     })
-    this._authService.$adminTokenRefreshed.subscribe(res => this._adminStore.dispatch(loadUsers({ pageNo:this.currentPageNo })))
+
+    this.adminTokenRefreshedSubscription = this._authService.$adminTokenRefreshed.subscribe(res => this._adminStore.dispatch(loadUsers({ pageNo:this.currentPageNo })))
     this._adminStore.select(getUsersData).subscribe((data) => {
       this.users = data.users 
       this.totalUserProfiles = data.totalUsersCount
@@ -101,6 +106,11 @@ export class UsersComponent implements OnInit, AfterViewInit{
       return `${encodeURIComponent(key)}=${encodeURIComponent(params[key].join(','))}`;
     });
     return queryStrings.join('&');
+  }
+
+  ngOnDestroy(): void {
+    this.queryParamSubscription?.unsubscribe()
+    this.adminTokenRefreshedSubscription?.unsubscribe()
   }
 
 }

@@ -1,18 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { User } from '../../user-store/user.model';
 import { Store } from '@ngrx/store';
 import { getUserData } from '../../user-store/user.selector';
 import { Router } from '@angular/router';
 import { UserProfileEditModalService } from '../../services/user-profile-edit-modal.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
-export class NavbarComponent implements OnInit{
+export class NavbarComponent implements OnInit, OnDestroy{
 
   userData!:User;
+
+  private _userStoreSubscription!:Subscription;
 
   constructor(
     private readonly _userStore:Store<{ user:User }>,
@@ -21,7 +24,7 @@ export class NavbarComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
-    this._userStore.select(getUserData).subscribe((res) => this.userData = res)
+    this._userStoreSubscription = this._userStore.select(getUserData).subscribe((res) => this.userData = res)
   }
 
   logout() {
@@ -32,6 +35,10 @@ export class NavbarComponent implements OnInit{
 
   changeEmail() {
     this._profileEditModal.openChangeEmailModal()
+  }
+
+  ngOnDestroy(): void {
+    this._userStoreSubscription?.unsubscribe()
   }
 
 }

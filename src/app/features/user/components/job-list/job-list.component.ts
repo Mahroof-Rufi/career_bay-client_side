@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, Output } from '@angular/core';
 import { Job, User } from '../../user-store/user.model';
 import { Store } from '@ngrx/store';
 import { getJobsData } from '../../user-store/user.selector';
@@ -7,13 +7,14 @@ import { ActivatedRoute } from '@angular/router';
 import { loadUserJobsSuccess } from '../../user-store/user.actions';
 import { FilterOptions } from '../../../../models/filterOptions';
 import { initFlowbite } from 'flowbite';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-job-list',
   templateUrl: './job-list.component.html',
   styleUrl: './job-list.component.scss'
 })
-export class JobListComponent implements OnInit, AfterViewInit{
+export class JobListComponent implements OnInit, AfterViewInit, OnDestroy{
   @Output() currentPageNo:number = 1;
   @Output() maxItemPerPage:number = 12;
   @Output() totalNoOfJobs!:number;
@@ -26,6 +27,10 @@ export class JobListComponent implements OnInit, AfterViewInit{
     { label: 'experience level', subOptions: [{ label: 'entry level', key: 'experienceLevel', value: 'EntryLevel' }, { label: 'junior level', key: 'experienceLevel', value: 'Junior' }, { label: 'mid level', key: 'experienceLevel', value: 'Mid Level' }, { label: 'senior level', key: 'experienceLevel', value: 'Senior level' }, { label: 'manager', key: 'experienceLevel', value: 'Manager' }, { label: 'director', key: 'experienceLevel', value: 'Director' }], type: 'CheckBox' },
   ]
 
+  private _queryParamsSubscription!:Subscription;
+  private _jobsAPIsSubscription!:Subscription;
+  private _userStoreSubscription!:Subscription;
+
   constructor(
     private _userStore:Store<{ user:User }>,
     private readonly _jobsAPIs:JobsApiServiceService,
@@ -35,7 +40,7 @@ export class JobListComponent implements OnInit, AfterViewInit{
   sort!:string;
 
   ngOnInit(): void {
-    this._activatedRoute.queryParamMap.subscribe({
+    this._queryParamsSubscription = this._activatedRoute.queryParamMap.subscribe({
       next: queries => {
 
         const queryParams: any = {};
@@ -57,7 +62,7 @@ export class JobListComponent implements OnInit, AfterViewInit{
 
         const filterQueryString = this.constructQueryString(queryParams);
         
-        this._jobsAPIs.userFetchALLJobs(this.currentPageNo || 1, this.sort, filterQueryString).subscribe({          
+        this._jobsAPIsSubscription = this._jobsAPIs.userFetchALLJobs(this.currentPageNo || 1, this.sort, filterQueryString).subscribe({          
           next: response  => {
             console.log(response);
             this._userStore.dispatch(loadUserJobsSuccess({ jobs:response.data }))
@@ -71,7 +76,7 @@ export class JobListComponent implements OnInit, AfterViewInit{
       }
     })
 
-    this._userStore.select(getJobsData).subscribe((data) => this.jobs = data)
+    this._userStoreSubscription = this._userStore.select(getJobsData).subscribe((data) => this.jobs = data)
   }
 
   ngAfterViewInit(): void {
@@ -83,6 +88,12 @@ export class JobListComponent implements OnInit, AfterViewInit{
       return `${encodeURIComponent(key)}=${encodeURIComponent(params[key].join(','))}`;
     });
     return queryStrings.join('&');
+  }
+
+  ngOnDestroy(): void {
+    this._userStoreSubscription?.unsubscribe()
+    this._queryParamsSubscription?.unsubscribe()
+    this._jobsAPIsSubscription?.unsubscribe()
   }
 
 }

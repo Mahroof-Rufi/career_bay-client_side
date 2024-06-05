@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { initFlowbite } from 'flowbite';
@@ -8,19 +8,24 @@ import { AppliedUsers, EmployerState } from '../../store/employer.model';
 import { ApplicationsConfirmationModalService } from '../../services/applications-confirmation-modal.service';
 import { loadApplicants } from '../../store/employer.actions';
 import { AuthApiService } from '../../../../services/auth-api-service.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-under-review-applicants',
   templateUrl: './under-review-applicants.component.html',
   styleUrl: './under-review-applicants.component.scss'
 })
-export class UnderReviewApplicantsComponent implements AfterViewInit, OnInit{
+export class UnderReviewApplicantsComponent implements AfterViewInit, OnInit, OnDestroy{
 
   routeQuery:string | null = 'under-review' ;
   options:string[] = ['under-review', 'under-interview', 'finalists', 'on-hold', 'hired'];
   applicants!:AppliedUsers
   filteredApplicants!:any[]
   job_id!:string | null;
+
+  private _queryParamsSubscription!:Subscription;
+  private _employerRefreshTokenSubscription!:Subscription;
+  private _employerStoreSubscription!:Subscription;
 
   constructor(
     private readonly _authService:AuthApiService,
@@ -33,13 +38,13 @@ export class UnderReviewApplicantsComponent implements AfterViewInit, OnInit{
   ngOnInit(): void {
     this.job_id = this._activatedRoute.snapshot.paramMap.get('job_id')
     
-    this._activatedRoute.queryParamMap.subscribe((values) => {
+    this._queryParamsSubscription = this._activatedRoute.queryParamMap.subscribe((values) => {
 
       if (this.job_id) {
         this._employerStore.dispatch(loadApplicants({ jobId: this.job_id }));
       }
 
-      this._authService.$employerTokenRefreshed.subscribe({
+      this._employerRefreshTokenSubscription = this._authService.$employerTokenRefreshed.subscribe({
         next: response => {
           if (this.job_id) {
             this._employerStore.dispatch(loadApplicants({ jobId: this.job_id }));
@@ -57,7 +62,7 @@ export class UnderReviewApplicantsComponent implements AfterViewInit, OnInit{
       
     })
 
-    this._employerStore.select(getApplicants).subscribe((data) => {
+    this._employerStoreSubscription = this._employerStore.select(getApplicants).subscribe((data) => {
       this.applicants = data  
       this.filterAppliedUsersByStatus(this.routeQuery)
     } )
@@ -116,6 +121,12 @@ export class UnderReviewApplicantsComponent implements AfterViewInit, OnInit{
 
   reject(user_id:string) {
     this._confirmationService.openApplicationRejectDialogue(this.job_id, user_id, 'reject')
+  }
+
+  ngOnDestroy(): void {
+    this._employerRefreshTokenSubscription?.unsubscribe()
+    this._employerStoreSubscription?.unsubscribe()
+    this._queryParamsSubscription?.unsubscribe()
   }
   
 }

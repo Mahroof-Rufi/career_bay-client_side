@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Job, User } from '../../user-store/user.model';  
@@ -6,13 +6,14 @@ import { getJobById, getJobIsApplied as getJobIsApplied, getJobIsSaved, getUserI
 import { ApplyJobConfirmationService } from '../../services/apply-job-confirmation.service';
 import { JobsApiServiceService } from '../../../../shared/services/jobs-api-service.service';
 import { isApplied, isSaved } from '../../user-store/user.actions';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-job-detailed-view',
   templateUrl: './job-detailed-view.component.html',
   styleUrl: './job-detailed-view.component.scss'
 })
-export class JobDetailedViewComponent implements OnInit{
+export class JobDetailedViewComponent implements OnInit, OnDestroy{
 
   jobId!:string;
   user_id!:string;
@@ -20,6 +21,8 @@ export class JobDetailedViewComponent implements OnInit{
 
   isApplied: boolean | null = null;
   isSaved!: boolean;
+
+  private _userStoreSubscription!:Subscription;
 
   constructor(
     private readonly _route:ActivatedRoute,
@@ -31,10 +34,11 @@ export class JobDetailedViewComponent implements OnInit{
     this.jobId = this._route.snapshot.params['id'];
     this._userStore.dispatch(isApplied({ jobId:this.jobId }))
     this._userStore.dispatch(isSaved({ jobId:this.jobId }))
-    this._userStore.select(getUserId).subscribe(userId => this.user_id = userId)
-    this._userStore.select(getJobIsApplied).subscribe((value) => this.isApplied = value)
-    this._userStore.select(getJobIsSaved).subscribe((value) => this.isSaved = value)
-    this._userStore.select(getJobById(this.jobId)).subscribe((res) => this.jobData = res)
+
+    this._userStoreSubscription = this._userStore.select(getUserId).subscribe(userId => this.user_id = userId)
+    this._userStoreSubscription = this._userStore.select(getJobIsApplied).subscribe((value) => this.isApplied = value)
+    this._userStoreSubscription = this._userStore.select(getJobIsSaved).subscribe((value) => this.isSaved = value)
+    this._userStoreSubscription = this._userStore.select(getJobById(this.jobId)).subscribe((res) => this.jobData = res)
   }
 
   applyJob(job_id:string,applyJob:boolean = true) {
@@ -47,6 +51,10 @@ export class JobDetailedViewComponent implements OnInit{
 
   unSaveJob(job_id:string) {
     this._applyConfirmationModal.openUnSaveJobConfirmationModal(job_id)
+  }
+
+  ngOnDestroy(): void {
+    this._userStoreSubscription?.unsubscribe()
   }
 
 }

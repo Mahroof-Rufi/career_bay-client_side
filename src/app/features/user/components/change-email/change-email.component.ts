@@ -13,9 +13,8 @@ import { AuthApiService } from '../../../../services/auth-api-service.service';
 })
 export class ChangeEmailComponent implements OnInit,OnDestroy{
 
-  apiServiceSubscription!:Subscription;
-  successAlertSubscription!:Subscription;
-  failureAlertSubscription!:Subscription;
+  private _userAPIsSubscription!:Subscription;
+  private _alertSubscription!:Subscription;
 
   changeEmailForm!:FormGroup;
 
@@ -53,14 +52,14 @@ export class ChangeEmailComponent implements OnInit,OnDestroy{
     if (this.changeEmailForm.get('currentEmail')?.valid) {
       const currentEmail = this.changeEmailForm.get('currentEmail')?.value
 
-      this.apiServiceSubscription = this._userAPIs.changeEmailSendOTP(currentEmail).subscribe({
+      this._userAPIsSubscription = this._userAPIs.changeEmailSendOTP(currentEmail).subscribe({
         next: response => {
           this.OTP_BTN1 = 'Resend OTP'
           this.time1 = this.startingMinute1 * 60;
           this.timerInterval1 = setInterval(() => {
             this.updateTimer(1);
           }, 1000);
-          this.successAlertSubscription = this._alert.open('', {
+          this._alertSubscription = this._alert.open('', {
             label: response.message,
             status: 'success',
             autoClose: true,
@@ -69,7 +68,7 @@ export class ChangeEmailComponent implements OnInit,OnDestroy{
         },
 
         error: err => {
-          this.failureAlertSubscription = this._alert.open('', {
+          this._alertSubscription = this._alert.open('', {
             label: err.error.message,
             status: 'error',
             autoClose: true,
@@ -87,14 +86,14 @@ export class ChangeEmailComponent implements OnInit,OnDestroy{
     if (this.changeEmailForm.get('newEmail')?.valid) {
       const newEmail = this.changeEmailForm.get('newEmail')?.value
 
-      this._authAPIs.userRequestOTP(newEmail).subscribe({
+      this._userAPIsSubscription = this._authAPIs.userRequestOTP(newEmail).subscribe({
         next: response => {
           this.OTP_BTN2 = 'Resend OTP'
           this.time2 = this.startingMinute1 * 60;
           this.timerInterval2 = setInterval(() => {
             this.updateTimer(2);
           }, 1000);
-          this._alert.open('', {
+          this._alertSubscription = this._alert.open('', {
             label: response,
             status: 'success',
             autoClose: true,
@@ -103,7 +102,7 @@ export class ChangeEmailComponent implements OnInit,OnDestroy{
         },
 
         error: err => {
-          this._alert.open('', {
+          this._alertSubscription = this._alert.open('', {
             label: err.error,
             status: 'error',
             autoClose: true,
@@ -121,9 +120,9 @@ export class ChangeEmailComponent implements OnInit,OnDestroy{
     if (this.changeEmailForm.valid) {
       const formData = this.changeEmailForm.value;
 
-      this._userAPIs.userUpdateEmail(formData).subscribe({
+      this._userAPIsSubscription = this._userAPIs.userUpdateEmail(formData).subscribe({
         next: response => {
-          this._alert.open('', {
+          this._alertSubscription = this._alert.open('', {
             label: response.message,
             status: 'success',
             autoClose: true,
@@ -131,7 +130,7 @@ export class ChangeEmailComponent implements OnInit,OnDestroy{
           }).subscribe()
         },
         error: err => {
-          this._alert.open('', {
+          this._alertSubscription = this._alert.open('', {
             label: err.error.message,
             status: 'error',
             autoClose: true,
@@ -168,9 +167,8 @@ export class ChangeEmailComponent implements OnInit,OnDestroy{
   } 
 
   ngOnDestroy(): void {
-    this.apiServiceSubscription.unsubscribe()
-    this.successAlertSubscription.unsubscribe()
-    this.failureAlertSubscription.unsubscribe()
+    this._userAPIsSubscription?.unsubscribe()
+    this._alertSubscription?.unsubscribe()
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { TuiAlertService, TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { DeleteJobConfirmationService } from '../../services/delete-job-confirmation.service';
@@ -6,13 +6,14 @@ import { Store } from '@ngrx/store';
 import { Employer } from '../../store/employer.model';
 import { closeHiring, deleteJob } from '../../store/employer.actions';
 import { JobsApiServiceService } from '../../../../shared/services/jobs-api-service.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-delete-job-confirmation',
   templateUrl: './delete-job-confirmation.component.html',
   styleUrl: './delete-job-confirmation.component.scss'
 })
-export class DeleteJobConfirmationComponent implements OnInit{
+export class DeleteJobConfirmationComponent implements OnInit, OnDestroy{
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
@@ -25,6 +26,9 @@ export class DeleteJobConfirmationComponent implements OnInit{
 
   editJobId!:string;
   messageType!:'deleteJob' | 'CloseHiring';
+
+  private _jobsAPIsSubscription!:Subscription;
+  private _alertSubscription!:Subscription;
 
   ngOnInit(): void {
     if(this.data) {
@@ -43,9 +47,9 @@ export class DeleteJobConfirmationComponent implements OnInit{
   }
 
   confirmDelete(jobId:string) {
-    this._jobAPIs.companyDeleteJob(jobId).subscribe( res => {
+    this._jobsAPIsSubscription = this._jobAPIs.companyDeleteJob(jobId).subscribe( res => {
       this._employerState.dispatch(deleteJob({ id:jobId }))
-      this._alert.open('', {
+      this._alertSubscription = this._alert.open('', {
         label: 'Job Post delete successful',
         status: 'success',
         autoClose: true,
@@ -54,7 +58,7 @@ export class DeleteJobConfirmationComponent implements OnInit{
       this._confirmDeleteDialogue.closeModal()
     }, err => {
       console.log(err);
-      this._alert.open('', {
+      this._alertSubscription = this._alert.open('', {
         label: err.error.message,
         status: 'error',
         autoClose: true,
@@ -66,5 +70,10 @@ export class DeleteJobConfirmationComponent implements OnInit{
   closeHiring(job_id:string) {
     this._confirmDeleteDialogue.closeModal()
     this._employerState.dispatch(closeHiring({ job_id:job_id }))
+  }
+
+  ngOnDestroy(): void {
+    this._jobsAPIsSubscription?.unsubscribe()
+    this._alertSubscription?.unsubscribe()
   }
 }

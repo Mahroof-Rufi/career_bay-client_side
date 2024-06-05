@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Employer, adminStateModel } from '../../store/admin.model';
 import { getCompaniesData } from '../../store/admin.selector';
@@ -7,13 +7,14 @@ import { AuthApiService } from '../../../../services/auth-api-service.service';
 import { ActivatedRoute } from '@angular/router';
 import { FilterOptions } from '../../../../models/filterOptions';
 import { initFlowbite } from 'flowbite';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-companies',
   templateUrl: './companies.component.html',
   styleUrl: './companies.component.scss'
 })
-export class CompaniesComponent implements OnInit, AfterViewInit{
+export class CompaniesComponent implements OnInit, AfterViewInit, OnDestroy{
   @Output() currentPageNo:number = 1;
   @Output() maxItemPerPage:number = 10;
   @Output() totalEmployerProfile!:number;
@@ -49,6 +50,9 @@ export class CompaniesComponent implements OnInit, AfterViewInit{
 
   companies!:Employer[];
 
+  queryParamMapSubscription!:Subscription;
+  adminTokenRefreshedSubscription!:Subscription;
+
   constructor(
     private readonly _authService:AuthApiService,
     private readonly _activatedRoute:ActivatedRoute,
@@ -56,7 +60,8 @@ export class CompaniesComponent implements OnInit, AfterViewInit{
   ) {}
 
   ngOnInit(): void {
-    this._activatedRoute.queryParamMap.subscribe({
+    this.queryParamMapSubscription = this._activatedRoute.queryParamMap.subscribe({
+
       next: queries => {
 
         const pageNo = queries.get('page')
@@ -72,13 +77,11 @@ export class CompaniesComponent implements OnInit, AfterViewInit{
         });
 
         const filterQueryString = this.constructQueryString(queryParams);
-
         this._adminStore.dispatch(loadEmployers({ pageNo:this.currentPageNo,queries:filterQueryString }))
       }
     })
     
-    this._authService.$adminTokenRefreshed.subscribe(res => this._adminStore.dispatch(loadEmployers({ pageNo:this.currentPageNo })))
-
+    this.adminTokenRefreshedSubscription = this._authService.$adminTokenRefreshed.subscribe(res => this._adminStore.dispatch(loadEmployers({ pageNo:this.currentPageNo })))
     this._adminStore.select(getCompaniesData).subscribe((data) => {
       this.companies = data.employers;
       this.totalEmployerProfile = data.totalEmployersCount
@@ -102,6 +105,11 @@ export class CompaniesComponent implements OnInit, AfterViewInit{
       return `${encodeURIComponent(key)}=${encodeURIComponent(params[key].join(','))}`;
     });
     return queryStrings.join('&');
+  }
+
+  ngOnDestroy(): void {
+    this.queryParamMapSubscription?.unsubscribe()
+    this.adminTokenRefreshedSubscription?.unsubscribe()
   }
 
 }

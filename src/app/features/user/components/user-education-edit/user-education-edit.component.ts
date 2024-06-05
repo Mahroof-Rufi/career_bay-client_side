@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
@@ -7,19 +7,22 @@ import { editUserEducation } from '../../user-store/user.actions';
 import { getEducationById, getUserId } from '../../user-store/user.selector';
 import { UserProfileEditModalService } from '../../services/user-profile-edit-modal.service';
 import { TuiDialogContext } from '@taiga-ui/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-education-edit',
   templateUrl: './user-education-edit.component.html',
   styleUrl: './user-education-edit.component.scss'
 })
-export class UserEducationEditComponent implements OnInit{
+export class UserEducationEditComponent implements OnInit, OnDestroy{
 
   educationForm!:FormGroup;
 
   Heading:string = "Add Education" 
   userId!:string;
   education:education | undefined;
+
+  private _userStoreSubscription!:Subscription;
 
   constructor(
     private readonly _formBuilder:FormBuilder,
@@ -30,10 +33,10 @@ export class UserEducationEditComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
-    this._userStore.select(getUserId).subscribe(res => this.userId = res)
+    this._userStoreSubscription = this._userStore.select(getUserId).subscribe(res => this.userId = res)
     if(this.data) {
       this.Heading = 'Edit Education'
-      this._userStore.select(getEducationById(this.data)).subscribe({
+      this._userStoreSubscription = this._userStore.select(getEducationById(this.data)).subscribe({
         next: response => {
           this.education = response
         }
@@ -110,6 +113,10 @@ export class UserEducationEditComponent implements OnInit{
     } else {
       this.educationForm.markAllAsTouched()
     }
+  }
+
+  ngOnDestroy(): void {
+    this._userStoreSubscription?.unsubscribe()
   }
 
 }

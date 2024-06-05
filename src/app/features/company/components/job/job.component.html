@@ -70,7 +70,9 @@
                             <i class="fa-solid fa-trash cursor-pointer" (click)="deleteJob(job._id)"></i>
                             <i class="fa-solid fa-list-check cursor-pointer"
                                 [routerLink]="['/employer/job/applicants', job._id]"></i>
-                            <i class="fa-solid fa-circle-xmark cursor-pointer" (click)="closeHiring(job._id)"></i>
+                            @if (job.active) {
+                                <i class="fa-solid fa-circle-xmark cursor-pointer" (click)="closeHiring(job._id)"></i>
+                            }
                         </div>
                     </td>
                 </tr>

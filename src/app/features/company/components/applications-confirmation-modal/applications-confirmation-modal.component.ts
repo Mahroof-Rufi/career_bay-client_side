@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { Store } from '@ngrx/store';
@@ -6,15 +6,18 @@ import { Employer } from '../../store/employer.model';
 import { getEmployerId } from '../../store/employer.selector';
 import { ApplicationsConfirmationModalService } from '../../services/applications-confirmation-modal.service';
 import { rejectApplication, updateApplicationStatus } from '../../store/employer.actions';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-applications-confirmation-modal',
   templateUrl: './applications-confirmation-modal.component.html',
   styleUrl: './applications-confirmation-modal.component.scss'
 })
-export class ApplicationsConfirmationModalComponent implements OnInit{
+export class ApplicationsConfirmationModalComponent implements OnInit, OnDestroy{
 
   employerId!:string;
+
+  private _employerStoreSubscription!:Subscription;
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
@@ -52,5 +55,9 @@ export class ApplicationsConfirmationModalComponent implements OnInit{
   confirmReject() {
     this._applicationConfirmationModal.closeApplicationRejectionDialogue()
     this._employerStore.dispatch(rejectApplication({ job_id:this.data.jobId, user_id:this.data.userId }))
+  }
+
+  ngOnDestroy(): void {
+    this._employerStoreSubscription?.unsubscribe()
   }
 }

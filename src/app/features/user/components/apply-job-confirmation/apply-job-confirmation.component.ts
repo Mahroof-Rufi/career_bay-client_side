@@ -16,9 +16,10 @@ import { Subscription } from 'rxjs';
 export class ApplyJobConfirmationComponent implements OnInit,OnDestroy{
 
   user_id!:string
-  getUserIdSubscription!:Subscription;
   job_id!:string;
   type!:string;
+
+  private _getUserIdSubscription!:Subscription;
 
   constructor(
     private readonly _applyJobConfirmationService:ApplyJobConfirmationService,
@@ -29,7 +30,7 @@ export class ApplyJobConfirmationComponent implements OnInit,OnDestroy{
 
 
   ngOnInit(): void {
-    this.getUserIdSubscription = this._userStore.select(getUserId).subscribe((res) => this.user_id = res)
+    this._getUserIdSubscription = this._userStore.select(getUserId).subscribe((res) => this.user_id = res)
     const data:any = this.data    
     this.job_id = data.jobId
     this.type = data.type
@@ -67,6 +68,6 @@ export class ApplyJobConfirmationComponent implements OnInit,OnDestroy{
   }
 
   ngOnDestroy(): void {
-    this.getUserIdSubscription.unsubscribe()
+    this._getUserIdSubscription.unsubscribe()
   }
 }

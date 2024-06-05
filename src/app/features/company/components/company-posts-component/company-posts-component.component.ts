@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, Output } from '@angular/core';
 import { AddPostModalService } from '../../services/add-post-modal.service';
 import { Store } from '@ngrx/store';
 import { Employer, EmployerPosts, Post } from '../../store/employer.model';
@@ -9,13 +9,14 @@ import { ActivatedRoute } from '@angular/router';
 import { PostsApiServiceService } from '../../../../shared/services/posts-api-service.service';
 import { AuthApiService } from '../../../../services/auth-api-service.service';
 import { FilterOptions } from '../../../../models/filterOptions';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-company-posts-component',
   templateUrl: './company-posts-component.component.html',
   styleUrl: './company-posts-component.component.scss'
 })
-export class CompanyPostsComponentComponent implements OnInit, AfterViewInit{
+export class CompanyPostsComponentComponent implements OnInit, AfterViewInit, OnDestroy{
   @Output() posts!:any
   @Output() totalPosts!:number;
   @Output() maxItemInPerPage:number = 5;
@@ -26,6 +27,11 @@ export class CompanyPostsComponentComponent implements OnInit, AfterViewInit{
   ]
 
   sort!:string;
+
+  private _queryParamMapSubscription!:Subscription;
+  private _postAPIsSubscription!:Subscription;
+  private _employerTokenRefreshedSubscription!:Subscription;
+  private _employerStoreSubscription!:Subscription;
 
   constructor(
     private readonly _authService:AuthApiService,
@@ -38,7 +44,6 @@ export class CompanyPostsComponentComponent implements OnInit, AfterViewInit{
   ngOnInit(): void {
     this._activatedRoute.queryParamMap.subscribe({
       next: response => {
-        console.log('nnnnnnn');
         
         const queryParams: any = {};
         response.keys.forEach(key => {
@@ -104,5 +109,12 @@ export class CompanyPostsComponentComponent implements OnInit, AfterViewInit{
 
   deletePost(post_id:string) {
     this._addPostModal.openDeletePostConfirmation(post_id)
+  }
+
+  ngOnDestroy(): void {
+    this._queryParamMapSubscription?.unsubscribe()
+    this._postAPIsSubscription?.unsubscribe()
+    this._employerStoreSubscription?.unsubscribe()
+    this._employerTokenRefreshedSubscription?.unsubscribe()
   }
 }
