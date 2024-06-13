@@ -39,6 +39,7 @@ import { FilterComponent } from './components/filter/filter.component';
 import { PeopleComponent } from './components/people/people.component';
 import { CompanyComponent } from './components/company/company.component';
 import { RouterModule } from '@angular/router';
+import { InboxComponent } from './components/inbox/inbox.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { RouterModule } from '@angular/router';
     FilterComponent,
     PeopleComponent,
     CompanyComponent,
+    InboxComponent,
   ],
   imports: [
     CommonModule,
@@ -122,7 +124,8 @@ import { RouterModule } from '@angular/router';
     PaginationComponent,
     FilterComponent,
     PeopleComponent,
-    CompanyComponent
+    CompanyComponent,
+    InboxComponent
   ],
   providers: [
     JobsApiServiceService,

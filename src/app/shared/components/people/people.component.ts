@@ -7,6 +7,7 @@ import { User } from '../../../features/user/user-store/user.model';
   styleUrl: './people.component.scss'
 })
 export class PeopleComponent {
-  @Input() userData!:User;
+  @Input() userData!:User | any;
+  @Input() viewType!: 'Inbox view'
 
 }

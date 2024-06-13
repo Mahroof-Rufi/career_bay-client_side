@@ -324,7 +324,7 @@ export class userEffects {
     _applyJob = createEffect(() => this._actions.pipe(
         ofType(applyJob),
         exhaustMap((action) => {
-            return this._jobsAPIs.userApplyJob(action.job_id).pipe(
+            return this._jobsAPIs.userApplyJob(action.formData).pipe(
                 map((data:any) => {
                     this._alert.open('', {
                         label: 'Job application send successfully',

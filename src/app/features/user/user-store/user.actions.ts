@@ -85,7 +85,7 @@ export const deleteUserEducationSuccess = createAction(DELETE_USER_EDUCATION_SUC
 
 export const updateUserSkills = createAction(UPDATE_USER_SKILLS, props<{ skills:string[] }>());
 
-export const applyJob = createAction(APPLY_JOB, props<{ job_id:string }>());
+export const applyJob = createAction(APPLY_JOB, props<{ formData:FormData }>());
 export const applyJobSuccess = createAction(APPLY_JOB_SUCCESS, props<{ updatedAppliedJobs:AppliedJobs }>());
 
 export const saveJob = createAction(SAVE_JOB, props<{ job_id:string }>());

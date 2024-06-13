@@ -16,8 +16,8 @@ export class JobsApiServiceService {
     return this._http.get(environment.baseURL+`jobs/jobs?page=${pageNo}&sort=${sort}&${filterQuery}`)
   }
 
-  userApplyJob(job_id:string):Observable<any> {
-    return this._http.patch(environment.baseURL + 'job-applicants/apply-job', { jobId:job_id })
+  userApplyJob(formData:FormData):Observable<any> {
+    return this._http.post(environment.baseURL + 'job-applicants/apply-job', formData)
   }
 
   userVerifyApplication(job_id:string):Observable<any> {
