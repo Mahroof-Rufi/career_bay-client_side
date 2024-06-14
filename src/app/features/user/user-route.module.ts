@@ -25,6 +25,7 @@ const routes: Routes = [
         { path: 'posts', component:PostsComponent },
         { path: 'networks', component:NetworksComponent },
         { path: 'inbox', component:InboxComponent },
+        { path: 'inbox/:id', component:InboxComponent },
         { path: 'user-profile/:id', component:UserProfileCommonViewComponent },
         { path: 'employer-profile/:id', component:CompanyProfileCommonViewComponent },
         { path: 'applied-jobs/:id', component:AppliedJobsComponent, },
