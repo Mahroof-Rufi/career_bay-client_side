@@ -35,11 +35,14 @@ export class UserChatService {
 
   sendMessage(sender: string, receiver: string, text: string, createdAt: Date): void {
     this._socket.emit('sendMessage', { sender, receiver, text, createdAt });
+    this._http.post(environment.baseURL + 'chat/user/save-message', { receiver_id:receiver, content:text }).subscribe()
   }
 
   onMessage(): Observable<any> {
     return new Observable(observer => {
       this._socket.on('message', (data:any) => {
+        console.log('new',data);
+        
         observer.next(data);
       });
     });

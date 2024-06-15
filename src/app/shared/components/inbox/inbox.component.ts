@@ -45,16 +45,19 @@ export class InboxComponent implements OnInit{
       }
     })
 
-    this._userStore.select(getUserId).subscribe( id => this.user_id = id)
+    this._userStore.select(getUserId).subscribe( id => {
+      this.user_id = id
+      this._userChat.addUser(this.user_id);
+    })
 
     this._userChat.getUserConnections().subscribe({
       next: res => console.log(res)
     })
 
-    this._userChat.addUser(this.user_id);
-
     this._userChat.onMessage().subscribe(message => {
       this.messages.push(message);
+      console.log('up',this.messages);
+      
     });
 
   }
@@ -95,7 +98,6 @@ export class InboxComponent implements OnInit{
       };
   
       this._userChat.sendMessage(this.user_id, this.receiver_id, this.message, new Date());
-      this.messages.push(message);
       this.message = '';
     }
     

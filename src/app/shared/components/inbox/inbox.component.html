@@ -22,7 +22,7 @@
     </div>
 
     @if (receiver_id && oppositeUserData) {
-        <div class="w-9/12 border-2 my-2 mx-3 rounded-lg flex flex-col justify-between">
+        <div class="w-9/12 border-2 my-2 mx-3 rounded-lg flex flex-col">
             <div>
                 <div class="flex mx-5 my-1 border-b-2 py-2">
                     <img [src]="oppositeUserData.profile_url" alt="profile" class="w-14 h-14 rounded-full">
@@ -32,21 +32,24 @@
                     </div>
                 </div>
             </div>
-
-            <div class="chat-messages">
-                <div *ngFor="let message of messages; trackBy: trackByCreated" class="message" [ngClass]="{'sent': message.sender === user_id, 'received': message.sender !== user_id}">
-                  <p>{{ message.content }}</p>
-                  <span class="message-time">{{ message.createdAt | date:'shortTime' }}</span>
+        
+            <div class="chat-messages flex flex-col flex-grow overflow-y-auto p-4">
+                <div *ngFor="let message of messages; trackBy: trackByCreated" 
+                     class="message my-2 p-2 rounded-lg max-w-xs" 
+                     [ngClass]="{'sent': message.sender === user_id, 'received': message.sender !== user_id}">
+                    <p>{{ message.content }}</p>
+                    <span class="message-time text-xs text-gray-500">{{ message.createdAt | date:'shortTime' }}</span>
                 </div>
-              </div>
-    
-            <div class="flex items-center border-t-2">
-                <input type="text" placeholder="Enter message..." class="flex-grow border-none px-3 py-2" [(ngModel)]="message">
+            </div>
+        
+            <div class="flex items-center border-t-2 p-2">
+                <input type="text" placeholder="Enter message..." class="flex-grow border-none px-3 py-2 focus:outline-none" [(ngModel)]="message">
                 <div class="flex items-center space-x-6 px-3">
-                    <i class="fa-solid fa-plus text-xl"></i>
-                    <i class="fa-solid fa-paper-plane text-xl" (click)="sendMessage()"></i>
+                    <i class="fa-solid fa-plus text-xl cursor-pointer"></i>
+                    <i class="fa-solid fa-paper-plane text-xl cursor-pointer" (click)="sendMessage()"></i>
                 </div>
             </div>
         </div>
+        
     }
 </div>
