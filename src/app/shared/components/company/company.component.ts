@@ -7,5 +7,6 @@ import { Employer } from '../../../features/company/store/employer.model';
   styleUrl: './company.component.scss'
 })
 export class CompanyComponent {
+  @Input() viewType: 'Inbox view' | 'Normal view' = 'Normal view';
   @Input() employerData!:Employer;
 }

@@ -21,8 +21,12 @@ export class UserChatService {
     this._socket.emit('add_user', userId);
   }
 
+  addConnection(connection_id:string, isUser:boolean) {
+    return this._http.post(environment.baseURL + 'chat/user/add-connection', { connection_id, isUser })
+  }
+
   getUserConnections() {
-    return this._http.get(environment.baseURL + 'chat/user/get-connections')
+    return this._http.get(`${environment.baseURL}chat/user/get-connections`)
   }
 
   startChat(to: string): void {
@@ -33,9 +37,9 @@ export class UserChatService {
     return this._http.get(`${environment.baseURL}chat/user/get-messages/${receiver_id}`);
   }
 
-  sendMessage(sender: string, receiver: string, text: string, createdAt: Date): void {
+  sendMessage(sender: string, receiver: string, text: string, createdAt: Date, profileType:string): void {
     this._socket.emit('sendMessage', { sender, receiver, text, createdAt });
-    this._http.post(environment.baseURL + 'chat/user/save-message', { receiver_id:receiver, content:text }).subscribe()
+    this._http.post(environment.baseURL + 'chat/user/save-message', { receiver_id:receiver, content:text, profileType }).subscribe()
   }
 
   onMessage(): Observable<any> {

@@ -107,9 +107,7 @@ export class NetworksComponent implements OnInit, AfterViewInit, OnDestroy{
         });
 
         const filterUserQueryString = this.constructQueryString(userQueryParams);
-        const filterEmployerQueryString = this.constructQueryString(employerQueryParams);        
-      
-        console.log(this.profileType);
+        const filterEmployerQueryString = this.constructQueryString(employerQueryParams); 
         
         this._userAPIsSubscription = this._userAPIs.fetchUsers(this.currentPageNo, filterUserQueryString).subscribe({
           next: response => {

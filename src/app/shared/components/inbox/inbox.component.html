@@ -2,21 +2,40 @@
     <div class="w-3/12 px-5 py-2">
         <app-search></app-search>
     
-        <div class="flex justify-center py-1">
-            <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
-                <ul class="flex flex-wrap -mb-px">
-                    <li class="me-2">
-                        <p class="inline-block p-4 text-mainColor border-b-2 border-mainColor rounded-t-lg active dark:text-blue-500 dark:border-blue-500 cursor-pointer">People</p>
-                    </li>
-                    <li class="me-2">
-                        <p  class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 cursor-pointer" aria-current="page">Companies</p>
-                    </li>
-                </ul>
+        @if (profileType == 'Users') {
+            <div class="flex justify-center py-1">
+                <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
+                    <ul class="flex flex-wrap -mb-px">
+                        <li class="me-2">
+                            <p (click)="showUsers()" class="inline-block p-4 text-mainColor border-b-2 border-mainColor rounded-t-lg active dark:text-blue-500 dark:border-blue-500 cursor-pointer">People</p>
+                        </li>
+                        <li class="me-2">
+                            <p (click)="showEmployers()" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 cursor-pointer" aria-current="page">Companies</p>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-
-        @for (people of sampleUser; track $index) {
-            <app-people [userData]="people" [viewType]="'Inbox view'"></app-people>
+    
+            @for (people of connections?.connections?.users; track $index) {
+                <app-people [userData]="people" [viewType]="'Inbox view'"></app-people>
+            }
+        } @else if (profileType == 'Employers') {
+            <div class="flex justify-center py-1">
+                <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
+                    <ul class="flex flex-wrap -mb-px">
+                        <li class="me-2">
+                            <p (click)="showUsers()" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg dark:text-blue-500 dark:border-blue-500 cursor-pointer">People</p>
+                        </li>
+                        <li class="me-2">
+                            <p (click)="showEmployers()" class="inline-block p-4 text-mainColor border-b-2 border-mainColor rounded-t-lg active hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 cursor-pointer" aria-current="page">Companies</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+    
+            @for (people of connections?.connections?.employers; track $index) {
+                <app-company [employerData]="people" [viewType]="'Inbox view'"></app-company>
+            }
         }
 
     </div>
@@ -26,10 +45,17 @@
             <div>
                 <div class="flex mx-5 my-1 border-b-2 py-2">
                     <img [src]="oppositeUserData.profile_url" alt="profile" class="w-14 h-14 rounded-full">
-                    <div class="mx-3 items-center">
-                        <h1 class="text-lg text-black font-bannerText">{{ oppositeUserData.firstName }} {{ oppositeUserData.lastName }}</h1>
-                        <h1 class="text-sm text-thirdGrey font-bannerText">online</h1>
-                    </div>
+                    @if (profileType == 'Users') {
+                        <div class="mx-3 items-center">
+                            <h1 class="text-lg text-black font-bannerText">{{ oppositeUserData.firstName }} {{ oppositeUserData.lastName }}</h1>
+                            <h1 class="text-sm text-thirdGrey font-bannerText">online</h1>
+                        </div>
+                    } @else if (profileType == 'Employers') {
+                        <div class="mx-3 items-center">
+                            <h1 class="text-lg text-black font-bannerText">{{ oppositeUserData.companyName }}</h1>
+                            <h1 class="text-sm text-thirdGrey font-bannerText">online</h1>
+                        </div>
+                    }
                 </div>
             </div>
         
@@ -50,6 +76,5 @@
                 </div>
             </div>
         </div>
-        
     }
 </div>
