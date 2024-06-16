@@ -5,6 +5,7 @@ import { JobComponent } from "./components/job/job.component";
 import { MainComponentComponent } from "./components/main-component/main-component.component";
 import { UnderReviewApplicantsComponent } from "./components/under-review-applicants/under-review-applicants.component";
 import { CompanyPostsComponentComponent } from "./components/company-posts-component/company-posts-component.component";
+import { InboxComponent } from "../../shared/components/inbox/inbox.component";
 const routes: Routes = [
     { path: '', component:MainComponentComponent, children:[
         { path:'', redirectTo:'profile', pathMatch:'full' },
@@ -12,6 +13,8 @@ const routes: Routes = [
         { path: 'jobs', component:JobComponent },
         { path: 'job/applicants/:job_id', component:UnderReviewApplicantsComponent },
         { path: 'posts', component:CompanyPostsComponentComponent },
+        { path: 'inbox', component:InboxComponent },
+        { path: 'inbox/:id', component:InboxComponent },
     ] }
 ]
 

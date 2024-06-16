@@ -6,7 +6,6 @@ import { Store } from '@ngrx/store';
 import { getUserId } from '../../../features/user/user-store/user.selector';
 import { UserAPIServiceService } from '../../../features/user/services/user-api-service.service';
 import { Chat } from '../../../models/chat';
-import { EmployerApiServiceService } from '../../../features/company/services/employer-api-service.service';
 
 @Component({
   selector: 'app-inbox',
@@ -46,8 +45,11 @@ export class InboxComponent implements OnInit{
 
     this._activatedRoute.paramMap.subscribe({
       next: params => {
-        this.receiver_id = params.get('id')        
-        this.loadChat()
+        const receiver_id = params.get('id')
+        if (receiver_id) {
+          this.receiver_id = receiver_id        
+          this.loadChat()
+        }
       }
     })
 
@@ -68,19 +70,23 @@ export class InboxComponent implements OnInit{
       const isConnectionExist = this.connections?.connections?.users?.find((connection:any) => connection._id == this.receiver_id)
       if (isConnectionExist) {
         this.oppositeUserData = isConnectionExist
+        this.getMessages()
       } else {
         if (this.profileType == 'Users') {
           this._userAPIs.fetchUserProfileById(this.receiver_id).subscribe({
-            next: response => this.oppositeUserData = response.userData
+            next: response => {
+              this.oppositeUserData = response.userData
+              this.getMessages()
+            }
           })
         } else if (this.profileType == 'Employers') {
           this._userAPIs.fetchEmployerProfileById(this.receiver_id).subscribe({
             next: response => {
               this.oppositeUserData = response.employerData 
+              this.getMessages()
             }
           })
         }
-        this.getMessages()
       }
     }
   }
@@ -98,7 +104,11 @@ export class InboxComponent implements OnInit{
   getMessages() {
     if (this.receiver_id) {
       this._userChat.getMessagesByReceiverId(this.receiver_id).subscribe({
-        next: response => this.messages = response.chats
+        next: response => {
+          console.log(response);
+          
+          this.messages = response.chats
+        }
       })      
     }
   }
