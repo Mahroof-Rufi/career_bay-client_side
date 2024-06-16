@@ -6,6 +6,8 @@ import { Store } from '@ngrx/store';
 import { getUserId } from '../../../features/user/user-store/user.selector';
 import { UserAPIServiceService } from '../../../features/user/services/user-api-service.service';
 import { Chat } from '../../../models/chat';
+import { EmployerState } from '../../../features/company/store/employer.model';
+import { getEmployerId } from '../../../features/company/store/employer.selector';
 
 @Component({
   selector: 'app-inbox',
@@ -14,6 +16,7 @@ import { Chat } from '../../../models/chat';
 })
 export class InboxComponent implements OnInit{
   
+  context!:string;
   profileType: string = 'Users'
   user_id!:string;
   receiver_id:string | null = null;
@@ -29,7 +32,8 @@ export class InboxComponent implements OnInit{
     private readonly _userAPIs:UserAPIServiceService,
     private readonly _activatedRoute:ActivatedRoute,
     private readonly _router:Router,
-    private readonly _userStore:Store<{ user:userStateModel }>
+    private readonly _userStore:Store<{ user:userStateModel }>,
+    private readonly _employerStore:Store<{ employer:EmployerState }>
   ) {}
 
   ngOnInit(): void {
@@ -46,6 +50,8 @@ export class InboxComponent implements OnInit{
     this._activatedRoute.paramMap.subscribe({
       next: params => {
         const receiver_id = params.get('id')
+        const context = params.get('context')
+        if (context) this.context = context
         if (receiver_id) {
           this.receiver_id = receiver_id        
           this.loadChat()
@@ -53,20 +59,31 @@ export class InboxComponent implements OnInit{
       }
     })
 
-    this._userStore.select(getUserId).subscribe( id => {
-      this.user_id = id
-      this._userChat.addUser(this.user_id);
-    })
+    if (this.context == 'user') {
+      this._userStore.select(getUserId).subscribe( id => {
+        this.user_id = id
+        this._userChat.addUser(this.user_id);
+      })
+    } else if (this.context == 'employer') {
+      this._employerStore.select(getEmployerId).subscribe( id => {
+        this.user_id = id
+        this._userChat.addUser(this.user_id)
+      })
+    }
 
     this._userChat.onMessage().subscribe(message => {
       this.messages.push(message);
     });
 
-    this.getUserConnections()
+    if (this.context == 'user') {
+      this.getUserConnections()
+    } else if (this.context == 'employer') {
+      this.getEmployerConnections()
+    }
   }
 
   loadChat() {
-    if (this.receiver_id) {
+    if (this.context == 'user' && this.receiver_id) {
       const isConnectionExist = this.connections?.connections?.users?.find((connection:any) => connection._id == this.receiver_id)
       if (isConnectionExist) {
         this.oppositeUserData = isConnectionExist
@@ -88,25 +105,37 @@ export class InboxComponent implements OnInit{
           })
         }
       }
+    } else if (this.context == 'employer' && this.receiver_id) {
+      const isConnectionExist = this.connections?.connections?.users?.find((connection:any) => connection._id == this.receiver_id)
+      if (isConnectionExist) {
+        this.oppositeUserData = isConnectionExist
+        this.getMessages()
+      } else {
+        this._userAPIs.fetchUserProfileById(this.receiver_id).subscribe({
+          next: response => {
+            this.oppositeUserData = response.userData
+            this.getMessages()
+          }
+        })
+        
+      }
     }
   }
 
   getUserConnections() {
     this._userChat.getUserConnections().subscribe({
-      next: (res:any) => {       
-        console.log(res);
-         
-        this.connections = res.connections
-      }
+      next: (res:any) => this.connections = res.connections
     })
+  }
+
+  getEmployerConnections() {
+    
   }
 
   getMessages() {
     if (this.receiver_id) {
       this._userChat.getMessagesByReceiverId(this.receiver_id).subscribe({
-        next: response => {
-          console.log(response);
-          
+        next: response => {          
           this.messages = response.chats
         }
       })      

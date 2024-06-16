@@ -13,8 +13,8 @@ const routes: Routes = [
         { path: 'jobs', component:JobComponent },
         { path: 'job/applicants/:job_id', component:UnderReviewApplicantsComponent },
         { path: 'posts', component:CompanyPostsComponentComponent },
-        { path: 'inbox', component:InboxComponent },
-        { path: 'inbox/:id', component:InboxComponent },
+        { path: 'inbox/:context', component:InboxComponent },
+        { path: 'inbox/:context/:id', component:InboxComponent },
     ] }
 ]
 

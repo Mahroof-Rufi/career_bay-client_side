@@ -29,6 +29,10 @@ export class UserChatService {
     return this._http.get(`${environment.baseURL}chat/user/get-connections`)
   }
 
+  getEmployerConnections() {
+    return this._http.get(environment.baseURL + 'chat/employer/get-connections')
+  }
+
   startChat(to: string): void {
     this._socket.emit('chat:started', { to });
   }
