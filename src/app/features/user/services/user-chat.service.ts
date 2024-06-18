@@ -21,8 +21,12 @@ export class UserChatService {
     this._socket.emit('add_user', userId);
   }
 
-  addConnection(connection_id:string, isUser:boolean) {
+  addUserConnection(connection_id:string, isUser:boolean) {
     return this._http.post(environment.baseURL + 'chat/user/add-connection', { connection_id, isUser })
+  }
+
+  addEmployerConnection(connection_id:string) {
+    return this._http.post(environment.baseURL + 'chat/employer/add-connection', { connection_id })
   }
 
   getUserConnections() {
@@ -33,24 +37,35 @@ export class UserChatService {
     return this._http.get(environment.baseURL + 'chat/employer/get-connections')
   }
 
+  getUserById(user_id:string) {
+    return this._http.get(`${environment.baseURL}chat/employer/get-user?user_id=${user_id}`)
+  }
+
   startChat(to: string): void {
     this._socket.emit('chat:started', { to });
   }
 
-  getMessagesByReceiverId(receiver_id: string): Observable<any> {
+  getUserMessagesByReceiverId(receiver_id: string): Observable<any> {
     return this._http.get(`${environment.baseURL}chat/user/get-messages/${receiver_id}`);
   }
 
-  sendMessage(sender: string, receiver: string, text: string, createdAt: Date, profileType:string): void {
+  getEmployerMessagesByReceiverId(receiver_id: string): Observable<any> {
+    return this._http.get(`${environment.baseURL}chat/employer/get-messages/${receiver_id}`);
+  }
+
+  sendMessageByUser(sender: string, receiver: string, text: string, createdAt: Date, profileType:string): void {
     this._socket.emit('sendMessage', { sender, receiver, text, createdAt });
     this._http.post(environment.baseURL + 'chat/user/save-message', { receiver_id:receiver, content:text, profileType }).subscribe()
+  }
+
+  sendMessageByEmployer(sender: string, receiver: string, text: string, createdAt: Date, profileType:string): void {
+    this._socket.emit('sendMessage', { sender, receiver, text, createdAt });
+    this._http.post(environment.baseURL + 'chat/employer/save-message', { receiver_id:receiver, content:text, profileType }).subscribe()
   }
 
   onMessage(): Observable<any> {
     return new Observable(observer => {
       this._socket.on('message', (data:any) => {
-        console.log('new',data);
-        
         observer.next(data);
       });
     });

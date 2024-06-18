@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { UserChatService } from '../../../features/user/services/user-chat.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User, userStateModel } from '../../../features/user/user-store/user.model';
@@ -8,13 +8,15 @@ import { UserAPIServiceService } from '../../../features/user/services/user-api-
 import { Chat } from '../../../models/chat';
 import { EmployerState } from '../../../features/company/store/employer.model';
 import { getEmployerId } from '../../../features/company/store/employer.selector';
+import { EmployerApiServiceService } from '../../../features/company/services/employer-api-service.service';
+import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'app-inbox',
   templateUrl: './inbox.component.html',
   styleUrl: './inbox.component.scss'
 })
-export class InboxComponent implements OnInit{
+export class InboxComponent implements OnInit, AfterViewInit{
   
   context!:string;
   profileType: string = 'Users'
@@ -26,10 +28,12 @@ export class InboxComponent implements OnInit{
   messages: Chat[] = []
 
   message:string = ''
+  isOpen:boolean = false
 
   constructor(
     private readonly _userChat:UserChatService,
     private readonly _userAPIs:UserAPIServiceService,
+    private readonly _employerAPIs:EmployerApiServiceService,
     private readonly _activatedRoute:ActivatedRoute,
     private readonly _router:Router,
     private readonly _userStore:Store<{ user:userStateModel }>,
@@ -42,7 +46,7 @@ export class InboxComponent implements OnInit{
         const profileTypeQuery = queries.get('profileType')
         if (profileTypeQuery) {
           this.profileType = profileTypeQuery          
-          this.getUserConnections()
+          this.getConnections()
         }
       }
     })
@@ -75,11 +79,11 @@ export class InboxComponent implements OnInit{
       this.messages.push(message);
     });
 
-    if (this.context == 'user') {
-      this.getUserConnections()
-    } else if (this.context == 'employer') {
-      this.getEmployerConnections()
-    }
+    this.getConnections()
+  }
+
+  ngAfterViewInit(): void {
+    initFlowbite()
   }
 
   loadChat() {
@@ -111,14 +115,21 @@ export class InboxComponent implements OnInit{
         this.oppositeUserData = isConnectionExist
         this.getMessages()
       } else {
-        this._userAPIs.fetchUserProfileById(this.receiver_id).subscribe({
-          next: response => {
+        this._userChat.getUserById(this.receiver_id).subscribe({
+          next: (response:any) => {
             this.oppositeUserData = response.userData
             this.getMessages()
           }
         })
-        
-      }
+      }      
+    }
+  }
+
+  getConnections() {
+    if (this.context == 'user') {
+      this.getUserConnections()
+    } else if (this.context == 'employer') {
+      this.getEmployerConnections()
     }
   }
 
@@ -129,16 +140,24 @@ export class InboxComponent implements OnInit{
   }
 
   getEmployerConnections() {
-    
+    this._userChat.getEmployerConnections().subscribe({
+      next: (res:any) => this.connections = res.connections
+    })
   }
 
   getMessages() {
-    if (this.receiver_id) {
-      this._userChat.getMessagesByReceiverId(this.receiver_id).subscribe({
+    if (this.receiver_id && this.context == 'user') {
+      this._userChat.getUserMessagesByReceiverId(this.receiver_id).subscribe({
         next: response => {          
           this.messages = response.chats
         }
       })      
+    } else if (this.receiver_id && this.context == 'employer') {
+      this._userChat.getEmployerMessagesByReceiverId(this.receiver_id).subscribe({
+        next: response => {          
+          this.messages = response.chats
+        }
+      }) 
     }
   }
 
@@ -154,12 +173,25 @@ export class InboxComponent implements OnInit{
         createdAt: new Date()
       };
   
-      this._userChat.sendMessage(this.user_id, this.receiver_id, this.message, new Date(), this.profileType);
+      if (this.context == 'user') {
+        this._userChat.sendMessageByUser(this.user_id, this.receiver_id, this.message, new Date(), this.profileType);
+      } else if (this.context == 'employer') {
+        this._userChat.sendMessageByEmployer(this.user_id, this.receiver_id, this.message, new Date(), this.profileType);
+      }
       this.message = '';      
       if (this.messages.length == 0) {        
-        this._userChat.addConnection(this.receiver_id, this.profileType === 'Users').subscribe({
-          next: (response:any) => this.connections = response.connections
-        })
+        if (this.context == 'user') {
+          console.log('user coo');
+          
+          this._userChat.addUserConnection(this.receiver_id, this.profileType === 'Users').subscribe({
+            next: (response:any) => this.connections = response.connections
+          })
+        } else if (this.context == 'employer') {
+          console.log('employer coo');
+          this._userChat.addEmployerConnection(this.receiver_id).subscribe({
+            next: (response:any) => this.connections = response.connections
+          })
+        }
       }
     }
     
@@ -185,6 +217,10 @@ export class InboxComponent implements OnInit{
 
   trackByCreated(index: number, message: any): Date {
     return message.createdAt;
+  }
+
+  showOptions() {
+    this.isOpen = !this.isOpen
   }
 
 }

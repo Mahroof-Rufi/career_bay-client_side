@@ -81,6 +81,10 @@ export class UnderReviewApplicantsComponent implements AfterViewInit, OnInit, On
     return id; 
   }  
 
+  navigateToInbox(user_id:string) {
+    this._router.navigate(['/employer/inbox', 'employer', user_id]);
+  }
+
   navigateOptions(option:string) {
     switch (option) {
       case 'under-review':

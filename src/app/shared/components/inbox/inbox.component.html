@@ -19,7 +19,11 @@
             }
     
             @for (people of connections?.connections?.users; track $index) {
-                <app-people [userData]="people" [viewType]="'Inbox view'"></app-people>
+                @if (context == 'user') {
+                    <app-people [context]="'User'" [userData]="people" [viewType]="'Inbox view'"></app-people>
+                } @else if (context == 'employer') { 
+                    <app-people [context]="'Employer'" [userData]="people" [viewType]="'Inbox view'"></app-people>
+                }
             }
         } @else if (profileType == 'Employers') {
             <div class="flex justify-center py-1">
@@ -69,11 +73,21 @@
                     <span class="message-time text-xs text-gray-500">{{ message.createdAt | date:'shortTime' }}</span>
                 </div>
             </div>
+
+            @if (isOpen) {
+                <div class="w-full">
+                    <div class="flex items-center float-right border-t-2 border-gray-300 w-fit bg-white shadow-lg rounded-lg p-4 mt-4">
+                        <ul class="space-y-2">
+                          <li class="py-2 px-4 hover:bg-gray-100 rounded-md cursor-pointer transition-colors duration-200">Schedule Interview</li>
+                        </ul>
+                      </div>                      
+                </div>
+            }
         
             <div class="flex items-center border-t-2 p-2">
                 <input type="text" placeholder="Enter message..." class="flex-grow border-none px-3 py-2 focus:outline-none" [(ngModel)]="message">
-                <div class="flex items-center space-x-6 px-3">
-                    <i class="fa-solid fa-plus text-xl cursor-pointer"></i>
+                <div class="flex items-center space-x-6 px-3">    
+                    <i class="fa-solid fa-plus text-xl cursor-pointer" (click)="showOptions()"></i>
                     <i class="fa-solid fa-paper-plane text-xl cursor-pointer" (click)="sendMessage()"></i>
                 </div>
             </div>

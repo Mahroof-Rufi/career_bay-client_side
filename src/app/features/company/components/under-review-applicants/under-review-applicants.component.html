@@ -105,7 +105,7 @@
                                     </div>
                                 </td>
                                 <td class="px-2 py-4 text-center">
-                                    <button class="bg-blue-500 hover:bg-blue-300 rounded-lg py-2 text-white text-lg font-bannerText w-full">Schedule Interview</button>
+                                    <button (click)="navigateToInbox(user.user_id._id)" class="bg-blue-500 hover:bg-blue-300 rounded-lg py-2 text-white text-lg font-bannerText w-full">Schedule Interview</button>
                                 </td>
                                 <td class="px-6 py-4 text-center">
                                     <button (click)="accept(user.user_id._id)" class="bg-green-500 hover:bg-green-300 rounded-lg py-2 text-white text-lg font-bannerText w-full">
