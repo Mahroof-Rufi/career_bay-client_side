@@ -10,6 +10,7 @@ import { EmployerState } from '../../../features/company/store/employer.model';
 import { getEmployerId } from '../../../features/company/store/employer.selector';
 import { EmployerApiServiceService } from '../../../features/company/services/employer-api-service.service';
 import { initFlowbite } from 'flowbite';
+import { InterviewScheduleModalService } from '../../../features/company/services/interview-schedule-modal.service';
 
 @Component({
   selector: 'app-inbox',
@@ -37,7 +38,8 @@ export class InboxComponent implements OnInit, AfterViewInit{
     private readonly _activatedRoute:ActivatedRoute,
     private readonly _router:Router,
     private readonly _userStore:Store<{ user:userStateModel }>,
-    private readonly _employerStore:Store<{ employer:EmployerState }>
+    private readonly _employerStore:Store<{ employer:EmployerState }>,
+    private readonly _interviewScheduleModal:InterviewScheduleModalService
   ) {}
 
   ngOnInit(): void {
@@ -221,6 +223,12 @@ export class InboxComponent implements OnInit, AfterViewInit{
 
   showOptions() {
     this.isOpen = !this.isOpen
+  }
+
+  openInterviewScheduleModal() {
+    if (this.receiver_id) {
+      this._interviewScheduleModal.openInterviewScheduleModal(this.receiver_id)
+    }
   }
 
 }

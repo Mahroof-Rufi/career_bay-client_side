@@ -54,13 +54,19 @@ export class UserChatService {
   }
 
   sendMessageByUser(sender: string, receiver: string, text: string, createdAt: Date, profileType:string): void {
-    this._socket.emit('sendMessage', { sender, receiver, text, createdAt });
+    this._socket.emit('sendMessage', { sender, receiver, text, type:'text', createdAt });
     this._http.post(environment.baseURL + 'chat/user/save-message', { receiver_id:receiver, content:text, profileType }).subscribe()
   }
 
   sendMessageByEmployer(sender: string, receiver: string, text: string, createdAt: Date, profileType:string): void {
-    this._socket.emit('sendMessage', { sender, receiver, text, createdAt });
+    this._socket.emit('sendMessage', { sender, receiver, text, type:'text', createdAt });
     this._http.post(environment.baseURL + 'chat/employer/save-message', { receiver_id:receiver, content:text, profileType }).subscribe()
+  }
+
+  scheduleInterview(receiver_id:string, date:Date, time:string) {
+    console.log('send');
+    
+    return this._http.post(environment.baseURL + 'chat/employer/schedule-interview', {receiver_id, date, time})
   }
 
   onMessage(): Observable<any> {

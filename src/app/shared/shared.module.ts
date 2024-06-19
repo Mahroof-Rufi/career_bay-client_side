@@ -8,6 +8,7 @@ import {
   TuiDataListDropdownManagerModule,
   TuiDataListWrapperModule, 
   TuiInputDateModule, 
+  TuiInputDateTimeModule, 
   TuiInputFilesModule, 
   TuiInputModule, 
   TuiInputPasswordModule, 
@@ -89,7 +90,8 @@ import { InboxComponent } from './components/inbox/inbox.component';
     TuiDataListDropdownManagerModule,
     TuiDataListWrapperModule,
     TuiHostedDropdownModule,
-    RouterModule
+    RouterModule,
+    TuiInputDateTimeModule
   ],
   exports: [
     TuiInputModule,
@@ -125,7 +127,8 @@ import { InboxComponent } from './components/inbox/inbox.component';
     FilterComponent,
     PeopleComponent,
     CompanyComponent,
-    InboxComponent
+    InboxComponent,
+    TuiInputDateTimeModule
   ],
   providers: [
     JobsApiServiceService,

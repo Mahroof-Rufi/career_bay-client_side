@@ -1,0 +1,26 @@
+<div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+    <div class="px-4 py-6 sm:px-0">
+        <h1 class="text-2xl font-semibold text-center text-mainColor mb-8">Scheduled Interviews</h1>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            @for (interview of scheduledInterviews; track $index) {
+                <div [routerLink]="['/user/inbox/user', interview.interviewDetails.employer._id]" [queryParams]="{ profileType: 'Employers' }" class="bg-white shadow rounded-lg p-6 cursor-pointer">
+                    <div class="flex items-center mb-4">
+                        <img [src]="interview.interviewDetails.employer.profile_url" alt="Employer Logo" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h2 class="text-lg font-semibold text-gray-800">{{ interview.interviewDetails.employer.companyName }}</h2>
+                            <p class="text-sm text-gray-600">{{ interview.interviewDetails.status }}</p>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <p class="text-sm text-gray-600">Date: <span class="text-gray-800">{{ interview.interviewDetails.interviewDate| date: 'mediumDate' }}</span></p>
+                        <p class="text-sm text-gray-600">Time: <span class="text-gray-800">{{ interview.interviewDetails.interviewTime }}</span></p>
+                    </div>
+                    <!-- <div class="flex justify-end">
+                        <button class="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Reschedule</button>
+                        <button class="py-2 px-4 ml-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">Cancel</button>
+                    </div> -->
+                </div>
+            }
+        </div>
+    </div>
+</div>

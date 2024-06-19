@@ -1,0 +1,28 @@
+<div class="w-full bg-white rounded-lg">
+    <h1 class="text-xl font-bannerText text-mainColor text-center mb-6">Schedule Interview</h1>
+    <form class="space-y-6" [formGroup]="interviewScheduleForm" (ngSubmit)="submitSchedule()">
+        <div>
+            <label for="dateAndTime" class="block text-sm font-medium text-gray-700">Choose date and time</label>
+            <tui-input-date-time formControlName="dateAndTime">
+                Choose date and time
+                <input placeholder="OCT 26 1985 01:22" tuiTextfield/>
+            </tui-input-date-time>
+            <small *ngIf="interviewScheduleForm.get('dateAndTime')?.errors?.['required'] && interviewScheduleForm.get('dateAndTime')?.touched" class="font-bannerText text-red-600">*date and time required</small>
+            <small *ngIf="interviewScheduleForm.get('dateAndTime')?.errors?.['pattern'] && interviewScheduleForm.get('dateAndTime')?.touched" class="font-bannerText text-red-600">*invalid date and time format</small>
+        </div>
+        <div>
+            <label for="timePeriod" class="block text-sm font-medium text-gray-700">Select Time period</label>
+            <tui-select formControlName="timePeriod">
+                Select AM or PM
+                <input tuiTextfield />
+                <tui-data-list-wrapper *tuiDataList [items]="timePeriods" ></tui-data-list-wrapper>
+            </tui-select>
+            <small *ngIf="interviewScheduleForm.get('timePeriod')?.errors?.['required'] && interviewScheduleForm.get('timePeriod')?.touched" class="font-bannerText text-red-600">*field is required</small>
+        </div>
+        <div>
+            <button type="submit" class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-mainColor hover:bg-mainColor-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mainColor">
+                Schedule
+            </button>
+        </div>
+    </form>
+</div>

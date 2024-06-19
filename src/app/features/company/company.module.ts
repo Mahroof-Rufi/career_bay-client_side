@@ -22,6 +22,7 @@ import { StoreModule } from '@ngrx/store';
 import { employerReducer } from './store/employer.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { employerEffects } from './store/employer.effects';
+import { InterviewScheduleComponent } from './components/interview-schedule/interview-schedule.component';
 
 
 
@@ -37,6 +38,7 @@ import { employerEffects } from './store/employer.effects';
     ApplicationsConfirmationModalComponent,
     CompanyPostsComponentComponent,
     AddPostComponent,
+    InterviewScheduleComponent,
   ],
   imports: [
     CommonModule,

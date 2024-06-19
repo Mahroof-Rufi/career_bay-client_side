@@ -14,6 +14,7 @@ import { validateUserTokenGuard } from "./route-guards/validate-user-token.guard
 import { UserProfileCommonViewComponent } from "../../shared/components/user-profile-common-view/user-profile-common-view.component";
 import { CompanyProfileCommonViewComponent } from "../../shared/components/company-profile-common-view/company-profile-common-view.component";
 import { InboxComponent } from "../../shared/components/inbox/inbox.component";
+import { ScheduledInterviewsComponent } from "./components/scheduled-interviews/scheduled-interviews.component";
 
 const routes: Routes = [
     { path: 'user', component:UserHomeComponent, children: [
@@ -29,6 +30,7 @@ const routes: Routes = [
         { path: 'user-profile/:id', component:UserProfileCommonViewComponent },
         { path: 'employer-profile/:id', component:CompanyProfileCommonViewComponent },
         { path: 'applied-jobs/:id', component:AppliedJobsComponent, },
+        { path: 'scheduled-interview/:id', component:ScheduledInterviewsComponent },
         { path: 'saved-jobs/:id', component:SavedJobsAndPostsComponent },
         { path: 'saved-posts/:id', component:SavedPostsComponent },
     ], canActivateChild:[validateUserTokenGuard]}

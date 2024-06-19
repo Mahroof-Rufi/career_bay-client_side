@@ -38,6 +38,7 @@ import { SavedJobsAndPostsComponent } from './components/saved-jobs-and-posts/sa
 import { SavedPostsComponent } from './components/saved-posts/saved-posts.component';
 import { PostsComponent } from './components/posts/posts.component';
 import { NetworksComponent } from './components/networks/networks.component';
+import { ScheduledInterviewsComponent } from './components/scheduled-interviews/scheduled-interviews.component';
 
 
 
@@ -71,6 +72,7 @@ import { NetworksComponent } from './components/networks/networks.component';
     SavedPostsComponent,
     PostsComponent,
     NetworksComponent,
+    ScheduledInterviewsComponent,  
   ],
   imports: [
     CommonModule,
