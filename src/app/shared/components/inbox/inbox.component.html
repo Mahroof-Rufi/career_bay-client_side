@@ -95,8 +95,8 @@
                             </ul>
                         }
                         <ul class="space-y-2">
-                            <li routerLink="/user/live-meet" class="py-2 px-4 hover:bg-gray-100 rounded-md cursor-pointer transition-colors duration-200">Host Meet</li>
-                          </ul>
+                            <li [routerLink]="['/user/live-meet', user_id]" class="py-2 px-4 hover:bg-gray-100 rounded-md cursor-pointer transition-colors duration-200">Host Meet</li>
+                        </ul>
                       </div>                      
                 </div>
             }
