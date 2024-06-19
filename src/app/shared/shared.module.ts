@@ -41,6 +41,7 @@ import { PeopleComponent } from './components/people/people.component';
 import { CompanyComponent } from './components/company/company.component';
 import { RouterModule } from '@angular/router';
 import { InboxComponent } from './components/inbox/inbox.component';
+import { LiveMeetComponent } from './components/live-meet/live-meet.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { InboxComponent } from './components/inbox/inbox.component';
     PeopleComponent,
     CompanyComponent,
     InboxComponent,
+    LiveMeetComponent,
   ],
   imports: [
     CommonModule,
