@@ -32,10 +32,10 @@ const routes: Routes = [
         { path: 'employer-profile/:id', component:CompanyProfileCommonViewComponent },
         { path: 'applied-jobs/:id', component:AppliedJobsComponent, },
         { path: 'scheduled-interview/:id', component:ScheduledInterviewsComponent },
-        { path: 'live-meet/:id', component:LiveMeetComponent },
         { path: 'saved-jobs/:id', component:SavedJobsAndPostsComponent },
         { path: 'saved-posts/:id', component:SavedPostsComponent },
-    ], canActivateChild:[validateUserTokenGuard]}
+    ], canActivateChild:[validateUserTokenGuard]},
+    { path: 'live-meet/:id', component:LiveMeetComponent },
 ]
 
 @NgModule({

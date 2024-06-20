@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { UserChatService } from '../../../features/user/services/user-chat.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User, userStateModel } from '../../../features/user/user-store/user.model';
@@ -17,7 +17,7 @@ import { InterviewScheduleModalService } from '../../../features/company/service
   templateUrl: './inbox.component.html',
   styleUrl: './inbox.component.scss'
 })
-export class InboxComponent implements OnInit, AfterViewInit{
+export class InboxComponent implements OnInit, AfterViewInit, OnDestroy{
   
   context!:string;
   profileType: string = 'Users'
@@ -178,7 +178,7 @@ export class InboxComponent implements OnInit, AfterViewInit{
       if (this.context == 'user') {
         this._userChat.sendMessageByUser(this.user_id, this.receiver_id, this.message, new Date(), this.profileType);
       } else if (this.context == 'employer') {
-        this._userChat.sendMessageByEmployer(this.user_id, this.receiver_id, this.message, new Date(), this.profileType);
+        this._userChat.sendMessageByEmployer(this.user_id, this.receiver_id, this.message, 'text',new Date());
       }
       this.message = '';      
       if (this.messages.length == 0) {        
@@ -229,6 +229,37 @@ export class InboxComponent implements OnInit, AfterViewInit{
     if (this.receiver_id) {
       this._interviewScheduleModal.openInterviewScheduleModal(this.receiver_id)
     }
+  }
+
+  reschedule(message:Chat) {
+    if (this.receiver_id) {
+      this._interviewScheduleModal.openInterviewScheduleModal(this.receiver_id, message)
+    }
+  }
+
+  cancelInterview(message:Chat) {
+    if (this.receiver_id) {
+      this._interviewScheduleModal.openScheduledInterviewCancelModal(message)
+    }
+  }
+
+  openLiveMeetInNewTab(user_id: string) {
+    const url = `/user/live-meet/${user_id}`;
+    window.open(url, '_blank');
+  }
+
+  openMeetUrlSendModal() {
+    if (this.receiver_id) {
+      this._interviewScheduleModal.openMeetUrlModal(this.user_id,this.receiver_id)
+    }
+  }
+
+  openLink(url: string) {
+    window.open(url, '_blank');
+  }
+
+  ngOnDestroy(): void {
+    // this._userChat.endSession(this.user_id)
   }
 
 }

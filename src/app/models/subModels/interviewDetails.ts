@@ -4,5 +4,5 @@ export interface interviewDetails {
     employer:Employer
     interviewDate: Date,
     interviewTime: String,
-    status: ['scheduled', 'completed', 'canceled']
+    status: 'scheduled'| 'completed'| 'canceled'
 }

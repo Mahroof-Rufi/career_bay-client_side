@@ -58,15 +58,17 @@ export class UserChatService {
     this._http.post(environment.baseURL + 'chat/user/save-message', { receiver_id:receiver, content:text, profileType }).subscribe()
   }
 
-  sendMessageByEmployer(sender: string, receiver: string, text: string, createdAt: Date, profileType:string): void {
-    this._socket.emit('sendMessage', { sender, receiver, text, type:'text', createdAt });
-    this._http.post(environment.baseURL + 'chat/employer/save-message', { receiver_id:receiver, content:text, profileType }).subscribe()
+  sendMessageByEmployer(sender: string, receiver: string, text: string, type:'text' | 'URL', createdAt: Date): void {
+    this._socket.emit('sendMessage', { sender, receiver, text, type, createdAt });
+    this._http.post(environment.baseURL + 'chat/employer/save-message', { receiver_id:receiver, content:text, type }).subscribe()
   }
 
-  scheduleInterview(receiver_id:string, date:Date, time:string) {
-    console.log('send');
-    
-    return this._http.post(environment.baseURL + 'chat/employer/schedule-interview', {receiver_id, date, time})
+  scheduleInterview(receiver_id:string, date:Date, time:string, message_id?:string) {    
+    return this._http.post(environment.baseURL + 'chat/employer/schedule-interview', {receiver_id, date, time, message_id})
+  }
+
+  cancelScheduledInterview(message_id:string) {
+    return this._http.patch(environment.baseURL + 'chat/employer/schedule-interview', {message_id})
   }
 
   onMessage(): Observable<any> {

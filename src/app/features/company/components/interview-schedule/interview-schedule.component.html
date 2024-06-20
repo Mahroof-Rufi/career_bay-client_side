@@ -1,28 +1,55 @@
-<div class="w-full bg-white rounded-lg">
-    <h1 class="text-xl font-bannerText text-mainColor text-center mb-6">Schedule Interview</h1>
-    <form class="space-y-6" [formGroup]="interviewScheduleForm" (ngSubmit)="submitSchedule()">
-        <div>
-            <label for="dateAndTime" class="block text-sm font-medium text-gray-700">Choose date and time</label>
-            <tui-input-date-time formControlName="dateAndTime">
-                Choose date and time
-                <input placeholder="OCT 26 1985 01:22" tuiTextfield/>
-            </tui-input-date-time>
-            <small *ngIf="interviewScheduleForm.get('dateAndTime')?.errors?.['required'] && interviewScheduleForm.get('dateAndTime')?.touched" class="font-bannerText text-red-600">*date and time required</small>
-            <small *ngIf="interviewScheduleForm.get('dateAndTime')?.errors?.['pattern'] && interviewScheduleForm.get('dateAndTime')?.touched" class="font-bannerText text-red-600">*invalid date and time format</small>
+@if (context == 'interview schedule') {
+    <div class="w-full bg-white rounded-lg">
+        <h1 class="text-xl font-bannerText text-mainColor text-center mb-6">{{ title }}</h1>
+        <form class="space-y-6" [formGroup]="interviewScheduleForm" (ngSubmit)="submitSchedule()">
+            <div>
+                <label for="dateAndTime" class="block text-sm font-medium text-gray-700">Choose date and time</label>
+                <tui-input-date-time formControlName="dateAndTime">
+                    Choose date and time
+                    <input placeholder="OCT 26 1985 01:22" tuiTextfield/>
+                </tui-input-date-time>
+                <small *ngIf="interviewScheduleForm.get('dateAndTime')?.errors?.['required'] && interviewScheduleForm.get('dateAndTime')?.touched" class="font-bannerText text-red-600">*date and time required</small>
+                <small *ngIf="interviewScheduleForm.get('dateAndTime')?.errors?.['pattern'] && interviewScheduleForm.get('dateAndTime')?.touched" class="font-bannerText text-red-600">*invalid date and time format</small>
+            </div>
+            <div>
+                <label for="timePeriod" class="block text-sm font-medium text-gray-700">Select Time period</label>
+                <tui-select formControlName="timePeriod">
+                    Select AM or PM
+                    <input tuiTextfield />
+                    <tui-data-list-wrapper *tuiDataList [items]="timePeriods" ></tui-data-list-wrapper>
+                </tui-select>
+                <small *ngIf="interviewScheduleForm.get('timePeriod')?.errors?.['required'] && interviewScheduleForm.get('timePeriod')?.touched" class="font-bannerText text-red-600">*field is required</small>
+            </div>
+            <div>
+                <button type="submit" class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-mainColor hover:bg-mainColor-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mainColor">
+                    Schedule
+                </button>
+            </div>
+        </form>
+    </div>
+} @else if (context == 'meet url') {
+    <div class="w-full">
+        <form [formGroup]="MeetUrlForm" (ngSubmit)="submitUrl()">
+            <tui-input formControlName="URL">
+                Paste URL here
+                <input tuiTextfield type="text"/>
+            </tui-input>
+            <small *ngIf="MeetUrlForm.get('URL')?.errors?.['required'] && MeetUrlForm.get('URL')?.touched" class="font-bannerText text-red-600">*URL required</small>
+            <small *ngIf="MeetUrlForm.get('URL')?.errors?.['noSpaceAllowed'] && MeetUrlForm.get('URL')?.touched" class="font-bannerText text-red-600">*space not allowed</small>
+            <button type="submit" class="w-full bg-mainColor text-white font-bannerText rounded-lg py-2 mt-3">Send</button>
+        </form>
+    </div>
+} @else if (context == 'cancel') {
+    <div class="flex flex-col items-center">
+        <i class="fa-regular fa-circle-question text-6xl text-red-600   "></i>
+        <div class="flex flex-col items-center mt-3">
+            <h1 class="text-center text-2xl text-red-600     font-bannerText">Cancel Scheduled Interview</h1>
+            <p class="text-center text-lg text-mainGrey font-bannerText">Are you sure you want to cancel this scheduled interview?</p>
+            <p class="text-center text-lg text-red-600 font-bannerText">This action cannot be undone!</p>
         </div>
-        <div>
-            <label for="timePeriod" class="block text-sm font-medium text-gray-700">Select Time period</label>
-            <tui-select formControlName="timePeriod">
-                Select AM or PM
-                <input tuiTextfield />
-                <tui-data-list-wrapper *tuiDataList [items]="timePeriods" ></tui-data-list-wrapper>
-            </tui-select>
-            <small *ngIf="interviewScheduleForm.get('timePeriod')?.errors?.['required'] && interviewScheduleForm.get('timePeriod')?.touched" class="font-bannerText text-red-600">*field is required</small>
+        <div class="mt-4">
+            <button (click)="cancelInterviewCancellation()" class="bg-gray-300 hover:bg-gray-400 text-mainGrey font-bannerText py-2 px-4 rounded mr-2" >Cancel</button>
+            <button (click)="cancelScheduledInterview()" class="bg-red-600 hover:bg-red-300 text-white font-bannerText py-2 px-4 rounded">Confirm</button>
         </div>
-        <div>
-            <button type="submit" class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-mainColor hover:bg-mainColor-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mainColor">
-                Schedule
-            </button>
-        </div>
-    </form>
-</div>
+    </div> 
+}
