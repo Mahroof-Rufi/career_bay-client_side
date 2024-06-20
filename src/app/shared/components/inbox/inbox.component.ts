@@ -176,7 +176,7 @@ export class InboxComponent implements OnInit, AfterViewInit, OnDestroy{
       };
   
       if (this.context == 'user') {
-        this._userChat.sendMessageByUser(this.user_id, this.receiver_id, this.message, new Date(), this.profileType);
+        this._userChat.sendMessageByUser(this.user_id, this.receiver_id, this.message, 'text',new Date());
       } else if (this.context == 'employer') {
         this._userChat.sendMessageByEmployer(this.user_id, this.receiver_id, this.message, 'text',new Date());
       }
@@ -250,7 +250,7 @@ export class InboxComponent implements OnInit, AfterViewInit, OnDestroy{
 
   openMeetUrlSendModal() {
     if (this.receiver_id) {
-      this._interviewScheduleModal.openMeetUrlModal(this.user_id,this.receiver_id)
+      this._interviewScheduleModal.openMeetUrlModal(this.user_id,this.receiver_id,this.context)
     }
   }
 

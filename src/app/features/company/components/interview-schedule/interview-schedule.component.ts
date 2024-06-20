@@ -7,6 +7,7 @@ import { TuiAlertService, TuiDialogContext } from '@taiga-ui/core';
 import { noSpaceAllowed } from '../../../../validators/no-space-allowed.validator';
 import { Chat } from '../../../../models/chat';
 import { InterviewScheduleModalService } from '../../services/interview-schedule-modal.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-interview-schedule',
@@ -15,7 +16,8 @@ import { InterviewScheduleModalService } from '../../services/interview-schedule
 })
 export class InterviewScheduleComponent implements OnInit{
 
-  context!:string;
+  accountType!:string;
+  viewMode!:string;
   title:string = 'Schedule Interview'
   timePeriods:string[] = ['AM','PM']
   message!:Chat;
@@ -35,12 +37,13 @@ export class InterviewScheduleComponent implements OnInit{
     private readonly _alert:TuiAlertService,
     @Inject(POLYMORPHEUS_CONTEXT)
     private readonly _context: TuiDialogContext<string, string>,
-    private readonly _scheduledInterviewModal: InterviewScheduleModalService
+    private readonly _scheduledInterviewModal: InterviewScheduleModalService,
   ) {}
 
   ngOnInit(): void {
     const data:any = this.data
-    this.context = data.context
+    this.viewMode = data.viewMode
+    this.accountType = data.accountType
     if (data.message) {
       this.title = 'Reschedule Interview'
       this.message = data.message
@@ -84,8 +87,20 @@ export class InterviewScheduleComponent implements OnInit{
       const data:any = this.data
       const URL = this.MeetUrlForm.get('URL')?.value
       if (URL) {
-        this._chatService.sendMessageByEmployer(data.sender_id, data.receiver_id, URL, 'URL', new Date())
-        this._scheduledInterviewModal.closeModal()
+        if (this.accountType == 'user') {
+          console.log('user side');
+          
+          this._chatService.sendMessageByUser(data.sender_id, data.receiver_id, URL, 'URL', new Date())
+          this._scheduledInterviewModal.closeModal()
+        } else if (this.accountType == 'employer') {
+          console.log('user side');
+          
+          this._chatService.sendMessageByEmployer(data.sender_id, data.receiver_id, URL, 'URL', new Date())
+          this._scheduledInterviewModal.closeModal()
+        } else {
+          console.log(this.accountType);
+          
+        }
       }
     } else {
       this.MeetUrlForm.markAllAsTouched()

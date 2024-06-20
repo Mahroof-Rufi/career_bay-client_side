@@ -1,4 +1,4 @@
-@if (context == 'interview schedule') {
+@if (viewMode == 'interview schedule') {
     <div class="w-full bg-white rounded-lg">
         <h1 class="text-xl font-bannerText text-mainColor text-center mb-6">{{ title }}</h1>
         <form class="space-y-6" [formGroup]="interviewScheduleForm" (ngSubmit)="submitSchedule()">
@@ -27,7 +27,7 @@
             </div>
         </form>
     </div>
-} @else if (context == 'meet url') {
+} @else if (viewMode == 'meet url') {
     <div class="w-full">
         <form [formGroup]="MeetUrlForm" (ngSubmit)="submitUrl()">
             <tui-input formControlName="URL">
@@ -39,7 +39,7 @@
             <button type="submit" class="w-full bg-mainColor text-white font-bannerText rounded-lg py-2 mt-3">Send</button>
         </form>
     </div>
-} @else if (context == 'cancel') {
+} @else if (viewMode == 'cancel') {
     <div class="flex flex-col items-center">
         <i class="fa-regular fa-circle-question text-6xl text-red-600   "></i>
         <div class="flex flex-col items-center mt-3">

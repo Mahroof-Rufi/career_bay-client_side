@@ -23,7 +23,7 @@ export class InterviewScheduleModalService {
       new PolymorpheusComponent(InterviewScheduleComponent, this._injector),
       {
         size:'s',
-        data:{receiver_id,context:'interview schedule', message}
+        data:{receiver_id,viewMode:'interview schedule', message}
       },
     );
 
@@ -38,12 +38,12 @@ export class InterviewScheduleModalService {
     }
   }
 
-  openMeetUrlModal(sender_id:string,receiver_id:string) {
+  openMeetUrlModal(sender_id:string,receiver_id:string,accountType:string) {
     this.scheduleDialogue = this._dialogueService.open<any>(
       new PolymorpheusComponent(InterviewScheduleComponent, this._injector),
       {
         size:'s',
-        data:{sender_id,receiver_id,context:'meet url'}
+        data:{sender_id,receiver_id,viewMode:'meet url',accountType}
       },
     );
 
@@ -57,7 +57,7 @@ export class InterviewScheduleModalService {
       new PolymorpheusComponent(InterviewScheduleComponent, this._injector),
       {
         size:'m',
-        data:{context:'cancel',message}
+        data:{viewMode:'cancel',message}
       },
     );
 

@@ -53,9 +53,9 @@ export class UserChatService {
     return this._http.get(`${environment.baseURL}chat/employer/get-messages/${receiver_id}`);
   }
 
-  sendMessageByUser(sender: string, receiver: string, text: string, createdAt: Date, profileType:string): void {
-    this._socket.emit('sendMessage', { sender, receiver, text, type:'text', createdAt });
-    this._http.post(environment.baseURL + 'chat/user/save-message', { receiver_id:receiver, content:text, profileType }).subscribe()
+  sendMessageByUser(sender: string, receiver: string, text: string, type:'text' | 'URL',createdAt: Date): void {
+    this._socket.emit('sendMessage', { sender, receiver, text, type, createdAt });
+    this._http.post(environment.baseURL + 'chat/user/save-message', { receiver_id:receiver, content:text, type }).subscribe()
   }
 
   sendMessageByEmployer(sender: string, receiver: string, text: string, type:'text' | 'URL', createdAt: Date): void {
