@@ -72,9 +72,9 @@ export class InterviewScheduleComponent implements OnInit{
   
       const data: any = this.data;
       if (this.message && this.message._id) {
-        this._chatService.scheduleInterview(data.receiver_id, date, time, this.message._id).subscribe()
+        this._chatService.scheduleInterview(data.sender, data.receiver_id, date, time, this.message._id)
       } else {
-        this._chatService.scheduleInterview(data.receiver_id, date, time).subscribe()
+        this._chatService.scheduleInterview(data.sender, data.receiver_id, date, time)
       }
       this._scheduledInterviewModal.closeModal();
     } else {
@@ -88,18 +88,11 @@ export class InterviewScheduleComponent implements OnInit{
       const URL = this.MeetUrlForm.get('URL')?.value
       if (URL) {
         if (this.accountType == 'user') {
-          console.log('user side');
-          
           this._chatService.sendMessageByUser(data.sender_id, data.receiver_id, URL, 'URL', new Date())
           this._scheduledInterviewModal.closeModal()
         } else if (this.accountType == 'employer') {
-          console.log('user side');
-          
           this._chatService.sendMessageByEmployer(data.sender_id, data.receiver_id, URL, 'URL', new Date())
           this._scheduledInterviewModal.closeModal()
-        } else {
-          console.log(this.accountType);
-          
         }
       }
     } else {
@@ -113,7 +106,8 @@ export class InterviewScheduleComponent implements OnInit{
 
   cancelScheduledInterview() {
     if (this.message._id) {
-      this._chatService.cancelScheduledInterview(this.message._id).subscribe()
+      const data:any = this.data
+      this._chatService.cancelScheduledInterview(data.sender, data.receiver_id,this.message._id).subscribe()
       this._scheduledInterviewModal.closeModal()
     }
   }

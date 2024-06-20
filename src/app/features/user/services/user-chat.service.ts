@@ -3,6 +3,8 @@ import { io } from 'socket.io-client';
 import { Observable, map } from 'rxjs';
 import { environment } from '../../../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
+import { User } from '../user-store/user.model';
+import { Employer } from '../../company/store/employer.model';
 
 @Injectable({
   providedIn: 'root'
@@ -63,17 +65,24 @@ export class UserChatService {
     this._http.post(environment.baseURL + 'chat/employer/save-message', { receiver_id:receiver, content:text, type }).subscribe()
   }
 
-  scheduleInterview(receiver_id:string, date:Date, time:string, message_id?:string) {    
-    return this._http.post(environment.baseURL + 'chat/employer/schedule-interview', {receiver_id, date, time, message_id})
+  scheduleInterview(sender:User | Employer, receiver:string, date:Date, time:string, message_id?:string) {  
+    this._socket.emit('sendMessage', { _id:message_id,sender:sender._id, receiver, employer:sender,interviewDate:date, interviewTime:time, status:'Scheduled', type:'interview', createdAt: Date });  
+    return this._http.post(environment.baseURL + 'chat/employer/schedule-interview', {receiver, date, time, message_id}).subscribe({
+      error: err => console.log(err)
+      
+    })
   }
 
-  cancelScheduledInterview(message_id:string) {
+  cancelScheduledInterview(sender:User, receiver_id:string, message_id:string) {
+    this._socket.emit('sendMessage', { _id:message_id, sender:sender._id, receiver:receiver_id, employer:sender, status:'canceled', createdAt: Date });
     return this._http.patch(environment.baseURL + 'chat/employer/schedule-interview', {message_id})
   }
 
   onMessage(): Observable<any> {
     return new Observable(observer => {
       this._socket.on('message', (data:any) => {
+        console.log('new message',data);
+        
         observer.next(data);
       });
     });

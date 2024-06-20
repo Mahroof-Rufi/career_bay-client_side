@@ -3,11 +3,11 @@ import { UserChatService } from '../../../features/user/services/user-chat.servi
 import { ActivatedRoute, Router } from '@angular/router';
 import { User, userStateModel } from '../../../features/user/user-store/user.model';
 import { Store } from '@ngrx/store';
-import { getUserId } from '../../../features/user/user-store/user.selector';
+import { getUserData, getUserId } from '../../../features/user/user-store/user.selector';
 import { UserAPIServiceService } from '../../../features/user/services/user-api-service.service';
 import { Chat } from '../../../models/chat';
-import { EmployerState } from '../../../features/company/store/employer.model';
-import { getEmployerId } from '../../../features/company/store/employer.selector';
+import { Employer, EmployerState } from '../../../features/company/store/employer.model';
+import { getEmployerData, getEmployerId } from '../../../features/company/store/employer.selector';
 import { EmployerApiServiceService } from '../../../features/company/services/employer-api-service.service';
 import { initFlowbite } from 'flowbite';
 import { InterviewScheduleModalService } from '../../../features/company/services/interview-schedule-modal.service';
@@ -21,7 +21,7 @@ export class InboxComponent implements OnInit, AfterViewInit, OnDestroy{
   
   context!:string;
   profileType: string = 'Users'
-  user_id!:string;
+  userData!:User | Employer;
   receiver_id:string | null = null;
   oppositeUserData!:User | any; 
 
@@ -66,20 +66,27 @@ export class InboxComponent implements OnInit, AfterViewInit, OnDestroy{
     })
 
     if (this.context == 'user') {
-      this._userStore.select(getUserId).subscribe( id => {
-        this.user_id = id
-        this._userChat.addUser(this.user_id);
+      this._userStore.select(getUserData).subscribe( user => {
+        this.userData = user
+        this._userChat.addUser(this.userData._id);
       })
     } else if (this.context == 'employer') {
-      this._employerStore.select(getEmployerId).subscribe( id => {
-        this.user_id = id
-        this._userChat.addUser(this.user_id)
+      this._employerStore.select(getEmployerData).subscribe( employer => {
+        this.userData = employer
+        this._userChat.addUser(this.userData._id)
       })
     }
 
     this._userChat.onMessage().subscribe(message => {
-      this.messages.push(message);
+      const existingMessageIndex = this.messages.findIndex(chat => chat._id === message._id);
+    
+      if (existingMessageIndex !== -1) {
+        this.messages[existingMessageIndex] = { ...this.messages[existingMessageIndex], ...message };        
+      } else {
+        this.messages.push(message);
+      }
     });
+    
 
     this.getConnections()
   }
@@ -168,7 +175,7 @@ export class InboxComponent implements OnInit, AfterViewInit, OnDestroy{
 
     if (this.message.trim() && this.receiver_id) {
       const message = {
-        sender: this.user_id,
+        sender: this.userData._id,
         receiver: this.receiver_id,
         content: this.message,
         profileType: this.profileType,
@@ -176,9 +183,9 @@ export class InboxComponent implements OnInit, AfterViewInit, OnDestroy{
       };
   
       if (this.context == 'user') {
-        this._userChat.sendMessageByUser(this.user_id, this.receiver_id, this.message, 'text',new Date());
+        this._userChat.sendMessageByUser(this.userData._id, this.receiver_id, this.message, 'text',new Date());
       } else if (this.context == 'employer') {
-        this._userChat.sendMessageByEmployer(this.user_id, this.receiver_id, this.message, 'text',new Date());
+        this._userChat.sendMessageByEmployer(this.userData._id, this.receiver_id, this.message, 'text',new Date());
       }
       this.message = '';      
       if (this.messages.length == 0) {        
@@ -227,19 +234,19 @@ export class InboxComponent implements OnInit, AfterViewInit, OnDestroy{
 
   openInterviewScheduleModal() {
     if (this.receiver_id) {
-      this._interviewScheduleModal.openInterviewScheduleModal(this.receiver_id)
+      this._interviewScheduleModal.openInterviewScheduleModal(this.userData,this.receiver_id)
     }
   }
 
   reschedule(message:Chat) {
     if (this.receiver_id) {
-      this._interviewScheduleModal.openInterviewScheduleModal(this.receiver_id, message)
+      this._interviewScheduleModal.openInterviewScheduleModal(this.userData,this.receiver_id, message)
     }
   }
 
   cancelInterview(message:Chat) {
     if (this.receiver_id) {
-      this._interviewScheduleModal.openScheduledInterviewCancelModal(message)
+      this._interviewScheduleModal.openScheduledInterviewCancelModal(this.userData, this.receiver_id, message)
     }
   }
 
@@ -250,7 +257,7 @@ export class InboxComponent implements OnInit, AfterViewInit, OnDestroy{
 
   openMeetUrlSendModal() {
     if (this.receiver_id) {
-      this._interviewScheduleModal.openMeetUrlModal(this.user_id,this.receiver_id,this.context)
+      this._interviewScheduleModal.openMeetUrlModal(this.userData._id,this.receiver_id,this.context)
     }
   }
 

@@ -4,6 +4,8 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Observable, Subscription } from 'rxjs';
 import { InterviewScheduleComponent } from '../components/interview-schedule/interview-schedule.component';
 import { Chat } from '../../../models/chat';
+import { User } from '../../user/user-store/user.model';
+import { Employer } from '../store/employer.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +20,12 @@ export class InterviewScheduleModalService {
     private readonly _injector: Injector,
   ) {}
 
-  openInterviewScheduleModal(receiver_id:string, message?:Chat) {    
+  openInterviewScheduleModal(sender:User | Employer,receiver_id:string, message?:Chat) {    
     this.scheduleDialogue = this._dialogueService.open<any>(
       new PolymorpheusComponent(InterviewScheduleComponent, this._injector),
       {
         size:'s',
-        data:{receiver_id,viewMode:'interview schedule', message}
+        data:{sender,receiver_id,viewMode:'interview schedule', message}
       },
     );
 
@@ -52,12 +54,12 @@ export class InterviewScheduleModalService {
     }
   } 
 
-  openScheduledInterviewCancelModal(message:Chat) {
+  openScheduledInterviewCancelModal(sender:User | Employer,receiver_id:string,message:Chat) {
     this.scheduleDialogue = this._dialogueService.open<any>(
       new PolymorpheusComponent(InterviewScheduleComponent, this._injector),
       {
         size:'m',
-        data:{viewMode:'cancel',message}
+        data:{sender, receiver_id, viewMode:'cancel',message}
       },
     );
 
