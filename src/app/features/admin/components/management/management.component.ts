@@ -10,6 +10,7 @@ import { initFlowbite } from 'flowbite';
 import { Subscription } from 'rxjs';
 import { Job } from '../../../company/store/employer.model';
 import { getEmployers } from '../../../user/user-store/user.selector';
+import { GetPreviousRouteService } from '../../../../shared/services/get-previous-route.service';
 
 @Component({
   selector: 'app-management',

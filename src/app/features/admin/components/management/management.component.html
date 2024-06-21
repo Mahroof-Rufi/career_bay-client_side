@@ -142,9 +142,11 @@
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ (currentPageNo - 1) * maxItemPerPage + idx + 1 }}
                         </th>
-                        <td class="px-6 py-4">
-                            {{ job.jobTitle }}
-                        </td>
+                        <a [routerLink]="['/admin/job', 'admin',job._id]" >
+                            <td class="px-6 py-4">
+                                {{ job.jobTitle }}
+                            </td>
+                        </a>
                         <td class="px-6 py-4">
                             <i class="fa-solid fa-briefcase mr-2 my-3"></i>{{ job.jobType }}
                         </td>

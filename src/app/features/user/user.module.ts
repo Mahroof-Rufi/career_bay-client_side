@@ -8,7 +8,6 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { JobListComponent } from './components/job-list/job-list.component';
-import { JobDetailedViewComponent } from './components/job-detailed-view/job-detailed-view.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { UserProfileMainDetailsComponent } from './components/user-profile-main-details/user-profile-main-details.component';
 import { UserProfileAboutSectionComponent } from './components/user-profile-about-section/user-profile-about-section.component';
@@ -49,7 +48,6 @@ import { ScheduledInterviewsComponent } from './components/scheduled-interviews/
     SideBarComponent,
     DashboardComponent,
     JobListComponent,
-    JobDetailedViewComponent,
     UserProfileComponent,
     UserProfileMainDetailsComponent,
     UserProfileAboutSectionComponent,

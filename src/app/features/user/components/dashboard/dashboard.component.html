@@ -5,7 +5,7 @@
             @if (jobs.length) {
                 @for (job of jobs; track $index) {
                     @if ($index <= 6) {
-                        <a [routerLink]="['/user/job', job._id]">
+                        <a [routerLink]="['/user/job', 'user',job._id]">
                             <app-job [jobData]="job" class="flex-none"></app-job>
                         </a>
                     }

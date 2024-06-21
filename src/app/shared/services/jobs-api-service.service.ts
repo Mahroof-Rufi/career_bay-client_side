@@ -12,6 +12,10 @@ export class JobsApiServiceService {
     private readonly _http:HttpClient
   ) { }
 
+  userGetJobById(job_id:string): Observable<any> {
+    return this._http.get(environment.baseURL + `jobs/job?job_id=${job_id}`)
+  }
+
   userFetchALLJobs(pageNo:number, sort?:string, filterQuery?:any):Observable<any> {    
     return this._http.get(environment.baseURL+`jobs/jobs?page=${pageNo}&sort=${sort}&${filterQuery}`)
   }
@@ -44,8 +48,14 @@ export class JobsApiServiceService {
     return this._http.get(environment.baseURL + 'jobs/saved-jobs')
   }
 
+
+
   companyFetchJobs(page:number, sort?:string , filterQuery?:any, title?:string):Observable<any> {    
     return this._http.get(environment.baseURL + `jobs/employer-jobs?page=${page}&sort=${sort}&${filterQuery}`);
+  }
+
+  companyGetJobById(job_id:string): Observable<any> {
+    return this._http.get(environment.baseURL + `jobs/employer-job?job_id=${job_id}`)
   }
 
   companyFetchJobsById(employer_id:string, pageNo:number):Observable<any> {

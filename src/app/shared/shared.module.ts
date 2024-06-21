@@ -42,6 +42,7 @@ import { CompanyComponent } from './components/company/company.component';
 import { RouterModule } from '@angular/router';
 import { InboxComponent } from './components/inbox/inbox.component';
 import { LiveMeetComponent } from './components/live-meet/live-meet.component';
+import { JobDetailedViewComponent } from './components/job-detailed-view/job-detailed-view.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { LiveMeetComponent } from './components/live-meet/live-meet.component';
     CompanyComponent,
     InboxComponent,
     LiveMeetComponent,
+    JobDetailedViewComponent
   ],
   imports: [
     CommonModule,
@@ -93,7 +95,7 @@ import { LiveMeetComponent } from './components/live-meet/live-meet.component';
     TuiDataListWrapperModule,
     TuiHostedDropdownModule,
     RouterModule,
-    TuiInputDateTimeModule
+    TuiInputDateTimeModule,
   ],
   exports: [
     TuiInputModule,
@@ -130,7 +132,8 @@ import { LiveMeetComponent } from './components/live-meet/live-meet.component';
     PeopleComponent,
     CompanyComponent,
     InboxComponent,
-    TuiInputDateTimeModule
+    TuiInputDateTimeModule,
+    JobDetailedViewComponent
   ],
   providers: [
     JobsApiServiceService,

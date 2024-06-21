@@ -39,6 +39,10 @@ export class AdminApiServiceService {
     return this._http.get(environment.baseURL + `admin/jobs?page=${pageNo}&${queries}`)
   }
 
+  getJobById(job_id:string): Observable<any> {
+    return this._http.get(environment.baseURL + `jobs/admin-job?job_id=${job_id}`)
+  }
+
   jobAction(job_id:string):Observable<any> {
     return this._http.patch(environment.baseURL + 'admin/jobs', { job_id })
   }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { initFlowbite } from 'flowbite';
+import { GetPreviousRouteService } from './shared/services/get-previous-route.service';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,9 @@ import { initFlowbite } from 'flowbite';
 })
 export class AppComponent implements OnInit{
 
-  constructor() { }
+  constructor(
+    private readonly _getPreviousRoute:GetPreviousRouteService
+  ) { }
 
   ngOnInit(): void {
     initFlowbite();

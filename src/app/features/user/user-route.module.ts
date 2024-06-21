@@ -3,7 +3,7 @@ import { UserHomeComponent } from "./components/user-home/user-home.component";
 import { NgModule } from "@angular/core";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { JobListComponent } from "./components/job-list/job-list.component";
-import { JobDetailedViewComponent } from "./components/job-detailed-view/job-detailed-view.component";
+import { JobDetailedViewComponent } from "../../shared/components/job-detailed-view/job-detailed-view.component";
 import { UserProfileComponent } from "./components/user-profile/user-profile.component";
 import { AppliedJobsComponent } from "./components/applied-jobs/applied-jobs.component";
 import { SavedJobsAndPostsComponent } from "./components/saved-jobs-and-posts/saved-jobs.component";
@@ -23,7 +23,7 @@ const routes: Routes = [
         { path: 'dashboard', component:DashboardComponent, },
         { path: 'profile/:id', component:UserProfileComponent, },
         { path: 'jobs', component:JobListComponent, },
-        { path: 'job/:id', component:JobDetailedViewComponent, },
+        { path: 'job/:context/:id', component:JobDetailedViewComponent, },
         { path: 'posts', component:PostsComponent },
         { path: 'networks', component:NetworksComponent },
         { path: 'inbox/:context', component:InboxComponent },

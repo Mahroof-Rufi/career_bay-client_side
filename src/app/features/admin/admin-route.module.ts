@@ -7,6 +7,7 @@ import { MainPageComponent } from "./components/main-page/main-page.component";
 import { ManagementComponent } from "./components/management/management.component";
 import { UserProfileCommonViewComponent } from "../../shared/components/user-profile-common-view/user-profile-common-view.component";
 import { CompanyProfileCommonViewComponent } from "../../shared/components/company-profile-common-view/company-profile-common-view.component";
+import { JobDetailedViewComponent } from "../../shared/components/job-detailed-view/job-detailed-view.component";
 const routes: Routes = [
     { path: '', component:MainPageComponent, children:[
         { path: 'dashboard', component: DashboardComponent  },
@@ -14,7 +15,8 @@ const routes: Routes = [
         { path: 'user/:id', component:UserProfileCommonViewComponent },
         { path: 'companies', component:ManagementComponent },
         { path: 'company/:id', component:CompanyProfileCommonViewComponent },
-        { path: 'jobs', component:ManagementComponent }
+        { path: 'jobs', component:ManagementComponent },
+        { path: 'job/:context/:id', component:JobDetailedViewComponent }
     ], canActivate:[adminAuthGuard]},
     { path: 'login', component: AdminLoginComponent }, 
 ]
