@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { LOAD_USERS, employerAction, employerActionSuccess, loadEmployers, loadEmployersSuccess, loadUserSuccess, loadUsers, userAction, userActionSuccess } from "./admin.actions";
+import { LOAD_USERS, employerAction, employerActionSuccess, jobAction, jobActionSuccess, loadEmployers, loadEmployersSuccess, loadJobs, loadJobsSuccess, loadUserSuccess, loadUsers, userAction, userActionSuccess } from "./admin.actions";
 import { EMPTY, catchError, exhaustMap, map } from "rxjs";
 import { AdminApiServiceService } from "../services/admin-api-service.service";
 import { UserAPIServiceService } from "../../user/services/user-api-service.service";
@@ -69,12 +69,44 @@ export class adminEffects {
         })
     ))
 
-    _employerActionSuccess = createEffect(() => this._actions.pipe(
+    _employerAction = createEffect(() => this._actions.pipe(
         ofType(employerAction),
         exhaustMap((action) => {
             return this._adminAPIs.adminEmployerAction(action.employer_id).pipe(
                 map((data) => {
                     return employerActionSuccess({ employer:data.updatedEmployer })
+                }),
+                catchError((error) => {
+                    console.error('HTTP Error on admin company action effect:',error);
+                    return EMPTY
+                })
+            )
+        })
+    ))
+
+    _loadJobs = createEffect(() => this._actions.pipe(
+        ofType(loadJobs),
+        exhaustMap((action) => {
+            return this._adminAPIs.loadJobs(action.pageNo, action.queries).pipe(
+                map((data) => {
+                    return loadJobsSuccess({ jobs:data.jobs, totalJobsCount:data.totalJobsCount })
+                }),
+                catchError((error) => {
+                    console.error('HTTP Error on admin load companies effect:',error);
+                    return EMPTY
+                })
+            )
+        })
+    ))
+
+    _jobAction = createEffect(() => this._actions.pipe(
+        ofType(jobAction),
+        exhaustMap((action) => {
+            return this._adminAPIs.jobAction(action.job_id).pipe(
+                map((response) => {
+                    console.log(response);
+                    
+                    return jobActionSuccess({ job:response.updatedJob })
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on admin company action effect:',error);

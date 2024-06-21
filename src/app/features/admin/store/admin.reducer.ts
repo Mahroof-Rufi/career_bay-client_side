@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
 import { adminInitialStore } from "./admin.store";
-import { employerActionSuccess, loadEmployersSuccess, loadUserSuccess, userActionSuccess } from "./admin.actions";
+import { employerActionSuccess, jobActionSuccess, loadEmployersSuccess, loadJobsSuccess, loadUserSuccess, userActionSuccess } from "./admin.actions";
 import { User } from "./admin.model";
 
 export const adminReducer = createReducer(adminInitialStore,    
@@ -31,7 +31,21 @@ export const adminReducer = createReducer(adminInitialStore,
             ...state,
             companies:updatedEmployers
         }
-    })
+    }),
+    on(loadJobsSuccess, (state, action) => {
+        return {
+            ...state,
+            jobs: action.jobs,
+            totalJobsCount: action.totalJobsCount
+        }
+    }),
+    on(jobActionSuccess, (state, action) => {
+        const updatedJobs = state.jobs.map( job => job._id === action.job._id ? action.job : job)
+        return {
+            ...state,
+            jobs:updatedJobs
+        }
+    }),
 )
 
 export const adminFeatureKey = 'admin'

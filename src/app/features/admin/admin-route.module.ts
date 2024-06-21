@@ -6,7 +6,6 @@ import { AdminLoginComponent } from "./components/admin-login/admin-login.compon
 import { MainPageComponent } from "./components/main-page/main-page.component";
 import { UsersComponent } from "./components/users/users.component";
 import { CompaniesComponent } from "./components/companies/companies.component";
-import { JobsComponent } from "./components/jobs/jobs.component";
 import { UserProfileCommonViewComponent } from "../../shared/components/user-profile-common-view/user-profile-common-view.component";
 import { CompanyProfileCommonViewComponent } from "../../shared/components/company-profile-common-view/company-profile-common-view.component";
 const routes: Routes = [
@@ -16,7 +15,7 @@ const routes: Routes = [
         { path: 'user/:id', component:UserProfileCommonViewComponent },
         { path: 'companies', component:CompaniesComponent },
         { path: 'company/:id', component:CompanyProfileCommonViewComponent },
-        { path: 'jobs', component:JobsComponent }
+        { path: 'jobs', component:UsersComponent }
     ], canActivate:[adminAuthGuard]},
     { path: 'login', component: AdminLoginComponent }, 
 ]

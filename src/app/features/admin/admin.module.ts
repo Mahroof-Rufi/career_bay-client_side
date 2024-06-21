@@ -8,7 +8,6 @@ import { MainPageComponent } from './components/main-page/main-page.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { UsersComponent } from './components/users/users.component';
 import { CompaniesComponent } from './components/companies/companies.component';
-import { JobsComponent } from './components/jobs/jobs.component';
 import { StoreModule } from '@ngrx/store';
 import { adminReducer, adminFeatureKey } from './store/admin.reducer';
 import { EffectsModule } from '@ngrx/effects';
@@ -25,7 +24,6 @@ import { AdminApiServiceService } from './services/admin-api-service.service';
     SideBarComponent,
     UsersComponent,
     CompaniesComponent,
-    JobsComponent
   ],
   imports: [
     CommonModule,

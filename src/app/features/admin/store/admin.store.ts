@@ -5,4 +5,6 @@ export const adminInitialStore:adminStateModel = {
     totalUsersCount:0,
     companies:[],
     totalCompaniesCount:0,
+    jobs:[],
+    totalJobsCount:0    
 }

@@ -30,7 +30,7 @@ export class JobComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Output() filterOptions: FilterOptions[] = [
     { label: 'sort by posted date', subOptions: [{ label: 'newest first', key: 'sort', value: 'newest' }, { label: 'oldest', key: 'sort', value: 'oldest' }], type: 'Radio' },
-    { label: 'job status', subOptions: [{ label: 'active jobs', key: 'active', value: 'true' }, { label: 'closed jobs', key: 'active', value: 'false' }], type: 'Radio' },
+    { label: 'job status', subOptions: [{ label: 'active jobs', key: 'isClosed', value: 'false' }, { label: 'closed jobs', key: 'isClosed', value: 'true' }], type: 'Radio' },
     { label: 'job type', subOptions: [{ label: 'full time', key: 'jobType', value: 'FullTime' }, { label: 'part time', key: 'jobType', value: 'PartTime' }, { label: 'internship', key: 'jobType', value: 'InterShip' }, { label: 'contract', key: 'jobType', value: 'Contract' },], type: 'CheckBox' },
     { label: 'job location', subOptions: [{ label: 'on-site', key: 'remort', value: 'false' }, { label: 'remort', key: 'remort', value: 'true' }], type: 'CheckBox' },
     { label: 'experience level', subOptions: [{ label: 'entry level', key: 'experienceLevel', value: 'EntryLevel' }, { label: 'junior level', key: 'experienceLevel', value: 'Junior' }, { label: 'mid level', key: 'experienceLevel', value: 'Mid Level' }, { label: 'senior level', key: 'experienceLevel', value: 'Senior level' }, { label: 'manager', key: 'experienceLevel', value: 'Manager' }, { label: 'director', key: 'experienceLevel', value: 'Director' }], type: 'CheckBox' },

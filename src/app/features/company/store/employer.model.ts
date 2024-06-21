@@ -15,7 +15,6 @@ export interface Employer {
 }
 
 export interface Job {
-    posts(posts: any): unknown;
     _id: string,
     company_id: string,
     jobTitle: string,
@@ -31,7 +30,8 @@ export interface Job {
     overView: string,
     responsibilities: string[],
     qualifications: string[],
-    active: boolean,
+    isActive: boolean,
+    isClosed: boolean,
     postedAt: Date,
     applicants?: string[]
 }

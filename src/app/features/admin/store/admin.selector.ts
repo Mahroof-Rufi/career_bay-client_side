@@ -21,6 +21,15 @@ export const getCompaniesData = createSelector(getAdminState,
     }
 );
 
+export const getJobsData = createSelector(getAdminState,
+    (state: adminStateModel) => {
+        return {
+            jobs:state.jobs,
+            totalJobsCount:state.totalJobsCount
+        }
+    }
+);
+
 export const getUserById = (user_id:string) => createSelector(getAdminState,
     (state: adminStateModel) => {
         return state.users.find( user => user._id == user_id)

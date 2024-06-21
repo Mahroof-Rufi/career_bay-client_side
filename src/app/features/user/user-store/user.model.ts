@@ -86,7 +86,8 @@ export interface Job {
     overView: string,
     responsibilities: string[],
     qualifications: string[],
-    active: boolean,
+    isActive: boolean,
+    isClosed: boolean,
     postedAt: Date,
     applicants?: string[]
 }

@@ -12,6 +12,7 @@ export class PaginationComponent implements OnChanges{
   @Input() maxItemInPerPage!:number
   @Input() totalNoOfEntries!:number
   @Input() noOfShowingEntries!:number
+  @Input() theme: 'User theme' | 'Admin theme' = 'User theme'
 
   from!:number;
   to!:number;

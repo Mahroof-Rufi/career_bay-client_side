@@ -1,3 +1,5 @@
+import { Job } from "../../company/store/employer.model"
+
 export interface experience {
     _id?:string,
     jobTitle: string,
@@ -71,4 +73,6 @@ export interface adminStateModel {
     totalUsersCount:number,
     companies:Employer[],
     totalCompaniesCount:number,
+    jobs:Job[],
+    totalJobsCount:number
 }
