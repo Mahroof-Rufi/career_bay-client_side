@@ -66,6 +66,8 @@ export class UserSignUpComponent implements OnInit,OnDestroy{
       gender: ['', [Validators.required]],
       OTP: ['', [Validators.required, noSpaceAllowed, Validators.minLength(6)]]
     },{ validators: [confirmPasswordValidator]})
+
+    this._authAPIs.getIndustries().subscribe((res:any) => this.industries = res)
   }
 
   submitRegistrationForm() {

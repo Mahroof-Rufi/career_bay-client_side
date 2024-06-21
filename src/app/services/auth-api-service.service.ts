@@ -15,6 +15,8 @@ export class AuthApiService{
   $employerTokenRefreshed = new Subject<boolean>
   $adminTokenRefreshed = new Subject<boolean>
 
+  private industryJSON = 'assets/industries.json'
+
   constructor(
     private readonly _http:HttpClient,
     private readonly _alert:TuiAlertService,
@@ -49,6 +51,9 @@ export class AuthApiService{
   }
 
 
+  getIndustries() {
+    return this._http.get(this.industryJSON)
+  }
   
   userRequestOTP(email:string) {
     return this._http.post(environment.baseURL+'auth/user/send-otp',{ email:email })
