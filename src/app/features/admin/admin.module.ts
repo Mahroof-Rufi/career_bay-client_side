@@ -6,8 +6,7 @@ import { adminRouteModule } from './admin-route.module';
 import { AdminLoginComponent } from './components/admin-login/admin-login.component';
 import { MainPageComponent } from './components/main-page/main-page.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
-import { UsersComponent } from './components/users/users.component';
-import { CompaniesComponent } from './components/companies/companies.component';
+import { ManagementComponent } from './components/management/management.component';
 import { StoreModule } from '@ngrx/store';
 import { adminReducer, adminFeatureKey } from './store/admin.reducer';
 import { EffectsModule } from '@ngrx/effects';
@@ -22,8 +21,7 @@ import { AdminApiServiceService } from './services/admin-api-service.service';
     DashboardComponent,
     MainPageComponent,
     SideBarComponent,
-    UsersComponent,
-    CompaniesComponent,
+    ManagementComponent,
   ],
   imports: [
     CommonModule,

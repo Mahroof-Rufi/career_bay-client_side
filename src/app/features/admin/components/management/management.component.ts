@@ -1,21 +1,22 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { User, adminStateModel } from '../../store/admin.model';
-import { getJobsData, getUsersData } from '../../store/admin.selector';
-import { jobAction, loadJobs, loadUsers, userAction } from '../../store/admin.actions';
+import { Employer, User, adminStateModel } from '../../store/admin.model';
+import { getCompaniesData, getJobsData, getUsersData } from '../../store/admin.selector';
+import { employerAction, jobAction, loadEmployers, loadJobs, loadUsers, userAction } from '../../store/admin.actions';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthApiService } from '../../../../services/auth-api-service.service';
 import { FilterOptions } from '../../../../models/filterOptions';
 import { initFlowbite } from 'flowbite';
 import { Subscription } from 'rxjs';
 import { Job } from '../../../company/store/employer.model';
+import { getEmployers } from '../../../user/user-store/user.selector';
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrl: './users.component.scss'
+  selector: 'app-management',
+  templateUrl: './management.component.html',
+  styleUrl: './management.component.scss'
 })
-export class UsersComponent implements OnInit, AfterViewInit, OnDestroy{
+export class ManagementComponent implements OnInit, AfterViewInit, OnDestroy{
   @Output() currentPageNo:number = 1;
   @Output() maxItemPerPage:number = 10;
   @Output() totalUserProfiles!:number;
@@ -23,8 +24,7 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy{
   @Output() filterOptions!: FilterOptions[];
 
   viewMode!:string
-  users!:User[];
-  jobs!:Job[];
+  data!:User[] | Employer[] | Job[];
 
   queryParamSubscription!:Subscription;
   adminTokenRefreshedSubscription!:Subscription;
@@ -78,22 +78,33 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy{
           this._adminStore.dispatch(loadUsers({ pageNo:this.currentPageNo, queries:filterQueryString }))
         } else if (this.viewMode == 'jobs') {
           this._adminStore.dispatch(loadJobs({ pageNo:this.currentPageNo, queries:filterQueryString }))
+        } else if (this.viewMode == 'companies') {
+          this._adminStore.dispatch(loadEmployers({ pageNo:this.currentPageNo, queries:filterQueryString }))
         }
       }
     })
 
     this.adminTokenRefreshedSubscription = this._authService.$adminTokenRefreshed.subscribe(res => this._adminStore.dispatch(loadUsers({ pageNo:this.currentPageNo })))
-    this._adminStore.select(getUsersData).subscribe((data) => {
-      this.users = data.users 
-      this.totalUserProfiles = data.totalUsersCount
-    })
-
-    this._adminStore.select(getJobsData).subscribe({
-      next: response => {
-        this.jobs = response.jobs
-        this.totalUserProfiles = response.totalJobsCount
-      }
-    })
+    if (this.viewMode == 'users') {
+      this._adminStore.select(getUsersData).subscribe((data) => {
+        console.log(data);
+        this.data = data.users as User[]
+        this.totalUserProfiles = data.totalUsersCount
+      })
+    } else if (this.viewMode == 'jobs') {
+      this._adminStore.select(getJobsData).subscribe((data) => {
+        console.log(data);
+        
+        this.data = data.jobs as Job[]
+        this.totalUserProfiles = data.totalJobsCount
+      })
+    } else if (this.viewMode == 'companies') {
+      this._adminStore.select(getCompaniesData).subscribe((data) => {
+        console.log(data);
+        this.data = data.employers as Employer[]
+        this.totalUserProfiles = data.totalEmployersCount
+      })
+    }
   }
 
   ngAfterViewInit(): void {
@@ -112,11 +123,27 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy{
     this._adminStore.dispatch(jobAction({ job_id:job_id }))
   }
 
+  employerAction(emp_id:string) {
+    this._adminStore.dispatch(employerAction({ employer_id:emp_id }))
+  }
+
   private constructQueryString(params: { [key: string]: string[] }): string {
     const queryStrings = Object.keys(params).map(key => {
       return `${encodeURIComponent(key)}=${encodeURIComponent(params[key].join(','))}`;
     });
     return queryStrings.join('&');
+  }
+
+  isUser(item: User | Employer | Job): item is User {
+    return (item as User).firstName !== undefined;
+  }
+
+  isEmployer(item: User | Employer | Job): item is Employer {
+    return (item as Employer).companyName !== undefined;
+  }
+
+  isJob(item: User | Employer | Job): item is Job {
+    return (item as Job).jobTitle !== undefined;
   }
 
   ngOnDestroy(): void {
