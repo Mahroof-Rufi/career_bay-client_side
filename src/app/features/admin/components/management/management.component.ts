@@ -40,6 +40,7 @@ export class ManagementComponent implements OnInit, AfterViewInit, OnDestroy{
     this._activatedRoute.url.subscribe(url => {
       const currentRoute = url.map(segment => segment.path)
       this.viewMode = currentRoute[0]
+      
       if (this.viewMode == 'users') {
         this.filterOptions = [
           { label: 'sort by name', subOptions: [ { label: 'A-Z', key: 'sort', value: 'a-z' }, { label: 'Z-A', key: 'sort', value: 'z-a' } ], type: 'Radio' },
@@ -55,6 +56,12 @@ export class ManagementComponent implements OnInit, AfterViewInit, OnDestroy{
           { label: 'job location', subOptions: [{ label: 'on-site', key: 'remort', value: 'false' }, { label: 'remort', key: 'remort', value: 'true' }], type: 'CheckBox' },
           { label: 'experience level', subOptions: [{ label: 'entry level', key: 'experienceLevel', value: 'EntryLevel' }, { label: 'junior level', key: 'experienceLevel', value: 'Junior' }, { label: 'mid level', key: 'experienceLevel', value: 'Mid Level' }, { label: 'senior level', key: 'experienceLevel', value: 'Senior level' }, { label: 'manager', key: 'experienceLevel', value: 'Manager' }, { label: 'director', key: 'experienceLevel', value: 'Director' }], type: 'CheckBox' },
         ]
+      } else if (this.viewMode == 'companies') {
+        this.filterOptions = [
+          { label: 'sort by name', subOptions: [{ label: 'A-Z', key: 'sort', value: 'a-z' }, { label: 'Z-A', key: 'sort', value: 'z-a' }], type: 'Radio' },
+          { label: 'company type', subOptions: [{ label: 'IT services', key: 'industry', value: 'IT Services' }, { label: 'consulting', key: 'industry', value: 'Consulting' }, { label: 'manufacturing', key: 'industry', value: 'Manufacturing' }, { label: 'healthcare', key: 'industry', value: 'Healthcare' } ], type: 'CheckBox' },
+          { label: 'active / blocked', subOptions: [{ label: 'Active employers', key: 'active', value: 'true' }, { label: 'Blocked employers', key: 'active', value: 'false' } ], type: 'Radio' }
+        ];
       }
     });
     this.queryParamSubscription = this._activatedRoute.queryParamMap.subscribe({
@@ -88,20 +95,16 @@ export class ManagementComponent implements OnInit, AfterViewInit, OnDestroy{
     this.adminTokenRefreshedSubscription = this._authService.$adminTokenRefreshed.subscribe(res => this._adminStore.dispatch(loadUsers({ pageNo:this.currentPageNo })))
     if (this.viewMode == 'users') {
       this._adminStore.select(getUsersData).subscribe((data) => {
-        console.log(data);
         this.data = data.users as User[]
         this.totalUserProfiles = data.totalUsersCount
       })
     } else if (this.viewMode == 'jobs') {
       this._adminStore.select(getJobsData).subscribe((data) => {
-        console.log(data);
-        
         this.data = data.jobs as Job[]
         this.totalUserProfiles = data.totalJobsCount
       })
     } else if (this.viewMode == 'companies') {
       this._adminStore.select(getCompaniesData).subscribe((data) => {
-        console.log(data);
         this.data = data.employers as Employer[]
         this.totalUserProfiles = data.totalEmployersCount
       })
