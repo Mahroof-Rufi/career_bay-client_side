@@ -1,3 +1,29 @@
-<div class="flex justify-center items-center w-full h-screen">
-    <h1 class="text-5xl font-bannerText">Welcome to Admin Dashboard</h1>
+<div class="w-full h-screen">
+    <div class="px-10">
+        <app-chart 
+        (totalNoOfUsersChange)="onTotalNoOfUsers($event)"
+        (totalNoOfEmployersChange)="onTotalNoOfEmployers($event)"
+        (totalNoOfJobsChange)="onTotalNoOfJobs($event)"
+        (totalNoOfAppliedJobsChange)="onTotalNoOfAppliedJobs($event)">
+        ></app-chart>
+        <div class="grid grid-cols-2 gap-6 p-4">
+            <div class="bg-gradient-to-r from-green-400 to-blue-500 text-white rounded-lg p-6 shadow-md transform transition duration-500 hover:scale-105">
+              <div class="text-lg font-semibold">Total No of Users:</div>
+              <div class="text-4xl font-bold mt-2">{{ totalNoOfUsers }}</div>
+            </div>
+            <div class="bg-gradient-to-r from-yellow-400 to-red-500 text-white rounded-lg p-6 shadow-md transform transition duration-500 hover:scale-105">
+              <div class="text-lg font-semibold">Total No of Companies:</div>
+              <div class="text-4xl font-bold mt-2">{{ totalNoOfEmployers }}</div>
+            </div>
+            <div class="bg-gradient-to-r from-purple-400 to-pink-500 text-white rounded-lg p-6 shadow-md transform transition duration-500 hover:scale-105">
+              <div class="text-lg font-semibold">Total No Of Current Openings:</div>
+              <div class="text-4xl font-bold mt-2">{{ totalNoOfJobs }}</div>
+            </div>
+            <div class="bg-gradient-to-r from-indigo-400 to-purple-500 text-white rounded-lg p-6 shadow-md transform transition duration-500 hover:scale-105">
+              <div class="text-lg font-semibold">Total No of Applications:</div>
+              <div class="text-4xl font-bold mt-2">{{ totalNoOfAppliedJobs }}</div>
+            </div>
+          </div>
+          
+    </div>
 </div>

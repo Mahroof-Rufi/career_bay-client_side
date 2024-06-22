@@ -12,6 +12,7 @@ import { adminReducer, adminFeatureKey } from './store/admin.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { adminEffects } from './store/admin.effects';
 import { AdminApiServiceService } from './services/admin-api-service.service';
+import { ChartComponent } from './components/chart/chart.component';
 
 
 
@@ -22,6 +23,7 @@ import { AdminApiServiceService } from './services/admin-api-service.service';
     MainPageComponent,
     SideBarComponent,
     ManagementComponent,
+    ChartComponent,
   ],
   imports: [
     CommonModule,

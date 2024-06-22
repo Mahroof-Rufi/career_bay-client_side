@@ -1,0 +1,24 @@
+<div class="w-full h-full">
+    <div class="flex float-right">
+        <div>
+            <form class="max-w-sm mx-auto">
+                <select id="dateRangeSelect" #dateRangeSelect  (change)="valueChanges()" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
+                    <option selected value="Jan-June">Jan - June</option>
+                    <option value="July-Dec">July - Dec</option>
+                </select>
+            </form>
+        </div>
+        <div>
+            <form class="max-w-sm mx-auto">
+                <select id="yearSelect" #yearSelect (change)="valueChanges()" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
+                    <option selected value="2024">2024</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                    <option value="2020">2020</option>
+                </select>
+            </form>
+        </div>
+    </div>
+    <canvas id="adminChart"></canvas>
+</div>

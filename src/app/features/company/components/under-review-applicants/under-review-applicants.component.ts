@@ -120,6 +120,9 @@ export class UnderReviewApplicantsComponent implements AfterViewInit, OnInit, On
       case 'finalists':
         this._confirmationService.openApplicationStatusChangeDialogue(this.job_id, user_id, 'on-hold')
         break;
+      case 'on-hold':
+        this._confirmationService.openApplicationStatusChangeDialogue(this.job_id, user_id, 'hired')
+        break;
     }
   }
 

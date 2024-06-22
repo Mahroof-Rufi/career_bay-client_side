@@ -22,6 +22,10 @@ export class AdminApiServiceService {
   adminUserAction(user_id:string):Observable<any> {
     return this._http.patch(environment.baseURL + 'admin/users', { user_id:user_id })
   }
+
+  getDashboardStatistics(startDate:string, endDate:string): Observable<any> {
+    return this._http.get(environment.baseURL + `admin/dashboard-stats?startDate=${startDate}&endDate=${endDate}`)
+  }
   
   adminLoadCompanies(pageNo:number, quires?:any):Observable<any> {
     return this._http.get(environment.baseURL + `admin/employers?page=${pageNo}&${quires}`)
