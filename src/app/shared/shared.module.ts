@@ -14,11 +14,12 @@ import {
   TuiInputPasswordModule, 
   TuiInputPhoneInternationalModule, 
   TuiInputPhoneModule, 
+  TuiMultiSelectModule, 
   TuiSelectModule, 
   TuiTextareaModule,
 } from '@taiga-ui/kit';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TuiAlertModule, TuiDataListModule, TuiHintModule, TuiHostedDropdownModule, TuiTextfieldControllerModule, TuiTooltipModule } from '@taiga-ui/core';
+import { TuiAlertModule, TuiButtonModule, TuiDataListModule, TuiDropdownModule, TuiHintModule, TuiHostedDropdownModule, TuiTextfieldControllerModule, TuiTooltipModule } from '@taiga-ui/core';
 import { HttpClientModule } from '@angular/common/http';
 import { LogoComponent } from './components/logo/logo.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -96,6 +97,9 @@ import { JobDetailedViewComponent } from './components/job-detailed-view/job-det
     TuiHostedDropdownModule,
     RouterModule,
     TuiInputDateTimeModule,
+    TuiDropdownModule,
+    TuiMultiSelectModule,
+    TuiButtonModule
   ],
   exports: [
     TuiInputModule,
@@ -133,7 +137,10 @@ import { JobDetailedViewComponent } from './components/job-detailed-view/job-det
     CompanyComponent,
     InboxComponent,
     TuiInputDateTimeModule,
-    JobDetailedViewComponent
+    JobDetailedViewComponent,
+    TuiDropdownModule,
+    TuiMultiSelectModule,
+    TuiButtonModule
   ],
   providers: [
     JobsApiServiceService,

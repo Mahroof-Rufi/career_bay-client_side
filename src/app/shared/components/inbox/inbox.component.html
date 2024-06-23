@@ -70,7 +70,22 @@
                      class="message my-2 p-2 rounded-lg max-w-xs" 
                      [ngClass]="{'sent': message.sender === userData._id, 'received': message.sender !== userData._id}">
                     @if (message.type == 'text') {
-                        <p>{{ message.content }}</p>
+                        <div class="flex items-center">
+                            <p class="mr-2">{{ message.content }}</p>
+                            @if(message.sender === userData._id) {
+                                <div class="float-right">
+                                    <tui-hosted-dropdown #dropdown [content]="content" [tuiDropdownMaxHeight]="500" >
+                                        <button size="s" appearance="solid" tuiIconButton type="button" [icon]="arrow" [pseudoHover]="dropdown.open || null"></button>
+                                    </tui-hosted-dropdown>
+                                    <ng-template #content>
+                                        <tui-data-list size="s" class="list">
+                                            <button tuiOption (click)="deleteMessage(message._id)"> Delete </button>
+                                        </tui-data-list>
+                                    </ng-template>
+                                </div>
+                            }
+                        </div>
+
                         <span class="message-time text-xs text-gray-500">{{ message.createdAt | date:'shortTime' }}</span>
                     } @else if (message.type == 'URL') {
                         <div class="flex flex-col items-center justify-center bg-gray-100 py-12">

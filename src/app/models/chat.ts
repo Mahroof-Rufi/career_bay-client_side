@@ -1,7 +1,7 @@
 import { interviewDetails } from "./subModels/interviewDetails";
 
 export interface Chat {
-    _id?:string,
+    _id:string,
     sender: string,
     receiver: string,
     content: string,

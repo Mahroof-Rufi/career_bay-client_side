@@ -11,6 +11,7 @@ import { getEmployerData, getEmployerId } from '../../../features/company/store/
 import { EmployerApiServiceService } from '../../../features/company/services/employer-api-service.service';
 import { initFlowbite } from 'flowbite';
 import { InterviewScheduleModalService } from '../../../features/company/services/interview-schedule-modal.service';
+import { TUI_ARROW } from '@taiga-ui/kit';
 
 @Component({
   selector: 'app-inbox',
@@ -24,6 +25,8 @@ export class InboxComponent implements OnInit, AfterViewInit, OnDestroy{
   userData!:User | Employer;
   receiver_id:string | null = null;
   oppositeUserData!:User | any; 
+
+  readonly arrow = TUI_ARROW;    
 
   connections: any;
   messages: Chat[] = []
@@ -86,6 +89,10 @@ export class InboxComponent implements OnInit, AfterViewInit, OnDestroy{
         this.messages.push(message);
       }
     });
+
+    this._userChat.onDeletedMessage().subscribe(messageId => {
+      this.messages = this.messages.filter( message => message._id != messageId)
+    })
     
 
     this.getConnections()
@@ -173,15 +180,7 @@ export class InboxComponent implements OnInit, AfterViewInit, OnDestroy{
   sendMessage(): void {
     if (this.message.trim() === '') return;
 
-    if (this.message.trim() && this.receiver_id) {
-      const message = {
-        sender: this.userData._id,
-        receiver: this.receiver_id,
-        content: this.message,
-        profileType: this.profileType,
-        createdAt: new Date()
-      };
-  
+    if (this.message.trim() && this.receiver_id) {  
       if (this.context == 'user') {
         this._userChat.sendMessageByUser(this.userData._id, this.receiver_id, this.message, 'text',new Date());
       } else if (this.context == 'employer') {
@@ -204,6 +203,11 @@ export class InboxComponent implements OnInit, AfterViewInit, OnDestroy{
       }
     }
     
+  }
+
+  deleteMessage(messageId:string) {
+    this.messages = this.messages.filter( message => message._id != messageId)
+    this._userChat.deleteMessageByUser(messageId)
   }
 
   showUsers() {

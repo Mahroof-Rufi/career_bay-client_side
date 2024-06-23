@@ -56,13 +56,22 @@ export class UserChatService {
   }
 
   sendMessageByUser(sender: string, receiver: string, text: string, type:'text' | 'URL',createdAt: Date): void {
-    this._socket.emit('sendMessage', { sender, receiver, text, type, createdAt });
-    this._http.post(environment.baseURL + 'chat/user/save-message', { receiver_id:receiver, content:text, type }).subscribe()
+    this._http.post(environment.baseURL + 'chat/user/save-message', { receiver_id:receiver, content:text, type }).subscribe((res:any) => {
+      this._socket.emit('sendMessage', { _id: res.messageId, sender, receiver, text, type, createdAt });
+    })
   }
 
   sendMessageByEmployer(sender: string, receiver: string, text: string, type:'text' | 'URL', createdAt: Date): void {
     this._socket.emit('sendMessage', { sender, receiver, text, type, createdAt });
     this._http.post(environment.baseURL + 'chat/employer/save-message', { receiver_id:receiver, content:text, type }).subscribe()
+  }
+
+  deleteMessageByUser(messageId:string) {
+    this._http.delete(environment.baseURL + `chat/user/delete-message/${messageId}`).subscribe( (res:any) => {
+      console.log(res);
+      
+      this._socket.emit('delete-message', { deletedMessageId:res.deletedMessage._id, receiverId:res.deletedMessage.receiver })
+    })
   }
 
   scheduleInterview(sender:User | Employer, receiver:string, date:Date, time:string, message_id?:string) {  
@@ -81,11 +90,17 @@ export class UserChatService {
   onMessage(): Observable<any> {
     return new Observable(observer => {
       this._socket.on('message', (data:any) => {
-        console.log('new message',data);
-        
         observer.next(data);
       });
     });
+  }
+
+  onDeletedMessage(): Observable<any> {
+    return new Observable(observer => {
+      this._socket.on('deleted-message', (messageId:string) => {
+        observer.next(messageId)
+      })
+    })
   }
 
   endSession(receiver: string): void {
