@@ -5,6 +5,7 @@ import { environment } from '../../../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../user-store/user.model';
 import { Employer } from '../../company/store/employer.model';
+import { InterviewScheduleModalService } from '../../company/services/interview-schedule-modal.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,8 @@ export class UserChatService {
   private _socket:any;
 
   constructor(
-    private readonly _http:HttpClient
+    private readonly _http:HttpClient,
+    private readonly _inboxModalService:InterviewScheduleModalService
   ) {
     this._socket = io(environment.serverURL)
   }
@@ -61,9 +63,24 @@ export class UserChatService {
     })
   }
 
+  sendMediaFileByUser(Data:FormData) {
+    this._http.post(environment.baseURL + 'chat/user/save-mediaFile', Data).subscribe((res:any) => {
+      this._inboxModalService.closeModal()
+      const { _id, sender, receiver, content, type, isMediaFile, createdAt } = res.mediaFileMessage
+      this._socket.emit('sendMessage', { _id, sender, receiver, text:content, type, isMediaFile, createdAt });
+    })
+  }
+
   sendMessageByEmployer(sender: string, receiver: string, text: string, type:'text' | 'URL', createdAt: Date): void {
     this._http.post(environment.baseURL + 'chat/employer/save-message', { receiver_id:receiver, content:text, type }).subscribe((res:any) => {
       this._socket.emit('sendMessage', { _id: res.messageId, sender, receiver, text, type, createdAt });
+    })
+  }
+
+  sendMediaFileByEmployer(data:FormData) {
+    this._http.post(environment.baseURL + 'chat/employer/save-mediaFile', data).subscribe((res:any) => {
+      console.log(res);
+      
     })
   }
 

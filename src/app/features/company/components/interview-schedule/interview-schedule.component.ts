@@ -21,6 +21,8 @@ export class InterviewScheduleComponent implements OnInit{
   title:string = 'Schedule Interview'
   timePeriods:string[] = ['AM','PM']
   message!:Chat;
+  mediaFile!:File;
+  receiverId!:string;
 
   MeetUrlForm = this._formBuilder.group({
     URL: this._formBuilder.control(null, [Validators.required, noSpaceAllowed])
@@ -44,6 +46,7 @@ export class InterviewScheduleComponent implements OnInit{
     const data:any = this.data
     this.viewMode = data.viewMode
     this.accountType = data.accountType
+    this.receiverId = data.receiverId
     if (data.message) {
       this.title = 'Reschedule Interview'
       this.message = data.message
@@ -99,6 +102,32 @@ export class InterviewScheduleComponent implements OnInit{
       this.MeetUrlForm.markAllAsTouched()
     }
   } 
+
+  handleMediaFile(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.mediaFile = input.files[0];
+    }
+  }
+
+  sendMediaFile() {
+    if (!this.mediaFile) {
+      this._alert.open('',{
+        label: 'Upload a valid media file',
+        status: 'warning',
+        hasCloseButton: true,
+        autoClose: false
+      }).subscribe();
+    } 
+    if (this.accountType == 'user') {
+      const MediaForm = new FormData()
+      MediaForm.append('receiver', this.receiverId)
+      MediaForm.append('mediaFile', this.mediaFile)
+      this._chatService.sendMediaFileByUser(MediaForm)
+    } else {
+
+    }
+  }
 
   cancelInterviewCancellation() {    
     this._scheduledInterviewModal.closeModal()

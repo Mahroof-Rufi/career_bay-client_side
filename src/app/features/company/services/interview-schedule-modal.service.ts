@@ -71,4 +71,18 @@ export class InterviewScheduleModalService {
   closeModal() {
     this.subscription?.unsubscribe()
   }
+
+  openMediaShareModal(senderId:string, receiverId:string, accountType:string) {
+    this.scheduleDialogue = this._dialogueService.open<any>(
+      new PolymorpheusComponent(InterviewScheduleComponent, this._injector),
+      {
+        size:'m',
+        data:{senderId,receiverId,viewMode:'media share', accountType}
+      },
+    );
+
+    if (this.scheduleDialogue) {
+      this.subscription = this.scheduleDialogue.subscribe()
+    }
+  }
 }

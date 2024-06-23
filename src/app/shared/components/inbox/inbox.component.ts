@@ -264,8 +264,16 @@ export class InboxComponent implements OnInit, AfterViewInit, OnDestroy{
   }
 
   openMeetUrlSendModal() {
+    this.isOpen = false
     if (this.receiver_id) {
       this._interviewScheduleModal.openMeetUrlModal(this.userData._id,this.receiver_id,this.context)
+    }
+  }
+
+  openShareMediaModal() {
+    this.isOpen = false
+    if (this.receiver_id) {
+      this._interviewScheduleModal.openMediaShareModal(this.userData._id, this.receiver_id, this.context)
     }
   }
 
