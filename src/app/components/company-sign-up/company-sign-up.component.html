@@ -96,36 +96,12 @@
 
             <div class="flex gap-2 my-5 mx-3">
                 <div class="flex flex-col w-11/12">
-                    <tui-input-files
-                    *ngIf="!document.value"
-                    accept="application/pdf"
-                    [formControl]="document"
-                    (reject)="onReject($event)"
-                ></tui-input-files>
- 
-                <tui-files class="tui-space_top-1">
-                    <tui-file
-                        *ngIf="loadedFiles$ | async as file"
-                        [file]="file"
-                        [showDelete]="document.enabled"
-                        (removed)="removeFile()"
-                    ></tui-file>
-                
-                    <tui-file
-                        *ngIf="rejectedFiles$ | async as file"
-                        state="error"
-                        [file]="file"
-                        [showDelete]="document.enabled"
-                        (removed)="clearRejected()"
-                    ></tui-file>
-                
-                    <tui-file
-                        *ngIf="loadingFiles$ | async as file"
-                        state="loading"
-                        [file]="file"
-                        [showDelete]="document.enabled"
-                    ></tui-file>
-                </tui-files>
+                    <div class="w-full">
+                        <input (change)="handleDocument($event)" accept="application/pdf" class="block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="resume-file" type="file">
+                    </div>
+                    <small *ngIf="registrationForm.get('verificationDocument')?.errors?.['required'] && registrationForm.get('verificationDocument')?.touched" class="text-red-500 font-bannerText">
+                        *doc required
+                    </small>
                 </div>
                 <div class="flex w-1/12 justify-center items-center">
                     <tui-tooltip
@@ -139,13 +115,16 @@
 
             <div class="flex gap-2 my-5 mx-3">
                 <div class="fle w-full">
-                    <tui-input formControlName="city">
-                        City
+                    <tui-select formControlName="city">
+                        Select City
                         <input
                             tuiTextfield
-                            type="text"
                         />
-                    </tui-input>
+                        <tui-data-list-wrapper
+                            *tuiDataList
+                            [items]="cities"
+                        ></tui-data-list-wrapper>
+                    </tui-select>
                     <small *ngIf="registrationForm.get('city')?.errors?.['required'] && registrationForm.get('city')?.touched" class="text-red-500 font-bannerText">
                         *city required
                     </small>

@@ -15,6 +15,9 @@ export const LOAD_EMPLOYERS_SUCCESS = '[admin employers] load employers success'
 export const EMPLOYER_ACTION = '[admin employer] employer action';
 export const EMPLOYER_ACTION_SUCCESS = '[admin employer] employer action success';
 
+export const VERIFY_EMPLOYER = '[admin employer] verify employer';
+export const VERIFY_EMPLOYER_SUCCESS = '[admin employer] verify employer success';
+
 export const LOAD_JOBS = '[admin jobs] load jobs';
 export const LOAD_JOBS_SUCCESS = '[admin jobs] load jobs success';
 
@@ -34,6 +37,9 @@ export const loadEmployersSuccess = createAction(LOAD_EMPLOYERS_SUCCESS, props<{
 
 export const employerAction = createAction(EMPLOYER_ACTION, props<{ employer_id:string }>())
 export const employerActionSuccess = createAction(EMPLOYER_ACTION_SUCCESS, props<{ employer:Employer }>())
+
+export const verifyEmployer = createAction(VERIFY_EMPLOYER, props<{ employer_id:string }>())
+export const verifyEmployerSuccess = createAction(VERIFY_EMPLOYER_SUCCESS, props<{ employer_id:string }>())
 
 export const loadJobs = createAction(LOAD_JOBS, props<{ pageNo:number, queries?:any }>())
 export const loadJobsSuccess = createAction(LOAD_JOBS_SUCCESS, props<{ jobs:Job[], totalJobsCount:number }>())

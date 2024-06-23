@@ -21,10 +21,11 @@ export class CompanySignUpComponent implements OnInit,OnDestroy{
   registrationFailureAlertSubscription!:Subscription;
 
   registrationForm!: FormGroup;
-  document = new FormControl();
+  verificationDocument!: any
 
-  industries = ['IT Services and Consulting','Media']
-  states = ['Kerala','Karnataka','Telengana']
+  industries = []
+  cities = []
+  states = []
   OTP_BTN:string = 'Send OTP'
 
   startingMinute: number = 1; 
@@ -43,7 +44,8 @@ export class CompanySignUpComponent implements OnInit,OnDestroy{
   ngOnInit(): void {
     this.registrationForm = this._formBuilder.group({
       companyName: ['', Validators.required],
-      profile_url: [''], 
+      profile_url: [''],
+      verificationDocument: [null, Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
@@ -51,47 +53,23 @@ export class CompanySignUpComponent implements OnInit,OnDestroy{
       city: ['', Validators.required],
       state: ['', Validators.required],
       OTP: ['', [Validators.required, Validators.minLength(6)]],
-      is_Verified: [true]
     }, { validators: [confirmPasswordValidator] });
+
+    this._authAPIs.getIndustries().subscribe((res:any) => this.industries = res)
+    this._authAPIs.getCities().subscribe((res:any) => this.cities = res)
+    this._authAPIs.getStates().subscribe((res:any) => this.states = res) 
   }
 
   redirectLogin() {
     this.changeView.emit('company-login')
   }
 
-  readonly rejectedFiles$ = new Subject<TuiFileLike | null>();
-  readonly loadingFiles$ = new Subject<TuiFileLike | null>();
-  readonly loadedFiles$ = this.document.valueChanges.pipe(
-    switchMap(file => (file ? this.makeRequest(file) : of(null))),
-  );
-
-  onReject(file: TuiFileLike | readonly TuiFileLike[]): void {
-    this.rejectedFiles$.next(file as TuiFileLike);
-  }
-
-  removeFile(): void {
-    this.document.setValue(null);
-  }
-
-  clearRejected(): void {
-    this.removeFile();
-    this.rejectedFiles$.next(null);
-  }
-
-  makeRequest(file: TuiFileLike): Observable<TuiFileLike | null> {
-    this.loadingFiles$.next(file);
-
-    return timer(0).pipe(
-      map(() => {
-        if (file.type == 'application/pdf') {
-          return file;
-        }
-
-        this.rejectedFiles$.next(file);
-        return null;
-      }),
-      finalize(() => this.loadingFiles$.next(null)),
-    );
+  handleDocument(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      // this.verificationDocument = input.files[0];
+      this.registrationForm.patchValue({ verificationDocument:input.files[0] })
+    }
   }
 
 
@@ -126,12 +104,19 @@ export class CompanySignUpComponent implements OnInit,OnDestroy{
 
   submitRegistrationForm() {
     if (this.registrationForm.valid) {
+      console.log('if');
+      
       const companyName = this.registrationForm.value.companyName
       this.registrationForm.patchValue({
         profile_url: `${environment.defaultAvatarApi}/username?username=[${companyName}]`
       });      
-
-      this._authAPIs.employerRegistration(this.registrationForm.value).subscribe({
+      
+      
+      const formData = new FormData();
+    Object.keys(this.registrationForm.value).forEach(key => {
+      formData.append(key, this.registrationForm.value[key]);
+    });
+      this._authAPIs.employerRegistration(formData).subscribe({
         next: response => {
           this.changeView.emit('company-login')
           this.registrationSuccessAlertSubscription = this._alert.open('', {
@@ -153,6 +138,8 @@ export class CompanySignUpComponent implements OnInit,OnDestroy{
       })
 
     } else {
+      console.log('else ',this.registrationForm.valid);
+      
       this.registrationForm.markAllAsTouched()
     }
   }

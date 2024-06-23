@@ -2,7 +2,17 @@
     <div class="relative py-2 mx-5 w-2/5">
         <app-search></app-search>
     </div>
-    <div class="float-end">
+    <div class="flex float-end items-center">
+        @if(viewMode == 'companies') {
+            <div class="flex items-center">
+            <form class="max-w-sm mx-auto">
+                <select #employersType (change)="employerTypeChanges()" [(ngModel)]="selectedEmployerType" name="employersType" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
+                    <option selected value="verified">Verified Companies</option>
+                    <option value="non-verified">Non - Verified Companies</option>
+                </select>
+            </form>
+        </div>
+        }
         <app-filter [filterOptions]="filterOptions"></app-filter>
     </div>
 </div>
@@ -61,25 +71,42 @@
         } @else if (viewMode == 'companies') {
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-white uppercase bg-adminBlue dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                        <th scope="col" class="px-6 py-3 w-1/12 text-center">
-                            No:
-                        </th>
-                        <th scope="col" class="px-6 py-3 w-8/12 text-center">
-                            Employers
-                        </th>
-                        <th scope="col" class="px-6 py-3 w-3/12 text-center">
-                            Action
-                        </th>
-                    </tr>
+                    @if (selectedEmployerType == 'verified') {
+                        <tr>
+                            <th scope="col" class="px-6 py-3 w-1/12 text-center">
+                                No:
+                            </th>
+                            <th scope="col" class="px-6 py-3 w-8/12 text-center">
+                                Employers
+                            </th>
+                            <th scope="col" class="px-6 py-3 w-3/12 text-center">
+                                Action
+                            </th>
+                        </tr>
+                    } @else if (selectedEmployerType == 'non-verified') {
+                        <tr>
+                            <th scope="col" class="px-6 py-3 w-1/12 text-center">
+                                No:
+                            </th>
+                            <th scope="col" class="px-6 py-3 w-7/12 text-center">
+                                Employers
+                            </th>
+                            <th scope="col" class="px-6 py-3 w-1/12 text-center">
+                                Document
+                            </th>
+                            <th scope="col" class="px-6 py-3 w-3/12 text-center">
+                                Verify
+                            </th>
+                        </tr>
+                    }
                 </thead>
                 <tbody>
                     @for (company of data; track company._id; let idx = $index) {
                         @if (isEmployer(company)) {
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center">
+                                <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center">
                                     {{idx + 1}}.
-                                </th>
+                                </td>
                                 <td class="px-6 py-4">
                                     <div class="flex justify-between w-5/6 border-2 border-gray-200 rounded-xl mx-auto">
                                         <div class="flex items-center">
@@ -94,17 +121,32 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4 text-center">
-                                    <button
-                                    (click)="employerAction(company._id)"
-                                    [ngClass]="{
-                                      'bg-red-600 hover:bg-red-400': company.isActive,
-                                      'bg-green-600 hover:bg-green-400': !company.isActive
-                                    }"
-                                    class="rounded-lg py-2 text-white text-lg font-bannerText w-full">
-                                    {{ company.isActive ? 'Block' : 'Unblock' }}
-                                  </button>                        
-                                </td>
+                                @if (selectedEmployerType == 'verified') {
+                                    <td class="px-6 py-4 text-center">
+                                        <button
+                                            (click)="employerAction(company._id)"
+                                            [ngClass]="{
+                                            'bg-red-600 hover:bg-red-400': company.isActive,
+                                            'bg-green-600 hover:bg-green-400': !company.isActive
+                                            }"
+                                            class="rounded-lg py-2 text-white text-lg font-bannerText w-full">
+                                            {{ company.isActive ? 'Block' : 'Unblock' }}
+                                        </button>                        
+                                    </td>
+                                } @else if (selectedEmployerType == 'non-verified') {
+                                    <td class="px-6 py-4 text-center">
+                                        <a [href]="company.verificationDocument" target="_blank" class="text-blue-500 underline hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 transition duration-300 ease-in-out">
+                                            View Document
+                                        </a>
+                                    </td>
+                                    <td class="px-6 py-4 text-center">
+                                        <button
+                                            (click)="verifyEmployer(company._id)"
+                                            class="rounded-lg py-2 text-white bg-green-500 text-lg font-bannerText w-full">
+                                            Verify
+                                        </button>                        
+                                    </td>
+                                }
                             </tr>
                         }
                     }

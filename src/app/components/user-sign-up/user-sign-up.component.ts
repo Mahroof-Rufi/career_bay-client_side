@@ -41,10 +41,7 @@ export class UserSignUpComponent implements OnInit,OnDestroy{
 
 
 
-  industries: string[] = [
-    'IT',
-    'Media'
-  ]
+  industries: string[] = []
 
   genders: string[] = [
     'Male',

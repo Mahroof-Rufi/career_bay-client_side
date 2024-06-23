@@ -39,6 +39,10 @@ export class AdminApiServiceService {
     return this._http.patch(environment.baseURL + 'admin/employers', { employer_id:employer_id })
   }
 
+  verifyEmployer(employer_id:string):Observable<any> {
+    return this._http.patch(environment.baseURL + 'admin/verify-employer', { employer_id:employer_id })
+  }
+
   loadJobs(pageNo:number, queries?:any): Observable<any> {
     return this._http.get(environment.baseURL + `admin/jobs?page=${pageNo}&${queries}`)
   }

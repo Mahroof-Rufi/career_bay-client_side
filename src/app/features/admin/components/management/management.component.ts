@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Employer, User, adminStateModel } from '../../store/admin.model';
 import { getCompaniesData, getJobsData, getUsersData } from '../../store/admin.selector';
-import { employerAction, jobAction, loadEmployers, loadJobs, loadUsers, userAction } from '../../store/admin.actions';
+import { employerAction, jobAction, loadEmployers, loadJobs, loadUsers, userAction, verifyEmployer } from '../../store/admin.actions';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthApiService } from '../../../../services/auth-api-service.service';
 import { FilterOptions } from '../../../../models/filterOptions';
@@ -24,6 +24,8 @@ export class ManagementComponent implements OnInit, AfterViewInit, OnDestroy{
 
   @Output() filterOptions!: FilterOptions[];
 
+  selectedEmployerType: string = 'verified';
+
   viewMode!:string
   data!:User[] | Employer[] | Job[];
 
@@ -34,6 +36,7 @@ export class ManagementComponent implements OnInit, AfterViewInit, OnDestroy{
     private readonly _authService:AuthApiService,
     private readonly _activatedRoute:ActivatedRoute,
     private readonly _adminStore:Store<{ admin:adminStateModel }>,
+    private readonly _router:Router
   ) {}
 
   ngOnInit(): void {
@@ -60,7 +63,7 @@ export class ManagementComponent implements OnInit, AfterViewInit, OnDestroy{
         this.filterOptions = [
           { label: 'sort by name', subOptions: [{ label: 'A-Z', key: 'sort', value: 'a-z' }, { label: 'Z-A', key: 'sort', value: 'z-a' }], type: 'Radio' },
           { label: 'company type', subOptions: [{ label: 'IT services', key: 'industry', value: 'IT Services' }, { label: 'consulting', key: 'industry', value: 'Consulting' }, { label: 'manufacturing', key: 'industry', value: 'Manufacturing' }, { label: 'healthcare', key: 'industry', value: 'Healthcare' } ], type: 'CheckBox' },
-          { label: 'active / blocked', subOptions: [{ label: 'Active employers', key: 'active', value: 'true' }, { label: 'Blocked employers', key: 'active', value: 'false' } ], type: 'Radio' }
+          { label: 'active / blocked', subOptions: [{ label: 'Active employers', key: 'isActive', value: 'true' }, { label: 'Blocked employers', key: 'isActive', value: 'false' } ], type: 'Radio' },
         ];
       }
     });
@@ -129,6 +132,26 @@ export class ManagementComponent implements OnInit, AfterViewInit, OnDestroy{
 
   employerAction(emp_id:string) {
     this._adminStore.dispatch(employerAction({ employer_id:emp_id }))
+  }
+
+  verifyEmployer(employer_id:string) {
+    this._adminStore.dispatch(verifyEmployer({ employer_id:employer_id }))
+  }
+
+  employerTypeChanges() {
+    if (this.selectedEmployerType == 'verified') {
+      this._router.navigate([], {
+        relativeTo: this._activatedRoute,
+        queryParams: { 'isVerified':true },
+        queryParamsHandling: 'merge'
+      });
+    } else if (this.selectedEmployerType == 'non-verified') {
+      this._router.navigate([], {
+        relativeTo: this._activatedRoute,
+        queryParams: { 'isVerified':false },
+        queryParamsHandling: 'merge'
+      });
+    }
   }
 
   private constructQueryString(params: { [key: string]: string[] }): string {

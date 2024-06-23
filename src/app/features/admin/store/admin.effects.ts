@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { LOAD_USERS, employerAction, employerActionSuccess, jobAction, jobActionSuccess, loadEmployers, loadEmployersSuccess, loadJobs, loadJobsSuccess, loadUserSuccess, loadUsers, userAction, userActionSuccess } from "./admin.actions";
+import { LOAD_USERS, employerAction, employerActionSuccess, jobAction, jobActionSuccess, loadEmployers, loadEmployersSuccess, loadJobs, loadJobsSuccess, loadUserSuccess, loadUsers, userAction, userActionSuccess, verifyEmployer, verifyEmployerSuccess } from "./admin.actions";
 import { EMPTY, catchError, exhaustMap, map } from "rxjs";
 import { AdminApiServiceService } from "../services/admin-api-service.service";
 import { UserAPIServiceService } from "../../user/services/user-api-service.service";
@@ -79,6 +79,17 @@ export class adminEffects {
                 catchError((error) => {
                     console.error('HTTP Error on admin company action effect:',error);
                     return EMPTY
+                })
+            )
+        })
+    ))
+
+    _verifyEmployer = createEffect(() => this._actions.pipe(
+        ofType(verifyEmployer),
+        exhaustMap((action) => {
+            return this._adminAPIs.verifyEmployer(action.employer_id).pipe(
+                map((data) => {
+                    return verifyEmployerSuccess({ employer_id:data.verifiedEmployerId })
                 })
             )
         })

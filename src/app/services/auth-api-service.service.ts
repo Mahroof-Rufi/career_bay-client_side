@@ -16,6 +16,8 @@ export class AuthApiService{
   $adminTokenRefreshed = new Subject<boolean>
 
   private industryJSON = 'assets/industries.json'
+  private citiesJSON = 'assets/cities.json'
+  private statesJSON = 'assets/states.json'
 
   constructor(
     private readonly _http:HttpClient,
@@ -53,6 +55,14 @@ export class AuthApiService{
 
   getIndustries() {
     return this._http.get(this.industryJSON)
+  }
+
+  getCities() {
+    return this._http.get(this.citiesJSON)
+  }
+
+  getStates() {
+    return this._http.get(this.statesJSON)
   }
   
   userRequestOTP(email:string) {
@@ -110,7 +120,7 @@ export class AuthApiService{
     return this._http.post(environment.baseURL + 'auth/employer/send-otp', { email:email })
   }
 
-  employerRegistration(companyData:FormGroup):Observable<any> {
+  employerRegistration(companyData:FormData):Observable<any> {
     return this._http.post(environment.baseURL + 'auth/employer/register', companyData)
   }
 

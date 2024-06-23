@@ -65,7 +65,9 @@ export interface Employer {
     state: string,
     noOfWorkersRange?: string,
     about?: string,
+    verificationDocument: string,
     isActive: boolean
+    isVerified: boolean
 }
 
 export interface adminStateModel {
