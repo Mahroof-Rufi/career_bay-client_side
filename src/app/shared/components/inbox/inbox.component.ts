@@ -207,7 +207,11 @@ export class InboxComponent implements OnInit, AfterViewInit, OnDestroy{
 
   deleteMessage(messageId:string) {
     this.messages = this.messages.filter( message => message._id != messageId)
-    this._userChat.deleteMessageByUser(messageId)
+    if (this.context == 'user') {
+      this._userChat.deleteMessageByUser(messageId)
+    } else if (this.context == 'employer') {
+      this._userChat.deleteMessageByEmployer(messageId)
+    }
   }
 
   showUsers() {

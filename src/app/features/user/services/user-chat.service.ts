@@ -62,14 +62,19 @@ export class UserChatService {
   }
 
   sendMessageByEmployer(sender: string, receiver: string, text: string, type:'text' | 'URL', createdAt: Date): void {
-    this._socket.emit('sendMessage', { sender, receiver, text, type, createdAt });
-    this._http.post(environment.baseURL + 'chat/employer/save-message', { receiver_id:receiver, content:text, type }).subscribe()
+    this._http.post(environment.baseURL + 'chat/employer/save-message', { receiver_id:receiver, content:text, type }).subscribe((res:any) => {
+      this._socket.emit('sendMessage', { _id: res.messageId, sender, receiver, text, type, createdAt });
+    })
   }
 
   deleteMessageByUser(messageId:string) {
     this._http.delete(environment.baseURL + `chat/user/delete-message/${messageId}`).subscribe( (res:any) => {
-      console.log(res);
-      
+      this._socket.emit('delete-message', { deletedMessageId:res.deletedMessage._id, receiverId:res.deletedMessage.receiver })
+    })
+  }
+
+  deleteMessageByEmployer(messageId:string) {
+    this._http.delete(environment.baseURL + `chat/employer/delete-message/${messageId}`).subscribe( (res:any) => {
       this._socket.emit('delete-message', { deletedMessageId:res.deletedMessage._id, receiverId:res.deletedMessage.receiver })
     })
   }

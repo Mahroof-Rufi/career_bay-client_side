@@ -65,7 +65,7 @@
                 </div>
             </div>
         
-            <div class="chat-messages flex flex-col flex-grow overflow-y-auto p-4">
+            <div class="chat-messages flex-grow overflow-y-auto p-4">
                 <div *ngFor="let message of messages; trackBy: trackByCreated" 
                      class="message my-2 p-2 rounded-lg max-w-xs" 
                      [ngClass]="{'sent': message.sender === userData._id, 'received': message.sender !== userData._id}">
@@ -85,53 +85,88 @@
                                 </div>
                             }
                         </div>
-
                         <span class="message-time text-xs text-gray-500">{{ message.createdAt | date:'shortTime' }}</span>
                     } @else if (message.type == 'URL') {
-                        <div class="flex flex-col items-center justify-center bg-gray-100 py-12">
-                            <h1 class="text-xl font-bold text-gray-800 mb-6">Join the Meeting</h1>
-                            <a (click)="openLink(message.content)" class="px-6 py-3 bg-indigo-600 text-white rounded-md shadow-md hover:bg-indigo-700 transition-colors duration-300">
-                              Join Now
-                            </a>
-                            <p class="mt-6 text-gray-600 text-center max-w-md">
-                              Click the "Join Now" button to enter the meeting and engage with your team
-                              or clients in real-time.
-                            </p>
-                          </div>
-                          <span class="message-time px-2 float-right text-xs text-gray-500">{{ message.createdAt | date:'shortTime' }}</span>
+                        <div class="relative flex-col">
+                            @if(message.sender === userData._id) {
+                                <div class="absolute top-0 right-0 mt-2 mr-2">
+                                    <tui-hosted-dropdown #dropdown [content]="content" [tuiDropdownMaxHeight]="500">
+                                        <button size="s" appearance="solid" tuiIconButton type="button" [icon]="arrow" [pseudoHover]="dropdown.open || null"></button>
+                                    </tui-hosted-dropdown>
+                                    <ng-template #content>
+                                        <tui-data-list size="s" class="list">
+                                            <button tuiOption (click)="deleteMessage(message._id)"> Delete </button>
+                                        </tui-data-list>
+                                    </ng-template>
+                                </div>
+                            }
+                            <div class="flex flex-col w-full items-center justify-center bg-gray-100 py-12">
+                                <h1 class="text-xl font-bold text-gray-800 mb-6">Join the Meeting</h1>
+                                <a (click)="openLink(message.content)" class="px-6 py-3 bg-indigo-600 text-white rounded-md shadow-md hover:bg-indigo-700 transition-colors duration-300">
+                                  Join Now
+                                </a>
+                                <p class="mt-6 text-gray-600 text-center max-w-md">
+                                  Click the "Join Now" button to enter the meeting and engage with your team
+                                  or clients in real-time.
+                                </p>
+                            </div>
+                        </div>                        
+                        <span class="message-time px-2 float-left text-xs text-gray-500">{{ message.createdAt | date:'shortTime' }}</span>
                     } @else if (message.type == 'interview') {
                         @if (message?.interviewDetails?.status !== undefined && message.interviewDetails.status === 'canceled') {
-                            <div class="flex items-center space-x-4 p-4 bg-gray-100 rounded-lg border border-red-300">
-                                <div class="flex-shrink-0">
-                                    <img [src]="message.interviewDetails.employer.profile_url" alt="Employer Logo" class="w-12 h-12 rounded-full">
-                                </div>
-                                <div>
-                                    <p class="text-lg text-red-600 font-bold">Interview Canceled</p>
-                                    <p class="text-sm text-gray-700">We regret to inform you that your scheduled interview has been canceled.</p>
-                                    <div class="mt-2">
-                                        <!-- <span class="text-xs text-gray-400">{{ message.createdAt | date:'shortTime' }}</span> -->
+                            <div class="relative flex items-center">
+                                @if(message.sender === userData._id) {
+                                    <div class="absolute top-0 right-0 mt-2 mr-2">
+                                        <tui-hosted-dropdown #dropdown [content]="content" [tuiDropdownMaxHeight]="500">
+                                            <button size="s" appearance="solid" tuiIconButton type="button" [icon]="arrow" [pseudoHover]="dropdown.open || null"></button>
+                                        </tui-hosted-dropdown>
+                                        <ng-template #content>
+                                            <tui-data-list size="s" class="list">
+                                                <button tuiOption (click)="deleteMessage(message._id)"> Delete </button>
+                                            </tui-data-list>
+                                        </ng-template>
+                                    </div>
+                                }
+                                <div class="flex items-center space-x-4 p-4 bg-gray-100 rounded-lg border border-red-300 w-full">
+                                    <div class="flex-shrink-0">
+                                        <img [src]="message.interviewDetails.employer.profile_url" alt="Employer Logo" class="w-12 h-12 rounded-full">
+                                    </div>
+                                    <div>
+                                        <p class="text-lg text-red-600 font-bold">Interview Canceled</p>
+                                        <p class="text-sm text-gray-700">We regret to inform you that your scheduled interview has been canceled.</p>
+                                        <div class="mt-2">
+                                            <!-- <span class="text-xs text-gray-400">{{ message.createdAt | date:'shortTime' }}</span> -->
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            
+                            </div>                          
                         } @else {
-                            <div class="flex items-center space-x-2">
-                                <img [src]="message.interviewDetails.employer.profile_url" alt="Employer Logo" class="w-8 h-8 rounded-full">
-                                <div class="bg-blue-200 rounded-lg p-3">
-                                    <p class="text-sm text-blue-800 font-semibold">Interview Scheduled</p>
-                                    <p class="text-xs text-blue-700">Date: {{ message.interviewDetails.interviewDate | date }}</p>
-                                    <p class="text-xs text-blue-700">Time: {{ message.interviewDetails.interviewTime }}</p>
-                                    <p class="text-xs text-blue-700">Status: {{ message.interviewDetails.status }}</p>
-                                    <span class="message-time text-xs text-gray-500">{{ message.createdAt | date:'shortTime' }}</span>
-                        
-                                    @if (userData._id !== message.receiver) {
-                                        <div class="mt-3 flex justify-end space-x-2">
-                                            <button (click)="reschedule(message)" class="px-3 py-1 text-sm bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition duration-200">Reschedule</button>
-                                            <button (click)="cancelInterview(message)" class="px-3 py-1 text-sm bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition duration-200">Cancel</button>
-                                        </div>
-                                    }
+                            <div class="relative flex items-center space-x-2">
+                                @if(message.sender === userData._id) {
+                                    <div class="absolute top-0 right-0 mt-2 mr-2">
+                                        <tui-hosted-dropdown #dropdown [content]="content" [tuiDropdownMaxHeight]="500">
+                                            <button size="s" appearance="solid" tuiIconButton type="button" [icon]="arrow" [pseudoHover]="dropdown.open || null"></button>
+                                        </tui-hosted-dropdown>
+                                        <ng-template #content>
+                                            <tui-data-list size="s" class="list">
+                                                <button tuiOption (click)="deleteMessage(message._id)"> Delete </button>
+                                                <button tuiOption (click)="reschedule(message)"> Reschedule Interview</button>
+                                                <button tuiOption (click)="cancelInterview(message)"> Cancel Interview </button>
+                                            </tui-data-list>
+                                        </ng-template>
+                                    </div>
+                                }
+                                <div class="flex items-center space-x-2 w-full">
+                                    <img [src]="message.interviewDetails.employer.profile_url" alt="Employer Logo" class="w-8 h-8 rounded-full">
+                                    <div class="bg-blue-200 rounded-lg p-3 flex-1">
+                                        <p class="text-sm text-blue-800 font-semibold">Interview Scheduled</p>
+                                        <p class="text-xs text-blue-700">Date: {{ message.interviewDetails.interviewDate | date }}</p>
+                                        <p class="text-xs text-blue-700">Time: {{ message.interviewDetails.interviewTime }}</p>
+                                        <p class="text-xs text-blue-700">Status: {{ message.interviewDetails.status }}</p>
+                                        <span class="message-time text-xs text-gray-500">{{ message.createdAt | date:'shortTime' }}</span>
+                                    </div>
                                 </div>
-                            </div>
+                            </div>                                                     
                         }
                         
                     }
