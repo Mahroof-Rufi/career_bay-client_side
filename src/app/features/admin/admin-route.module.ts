@@ -3,7 +3,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { adminAuthGuard } from "./route-guards/admin-auth.guard";
 import { AdminLoginComponent } from "./components/admin-login/admin-login.component";
-import { MainPageComponent } from "./components/main-page/main-page.component";
+import { MainPageComponent } from "./components/admin-home/admin-home.component";
 import { ManagementComponent } from "./components/management/management.component";
 import { UserProfileCommonViewComponent } from "../../shared/components/user-profile-common-view/user-profile-common-view.component";
 import { CompanyProfileCommonViewComponent } from "../../shared/components/company-profile-common-view/company-profile-common-view.component";
