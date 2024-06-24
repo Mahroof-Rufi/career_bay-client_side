@@ -1,14 +1,14 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { AddPostModalService } from '../../services/add-post-modal.service';
+import { AddPostModalService } from '../../../../services/add-post-modal.service';
 import { Store } from '@ngrx/store';
-import { Employer } from '../../../admin/store/admin.model';
-import { PostsApiServiceService } from '../../../../shared/services/posts-api-service.service';
+import { Employer } from '../../../../../admin/store/admin.model';
+import { PostsApiServiceService } from '../../../../../../shared/services/posts-api-service.service';
 import { TuiAlertService, TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { addPostSuccess, deletePostSuccess, loadEmployerPostsSuccess } from '../../store/employer.actions';
-import { getPostById } from '../../store/employer.selector';
-import { EmployerPosts, Post } from '../../store/employer.model';
+import { addPostSuccess, deletePostSuccess, loadEmployerPostsSuccess } from '../../../../store/employer.actions';
+import { getPostById } from '../../../../store/employer.selector';
+import { EmployerPosts, Post } from '../../../../store/employer.model';
 import { Subscription } from 'rxjs';
 
 @Component({

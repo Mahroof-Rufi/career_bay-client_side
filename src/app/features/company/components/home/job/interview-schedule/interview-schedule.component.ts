@@ -2,11 +2,11 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { TuiDay, TuiTime } from '@taiga-ui/cdk';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { UserChatService } from '../../../user/services/user-chat.service';
+import { UserChatService } from '../../../../../user/services/user-chat.service';
 import { TuiAlertService, TuiDialogContext } from '@taiga-ui/core';
-import { noSpaceAllowed } from '../../../../validators/no-space-allowed.validator';
-import { Chat } from '../../../../models/chat';
-import { InterviewScheduleModalService } from '../../services/interview-schedule-modal.service';
+import { noSpaceAllowed } from '../../../../../../validators/no-space-allowed.validator';
+import { Chat } from '../../../../../../models/chat';
+import { InterviewScheduleModalService } from '../../../../services/interview-schedule-modal.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({

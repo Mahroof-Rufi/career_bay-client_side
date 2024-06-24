@@ -7,8 +7,8 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-main-component',
-  templateUrl: './main-component.component.html',
-  styleUrl: './main-component.component.scss'
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.scss'
 })
 export class MainComponentComponent implements OnInit, OnDestroy{
 

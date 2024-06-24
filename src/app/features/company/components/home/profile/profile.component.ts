@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { Employer } from '../../store/employer.model';
-import { EmployerEditProfileModalService } from '../../services/employer-edit-profile-modal.service';
+import { Employer } from '../../../store/employer.model';
+import { EmployerEditProfileModalService } from '../../../services/employer-edit-profile-modal.service';
 import { Store } from '@ngrx/store';
-import { getEmployerData } from '../../store/employer.selector';
+import { getEmployerData } from '../../../store/employer.selector';
 import { Router } from '@angular/router';
 import { initFlowbite } from 'flowbite';
 import { Subscription } from 'rxjs';

@@ -2,7 +2,7 @@ import { Injectable, Injector } from '@angular/core';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Observable, Subscription } from 'rxjs';
-import { AddPostComponent } from '../components/add-post/add-post.component';
+import { AddPostComponent } from '../components/home/company-posts-component/add-post/add-post.component';
 
 @Injectable()
 export class AddPostModalService {

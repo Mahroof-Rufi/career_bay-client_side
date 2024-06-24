@@ -2,7 +2,7 @@ import { Injectable, Injector } from '@angular/core';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Observable, Subscription } from 'rxjs';
-import { InterviewScheduleComponent } from '../components/interview-schedule/interview-schedule.component';
+import { InterviewScheduleComponent } from '../components/home/job/interview-schedule/interview-schedule.component';
 import { Chat } from '../../../models/chat';
 import { User } from '../../user/user-store/user.model';
 import { Employer } from '../store/employer.model';

@@ -2,12 +2,12 @@ import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { initFlowbite } from 'flowbite';
-import { User } from '../../../user/user-store/user.model';
-import { getApplicants } from '../../store/employer.selector';
-import { AppliedUsers, EmployerState } from '../../store/employer.model';
-import { ApplicationsConfirmationModalService } from '../../services/applications-confirmation-modal.service';
-import { loadApplicants } from '../../store/employer.actions';
-import { AuthApiService } from '../../../../services/auth-api-service.service';
+import { User } from '../../../../../user/user-store/user.model';
+import { getApplicants } from '../../../../store/employer.selector';
+import { AppliedUsers, EmployerState } from '../../../../store/employer.model';
+import { ApplicationsConfirmationModalService } from '../../../../services/applications-confirmation-modal.service';
+import { loadApplicants } from '../../../../store/employer.actions';
+import { AuthApiService } from '../../../../../../services/auth-api-service.service';
 import { Subscription } from 'rxjs';
 
 @Component({

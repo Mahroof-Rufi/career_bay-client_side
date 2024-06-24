@@ -1,16 +1,16 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, Output } from '@angular/core';
-import { AddJobPostService } from '../../services/add-job-post-modal.service';
-import { Employer, Job } from '../../store/employer.model';
+import { AddJobPostService } from '../../../services/add-job-post-modal.service';
+import { Employer, Job } from '../../../store/employer.model';
 import { Store } from '@ngrx/store';
-import { getJobsData } from '../../store/employer.selector';
+import { getJobsData } from '../../../store/employer.selector';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TuiAlertService } from '@taiga-ui/core';
-import { DeleteJobConfirmationService } from '../../services/delete-job-confirmation.service';
-import { JobsApiServiceService } from '../../../../shared/services/jobs-api-service.service';
-import { closeHiring, loadEmployerJobs, loadEmployerJobsSuccess } from '../../store/employer.actions';
+import { DeleteJobConfirmationService } from '../../../services/delete-job-confirmation.service';
+import { JobsApiServiceService } from '../../../../../shared/services/jobs-api-service.service';
+import { closeHiring, loadEmployerJobs, loadEmployerJobsSuccess } from '../../../store/employer.actions';
 import { initFlowbite } from 'flowbite';
-import { FilterOptions } from '../../../../models/filterOptions';
-import { AuthApiService } from '../../../../services/auth-api-service.service';
+import { FilterOptions } from '../../../../../models/filterOptions';
+import { AuthApiService } from '../../../../../services/auth-api-service.service';
 import { Subscription } from 'rxjs';
 
 @Component({

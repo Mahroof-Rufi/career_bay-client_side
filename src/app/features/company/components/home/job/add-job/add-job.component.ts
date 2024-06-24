@@ -3,12 +3,12 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TuiAlertService, TuiDialogContext } from '@taiga-ui/core';
-import { AddJobPostService } from '../../services/add-job-post-modal.service';
-import { Employer, Job } from '../../store/employer.model';
+import { AddJobPostService } from '../../../../services/add-job-post-modal.service';
+import { Employer, Job } from '../../../../store/employer.model';
 import { Store } from '@ngrx/store';
-import { getJobById } from '../../store/employer.selector';
-import { addJobPost, updateJob } from '../../store/employer.actions';
-import { JobsApiServiceService } from '../../../../shared/services/jobs-api-service.service';
+import { getJobById } from '../../../../store/employer.selector';
+import { addJobPost, updateJob } from '../../../../store/employer.actions';
+import { JobsApiServiceService } from '../../../../../../shared/services/jobs-api-service.service';
 import { Subscription } from 'rxjs';
 
 @Component({

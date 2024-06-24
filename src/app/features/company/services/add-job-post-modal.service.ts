@@ -2,7 +2,7 @@ import { Injectable, Injector } from '@angular/core';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Observable, Subscription } from 'rxjs';
-import { AddJobComponent } from '../components/add-job/add-job.component';
+import { AddJobComponent } from '../components/home/job/add-job/add-job.component';
 
 @Injectable()
 export class AddJobPostService {

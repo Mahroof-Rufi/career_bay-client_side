@@ -1,13 +1,13 @@
 import { Component, OnDestroy } from '@angular/core';
-import { Employer } from '../../store/employer.model';
+import { Employer } from '../../../../store/employer.model';
 import { TuiCountryIsoCode } from '@taiga-ui/i18n';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { EmployerEditProfileModalService } from '../../services/employer-edit-profile-modal.service';
+import { EmployerEditProfileModalService } from '../../../../services/employer-edit-profile-modal.service';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { getEmployerData } from '../../store/employer.selector';
-import { updateEmployer } from '../../store/employer.actions';
-import { EmployerApiServiceService } from '../../services/employer-api-service.service';
+import { getEmployerData } from '../../../../store/employer.selector';
+import { updateEmployer } from '../../../../store/employer.actions';
+import { EmployerApiServiceService } from '../../../../services/employer-api-service.service';
 import { Subscription } from 'rxjs';
 
 @Component({

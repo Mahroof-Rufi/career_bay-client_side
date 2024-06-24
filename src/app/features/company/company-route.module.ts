@@ -1,10 +1,10 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { ProfileComponent } from "./components/profile/profile.component";
-import { JobComponent } from "./components/job/job.component";
-import { MainComponentComponent } from "./components/main-component/main-component.component";
-import { UnderReviewApplicantsComponent } from "./components/under-review-applicants/under-review-applicants.component";
-import { CompanyPostsComponentComponent } from "./components/company-posts-component/company-posts-component.component";
+import { ProfileComponent } from "./components/home/profile/profile.component";
+import { JobComponent } from "./components/home/job/job.component";
+import { MainComponentComponent } from "./components/home/home.component";
+import { UnderReviewApplicantsComponent } from "./components/home/job/under-review-applicants/under-review-applicants.component";
+import { CompanyPostsComponentComponent } from "./components/home/company-posts-component/company-posts-component.component";
 import { InboxComponent } from "../../shared/components/inbox/inbox.component";
 import { JobDetailedViewComponent } from "../../shared/components/job-detailed-view/job-detailed-view.component";
 const routes: Routes = [

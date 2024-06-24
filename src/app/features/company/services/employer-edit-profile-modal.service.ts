@@ -2,7 +2,7 @@ import { Injectable, Injector } from '@angular/core';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Observable, Subscription } from 'rxjs';
-import { EditProfileComponent } from '../components/edit-profile/edit-profile.component';
+import { EditProfileComponent } from '../components/home/profile/edit-profile/edit-profile.component';
 
 @Injectable()
 export class EmployerEditProfileModalService {

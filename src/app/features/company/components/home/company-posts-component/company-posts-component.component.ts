@@ -1,14 +1,14 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, Output } from '@angular/core';
-import { AddPostModalService } from '../../services/add-post-modal.service';
+import { AddPostModalService } from '../../../services/add-post-modal.service';
 import { Store } from '@ngrx/store';
-import { Employer, EmployerPosts, Post } from '../../store/employer.model';
-import { getPosts } from '../../store/employer.selector';
+import { Employer, EmployerPosts, Post } from '../../../store/employer.model';
+import { getPosts } from '../../../store/employer.selector';
 import { initFlowbite } from 'flowbite';
-import { loadEmployerPosts, loadEmployerPostsSuccess } from '../../store/employer.actions';
+import { loadEmployerPosts, loadEmployerPostsSuccess } from '../../../store/employer.actions';
 import { ActivatedRoute } from '@angular/router';
-import { PostsApiServiceService } from '../../../../shared/services/posts-api-service.service';
-import { AuthApiService } from '../../../../services/auth-api-service.service';
-import { FilterOptions } from '../../../../models/filterOptions';
+import { PostsApiServiceService } from '../../../../../shared/services/posts-api-service.service';
+import { AuthApiService } from '../../../../../services/auth-api-service.service';
+import { FilterOptions } from '../../../../../models/filterOptions';
 import { Subscription } from 'rxjs';
 
 @Component({
