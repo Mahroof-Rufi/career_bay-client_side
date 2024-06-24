@@ -1,11 +1,11 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TuiAlertService } from '@taiga-ui/core';
-import { noSpaceAllowed } from '../../validators/no-space-allowed.validator';
-import { confirmPasswordValidator } from '../../validators/confirm-password.validator';
-import { environment } from '../../../environments/environment.development';
+import { noSpaceAllowed } from '../../../validators/no-space-allowed.validator';
+import { confirmPasswordValidator } from '../../../validators/confirm-password.validator';
+import { environment } from '../../../../environments/environment.development';
 import { Subscription } from 'rxjs';
-import { AuthApiService } from '../../services/auth-api-service.service';
+import { AuthApiService } from '../../../services/auth-api-service.service';
 
 @Component({
   selector: 'app-user-sign-up',
@@ -43,11 +43,7 @@ export class UserSignUpComponent implements OnInit,OnDestroy{
 
   industries: string[] = []
 
-  genders: string[] = [
-    'Male',
-    'Female',
-    'Other'
-  ]
+  genders: string[] = ['Male','Female','Other']
 
   ngOnInit(): void {
       this.registrationForm =  this._formBuilder.group({

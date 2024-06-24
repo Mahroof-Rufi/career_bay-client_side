@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TuiAlertService } from '@taiga-ui/core';
-import { confirmPasswordValidator } from '../../validators/confirm-password.validator';
+import { confirmPasswordValidator } from '../../../validators/confirm-password.validator';
 import { Subscription } from 'rxjs';
-import { AuthApiService } from '../../services/auth-api-service.service';
+import { AuthApiService } from '../../../services/auth-api-service.service';
 
 @Component({
   selector: 'app-forgot-password',

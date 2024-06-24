@@ -4,9 +4,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TuiAlertService } from '@taiga-ui/core';
 import { Subscription } from 'rxjs';
-import { AuthModalService } from '../../services/auth-modal-service.service';
-import { environment } from '../../../environments/environment.development';
-import { AuthApiService } from '../../services/auth-api-service.service';
+import { AuthModalService } from '../../../services/auth-modal-service.service';
+import { environment } from '../../../../environments/environment.development';
+import { AuthApiService } from '../../../services/auth-api-service.service';
 
 
 @Component({

@@ -2,10 +2,10 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/cor
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TuiFileLike } from '@taiga-ui/kit';
 import { Observable, Subject, Subscription, finalize, map, of, switchMap, timer } from 'rxjs';
-import { confirmPasswordValidator } from '../../validators/confirm-password.validator';
+import { confirmPasswordValidator } from '../../../validators/confirm-password.validator';
 import { TuiAlertService } from '@taiga-ui/core';
-import { AuthApiService } from '../../services/auth-api-service.service';
-import { environment } from '../../../environments/environment.development';
+import { AuthApiService } from '../../../services/auth-api-service.service';
+import { environment } from '../../../../environments/environment.development';
 
 @Component({
   selector: 'app-company-sign-up',

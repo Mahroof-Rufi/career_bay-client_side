@@ -3,8 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TuiAlertService } from '@taiga-ui/core';
 import { Subscription } from 'rxjs';
-import { AuthApiService } from '../../services/auth-api-service.service';
-import { AuthModalService } from '../../services/auth-modal-service.service';
+import { AuthApiService } from '../../../services/auth-api-service.service';
+import { AuthModalService } from '../../../services/auth-modal-service.service';
 
 @Component({
   selector: 'app-company-login',
