@@ -2,12 +2,12 @@ import { Injectable, Injector } from '@angular/core';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Observable, Subscription } from 'rxjs';
-import { UserMainDetailsEditComponent } from '../components/user-main-details-edit/user-main-details-edit.component';
-import { UserAboutEditComponent } from '../components/user-about-edit/user-about-edit.component';
-import { UserExperienceEditComponent } from '../components/user-experience-edit/user-experience-edit.component';
-import { UserEducationEditComponent } from '../components/user-education-edit/user-education-edit.component';
-import { UserSkillsEditComponent } from '../components/user-skills-edit/user-skills-edit.component';
-import { ChangeEmailComponent } from '../components/change-email/change-email.component';
+import { UserMainDetailsEditComponent } from '../components/home/user-profile/user-profile-main-details/user-main-details-edit/user-main-details-edit.component';
+import { UserAboutEditComponent } from '../components/home/user-profile/user-profile-about-section/user-about-edit/user-about-edit.component';
+import { UserExperienceEditComponent } from '../components/home/user-profile/user-profile-experience-section/user-experience-edit/user-experience-edit.component';
+import { UserEducationEditComponent } from '../components/home/user-profile/user-profile-education-section/user-education-edit/user-education-edit.component';
+import { UserSkillsEditComponent } from '../components/home/user-profile/user-profile-skills-section/user-skills-edit/user-skills-edit.component';
+import { ChangeEmailComponent } from '../components/home/change-email/change-email.component';
 import { DeleteExperienceComponent } from '../components/delete-experience/delete-experience.component';
 
 @Injectable()
