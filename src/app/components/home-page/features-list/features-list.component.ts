@@ -2,8 +2,8 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-features',
-  templateUrl: './features.component.html',
-  styleUrl: './features.component.scss'
+  templateUrl: './features-list.component.html',
+  styleUrl: './features-list.component.scss'
 })
 export class FeaturesComponent {
 

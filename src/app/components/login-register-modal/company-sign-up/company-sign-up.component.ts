@@ -67,7 +67,6 @@ export class CompanySignUpComponent implements OnInit,OnDestroy{
   handleDocument(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
-      // this.verificationDocument = input.files[0];
       this.registrationForm.patchValue({ verificationDocument:input.files[0] })
     }
   }
@@ -75,7 +74,6 @@ export class CompanySignUpComponent implements OnInit,OnDestroy{
 
   requestOTP() {
     const email = this.registrationForm.get('email')?.value  
-    
     this._authAPIs.employerRequestOTP(email).subscribe({
       next: response => {
         this.OTPSuccessAlertSubscription = this._alert.open('', {
@@ -89,7 +87,6 @@ export class CompanySignUpComponent implements OnInit,OnDestroy{
           this.updateTimer();
         }, 1000);
       },
-
       error: err => {
         this.OTPFailureAlertSubscription = this._alert.open('', {
           label: err.error,
@@ -99,23 +96,19 @@ export class CompanySignUpComponent implements OnInit,OnDestroy{
         }).subscribe()
       }
     })
-
   }
 
   submitRegistrationForm() {
-    if (this.registrationForm.valid) {
-      console.log('if');
-      
+    if (this.registrationForm.valid) {      
       const companyName = this.registrationForm.value.companyName
       this.registrationForm.patchValue({
         profile_url: `${environment.defaultAvatarApi}/username?username=[${companyName}]`
-      });      
-      
+      });       
       
       const formData = new FormData();
-    Object.keys(this.registrationForm.value).forEach(key => {
-      formData.append(key, this.registrationForm.value[key]);
-    });
+      Object.keys(this.registrationForm.value).forEach(key => {
+        formData.append(key, this.registrationForm.value[key]);
+      });
       this._authAPIs.employerRegistration(formData).subscribe({
         next: response => {
           this.changeView.emit('company-login')
@@ -126,7 +119,6 @@ export class CompanySignUpComponent implements OnInit,OnDestroy{
             hasCloseButton: true,
           }).subscribe()       
         },
-
         error: err => {
           this.registrationFailureAlertSubscription = this._alert.open('', {
             label: err.error,
@@ -137,9 +129,7 @@ export class CompanySignUpComponent implements OnInit,OnDestroy{
         }
       })
 
-    } else {
-      console.log('else ',this.registrationForm.valid);
-      
+    } else {      
       this.registrationForm.markAllAsTouched()
     }
   }

@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
-import { AdminApiServiceService } from '../../../services/admin-api-service.service';
+import { AdminApiServiceService } from '../../../../services/admin-api-service.service';
 Chart.register(...registerables);
 
 @Component({

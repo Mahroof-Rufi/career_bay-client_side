@@ -39,8 +39,6 @@ export class UserSignUpComponent implements OnInit,OnDestroy{
   seconds: number = Math.floor(this.time % 60);
   timerInterval: any; 
 
-
-
   industries: string[] = []
 
   genders: string[] = ['Male','Female','Other']
@@ -84,9 +82,7 @@ export class UserSignUpComponent implements OnInit,OnDestroy{
       });
       
       this._registrationAPISubscription = this._authAPIs.userRegistration(this.registrationForm.value).subscribe({
-        next: response => {
-          console.log(response);
-          
+        next: response => {          
           this._registrationSuccessSubscription = this._alert.open('', {
             label: 'Registration successful',
             status: 'success',
@@ -96,8 +92,6 @@ export class UserSignUpComponent implements OnInit,OnDestroy{
           this.changeView.emit('user-login')
         },
         error: err => {
-          console.log(err);
-          
           this._registrationFailureSubscription = this._alert.open('', {
             label: err.error,
             status: 'error',

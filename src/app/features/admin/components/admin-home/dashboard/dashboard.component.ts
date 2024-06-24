@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent {
+  
   totalNoOfUsers: number = 0;
   totalNoOfEmployers: number = 0;
   totalNoOfJobs: number = 0;

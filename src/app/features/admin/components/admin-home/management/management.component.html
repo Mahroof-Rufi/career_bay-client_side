@@ -35,7 +35,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for (user of data; track user._id; let idx = $index) {
+                    @for (user of (usersData$ | async); track user._id; let idx = $index) {
                         @if (isUser(user)) {
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center">
@@ -101,7 +101,7 @@
                     }
                 </thead>
                 <tbody>
-                    @for (company of data; track company._id; let idx = $index) {
+                    @for (company of (employersData$ | async); track company._id; let idx = $index) {
                         @if (isEmployer(company)) {
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                 <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center">
@@ -177,7 +177,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for (job of data; track job._id; let idx = $index) {
+                    @for (job of (jobsData$ | async); track job._id; let idx = $index) {
                         @if (isJob(job)) {
                             <tr
                         class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -219,6 +219,6 @@
                 </tbody>
             </table>
         }
-        <app-pagination [theme]="'Admin theme'" [currentPageNo]="currentPageNo" [maxItemInPerPage]="maxItemPerPage" [totalNoOfEntries]="totalUserProfiles" [noOfShowingEntries]="data.length"></app-pagination>
+            <app-pagination [theme]="'Admin theme'" [currentPageNo]="currentPageNo" [maxItemInPerPage]="maxItemPerPage" [totalNoOfEntries]="totalEntries"></app-pagination>
     </div>
 </div>

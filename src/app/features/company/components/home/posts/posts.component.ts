@@ -13,8 +13,8 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-company-posts-component',
-  templateUrl: './company-posts-component.component.html',
-  styleUrl: './company-posts-component.component.scss'
+  templateUrl: './posts.component.html',
+  styleUrl: './posts.component.scss'
 })
 export class CompanyPostsComponentComponent implements OnInit, AfterViewInit, OnDestroy{
   @Output() posts!:any

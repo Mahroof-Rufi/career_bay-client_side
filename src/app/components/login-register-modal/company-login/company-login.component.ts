@@ -56,7 +56,6 @@ export class CompanyLoginComponent implements OnInit,OnDestroy{
           this._authModal.closeModal()
           this._router.navigateByUrl('/employer/profile')
         },
-
         error: err => {
           this.failureAlertSubscription = this._alert.open('', {          
             label: err.error.employer.message,
@@ -65,7 +64,6 @@ export class CompanyLoginComponent implements OnInit,OnDestroy{
             hasCloseButton: true,
           }).subscribe()
         }
-
       })
     } else {
       this.loginForm.markAllAsTouched()

@@ -76,7 +76,6 @@ export class ForgotPasswordComponent implements OnDestroy{
               hasCloseButton: true
             }).subscribe()
           },
-
           error: err => {
             this.userRequestOTPFailureSub = this._alert.open('', {
               label: err.error,
@@ -102,7 +101,6 @@ export class ForgotPasswordComponent implements OnDestroy{
               hasCloseButton: true
             }).subscribe()
           },
-
           error: err => {
             this._alert.open('', {
               label: err.error,
@@ -142,7 +140,6 @@ export class ForgotPasswordComponent implements OnDestroy{
             }).subscribe()
             this.changeView.emit('user-login')
           },
-
           error: err => {
             this.userSubmitFormFailureSub = this._alert.open('', {
               label: err.error,
@@ -163,7 +160,6 @@ export class ForgotPasswordComponent implements OnDestroy{
             }).subscribe()
             this.changeView.emit('company-login')
           },
-
           error: err => {
             this.employerSubmitFormFailureSub = this._alert.open('', {
               label: err.error,

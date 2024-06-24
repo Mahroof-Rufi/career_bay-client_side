@@ -8,7 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/home-page/navbar/navbar.component';
 import { BannerComponent } from './components/home-page/banner/banner.component';
-import { FeaturesComponent } from './components/home-page/features-list/features.component';
+import { FeaturesComponent } from './components/home-page/features-list/features-list.component';
 import { ApplicationTimelineComponent } from './components/home-page/features-list/application-timeline/application-timeline.component';
 import { UsersComponent } from './components/home-page/features-list/users/users.component';
 import { StepsComponent } from './components/home-page/features-list/steps/steps.component';

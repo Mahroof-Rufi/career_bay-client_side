@@ -36,10 +36,7 @@ export class userLoginComponent implements OnInit,OnDestroy {
 
   loginForm!: FormGroup;
 
-  industries: string[] = [
-    'IT',
-    'Media',
-  ]
+  industries: string[] = []
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -58,6 +55,8 @@ export class userLoginComponent implements OnInit,OnDestroy {
       shape: 'pill',
       width: 350
     })
+
+    this._authAPIs.getIndustries().subscribe((res:any) => this.industries = res)
   }
 
   private decodeToken(token: string) {
@@ -121,7 +120,6 @@ export class userLoginComponent implements OnInit,OnDestroy {
           this._authModal.closeModal()
           this._router.navigateByUrl('/user/dashboard')
         },
-
         error: err => {          
           this._loginSuccessAlertSubscription = this._alert.open('', {
             label: err.error.user.message,
