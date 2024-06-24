@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-dialogue',
-  templateUrl: './dialogue.component.html',
-  styleUrl: './dialogue.component.scss'
+  templateUrl: './login-register-modal.component.html',
+  styleUrl: './login-register-modal.component.scss'
 })
 export class DialogueComponent {
   

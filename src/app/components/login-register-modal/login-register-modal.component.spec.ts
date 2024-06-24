@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DialogueComponent } from './dialogue.component';
+import { DialogueComponent } from './login-register-modal.component';
 
 describe('DialogueComponent', () => {
   let component: DialogueComponent;

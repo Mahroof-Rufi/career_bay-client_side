@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { DialogueComponent } from '../components/login-registration-modal/dialogue.component';
+import { DialogueComponent } from '../components/login-register-modal/login-register-modal.component';
 import { Observable, Subscription } from 'rxjs';
 
 @Injectable({
