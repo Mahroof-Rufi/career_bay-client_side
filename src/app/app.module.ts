@@ -20,7 +20,7 @@ import { UserSignUpComponent } from "./components/login-registration-modal/user-
 import { CompanyLoginComponent } from "./components/login-registration-modal/company-login/company-login.component";
 import { CompanySignUpComponent } from "./components/login-registration-modal/company-sign-up/company-sign-up.component";
 import { DialogueComponent } from "./components/login-registration-modal/dialogue.component";
-import { HomeComponent } from "./components/home-page/home.component";
+import { HomeComponent } from "./components/home-page/home-page.component";
 import { UserModule } from "./features/user/user.module";
 import { CompanyModule } from "./features/company/company.module";
 import { AdminModule } from "./features/admin/admin.module";
