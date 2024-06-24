@@ -114,39 +114,35 @@
                                   </div>
                             }
                             @default {
-                                <div class="relative w-fit bg-green-100 p-2 rounded-lg shadow-md">
-                                    <!-- Dropdown button for message actions -->
+                                <div>
                                     @if(message.sender === userData._id) {
-                                      <div class="absolute top-2 right-2 z-10">
-                                        <tui-hosted-dropdown #dropdown [content]="content" [tuiDropdownMaxHeight]="500">
-                                          <button size="s" appearance="solid" tuiIconButton type="button" [icon]="arrow" [pseudoHover]="dropdown.open || null"></button>
-                                        </tui-hosted-dropdown>
-                                        <ng-template #content>
-                                          <tui-data-list size="s" class="list">
-                                            <button tuiOption (click)="deleteMessage(message._id)">Delete</button>
-                                          </tui-data-list>
-                                        </ng-template>
-                                      </div>
+                                        <div class="float-right">
+                                            <tui-hosted-dropdown #dropdown [content]="content" [tuiDropdownMaxHeight]="500">
+                                                <button size="s" appearance="solid" tuiIconButton type="button" [icon]="arrow" [pseudoHover]="dropdown.open || null"></button>
+                                            </tui-hosted-dropdown>
+                                            <ng-template #content>
+                                                <tui-data-list size="s" class="list">
+                                                    <button tuiOption (click)="deleteMessage(message._id)">Delete</button>
+                                                </tui-data-list>
+                                            </ng-template>
+                                        </div>
                                     }
-                                  
-                                    <!-- File/Document Content -->
-                                    <a [href]="message.content" target="_blank">
-                                        <div class="max-w-md max-h-80 overflow-hidden">
-                                            <div class="flex items-center space-x-2 cursor-pointer bg-blue-50 p-3 rounded-lg shadow-md hover:bg-blue-100 transition-colors" >
-                                              <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                
+                                    <a [href]="message.content" target="_blank" class="block max-w-96 max-h-80 overflow-hidden mt-2">
+                                        <div class="flex items-center space-x-2 cursor-pointer bg-blue-50 p-3 rounded-lg shadow-md hover:bg-blue-100 transition-colors">
+                                            <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 3v18c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2V9l-6-6H9c-1.1 0-2 .9-2 2zm8 7V4l4 4h-4z"></path>
-                                              </svg>
-                                              <div>
+                                            </svg>
+                                            <div>
                                                 <span class="text-sm font-semibold text-blue-600 block">Document</span>
                                                 <span class="text-xs text-gray-500">Click to view</span>
-                                              </div>
                                             </div>
-                                          </div>
+                                        </div>
                                     </a>
-                                  
-                                    <!-- Message time -->
+                                
                                     <span class="message-time text-xs text-gray-500 block mt-1">{{ message.createdAt | date:'shortTime' }}</span>
-                                  </div>
+                                </div>
+                                
                                   
                             }
                         }

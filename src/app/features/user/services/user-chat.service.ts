@@ -79,8 +79,9 @@ export class UserChatService {
 
   sendMediaFileByEmployer(data:FormData) {
     this._http.post(environment.baseURL + 'chat/employer/save-mediaFile', data).subscribe((res:any) => {
-      console.log(res);
-      
+      this._inboxModalService.closeModal()
+      const { _id, sender, receiver, content, type, isMediaFile, createdAt } = res.mediaFileMessage
+      this._socket.emit('sendMessage', { _id, sender, receiver, text:content, type, isMediaFile, createdAt });
     })
   }
 

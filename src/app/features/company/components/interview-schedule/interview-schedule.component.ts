@@ -21,7 +21,9 @@ export class InterviewScheduleComponent implements OnInit{
   title:string = 'Schedule Interview'
   timePeriods:string[] = ['AM','PM']
   message!:Chat;
-  mediaFile!:File;
+  mediaFile!:File | null;
+  fileUrl: string | null = null;
+  fileType: string | null = null;
   receiverId!:string;
 
   MeetUrlForm = this._formBuilder.group({
@@ -105,9 +107,29 @@ export class InterviewScheduleComponent implements OnInit{
 
   handleMediaFile(event: Event) {
     const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
+    if (input.files && input.files[0]) {
       this.mediaFile = input.files[0];
+      this.fileType = this.getFileType(this.mediaFile);
+      this.fileUrl = URL.createObjectURL(this.mediaFile);
     }
+  }
+
+  getFileType(file: File): string {
+    if (file.type.startsWith('image/')) {
+      return 'image';
+    } else if (file.type.startsWith('video/')) {
+      return 'video';
+    } else if (file.type === 'application/pdf') {
+      return 'pdf';
+    } else {
+      return 'unsupported';
+    }
+  }
+
+  removeFile() {
+    this.mediaFile = null;
+    this.fileUrl = null;
+    this.fileType = null;
   }
 
   sendMediaFile() {
@@ -118,14 +140,15 @@ export class InterviewScheduleComponent implements OnInit{
         hasCloseButton: true,
         autoClose: false
       }).subscribe();
-    } 
-    if (this.accountType == 'user') {
-      const MediaForm = new FormData()
-      MediaForm.append('receiver', this.receiverId)
-      MediaForm.append('mediaFile', this.mediaFile)
-      this._chatService.sendMediaFileByUser(MediaForm)
     } else {
-
+      const MediaForm = new FormData()
+        MediaForm.append('receiver', this.receiverId)
+        MediaForm.append('mediaFile', this.mediaFile)
+      if (this.accountType == 'user') {
+        this._chatService.sendMediaFileByUser(MediaForm)
+      } else if (this.accountType == 'employer') {
+        this._chatService.sendMediaFileByEmployer(MediaForm)
+      }
     }
   }
 
