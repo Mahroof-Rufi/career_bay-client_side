@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-nav-bar-options',
@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrl: './nav-bar-options.component.scss'
 })
 export class NavBarOptionsComponent {
+  @Input() isMenuOpen!:boolean
 
 }

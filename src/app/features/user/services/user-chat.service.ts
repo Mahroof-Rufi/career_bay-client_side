@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { io } from 'socket.io-client';
 import { Observable, map } from 'rxjs';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../user-store/user.model';
 import { Employer } from '../../company/store/employer.model';
