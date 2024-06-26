@@ -14,7 +14,6 @@ import { UsersComponent } from './components/home-page/features-list/users/users
 import { StepsComponent } from './components/home-page/features-list/steps/steps.component';
 import { JobOverviewComponent } from './components/home-page/features-list/job-overview/job-overview.component';
 import { ContactUsComponent } from './components/home-page/contact-us/contact-us.component';
-import { GetStartedComponent } from "./components/home-page/get-started/get-started.component";
 import { userLoginComponent } from "./components/login-register-modal/user-login/user-login.component";
 import { UserSignUpComponent } from "./components/login-register-modal/user-sign-up/user-sign-up.component";
 import { CompanyLoginComponent } from "./components/login-register-modal/company-login/company-login.component";
@@ -44,7 +43,6 @@ import { handleUnauthorizedResInterceptor } from "./interceptors/handle-unauthor
     StepsComponent,
     JobOverviewComponent,
     ContactUsComponent,
-    GetStartedComponent,
     DialogueComponent,
     HomeComponent,
     userLoginComponent,

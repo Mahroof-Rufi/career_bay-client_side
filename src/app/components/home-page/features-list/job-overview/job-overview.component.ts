@@ -118,34 +118,10 @@ export class JobOverviewComponent {
       state: 'Maharashtra',
       jobType: 'Full Time',
       postedAt: Date.now() 
-    },
-    { 
-      company_id: {
-        profile_url:'../../../assets/company-dp-1.jpg',
-        companyName: 'Eside Paris',
-      },
-      jobTitle: 'Senior Software Engineer',
-      minimumPay: 350000,
-      maximumPay: 550000,
-      payType: 'year',
-      city: 'Pune',
-      state: 'Maharashtra',
-      jobType: 'Full Time',
-      postedAt: Date.now() 
-    },
-    { 
-      company_id: {
-        profile_url:'../../../assets/company-dp-1.jpg',
-        companyName: 'Eside Paris',
-      },
-      jobTitle: 'Senior Software Engineer',
-      minimumPay: 350000,
-      maximumPay: 550000,
-      payType: 'year',
-      city: 'Pune',
-      state: 'Maharashtra',
-      jobType: 'Full Time',
-      postedAt: Date.now() 
     }
   ]
+
+  trackByFn(index: number, item: any): number {
+    return item.id; 
+  }
 }

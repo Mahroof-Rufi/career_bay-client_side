@@ -6,6 +6,6 @@ import { Component, Input } from '@angular/core';
   styleUrl: './nav-bar-options.component.scss'
 })
 export class NavBarOptionsComponent {
-  @Input() isMenuOpen!:boolean
+  @Input() isMenuOpen: boolean = false;
 
 }

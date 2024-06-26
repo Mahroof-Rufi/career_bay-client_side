@@ -44,6 +44,7 @@ import { RouterModule } from '@angular/router';
 import { InboxComponent } from './components/inbox/inbox.component';
 import { LiveMeetComponent } from './components/live-meet/live-meet.component';
 import { JobDetailedViewComponent } from './components/job-detailed-view/job-detailed-view.component';
+import { GetStartedComponent } from './components/get-started/get-started.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { JobDetailedViewComponent } from './components/job-detailed-view/job-det
     CompanyComponent,
     InboxComponent,
     LiveMeetComponent,
-    JobDetailedViewComponent
+    JobDetailedViewComponent,
+    GetStartedComponent
   ],
   imports: [
     CommonModule,
@@ -145,6 +147,7 @@ import { JobDetailedViewComponent } from './components/job-detailed-view/job-det
     TuiDialogModule,
     TuiAlertModule,
     TuiSvgModule,
+    GetStartedComponent
   ],
   providers: [
     JobsApiServiceService,

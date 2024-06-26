@@ -1,9 +1,10 @@
-<div class="flex justify-between w-full py-5 px-10">
-    <app-logo></app-logo>
-    <app-nav-bar-options class="mt-10 lg:mt-0" [isMenuOpen]="isMenuOpen"></app-nav-bar-options>
+<div class="flex flex-col lg:flex-row justify-between w-full py-5 px-10">
+    <div class="flex justify-between items-center w-full lg:w-auto">
+        <app-logo></app-logo>
+        <i class="fa-solid fa-bars text-3xl text-mainGrey lg:hidden ml-auto cursor-pointer" (click)="toggleMenu()"></i>
+    </div>
+    <app-nav-bar-options [isMenuOpen]="isMenuOpen"></app-nav-bar-options>
     <div class="flex-row ml-auto space-x-3 hidden lg:block">
-        <button class="font-bannerText px-5 py-2 bg-white text-mainColor rounded-lg">Sign in</button>
         <app-get-started></app-get-started>
     </div>
-    <i class="fa-solid fa-bars text-3xl text-mainGrey lg:hidden ml-auto cursor-pointer" (click)="toggleMenu()"></i>
 </div>

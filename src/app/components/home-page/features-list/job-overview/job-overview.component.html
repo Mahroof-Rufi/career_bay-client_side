@@ -1,12 +1,13 @@
 <div class="flex flex-col justify-center items-center mx-10">
-    <div>
-        <h1 class="text-5xl font-bannerText flex justify-center text-mainGrey">Find your Match</h1>
-        <h1 class="text-5xl font-bannerText flex justify-center mt-2 text-mainColor">Job Here</h1>
-    </div>
-    <div class="grid grid-cols-5 gap-2 my-4 w-full">
-        @for (job of sampleJobData; track $index) {
+    <div class="flex flex-col md:flex-row md:space-x-4 items-center my-10">
+        <h1 class="text-5xl font-bannerText text-mainGrey">Find your</h1>
+        <h1 class="text-5xl font-bannerText text-mainGrey">Match</h1>
+        <h1 class="text-5xl font-bannerText mt-2 md:mt-0 text-mainColor">Job Here</h1>
+    </div>    
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-4 w-full">
+        <ng-container *ngFor="let job of sampleJobData; trackBy: trackByFn">
           <app-job [jobData]="job"></app-job>
-        }
+        </ng-container>
     </div>
-    <button class="font-bannerText px-5 py-2 border-2  bg-white text-mainGrey rounded-lg">Show More</button>
+    <button class="font-bannerText px-5 py-2 border-2 bg-white text-mainGrey rounded-lg">Show More</button>
 </div>
