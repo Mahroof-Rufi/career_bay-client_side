@@ -3,6 +3,7 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Observable, Subscription } from 'rxjs';
 import { AddPostComponent } from '../components/home/posts/add-post/add-post.component';
+import { DeleteJobConfirmationComponent } from '../components/delete-job-confirmation/delete-job-confirmation.component';
 
 @Injectable()
 export class AddPostModalService {
@@ -35,9 +36,7 @@ export class AddPostModalService {
   }
 
   closeAddPostDialogue() {
-    if (this.addPostDialogueSubscription) {
-      this.addPostDialogueSubscription.unsubscribe()
-    }
+    this.addPostDialogueSubscription?.unsubscribe()
   }
 
   closeApplicationsStatusChangeDialogue() {
@@ -48,10 +47,10 @@ export class AddPostModalService {
 
   openDeletePostConfirmation(post_id:string) {
     this.addPostDialogue = this.dialogueService.open<any>(
-      new PolymorpheusComponent(AddPostComponent, this.injector),
+      new PolymorpheusComponent(DeleteJobConfirmationComponent, this.injector),
       {
         size:'l',
-        data:{post_id:post_id, messageType:'deleteJob'}
+        data:{post_id:post_id, messageType:'deletePost'}
       } 
     )
 

@@ -45,6 +45,8 @@ import { InboxComponent } from './components/inbox/inbox.component';
 import { LiveMeetComponent } from './components/live-meet/live-meet.component';
 import { JobDetailedViewComponent } from './components/job-detailed-view/job-detailed-view.component';
 import { GetStartedComponent } from './components/get-started/get-started.component';
+import { UsersProfileComponent } from './components/users-profile/users-profile.component';
+import { TuiActiveZoneModule } from '@taiga-ui/cdk';
 
 @NgModule({
   declarations: [
@@ -68,7 +70,8 @@ import { GetStartedComponent } from './components/get-started/get-started.compon
     InboxComponent,
     LiveMeetComponent,
     JobDetailedViewComponent,
-    GetStartedComponent
+    GetStartedComponent,
+    UsersProfileComponent
   ],
   imports: [
     CommonModule,
@@ -101,7 +104,8 @@ import { GetStartedComponent } from './components/get-started/get-started.compon
     TuiInputDateTimeModule,
     TuiDropdownModule,
     TuiMultiSelectModule,
-    TuiButtonModule
+    TuiButtonModule,
+    TuiActiveZoneModule
   ],
   exports: [
     TuiInputModule,
@@ -147,7 +151,9 @@ import { GetStartedComponent } from './components/get-started/get-started.compon
     TuiDialogModule,
     TuiAlertModule,
     TuiSvgModule,
-    GetStartedComponent
+    GetStartedComponent,
+    UsersProfileComponent,
+    TuiActiveZoneModule
   ],
   providers: [
     JobsApiServiceService,

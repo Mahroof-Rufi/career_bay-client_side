@@ -37,7 +37,7 @@ export class PostsApiServiceService {
   }
 
   deletePost(post_id:string) {
-    return this._http.delete(environment.baseURL + `posts/delete-post/${post_id}`,)
+    return this._http.delete(environment.baseURL + `posts/delete-post/${post_id}`)
   }
   
 }

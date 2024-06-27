@@ -169,7 +169,9 @@
         </div>
 
         <div class="grid grid-cols-1 mt-5">
-            <button class="flex flex-row justify-center py-3 font-bannerText rounded-full bg-mainColor text-white" type="submit" >Submit</button>
+            <button tuiButton type="submit" appearance="main" class="tui-space_right-3 tui-space_bottom-3 w-full" [showLoader]="isLoading">
+                Submit
+            </button>
         </div>
     </div>
 </form>

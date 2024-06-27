@@ -10,6 +10,7 @@ import { PostsApiServiceService } from '../../../../../shared/services/posts-api
 import { AuthApiService } from '../../../../../services/auth-api-service.service';
 import { FilterOptions } from '../../../../../models/filterOptions';
 import { Subscription } from 'rxjs';
+import { tuiIconMoreVertical } from '@taiga-ui/icons';
 
 @Component({
   selector: 'app-company-posts-component',
@@ -32,6 +33,7 @@ export class CompanyPostsComponentComponent implements OnInit, AfterViewInit, On
   private _postAPIsSubscription!:Subscription;
   private _employerTokenRefreshedSubscription!:Subscription;
   private _employerStoreSubscription!:Subscription;
+  readonly tuiIconMoreVertical = tuiIconMoreVertical;
 
   constructor(
     private readonly _authService:AuthApiService,
@@ -79,7 +81,9 @@ export class CompanyPostsComponentComponent implements OnInit, AfterViewInit, On
       }
     })
 
-    this._employerStore.select(getPosts).subscribe( res => {     
+    this._employerStore.select(getPosts).subscribe( res => { 
+      console.log('initial jobs:', res);
+          
       this.posts = res;
     })
   }

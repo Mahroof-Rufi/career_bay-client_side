@@ -67,15 +67,19 @@
                         {{ job.postedAt | date }}
                     </td>
                     <td class="px-6 py-4">
-                        <div class="flex justify-between text-mainGrey text-sm">
-                            <i class="fa-regular fa-pen-to-square cursor-pointer" (click)="editJob(job._id)"></i>
-                            <i class="fa-solid fa-trash cursor-pointer" (click)="deleteJob(job._id)"></i>
-                            <i class="fa-solid fa-list-check cursor-pointer"
-                                [routerLink]="['/employer/job/applicants', job._id]"></i>
+                        <tui-hosted-dropdown #dropdown [content]="content" [tuiDropdownMaxHeight]="500">
+                            <button size="s" appearance="three-dot-menu" type="button" [icon]="tuiIconMoreVertical" tuiIconButton [pseudoHover]="dropdown.open || null"></button>
+                        </tui-hosted-dropdown>
+                        <ng-template #content>
+                            <tui-data-list size="s" class="list">
+                            <button tuiOption (click)="editJob(job._id)">Edit</button>
+                            <button tuiOption (click)="deleteJob(job._id)">Delete</button>
+                            <a [routerLink]="['/employer/job/applicants', job._id]"><button tuiOption>Manage Applicants</button></a>
                             @if (!job.isClosed) {
-                                <i class="fa-solid fa-circle-xmark cursor-pointer" (click)="closeHiring(job._id)"></i>
+                                <button tuiOption (click)="closeHiring(job._id)">Close Hiring</button>
                             }
-                        </div>
+                            </tui-data-list>
+                        </ng-template>
                     </td>
                 </tr>
                 }

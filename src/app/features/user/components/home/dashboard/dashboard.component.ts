@@ -1,11 +1,11 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Job, User } from '../../../user-store/user.model';
-import { getJobsData, getPosts, getUserId } from '../../../user-store/user.selector';
+import { getJobsData, getPosts, getUserId, getUsers } from '../../../user-store/user.selector';
 import { initFlowbite } from 'flowbite';
 import { AuthApiService } from '../../../../../services/auth-api-service.service';
 import { triggerPostLike } from '../../../user-store/user.actions';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,6 +15,7 @@ import { Subscription } from 'rxjs';
 export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy{
 
   jobs!:Job[]
+  users$:Observable<User[]> = this._userState.select(getUsers)
   posts!:any
   user_id!:string;
 

@@ -90,6 +90,12 @@ export const getUsers = createSelector(getUserState,
     }
 )
 
+export const getUsersCount = createSelector(getUserState,
+    (state: userStateModel) => {
+        return state.totalUserProfiles
+    }
+)
+
 export const getEmployers = createSelector(getUserState,
     (state: userStateModel) => {
         return state.companies

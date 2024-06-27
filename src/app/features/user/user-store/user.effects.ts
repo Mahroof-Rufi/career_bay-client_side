@@ -1,6 +1,6 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Injectable } from "@angular/core";
-import { loadUserJobs, loadUserJobsSuccess, loadUser, loadUserSuccess, updateUserProfile, updateUserProfileSuccess, updateUserExperience, editUserEducation, updateUserSkills, applyJob, applyJobSuccess, isApplied, isAppliedSuccess, loadAppliedJobs, loadAppliedJobsSuccess, loadPosts, loadPostsSuccess, deleteUserExperience, deleteUserExperienceSuccess, deleteUserEducation, deleteUserEducationSuccess, LOAD_USER, LOAD_JOBS, LOAD_POSTS, UPDATE_USER_ABOUT, updateUserAbout, updateUserAboutSuccess, saveJob, saveJobSuccess, isSaved, isSavedSuccess, unSaveJob, unSaveJobSuccess, loadSavedJobs, loadSavedJobsSuccess, LOAD_SAVED_JOBS, triggerPostLike, triggerPostSuccess } from './user.actions';
+import { loadUserJobs, loadUserJobsSuccess, loadUser, loadUserSuccess, updateUserProfile, updateUserProfileSuccess, updateUserExperience, editUserEducation, updateUserSkills, applyJob, applyJobSuccess, isApplied, isAppliedSuccess, loadAppliedJobs, loadAppliedJobsSuccess, loadPosts, loadPostsSuccess, deleteUserExperience, deleteUserExperienceSuccess, deleteUserEducation, deleteUserEducationSuccess, LOAD_USER, LOAD_JOBS, LOAD_POSTS, UPDATE_USER_ABOUT, updateUserAbout, updateUserAboutSuccess, saveJob, saveJobSuccess, isSaved, isSavedSuccess, unSaveJob, unSaveJobSuccess, loadSavedJobs, loadSavedJobsSuccess, LOAD_SAVED_JOBS, triggerPostLike, triggerPostSuccess, LOAD_USERS, loadUsers, loadUsersSuccess } from './user.actions';
 import { EMPTY, catchError, exhaustMap, map } from 'rxjs';
 import { UserAPIServiceService } from '../services/user-api-service.service';
 import { JobsApiServiceService } from '../../../shared/services/jobs-api-service.service';
@@ -52,6 +52,30 @@ export class userEffects {
                     console.log('jobsssssssssss',data);
                     
                     return loadUserJobsSuccess({jobs:data.data})
+                }),
+                catchError((error) => {
+                    console.error('HTTP Error on loadUserJobs effect:', error);
+                    if (error.status == 403) {
+                        this._router.navigateByUrl('/home')
+                    }
+                    this._alert.open('', {
+                        label: error.error.message,
+                        status: 'error',
+                        autoClose: false,
+                        hasCloseButton: true
+                    }).subscribe()
+                    return EMPTY;
+                })
+            )
+        })
+    ))
+
+    _loadUsers = createEffect(() => this._actions.pipe(
+        ofType(loadUsers),
+        exhaustMap((action) => {
+            return this._userAPIs.fetchUsers(action.pageNo, action.filterQuery).pipe(
+                map((data) => {
+                    return loadUsersSuccess({ users:data.users,totalNoOfUsers:data.totalNoOfUsers })
                 }),
                 catchError((error) => {
                     console.error('HTTP Error on loadUserJobs effect:', error);

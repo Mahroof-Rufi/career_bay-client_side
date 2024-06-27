@@ -8,7 +8,6 @@ import { NavbarComponent } from './components/home/navbar/navbar.component';
 import { SideBarComponent } from './components/home/side-bar/side-bar.component';
 import { DashboardComponent } from './components/home/dashboard/dashboard.component';
 import { JobListComponent } from './components/home/job-list/job-list.component';
-import { UserProfileComponent } from './components/home/user-profile/user-profile.component';
 import { UserProfileMainDetailsComponent } from './components/home/user-profile/user-profile-main-details/user-profile-main-details.component';
 import { UserProfileAboutSectionComponent } from './components/home/user-profile/user-profile-about-section/user-profile-about-section.component';
 import { UserProfileExperienceSectionComponent } from './components/home/user-profile/user-profile-experience-section/user-profile-experience-section.component';
@@ -38,6 +37,7 @@ import { SavedPostsComponent } from './components/home/saved-jobs-and-posts/save
 import { PostsComponent } from './components/home/posts/posts.component';
 import { NetworksComponent } from './components/home/networks/networks.component';
 import { ScheduledInterviewsComponent } from './components/home/scheduled-interviews/scheduled-interviews.component';
+import { UserProfileComponent } from './components/home/user-profile/user-profile.component';
 
 
 
@@ -48,7 +48,6 @@ import { ScheduledInterviewsComponent } from './components/home/scheduled-interv
     SideBarComponent,
     DashboardComponent,
     JobListComponent,
-    UserProfileComponent,
     UserProfileMainDetailsComponent,
     UserProfileAboutSectionComponent,
     UserProfileExperienceSectionComponent,
@@ -70,7 +69,8 @@ import { ScheduledInterviewsComponent } from './components/home/scheduled-interv
     SavedPostsComponent,
     PostsComponent,
     NetworksComponent,
-    ScheduledInterviewsComponent,  
+    ScheduledInterviewsComponent, 
+    UserProfileComponent 
   ],
   imports: [
     CommonModule,
@@ -84,6 +84,6 @@ import { ScheduledInterviewsComponent } from './components/home/scheduled-interv
     UserAPIServiceService,
     UserProfileEditModalService,
     ApplyJobConfirmationService
-  ]
+  ],
 })
 export class UserModule { }

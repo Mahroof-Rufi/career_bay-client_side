@@ -58,7 +58,7 @@ export class UserChatService {
   }
 
   sendMessageByUser(sender: string, receiver: string, text: string, type:'text' | 'URL',createdAt: Date): void {
-    this._http.post(environment.baseURL + 'chat/user/save-message', { receiver_id:receiver, content:text, type }).subscribe((res:any) => {
+    this._http.post(environment.baseURL + 'chat/user/save-message', { receiver:receiver, content:text, type }).subscribe((res:any) => {
       this._socket.emit('sendMessage', { _id: res.messageId, sender, receiver, text, type, createdAt });
     })
   }

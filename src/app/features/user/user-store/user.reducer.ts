@@ -100,7 +100,8 @@ export const userReducer = createReducer(initialState,
     on(loadUsersSuccess, (state,action) => {
         return {
             ...state,
-            users: action.users
+            users: action.users,
+            totalUserProfiles: action.totalNoOfUsers
         }
     }),
     on(loadEmployersSuccess, (state, action) => {

@@ -38,8 +38,6 @@ export class AddJobPostService {
   }
 
   closeModal() {
-    if (this.subscription) {
       this.subscription?.unsubscribe()
-    }
   }
 }

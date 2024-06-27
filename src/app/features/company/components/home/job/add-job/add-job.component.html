@@ -19,10 +19,14 @@
     
                 <div class="w-1/2">
                     <div class="flex space-x-3">
-                        <tui-input formControlName="city" class="w-full">
-                            City
-                            <input tuiTextfield type="text" class="w-full">
-                        </tui-input>
+                        <tui-select formControlName="city" class="w-full">
+                            Select City
+                            <input tuiTextfield class="w-full">
+                            <tui-data-list-wrapper
+                                *tuiDataList
+                                [items]="cities"
+                            ></tui-data-list-wrapper>
+                        </tui-select>
                         <small *ngIf="jobPostFrom.get('city')?.errors?.['required'] && jobPostFrom.get('city')?.touched" class="text-red-500 font-bannerText">
                             *city required
                         </small>
@@ -186,8 +190,10 @@
                 </div>
             </div>            
             <div class="flex justify-between space-x-3">
-                <button class="bg-blue-500 text-white font-bannerText py-3 justify-center w-full rounded-lg" type="button" (click)="addQualification()">Add Qualification</button>  
-                <button class="bg-mainColor text-white font-bannerText py-3 justify-center w-full rounded-lg" type="submit">Submit</button>  
+                <button class="bg-blue-500 text-white font-bannerText py-3 justify-center w-full rounded-lg" type="button" (click)="addQualification()">Add Qualification</button> 
+                <button tuiButton type="submit" appearance="main" class="tui-space_right-3 tui-space_bottom-3 bg-mainColor" [showLoader]="isLoading">
+                    Submit
+                </button>  
             </div>        
 
         </div>

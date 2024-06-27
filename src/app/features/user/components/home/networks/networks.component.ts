@@ -3,8 +3,8 @@ import { User, userStateModel } from '../../../user-store/user.model';
 import { UserAPIServiceService } from '../../../services/user-api-service.service';
 import { EmployerApiServiceService } from '../../../../company/services/employer-api-service.service';
 import { Store } from '@ngrx/store';
-import { loadEmployersSuccess, loadUsersSuccess } from '../../../user-store/user.actions';
-import { getEmployers, getUsers } from '../../../user-store/user.selector';
+import { loadEmployersSuccess, loadUsers, loadUsersSuccess } from '../../../user-store/user.actions';
+import { getEmployers, getUsers, getUsersCount } from '../../../user-store/user.selector';
 import { Employer } from '../../../../company/store/employer.model';
 import { FilterOptions } from '../../../../../models/filterOptions';
 import { initFlowbite } from 'flowbite';
@@ -109,20 +109,10 @@ export class NetworksComponent implements OnInit, AfterViewInit, OnDestroy{
         const filterUserQueryString = this.constructQueryString(userQueryParams);
         const filterEmployerQueryString = this.constructQueryString(employerQueryParams); 
         
-        this._userAPIsSubscription = this._userAPIs.fetchUsers(this.currentPageNo, filterUserQueryString).subscribe({
-          next: response => {
-            this._userStore.dispatch(loadUsersSuccess({ users: response.users }))
-            this.totalUserProfile = response.totalNoOfUsers
-          },
-    
-          error: err => {
-            console.log(err);
-          }
-        })
+        this._userStore.dispatch(loadUsers({ pageNo:this.currentPageNo, filterQuery:filterUserQueryString }))
     
         this._userAPIsSubscription = this._userAPIs.fetchEmployersData(this.currentPageNo, filterEmployerQueryString).subscribe({
           next: response => {
-            console.log(response.employers);
             this._userStore.dispatch(loadEmployersSuccess({ employers: response.employers }))
             this.totalEmployerProfile = response.totalEmployersCount
           },
@@ -141,6 +131,8 @@ export class NetworksComponent implements OnInit, AfterViewInit, OnDestroy{
         this.users = response
       }
     })
+
+    this._userStore.select(getUsersCount).subscribe((data) => this.totalUserProfile = data)
 
     this._userAPIsSubscription = this._userStore.select(getEmployers).subscribe({
       next: response => {

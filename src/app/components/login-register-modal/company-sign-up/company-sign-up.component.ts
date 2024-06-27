@@ -27,6 +27,7 @@ export class CompanySignUpComponent implements OnInit,OnDestroy{
   cities = []
   states = []
   OTP_BTN:string = 'Send OTP'
+  isLoading:boolean = false
 
   startingMinute: number = 1; 
   time: number = 0
@@ -99,7 +100,8 @@ export class CompanySignUpComponent implements OnInit,OnDestroy{
   }
 
   submitRegistrationForm() {
-    if (this.registrationForm.valid) {      
+    if (this.registrationForm.valid) {   
+      this.isLoading = true   
       const companyName = this.registrationForm.value.companyName
       this.registrationForm.patchValue({
         profile_url: `${environment.defaultAvatarApi}/username?username=[${companyName}]`
@@ -120,6 +122,7 @@ export class CompanySignUpComponent implements OnInit,OnDestroy{
           }).subscribe()       
         },
         error: err => {
+          this.isLoading = false
           this.registrationFailureAlertSubscription = this._alert.open('', {
             label: err.error,
             status: 'error',

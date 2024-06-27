@@ -6,14 +6,39 @@
 @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 
-// @layer components {
-//     .Logo {
-//       font-family: "Archivo Black", sans-serif;
-//       font-size: 2rem;
-//       font-weight: 500;
-//       line-height: 1.2;
-//       color: #FF6B00;
-//       text-transform: uppercase;
-//     }
-//   }
-  
+@import '@taiga-ui/core/styles/taiga-ui-local';
+
+// This goes into global, non-encapsulated styles
+[tuiWrapper][data-appearance='main'] {
+    background: #FF6B00;
+    color: #fff;
+
+    &:hover {
+        background: #f98c3e;
+    }
+
+    &:active {
+        background: #FF6B00;
+    }
+
+    &:disabled {
+        background: #f98c3e;
+    }
+}
+
+[tuiWrapper][data-appearance='three-dot-menu'] {
+    background: #fff;
+    color: #FF6B00;
+
+    &:hover {
+        background: #fff;
+    }
+
+    &:active {
+        background: #ffff;
+    }
+
+    &:disabled {
+        background: #fff;
+    }
+}

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TuiAlertService } from '@taiga-ui/core';
 import { noSpaceAllowed } from '../../../validators/no-space-allowed.validator';
@@ -10,10 +10,13 @@ import { AuthApiService } from '../../../services/auth-api-service.service';
 @Component({
   selector: 'app-user-sign-up',
   templateUrl: './user-sign-up.component.html',
-  styleUrl: './user-sign-up.component.scss'
+  styleUrl: './user-sign-up.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class UserSignUpComponent implements OnInit,OnDestroy{
   @Output() changeView:EventEmitter<string> = new EventEmitter()
+
+  isLoading:boolean = false
 
   private _requestOtpAPISubscription!:Subscription;
   private _registrationAPISubscription!:Subscription;
@@ -63,7 +66,7 @@ export class UserSignUpComponent implements OnInit,OnDestroy{
 
   submitRegistrationForm() {
     if (this.registrationForm.valid) {
-
+      this.isLoading = true
       let profile_Url:string = '';
       const gender = this.registrationForm.get('gender')?.value;
       const firstName = this.registrationForm.get('firstName')?.value
@@ -92,6 +95,7 @@ export class UserSignUpComponent implements OnInit,OnDestroy{
           this.changeView.emit('user-login')
         },
         error: err => {
+          this.isLoading = false
           this._registrationFailureSubscription = this._alert.open('', {
             label: err.error,
             status: 'error',
@@ -111,30 +115,34 @@ export class UserSignUpComponent implements OnInit,OnDestroy{
   }
 
   requestOTP() {
-    const email = this.registrationForm.get('email')?.value
+    if (this.registrationForm.get('email')?.valid) {
+      const email = this.registrationForm.get('email')?.value
 
-    this._requestOtpAPISubscription = this._authAPIs.userRequestOTP(email).subscribe({
-      next: response => {
-        this.otpButton = 'Resend OTP'
-        this._requestOTPSuccessSubscription = this._alert.open('', {
-          label: response,
-          status: 'success',
-          autoClose: true,
-        }).subscribe()
-        this.time = this.startingMinute * 60;
-        this.timerInterval = setInterval(() => {
-          this.updateTimer();
-        }, 1000);
-      },
-      error: err => {
-        this._requestOTPFailureSubscription = this._alert.open('', {
-          label: err.error,
-          status: 'error',
-          autoClose: false,
-          hasCloseButton: true
-        }).subscribe()
-      }
-    })
+      this._requestOtpAPISubscription = this._authAPIs.userRequestOTP(email).subscribe({
+        next: response => {
+          this.otpButton = 'Resend OTP'
+          this._requestOTPSuccessSubscription = this._alert.open('', {
+            label: response,
+            status: 'success',
+            autoClose: true,
+          }).subscribe()
+          this.time = this.startingMinute * 60;
+          this.timerInterval = setInterval(() => {
+            this.updateTimer();
+          }, 1000);
+        },
+        error: err => {
+          this._requestOTPFailureSubscription = this._alert.open('', {
+            label: err.error,
+            status: 'error',
+            autoClose: false,
+            hasCloseButton: true
+          }).subscribe()
+        }
+      })
+    } else {
+      this.registrationForm.get('email')?.markAsTouched()
+    }
   }
 
   updateTimer() {

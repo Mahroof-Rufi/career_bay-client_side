@@ -1,3 +1,4 @@
+import { filter } from 'rxjs/operators';
 import { createAction, props } from "@ngrx/store";
 import { AppliedJobs, EditUser, Post, Posts, User, education, experience } from "./user.model";
 import { Employer, Job } from "../../company/store/employer.model";
@@ -54,6 +55,7 @@ export const LOAD_POSTS_SUCCESS = '[posts] load posts success';
 export const TRIGGER_POST_LIKE = '[posts] trigger post like';
 export const TRIGGER_POST_LIKE_SUCCESS = '[posts] trigger post like success';
 
+export const LOAD_USERS = '[users] load users';
 export const LOAD_USERS_SUCCESS = '[users] load users success';
 
 export const LOAD_EMPLOYERS_SUCCESS = '[employers] load employers success'
@@ -112,6 +114,7 @@ export const loadPostsSuccess = createAction(LOAD_POSTS_SUCCESS, props<{ posts:P
 export const triggerPostLike = createAction(TRIGGER_POST_LIKE, props<{ employer_id:string, post_id:string }>())
 export const triggerPostSuccess = createAction(TRIGGER_POST_LIKE_SUCCESS, props<{ updatedPost:Post }>())
 
-export const loadUsersSuccess = createAction(LOAD_USERS_SUCCESS, props<{ users:User[] }>());
+export const loadUsers = createAction(LOAD_USERS, props<{ pageNo:number, filterQuery:string }>())
+export const loadUsersSuccess = createAction(LOAD_USERS_SUCCESS, props<{ users:User[], totalNoOfUsers:number }>());
 
 export const loadEmployersSuccess = createAction(LOAD_EMPLOYERS_SUCCESS, props<{ employers:Employer[] }>())

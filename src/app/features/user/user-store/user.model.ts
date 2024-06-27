@@ -119,7 +119,9 @@ export interface userStateModel {
     AppliedJobs: AppliedJobs[]
     posts:any,
     users:User[],
+    totalUserProfiles:number,
     companies:Employer[],
+    totalEmployerProfiles:number,
     isApplied:boolean,
     isSaved:boolean,
 }

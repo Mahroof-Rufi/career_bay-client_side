@@ -28,7 +28,9 @@ export const initialState: userStateModel = {
   AppliedJobs: [],
   posts: [],
   users: [],
+  totalUserProfiles: 0,
   companies: [],
+  totalEmployerProfiles: 0,
   isApplied: false,
   isSaved: false,
 }

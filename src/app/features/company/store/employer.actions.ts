@@ -56,9 +56,9 @@ export const updateApplicationStatus = createAction(UPDATE_EMPLOYER_JOB_APPLICAN
 export const rejectApplication = createAction(REJECT_EMPLOYER_JOB_APPLICANTS, props<{ job_id:string, user_id:string }>())
 
 export const loadEmployerPosts = createAction(LOAD_EMPLOYER_POSTS)
-export const loadEmployerPostsSuccess = createAction(LOAD_EMPLOYER_POSTS_SUCCESS, props<{ posts:EmployerPosts[] }>())
+export const loadEmployerPostsSuccess = createAction(LOAD_EMPLOYER_POSTS_SUCCESS, props<{ posts:Post[] }>())
 
-export const addPostSuccess = createAction(ADD_EMPLOYER_POSTS, props<{ posts:EmployerPosts[] }>())
+export const addPostSuccess = createAction(ADD_EMPLOYER_POSTS, props<{ post:Post }>())
 
 export const closeHiring = createAction(CLOSE_HIRING, props<{ job_id:string }>())
 export const closeHiringSuccess = createAction(CLOSE_HIRING_SUCCESS, props<{ job_id:string }>())

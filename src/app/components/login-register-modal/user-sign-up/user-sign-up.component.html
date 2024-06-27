@@ -1,191 +1,189 @@
 <div class=" flex flex-col">
-    <h1 class="text-black text-xl flex font-bannerText justify-center">Welcome<h1>👋</h1>
-    </h1>
-    <span class="text-black text-sm flex font-bannerText justify-center">Please, enter your details and start your&nbsp;
-        <h1 class="text-mainColor">Job Hunt</h1> </span>
+    
+    <div class="flex flex-col items-center">
+        <h1 class="text-black text-xl font-bannerText text-center">Welcome <span>👋</span></h1>
+        <span class="text-black text-sm font-bannerText text-center mt-2">Please, enter your details and start your&nbsp;<h1 class="text-mainColor inline">Job Hunt</h1></span>
+    </div>
 
-        <div class="flex justify-center">
-            <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
-                <ul class="flex flex-wrap -mb-px">
-                    <li class="me-2">
-                        <p class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" (click)="redirectLogin()">Log In</p>
-                    </li>
-                    <li class="me-2">
-                        <p class="inline-block p-4 text-mainColor border-b-2 border-mainColor rounded-t-lg active dark:text-blue-500 dark:border-blue-500" aria-current="page">Register</p>
-                    </li>
-                </ul>
-            </div>
+    <div class="flex justify-center">
+        <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
+            <ul class="flex flex-wrap -mb-px">
+                <li class="me-2">
+                    <p class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" (click)="redirectLogin()">Log In</p>
+                </li>
+                <li class="me-2">
+                    <p class="inline-block p-4 text-mainColor border-b-2 border-mainColor rounded-t-lg active dark:text-blue-500 dark:border-blue-500" aria-current="page">Register</p>
+                </li>
+            </ul>
         </div>
+    </div>
 
-    <form [formGroup]="registrationForm" (ngSubmit)="submitRegistrationForm()">
-        <div>
-            <div class="grid grid-cols-2">
-
-                <div class="flex gap-2 my-5 mx-3">
-                    <div class="w-1/2">
-                        <tui-input formControlName="firstName">
-                            First Name
-                            <input tuiTextfield type="text" />
-                        </tui-input>
-                        <small
-                            *ngIf="registrationForm.get('firstName')?.errors?.['required'] && registrationForm.get('firstName')?.touched"
-                            class="text-red-500 font-bannerText">
-                            *first name required
-                        </small>
-                        <small *ngIf="registrationForm.get('firstName')?.errors?.['noSpaceAllowed']"
-                            class="text-red-500 font-bannerText">
-                            *space not allowed
-                        </small>
-                    </div>
-                    <div class="w-1/2">
-                        <tui-input formControlName="lastName">
-                            Last Name (optional)
-                            <input tuiTextfield type="text" />
-                        </tui-input>
-                        <small
-                            *ngIf="registrationForm.get('lastName')?.errors?.['noSpaceAllowed'] && registrationForm.get('lastName')?.touched"
-                            class="text-red-500 font-bannerText">
-                            *space not allowed
-                        </small>
-                    </div>
-                </div>
-
-                <div class="flex flex-col my-5 mx-3">
-                    <tui-input formControlName="email">
-                        Email
-                        <input tuiTextfield type="email" />
-                    </tui-input>
-                    <small
-                        *ngIf="registrationForm.get('email')?.errors?.['required'] && registrationForm.get('email')?.touched"
-                        class="text-red-500 font-bannerText">
-                        *email required
-                    </small>
-                    <small *ngIf="registrationForm.get('email')?.errors?.['email']"
-                        class="text-red-500 font-bannerText">
-                        *enter a valid email
-                    </small>
-                </div>
-
-                <div class="flex flex-col my-5 mx-3">
-                    <tui-input-password class="tui-space_top-2" formControlName="password">
-                        Password
-                    </tui-input-password>
-                    <small
-                        *ngIf="registrationForm.get('password')?.errors?.['required'] && registrationForm.get('password')?.touched"
-                        class="text-red-500 font-bannerText">
-                        *password is required
-                    </small>
-                    <small *ngIf="registrationForm.get('password')?.errors?.['noSpaceAllowed']"
-                        class="text-red-500 font-bannerText">
-                        *space not allowed
-                    </small>
-                    <small *ngIf="registrationForm.get('password')?.errors?.['minlength']"
-                        class="text-red-500 font-bannerText">
-                        *password should have minimum 8 characters
-                    </small>
-                </div>
-
-                <div class="flex flex-col my-5 mx-3">
-                    <tui-input-password class="tui-space_top-2" formControlName="confirmPassword">
-                        Confirm password
-                    </tui-input-password>
-                    <small
-                        *ngIf="registrationForm.get('confirmPassword')?.errors?.['required'] && registrationForm.get('confirmPassword')?.touched"
-                        class="text-red-500 font-bannerText">
-                        *confirm password is required
-                    </small>
-                    <small *ngIf="registrationForm.get('confirmPassword')?.errors?.['noSpaceAllowed']"
-                        class="text-red-500 font-bannerText">
-                        *space not allowed
-                    </small>
-                    <small *ngIf="registrationForm.get('confirmPassword')?.errors?.['minlength']"
-                        class="text-red-500 font-bannerText">
-                        *password should have minimum 8 characters
-                    </small>
-                    <small *ngIf="registrationForm?.errors?.['passwordMismatch']" class="text-red-500 font-bannerText">
-                        *password and confirm password should be same
-                    </small>
-                </div>
-
-                <div class="flex flex-col my-5 mx-3">
-                    <tui-input formControlName="jobTitle">
-                        Job Title or Desired Position
-                        <input tuiTextfield type="text" />
-                    </tui-input>
-                    <small
-                        *ngIf="registrationForm.get('jobTitle')?.errors?.['required'] && registrationForm.get('jobTitle')?.touched"
-                        class="text-red-500 font-bannerText">
-                        *job title required
-                    </small>
-                </div>
-
-                <div class="flex flex-col my-5 mx-3">
-                    <tui-select formControlName="industry">
-                        Select Industry
-                        <input tuiTextfield />
-                        <tui-data-list-wrapper *tuiDataList [items]="industries"></tui-data-list-wrapper>
-                    </tui-select>
-                    <small
-                        *ngIf="registrationForm.get('industry')?.errors?.['required'] && registrationForm.get('industry')?.touched"
-                        class="text-red-500 font-bannerText">
-                        *industry required
-                    </small>
-                </div>
-
-                <div class="flex gap-2 my-5 mx-3">
-                    <div class="flex w-1/2">
-                        <tui-input-date formControlName="DOB">
-                            Choose a date
-                            <input tuiTextfield />
-                        </tui-input-date>
-                        <small
-                            *ngIf="registrationForm.get('DOB')?.errors?.['required'] && registrationForm.get('DOB')?.touched"
-                            class="text-red-500 font-bannerText">
-                            *date of birth required
-                        </small>
-                    </div>
-                    <div class="flex w-1/2">
-                        <tui-select formControlName="gender">
-                            Select Gender
-                            <input tuiTextfield />
-                            <tui-data-list-wrapper *tuiDataList [items]="genders"></tui-data-list-wrapper>
-                        </tui-select>
-                        <small
-                            *ngIf="registrationForm.get('gender')?.errors?.['required'] && registrationForm.get('gender')?.touched"
-                            class="text-red-500 font-bannerText">
-                            *gender required
-                        </small>
-                    </div>
-                </div>
-
-                <div class="flex justify-between mx-3 my-5 space-x-10">
-                    <tui-input formControlName="OTP" class="w-fit">
-                        Enter OTP
-                        <input tuiTextfield type="email" />
-                    </tui-input>
-                    <small
-                        *ngIf="registrationForm.get('OTP')?.errors?.['required'] && registrationForm.get('OTP')?.touched"
-                        class="text-red-500 font-bannerText">
-                        *OTP required
-                    </small>
-                    <small *ngIf="registrationForm.get('OTP')?.errors?.['minlength']"
-                        class="text-red-500 font-bannerText">
-                        *enter a valid OTP
-                    </small>                      
-                    <button
-                        class="flex justify-center w-fit ml-auto py-4 px-5 font-bannerText rounded-lg bg-mainColor text-white"
-                        [class.bg-mainColor]="!time || time <= 0"
-                        [class.bg-orange-400]="time && time > 0"
-                        type="button" (click)="requestOTP()" [disabled]=" time > 0">
-                        {{ time > 0 ? 'Resend OTP in ' + minutes + ':' + seconds : otpButton }}
-                    </button>
-                </div>
+    <form [formGroup]="registrationForm" (ngSubmit)="submitRegistrationForm()" class="p-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          <div class="space-y-4">
+            <div class="flex flex-col sm:flex-row sm:space-x-4">
+              <div class="w-full sm:w-1/2">
+                <tui-input formControlName="firstName" class="w-full">
+                  First Name
+                  <input tuiTextfield type="text" />
+                </tui-input>
+                <small *ngIf="registrationForm.get('firstName')?.errors?.['required'] && registrationForm.get('firstName')?.touched"
+                       class="text-red-500 text-xs">
+                  *first name required
+                </small>
+                <small *ngIf="registrationForm.get('firstName')?.errors?.['noSpaceAllowed']"
+                       class="text-red-500 text-xs">
+                  *space not allowed
+                </small>
+              </div>
+              <div class="w-full sm:w-1/2 mt-4 sm:mt-0">
+                <tui-input formControlName="lastName" class="w-full">
+                  Last Name (optional)
+                  <input tuiTextfield type="text" />
+                </tui-input>
+                <small *ngIf="registrationForm.get('lastName')?.errors?.['noSpaceAllowed'] && registrationForm.get('lastName')?.touched"
+                       class="text-red-500 text-xs">
+                  *space not allowed
+                </small>
+              </div>
             </div>
-
-            <div class="grid grid-cols-1 mt-5">
-                <button class="flex flex-row justify-center py-3 font-bannerText rounded-full bg-mainColor text-white"
-                    type="submit">Submit</button>
+      
+            <div>
+              <tui-input formControlName="email" class="w-full">
+                Email
+                <input tuiTextfield type="email" />
+              </tui-input>
+              <small *ngIf="registrationForm.get('email')?.errors?.['required'] && registrationForm.get('email')?.touched"
+                     class="text-red-500 text-xs">
+                *email required
+              </small>
+              <small *ngIf="registrationForm.get('email')?.errors?.['email']"
+                     class="text-red-500 text-xs">
+                *enter a valid email
+              </small>
             </div>
+      
+            <div>
+              <tui-input-password formControlName="password" class="w-full">
+                Password
+              </tui-input-password>
+              <small *ngIf="registrationForm.get('password')?.errors?.['required'] && registrationForm.get('password')?.touched"
+                     class="text-red-500 text-xs">
+                *password is required
+              </small>
+              <small *ngIf="registrationForm.get('password')?.errors?.['noSpaceAllowed']"
+                     class="text-red-500 text-xs">
+                *space not allowed
+              </small>
+              <small *ngIf="registrationForm.get('password')?.errors?.['minlength']"
+                     class="text-red-500 text-xs">
+                *password should have minimum 8 characters
+              </small>
+            </div>
+      
+            <div>
+              <tui-input-password formControlName="confirmPassword" class="w-full">
+                Confirm password
+              </tui-input-password>
+              <small *ngIf="registrationForm.get('confirmPassword')?.errors?.['required'] && registrationForm.get('confirmPassword')?.touched"
+                     class="text-red-500 text-xs">
+                *confirm password is required
+              </small>
+              <small *ngIf="registrationForm.get('confirmPassword')?.errors?.['noSpaceAllowed']"
+                     class="text-red-500 text-xs">
+                *space not allowed
+              </small>
+              <small *ngIf="registrationForm.get('confirmPassword')?.errors?.['minlength']"
+                     class="text-red-500 text-xs">
+                *password should have minimum 8 characters
+              </small>
+              <small *ngIf="registrationForm?.errors?.['passwordMismatch']" class="text-red-500 text-xs">
+                *password and confirm password should be same
+              </small>
+            </div>
+          </div>
+      
+          <div class="space-y-4">
+            <div>
+              <tui-input formControlName="jobTitle" class="w-full">
+                Job Title or Desired Position
+                <input tuiTextfield type="text" />
+              </tui-input>
+              <small *ngIf="registrationForm.get('jobTitle')?.errors?.['required'] && registrationForm.get('jobTitle')?.touched"
+                     class="text-red-500 text-xs">
+                *job title required
+              </small>
+            </div>
+      
+            <div>
+              <tui-select formControlName="industry" class="w-full">
+                Select Industry
+                <input tuiTextfield />
+                <tui-data-list-wrapper *tuiDataList [items]="industries"></tui-data-list-wrapper>
+              </tui-select>
+              <small *ngIf="registrationForm.get('industry')?.errors?.['required'] && registrationForm.get('industry')?.touched"
+                     class="text-red-500 text-xs">
+                *industry required
+              </small>
+            </div>
+      
+            <div class="flex flex-col sm:flex-row sm:space-x-4">
+              <div class="w-full sm:w-1/2">
+                <tui-input-date formControlName="DOB" class="w-full">
+                  Choose a date
+                  <input tuiTextfield />
+                </tui-input-date>
+                <small *ngIf="registrationForm.get('DOB')?.errors?.['required'] && registrationForm.get('DOB')?.touched"
+                       class="text-red-500 text-xs">
+                  *date of birth required
+                </small>
+              </div>
+              <div class="w-full sm:w-1/2 mt-4 sm:mt-0">
+                <tui-select formControlName="gender" class="w-full">
+                  Select Gender
+                  <input tuiTextfield />
+                  <tui-data-list-wrapper *tuiDataList [items]="genders"></tui-data-list-wrapper>
+                </tui-select>
+                <small *ngIf="registrationForm.get('gender')?.errors?.['required'] && registrationForm.get('gender')?.touched"
+                       class="text-red-500 text-xs">
+                  *gender required
+                </small>
+              </div>
+            </div>
+      
+            <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-4">
+              <div class="w-full sm:w-1/2">
+                <tui-input formControlName="OTP" class="w-full">
+                  Enter OTP
+                  <input tuiTextfield type="text" />
+                </tui-input>
+                <small *ngIf="registrationForm.get('OTP')?.errors?.['required'] && registrationForm.get('OTP')?.touched"
+                       class="text-red-500 text-xs">
+                  *OTP required
+                </small>
+                <small *ngIf="registrationForm.get('OTP')?.errors?.['minlength']"
+                       class="text-red-500 text-xs">
+                  *enter a valid OTP
+                </small>
+              </div>
+              <button
+                class="w-full sm:w-auto mt-4 sm:mt-0 py-2 px-4 text-sm font-medium rounded-lg text-white"
+                [ngClass]="{'bg-mainColor': !time || time <= 0, 'bg-orange-400': time && time > 0}"
+                type="button"
+                (click)="requestOTP()"
+                [disabled]="time > 0">
+                {{ time > 0 ? 'Resend OTP in ' + minutes + ':' + seconds : otpButton }}
+              </button>
+            </div>
+          </div>
+      
         </div>
-    </form>
+      
+        <div class="mt-8">
+          <button tuiButton type="submit" appearance="main" class="tui-space_right-3 tui-space_bottom-3 w-full bg-mainColor" [showLoader]="isLoading">
+            Submit
+          </button>
+        </div>
+      </form>
 </div>

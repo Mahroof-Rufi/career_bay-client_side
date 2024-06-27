@@ -10,6 +10,7 @@ import { getJobById } from '../../../../store/employer.selector';
 import { addJobPost, updateJob } from '../../../../store/employer.actions';
 import { JobsApiServiceService } from '../../../../../../shared/services/jobs-api-service.service';
 import { Subscription } from 'rxjs';
+import { AuthApiService } from '../../../../../../services/auth-api-service.service';
 
 @Component({
   selector: 'app-add-job',
@@ -18,7 +19,8 @@ import { Subscription } from 'rxjs';
 })
 export class AddJobComponent implements OnInit, OnDestroy{
 
-  states:string[] = ['Kerala','Karnataka','Telengana'];
+  cities:string[] = []
+  states:string[] = [];
   jobTypes:string[] = ['FullTime', 'PartTime', 'Contract'];
   experienceLevels:string[] = ['InternShip','EntryLevel','Junior','Mid-Level','Senior'];
   workSchedule:string[] = ['Day Shift','Night Shift','Flexible'];
@@ -28,6 +30,7 @@ export class AddJobComponent implements OnInit, OnDestroy{
 
   editJob!:Job | undefined;
   heading:string = 'Add Job Post';
+  isLoading:boolean = false
 
   private _jobAPISubscription!:Subscription;
   private _alertSubscription!:Subscription;
@@ -35,6 +38,7 @@ export class AddJobComponent implements OnInit, OnDestroy{
   
   constructor(
     private readonly _formBuilder:FormBuilder,
+    private readonly _authAPIs:AuthApiService,
     private readonly _jobsAPIs:JobsApiServiceService,
     private readonly _router:Router,
     private readonly _alert: TuiAlertService,
@@ -49,7 +53,7 @@ export class AddJobComponent implements OnInit, OnDestroy{
       this.heading = 'Edit Job Post'
       this._employerStoreSubscription = this._employerStore.select(getJobById(this.data)).subscribe( res => {
         this.editJob = res
-      } ) 
+      }) 
     }
     this.jobPostFrom = this._formBuilder.group({
       jobTitle: this._formBuilder.control(this.editJob?.jobTitle || '', Validators.required),
@@ -66,6 +70,9 @@ export class AddJobComponent implements OnInit, OnDestroy{
       responsibilities: this.initResponsibilities(),
       qualifications: this.initQualifications()
     });
+
+    this._authAPIs.getCities().subscribe((data:any) => this.cities = data)
+    this._authAPIs.getStates().subscribe((data:any) => this.states = data)
   }
 
   initResponsibilities() {
@@ -146,6 +153,7 @@ export class AddJobComponent implements OnInit, OnDestroy{
 
   submitJobPost() {
     if (this.jobPostFrom.valid) {
+      this.isLoading = true
       const jobData:FormData = this.jobPostFrom.value
       if (this.editJob) {
         this._jobAPISubscription = this._jobsAPIs.companyEditJobPost(this.editJob._id, jobData).subscribe({
@@ -160,6 +168,7 @@ export class AddJobComponent implements OnInit, OnDestroy{
             }).subscribe()
           },
           error: err => {
+            this.isLoading = false
             this._alertSubscription = this._alert.open('', {
               label: err.message,
               status: 'error',
@@ -182,6 +191,7 @@ export class AddJobComponent implements OnInit, OnDestroy{
           },
           
           error: err => {
+            this.isLoading = false
             this._router.navigateByUrl('/home')
             this._alertSubscription = this._alert.open('', {
               label: err.error.message,

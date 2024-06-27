@@ -189,8 +189,6 @@ export class InboxComponent implements OnInit, AfterViewInit, OnDestroy{
       this.message = '';      
       if (this.messages.length == 0) {        
         if (this.context == 'user') {
-          console.log('user coo');
-          
           this._userChat.addUserConnection(this.receiver_id, this.profileType === 'Users').subscribe({
             next: (response:any) => this.connections = response.connections
           })

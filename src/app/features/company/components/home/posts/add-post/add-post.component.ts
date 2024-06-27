@@ -25,6 +25,7 @@ export class AddPostComponent implements OnInit, OnDestroy{
   post_id!:string;
 
   postDescription!:string;
+  isLoading:boolean = false
 
   private _employerStoreSubscription!:Subscription;
   private _postAPIsSubscription!:Subscription;
@@ -46,8 +47,6 @@ export class AddPostComponent implements OnInit, OnDestroy{
     if (this.messageType == 'editPost') {
       this._employerStoreSubscription = this._employerStore.select(getPostById(this.post_id)).subscribe({
         next: (response:any) => {
-          console.log(response);
-          
           if (response) {
             response.image_urls.forEach((url:any) => {
               this.oldImageUrls.push(url)
@@ -85,12 +84,17 @@ export class AddPostComponent implements OnInit, OnDestroy{
   
 
   removeImage(index: number) {
-    this.oldImageUrls.splice(index, 1);
+    if (this.messageType == 'editPost') {
+      this.oldImageUrls.splice(index, 1);
+    } else {
+      this.newImageUrls.splice(index, 1);
+    }
   }
 
   submitPost() {
     if (this.descriptionControl.valid) {
 
+      this.isLoading = true
       const postData = new FormData()
       postData.append('description', this.descriptionControl.value);
       postData.append('post_id', this.post_id)
@@ -104,11 +108,12 @@ export class AddPostComponent implements OnInit, OnDestroy{
         }
         this._postAPIsSubscription = this._postsAPIS.editPost( postData).subscribe({
           next: response => {
-            console.log(response);
+            this.closeDialog()
             this._employerStore.dispatch(loadEmployerPostsSuccess({ posts:response.updatedPosts }))
           },
 
           error: err => {
+            this.isLoading = false
             this._alertSubscription = this._alert.open('', {
               label: err.error.message,
               status: 'error',
@@ -120,11 +125,15 @@ export class AddPostComponent implements OnInit, OnDestroy{
         })
       } else {
         this._postAPIsSubscription = this._postsAPIS.addPost(postData).subscribe({
-          next: response => {          
-            this._employerStore.dispatch(addPostSuccess({ posts:response.updatedPosts }))
+          next: response => { 
+            this.closeDialog()   
+            console.log('updatedjobs : ',response);
+                
+            this._employerStore.dispatch(addPostSuccess({ post:response.updatedPost }))
           },
   
           error: err => {
+            this.isLoading = false
             this._alertSubscription = this._alert.open('', {
               label: err.error.message,
               status: 'error',
@@ -134,31 +143,12 @@ export class AddPostComponent implements OnInit, OnDestroy{
           }
         })
       }
-      this._addPostModal.closeAddPostDialogue()
     } else {
       this.descriptionControl.markAllAsTouched()
     }
   }
 
   closeDialog() {
-    this._addPostModal.closeAddPostDialogue()
-  }
-
-  confirmDelete(postId:string) {
-    this._postAPIsSubscription = this._postsAPIS.deletePost(postId).subscribe({
-      next: (response:any) => {
-        this._employerStore.dispatch(deletePostSuccess({ post_id:response.post_id }))
-      },
-       
-      error: err => {
-        this._alertSubscription = this._alert.open('', {
-          label: err.error.message,
-          status: 'error',
-          autoClose: true,
-          hasCloseButton: true
-        }).subscribe()
-      },
-    })
     this._addPostModal.closeAddPostDialogue()
   }
 

@@ -17,32 +17,15 @@
     
     <div class="w-2/6">
         <p class="text-mainGrey text-2xl font-bannerText my-3 ml-3">Let's Connect</p>
-        <div class="bg-slate-200 flex flex-col rounded-lg mx-3">
-            <div class="flex bg-white rounded-lg  flex-row mx-2 my-2 py-2 px-3">
-                <img src="../../../../../assets/profile-1.jpg"  alt="profile" class="w-14 h-14 rounded-full">
-                <div class="ml-3">
-                    <h3 class="text-lg font-bannerText text-mainGrey">Justin George</h3>
-                    <h3 class="text-sm text-secondGrey">Senior React JS developer</h3>
-                </div>
-                <button class="ml-auto font-bannerText px-5 my-3 bg-mainColor text-white rounded-lg">Connect</button>
-            </div>
-            <div class="flex bg-white rounded-lg  flex-row mx-2 my-2 py-2 px-3">
-                <img src="../../../../../assets/profile-1.jpg"  alt="profile" class="w-14 h-14 rounded-full">
-                <div class="ml-3">
-                    <h3 class="text-lg font-bannerText text-mainGrey">Justin George</h3>
-                    <h3 class="text-sm text-secondGrey">Senior React JS developer</h3>
-                </div>
-                <button class="ml-auto font-bannerText px-5 my-3 bg-mainColor text-white rounded-lg">Connect</button>
-            </div>
-            <div class="flex bg-white rounded-lg  flex-row mx-2 my-2 py-2 px-3">
-                <img src="../../../../../assets/profile-1.jpg"  alt="profile" class="w-14 h-14 rounded-full">
-                <div class="ml-3">
-                    <h3 class="text-lg font-bannerText text-mainGrey">Justin George</h3>
-                    <h3 class="text-sm text-secondGrey">Senior React JS developer</h3>
-                </div>
-                <button class="ml-auto font-bannerText px-5 my-3 bg-mainColor text-white rounded-lg">Connect</button>
-            </div>
-            <button class="bg-white text-mainGrey rounded-xl mx-2 my-2 py-2 px-2 font-bannerText text-sm">Show More</button>
+        <div class="bg-slate-200 flex flex-col rounded-lg px-2 py-2 gap-2">
+            @if (users$ | async ) {
+                @for (user of (users$ | async); track $index) {
+                    @if ($index <= 3) {
+                        <app-users-profiles [userData]="user"></app-users-profiles>
+                    }
+                }
+            }
+            <button class="bg-white text-mainGrey rounded-xl py-1 px-1 font-bannerText text-sm">Show More</button>
         </div>
     </div>
 

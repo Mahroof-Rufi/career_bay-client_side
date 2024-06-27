@@ -53,7 +53,6 @@ export class userLoginComponent implements OnInit,OnDestroy {
       theme: 'filled_white',
       size: 'large',
       shape: 'pill',
-      width: 350
     })
 
     this._authAPIs.getIndustries().subscribe((res:any) => this.industries = res)

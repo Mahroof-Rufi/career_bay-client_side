@@ -52,6 +52,7 @@ export interface Comment {
 }
 
 export interface Post {
+    _id: string;
     image_urls: string[];
     description: string;
     likes: string[];
@@ -68,6 +69,6 @@ export interface EmployerPosts {
 export interface EmployerState {
     employer: Employer;
     jobs: Job[];
-    posts: EmployerPosts[];
+    posts: Post[];
     applicants: AppliedUsers;
 }

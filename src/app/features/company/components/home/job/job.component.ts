@@ -12,6 +12,8 @@ import { initFlowbite } from 'flowbite';
 import { FilterOptions } from '../../../../../models/filterOptions';
 import { AuthApiService } from '../../../../../services/auth-api-service.service';
 import { Subscription } from 'rxjs';
+import { tuiIconMoreVertical } from '@taiga-ui/icons';
+import { TUI_ARROW } from '@taiga-ui/kit';
 
 @Component({
   selector: 'app-job',
@@ -25,7 +27,7 @@ export class JobComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() pageNo: number = 1
 
   sort!:string;
-
+  readonly tuiIconMoreVertical = tuiIconMoreVertical;
   // exp_lvl!:string = 
 
   @Output() filterOptions: FilterOptions[] = [

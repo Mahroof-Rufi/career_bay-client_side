@@ -1,17 +1,4 @@
-@if (messageType == 'deleteJob') {
-    <div class="flex flex-col items-center">
-        <i class="fa-solid fa-circle-exclamation text-6xl text-red-600"></i>
-        <div class="flex flex-col items-center mt-3">
-            <h1 class="text-center text-2xl text-red-600 font-bannerText">Delete Post!</h1>
-            <p class="text-center text-lg text-mainGrey font-bannerText">Are you sure you want to delete this Post?</p>
-            <p class="text-center text-lg text-mainGrey font-bannerText">This action cannot be undone.</p>
-        </div>
-        <div class="mt-4">
-            <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bannerText py-2 px-4 rounded mr-2" (click)="closeDialog()">Cancel</button>
-            <button class="bg-red-600 hover:bg-red-700 text-white font-bannerText py-2 px-4 rounded" (click)="confirmDelete(post_id)">Delete</button>
-        </div>
-    </div>
-} @else {
+
     <div class="w-full">
         <h1 class="text-mainColor pb-2 flex justify-center text-4xl font-bannerText">Add Post</h1>
         @if (!oldImageUrls.length && !newImageUrls.length) {
@@ -58,6 +45,8 @@
                 *maximum length - 600
             </small>
         </div>
-        <button class="w-full bg-mainColor text-white font-bannerText rounded-lg py-3" (click)="submitPost()">Submit Post</button>
+        <button tuiButton type="submit" appearance="main" (click)="submitPost()" class="tui-space_right-3 tui-space_bottom-3 w-full bg-mainColor" [showLoader]="isLoading">
+            Submit
+        </button>
     </div>
-}
+

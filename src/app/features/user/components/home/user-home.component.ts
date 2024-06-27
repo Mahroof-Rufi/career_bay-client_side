@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { userStateModel } from '../../user-store/user.model';
-import { loadPosts, loadUser, loadUserJobs } from '../../user-store/user.actions';
+import { loadPosts, loadUser, loadUserJobs, loadUsers } from '../../user-store/user.actions';
 import { AuthApiService } from '../../../../services/auth-api-service.service';
 import { Subscription } from 'rxjs';
 
@@ -22,6 +22,7 @@ export class UserHomeComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
     this._userStore.dispatch(loadUser())
     this._userStore.dispatch(loadUserJobs())
+    this._userStore.dispatch(loadUsers({ pageNo:1, filterQuery:'' }))
     this._userStore.dispatch(loadPosts())
 
     this._userRefreshTokenSubscription = this._authAPIs.$userTokenRefreshed.subscribe({
