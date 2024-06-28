@@ -28,6 +28,8 @@ export class CompanyPostsComponentComponent implements OnInit, AfterViewInit, On
   ]
 
   sort!:string;
+  commentsModal:boolean = false
+  comments:any[] = [] 
 
   private _queryParamMapSubscription!:Subscription;
   private _postAPIsSubscription!:Subscription;
@@ -113,6 +115,13 @@ export class CompanyPostsComponentComponent implements OnInit, AfterViewInit, On
 
   deletePost(post_id:string) {
     this._addPostModal.openDeletePostConfirmation(post_id)
+  }
+
+  showComments(comments:any) {
+    this.commentsModal = !this.commentsModal
+    if (this.commentsModal) {
+      this.comments = comments
+    }
   }
 
   ngOnDestroy(): void {
