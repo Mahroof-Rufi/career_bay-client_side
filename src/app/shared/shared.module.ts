@@ -47,6 +47,7 @@ import { JobDetailedViewComponent } from './components/job-detailed-view/job-det
 import { GetStartedComponent } from './components/get-started/get-started.component';
 import { UsersProfileComponent } from './components/users-profile/users-profile.component';
 import { TuiActiveZoneModule } from '@taiga-ui/cdk';
+import { PostComponent } from './components/post/post.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { TuiActiveZoneModule } from '@taiga-ui/cdk';
     LiveMeetComponent,
     JobDetailedViewComponent,
     GetStartedComponent,
-    UsersProfileComponent
+    UsersProfileComponent,
+    PostComponent
   ],
   imports: [
     CommonModule,
@@ -106,6 +108,7 @@ import { TuiActiveZoneModule } from '@taiga-ui/cdk';
     TuiMultiSelectModule,
     TuiButtonModule,
     TuiActiveZoneModule,
+    TuiDialogModule
   ],
   exports: [
     TuiInputModule,
@@ -154,7 +157,8 @@ import { TuiActiveZoneModule } from '@taiga-ui/cdk';
     GetStartedComponent,
     UsersProfileComponent,
     TuiActiveZoneModule,
-    TuiAvatarModule
+    TuiAvatarModule,
+    PostComponent
   ],
   providers: [
     JobsApiServiceService,

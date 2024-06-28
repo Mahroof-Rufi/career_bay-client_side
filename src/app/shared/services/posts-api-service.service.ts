@@ -21,7 +21,7 @@ export class PostsApiServiceService {
   }
 
   triggerPostSave(employer_Id:string, post_Id:string) {
-    return this._http.post(environment.baseURL + 'posts/save-post', { employer_Id, post_Id })
+    return this._http.post(environment.baseURL + 'posts/saved-posts', { employer_Id, post_Id })
   }
 
   addComment(comment:string,employer_id:string,post_Id:string) {
@@ -46,6 +46,10 @@ export class PostsApiServiceService {
 
   deletePost(post_id:string) {
     return this._http.delete(environment.baseURL + `posts/delete-post/${post_id}`)
+  }
+
+  loadSavedPosts(): Observable<any> {
+    return this._http.get(environment.baseURL + 'posts/saved-posts')
   }
   
 }

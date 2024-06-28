@@ -116,6 +116,7 @@ export interface userStateModel {
     user:User,
     jobs:Job[],
     savedJobs:Job[],
+    savedPosts:Post[],
     AppliedJobs: AppliedJobs[]
     posts:any,
     users:User[],

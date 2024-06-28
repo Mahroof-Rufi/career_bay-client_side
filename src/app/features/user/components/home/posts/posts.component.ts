@@ -18,7 +18,8 @@ export class PostsComponent implements OnInit, OnDestroy{
   @Output() currentPageNo:number = 1;
   @Output() maxItemPerPage:number = 5;
   @Output() totalNoOfPosts!:number;
-  @Output() posts!:Post[];
+
+  posts$:Observable<Post[]> = this._userStore.select(getPosts);
 
   user_id!:string;
   post_Id!:string;
@@ -62,55 +63,10 @@ export class PostsComponent implements OnInit, OnDestroy{
         })
       }
     })
-    this._userStoreSubscription = this._userStore.select(getUserId).subscribe( id => this.user_id = id)
-    this._userStoreSubscription = this._userStore.select(getPosts).subscribe( data => {
-      this.posts = data      
-    })   
+    this._userStoreSubscription = this._userStore.select(getUserId).subscribe( id => this.user_id = id) 
     this.commentForm = this._formBuilder.group({
       newComment: ['', Validators.required]
     }); 
-  }
-
-  likeTrigger(employerId:string,post_id:any) {  
-    this._userStore.dispatch(triggerPostLike({ employer_id:employerId, post_id:post_id }))
-  }
-
-  triggerSavePost(post:Post) {
-    console.log('here it :',post);
-    
-    this._userStore.dispatch(triggerPostSave({ employer_id:post.employer_id, post_id:post._id }))
-  }
-
-  showComments(comments:any, employer_id:string, post_Id:string) {    
-    this.commentsModal = !this.commentsModal
-    if (this.commentsModal) {
-      this.comments = comments
-      this.post_Id = post_Id
-      this.employer_id = employer_id
-    }
-  }
-
-  addComment() {
-    if (this.commentForm.valid) {
-      this.isLoading = true
-      const comment = this.commentForm.get('newComment')?.value;
-      this._postsAPIs.addComment(comment,this.employer_id,this.post_Id).subscribe({
-        next: (res:any) => {
-          this.isLoading = false
-          this.commentForm.get('newComment')?.patchValue('')
-          this.comments = [...this.comments,res.newComment]
-        },
-        error: err => {
-          this.isLoading = false
-          this._alert.open('', {
-            label: err.error.message,
-            status: 'error',
-            autoClose: true,
-            hasCloseButton: true
-          }).subscribe() 
-        }
-      })
-    }
   }
 
   ngOnDestroy(): void {

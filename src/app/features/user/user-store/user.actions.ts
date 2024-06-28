@@ -37,6 +37,9 @@ export const SAVE_JOB_SUCCESS = '[jobs] save job post success';
 export const UNSAVE_JOB = '[jobs] unsave job post';
 export const UNSAVE_JOB_SUCCESS = '[jobs] unsave job post success';
 
+export const LOAD_SAVED_POSTS = '[posts] load saved posts';
+export const LOAD_SAVED_POSTS_SUCCESS = '[posts] load saved posts success';
+
 export const LOAD_SAVED_JOBS = '[jobs] load saved jobs';
 export const LOAD_SAVED_JOBS_SUCCESS = '[jobs] load saved jobs success';
 
@@ -99,6 +102,9 @@ export const unSaveJobSuccess = createAction(UNSAVE_JOB_SUCCESS);
 
 export const loadSavedJobs = createAction(LOAD_SAVED_JOBS)
 export const loadSavedJobsSuccess = createAction(LOAD_SAVED_JOBS_SUCCESS, props<{ savedJobs:Job[] }>())
+
+export const loadSavedPosts = createAction(LOAD_SAVED_POSTS)
+export const loadSavedPostsSuccess = createAction(LOAD_SAVED_POSTS_SUCCESS, props<{ savedPosts:Post[] }>())
 
 export const isSaved = createAction(IS_SAVED, props<{ jobId:string }>())
 export const isSavedSuccess = createAction(IS_SAVED_SUCCESS, props<{ isSaved:boolean }>())
