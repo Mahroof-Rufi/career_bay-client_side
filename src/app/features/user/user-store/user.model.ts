@@ -4,7 +4,7 @@ export interface User {
     _id: string,
     firstName: string,
     lastName?: string,
-    profile_url?: string,
+    profile_url: string,
     email: string,
     jobTitle: string,
     industry: string,

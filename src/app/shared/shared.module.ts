@@ -105,7 +105,7 @@ import { TuiActiveZoneModule } from '@taiga-ui/cdk';
     TuiDropdownModule,
     TuiMultiSelectModule,
     TuiButtonModule,
-    TuiActiveZoneModule
+    TuiActiveZoneModule,
   ],
   exports: [
     TuiInputModule,
@@ -153,7 +153,8 @@ import { TuiActiveZoneModule } from '@taiga-ui/cdk';
     TuiSvgModule,
     GetStartedComponent,
     UsersProfileComponent,
-    TuiActiveZoneModule
+    TuiActiveZoneModule,
+    TuiAvatarModule
   ],
   providers: [
     JobsApiServiceService,
