@@ -25,12 +25,18 @@ export const userReducer = createReducer(initialState,
         }
     }),
     on(triggerPostSuccess, (state, action) => {
-        const updatedPosts = state.posts.map((post:any) => post._id == action.updatedPost._id ? action.updatedPost : post)        
+        const updatedPosts = state.posts.map((post:Post) => {
+            if (post._id === action.updatedPost._id) {
+                return {...post,...action.updatedPost};
+            } else {
+                return post; 
+            }
+        });
         return {
             ...state,
             posts: updatedPosts
-        }
-    }),
+        };
+    }),    
     on(updateUserProfileSuccess, (state,action) => {
         return {
             ...state,

@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { getPosts, getUserData, getUserId } from '../../../user-store/user.selector';
 import { ActivatedRoute } from '@angular/router';
 import { PostsApiServiceService } from '../../../../../shared/services/posts-api-service.service';
-import { loadPostsSuccess, triggerPostLike } from '../../../user-store/user.actions';
+import { loadPostsSuccess, triggerPostLike, triggerPostSave } from '../../../user-store/user.actions';
 import { Observable, Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TuiAlertService } from '@taiga-ui/core';
@@ -73,6 +73,12 @@ export class PostsComponent implements OnInit, OnDestroy{
 
   likeTrigger(employerId:string,post_id:any) {  
     this._userStore.dispatch(triggerPostLike({ employer_id:employerId, post_id:post_id }))
+  }
+
+  triggerSavePost(post:Post) {
+    console.log('here it :',post);
+    
+    this._userStore.dispatch(triggerPostSave({ employer_id:post.employer_id, post_id:post._id }))
   }
 
   showComments(comments:any, employer_id:string, post_Id:string) {    

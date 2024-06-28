@@ -51,9 +51,15 @@
                   <span class="text-xs sm:text-sm">Comment</span>
                 </button>
               </div>
-              <button class="text-gray-500 hover:text-yellow-500 transition-colors duration-200">
-                <i class="fa-regular fa-bookmark text-xl"></i>
-              </button>
+              @if(post.saved.includes(user_id)) {
+                <button (click)="triggerSavePost(post)" class="text-gray-500 hover:text-yellow-500 transition-colors duration-200">
+                  <i class="fa-solid fa-bookmark text-xl"></i>
+                </button>
+              } @else {
+                <button (click)="triggerSavePost(post)" class="text-gray-500 hover:text-yellow-500 transition-colors duration-200">
+                  <i class="fa-regular fa-bookmark text-xl"></i>
+                </button>
+              }
             </div>
           </div>
         </div>

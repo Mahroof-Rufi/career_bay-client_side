@@ -20,6 +20,10 @@ export class PostsApiServiceService {
     return this._http.post(environment.baseURL + 'posts', { employer_id:employer_id, post_id:post_id })
   }
 
+  triggerPostSave(employer_Id:string, post_Id:string) {
+    return this._http.post(environment.baseURL + 'posts/save-post', { employer_Id, post_Id })
+  }
+
   addComment(comment:string,employer_id:string,post_Id:string) {
     return this._http.post(environment.baseURL + 'posts/add-comment', {comment, employer_id, post_Id})
   }

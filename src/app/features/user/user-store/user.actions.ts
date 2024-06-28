@@ -53,7 +53,8 @@ export const LOAD_POSTS = '[posts] load posts';
 export const LOAD_POSTS_SUCCESS = '[posts] load posts success';
 
 export const TRIGGER_POST_LIKE = '[posts] trigger post like';
-export const TRIGGER_POST_LIKE_SUCCESS = '[posts] trigger post like success';
+export const TRIGGER_POST_SAVE = '[posts] trigger post save';
+export const TRIGGER_POST_SUCCESS = '[posts] trigger post like success';
 
 export const LOAD_USERS = '[users] load users';
 export const LOAD_USERS_SUCCESS = '[users] load users success';
@@ -112,7 +113,8 @@ export const loadPosts = createAction(LOAD_POSTS);
 export const loadPostsSuccess = createAction(LOAD_POSTS_SUCCESS, props<{ posts:Posts[] }>())
 
 export const triggerPostLike = createAction(TRIGGER_POST_LIKE, props<{ employer_id:string, post_id:string }>())
-export const triggerPostSuccess = createAction(TRIGGER_POST_LIKE_SUCCESS, props<{ updatedPost:Post }>())
+export const triggerPostSave = createAction(TRIGGER_POST_SAVE, props<{ employer_id:string, post_id:string }>())
+export const triggerPostSuccess = createAction(TRIGGER_POST_SUCCESS, props<{ updatedPost:Post }>())
 
 export const loadUsers = createAction(LOAD_USERS, props<{ pageNo:number, filterQuery:string }>())
 export const loadUsersSuccess = createAction(LOAD_USERS_SUCCESS, props<{ users:User[], totalNoOfUsers:number }>());
