@@ -21,7 +21,7 @@
             @if (users$ | async ) {
                 @for (user of (users$ | async); track $index) {
                     @if ($index <= 2) {
-                        <app-users-profiles [userData]="user"></app-users-profiles>
+                        <users-profile [userData]="user"></users-profile>
                     }
                 }
             }

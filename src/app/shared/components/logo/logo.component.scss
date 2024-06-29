@@ -1,8 +1,17 @@
-.Logo {
-    font-family: "Archivo Black", sans-serif;
-    font-size: 2rem;
-    font-weight: 500;
-    line-height: 1.2;
-    color: #FF6B00;
-    text-transform: uppercase;
+.logo {
+  width: 100%;
+  max-width: 200px; 
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .logo {
+    max-width: 150px; 
   }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    max-width: 100px; 
+  }
+}

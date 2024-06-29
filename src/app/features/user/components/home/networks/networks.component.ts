@@ -154,6 +154,10 @@ export class NetworksComponent implements OnInit, AfterViewInit, OnDestroy{
     return queryStrings.join('&');
   }
 
+  trackByFn(index: number, user: any): number {
+    return index; // or return user.id; if you have a unique identifier
+}
+
   ngOnDestroy(): void {
     this._queryParamsSubscription?.unsubscribe()
     this._userAPIsSubscription?.unsubscribe()
