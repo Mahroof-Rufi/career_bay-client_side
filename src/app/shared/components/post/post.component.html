@@ -87,16 +87,18 @@
       </div>
   
       <!-- New Comment Input -->
-      <div class="mt-4 px-4 py-3 bg-white border-t border-gray-200">
-        <form [formGroup]="commentForm" (ngSubmit)="addComment()" class="flex items-center space-x-2">
-          <tui-avatar [avatarUrl]="(userData$ | async)?.profile_url ?? null" size="s" class="flex-shrink-0"></tui-avatar>
-          <tui-input formControlName="newComment" tuiTextfieldSize="m" class="flex-grow" [tuiTextfieldLabelOutside]="true">
-            Add a comment...
-          </tui-input>
-          <button tuiButton type="submit" size="m" appearance="primary" class="flex-shrink-0" [showLoader]="isLoading" [disabled]="commentForm.invalid">
-            Post
-          </button>
-        </form>
-      </div>
+      @if (!isEmployer) {
+        <div class="mt-4 px-4 py-3 bg-white border-t border-gray-200">
+          <form [formGroup]="commentForm" (ngSubmit)="addComment()" class="flex items-center space-x-2">
+            <tui-avatar [avatarUrl]="(userData$ | async)?.profile_url ?? null" size="s" class="flex-shrink-0"></tui-avatar>
+            <tui-input formControlName="newComment" tuiTextfieldSize="m" class="flex-grow" [tuiTextfieldLabelOutside]="true">
+              Add a comment...
+            </tui-input>
+            <button tuiButton type="submit" size="m" appearance="primary" class="flex-shrink-0" [showLoader]="isLoading" [disabled]="commentForm.invalid">
+              Post
+            </button>
+          </form>
+        </div>
+      }
     </div>
   </ng-template>

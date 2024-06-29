@@ -3,11 +3,11 @@ import { UserChatService } from '../../../features/user/services/user-chat.servi
 import { ActivatedRoute, Router } from '@angular/router';
 import { User, userStateModel } from '../../../features/user/user-store/user.model';
 import { Store } from '@ngrx/store';
-import { getUserData, getUserId } from '../../../features/user/user-store/user.selector';
+import { getUserData } from '../../../features/user/user-store/user.selector';
 import { UserAPIServiceService } from '../../../features/user/services/user-api-service.service';
 import { Chat } from '../../../models/chat';
 import { Employer, EmployerState } from '../../../features/company/store/employer.model';
-import { getEmployerData, getEmployerId } from '../../../features/company/store/employer.selector';
+import { getEmployerData } from '../../../features/company/store/employer.selector';
 import { EmployerApiServiceService } from '../../../features/company/services/employer-api-service.service';
 import { initFlowbite } from 'flowbite';
 import { InterviewScheduleModalService } from '../../../features/company/services/interview-schedule-modal.service';
@@ -37,7 +37,6 @@ export class InboxComponent implements OnInit, AfterViewInit, OnDestroy{
   constructor(
     private readonly _userChat:UserChatService,
     private readonly _userAPIs:UserAPIServiceService,
-    private readonly _employerAPIs:EmployerApiServiceService,
     private readonly _activatedRoute:ActivatedRoute,
     private readonly _router:Router,
     private readonly _userStore:Store<{ user:userStateModel }>,
@@ -82,7 +81,6 @@ export class InboxComponent implements OnInit, AfterViewInit, OnDestroy{
 
     this._userChat.onMessage().subscribe(message => {
       const existingMessageIndex = this.messages.findIndex(chat => chat._id === message._id);
-    
       if (existingMessageIndex !== -1) {
         this.messages[existingMessageIndex] = { ...this.messages[existingMessageIndex], ...message };        
       } else {

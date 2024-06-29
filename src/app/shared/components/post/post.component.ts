@@ -15,6 +15,7 @@ import { Observable } from 'rxjs';
 })
 export class PostComponent implements OnInit{
   @Input() post!:Post;
+  @Input() isEmployer:boolean = false;
 
   commentsModal:boolean = false
   isLoading:boolean = false
@@ -43,11 +44,15 @@ export class PostComponent implements OnInit{
   }
 
   likeTrigger(employerId:string,post_id:any) {  
-    this._userStore.dispatch(triggerPostLike({ employer_id:employerId, post_id:post_id }))
+    if (!this.isEmployer) {
+      this._userStore.dispatch(triggerPostLike({ employer_id:employerId, post_id:post_id }))
+    }
   }
 
   triggerSavePost(post:Post) {
-    this._userStore.dispatch(triggerPostSave({ employer_id:post.employer_id, post_id:post._id }))
+    if (!this.isEmployer) {
+      this._userStore.dispatch(triggerPostSave({ employer_id:post.employer_id, post_id:post._id }))
+    }
   }
 
   showComments(comments:any, employer_id:string, post_Id:string) {    

@@ -14,7 +14,6 @@ const routes: Routes = [
   { path:'user', loadChildren: () => import('./features/user/user-route.module')
     .then((userMod) => userMod.userRouteModule)
   }
-  // { path:'**', component:NotFoundComponent }
 ];
 
 @NgModule({
