@@ -16,6 +16,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class InterviewScheduleComponent implements OnInit{
 
+  isLoading:boolean = false
   accountType!:string;
   viewMode!:string;
   title:string = 'Schedule Interview'
@@ -145,8 +146,10 @@ export class InterviewScheduleComponent implements OnInit{
         MediaForm.append('receiver', this.receiverId)
         MediaForm.append('mediaFile', this.mediaFile)
       if (this.accountType == 'user') {
+        this.isLoading = true
         this._chatService.sendMediaFileByUser(MediaForm)
       } else if (this.accountType == 'employer') {
+        this.isLoading = true
         this._chatService.sendMediaFileByEmployer(MediaForm)
       }
     }
