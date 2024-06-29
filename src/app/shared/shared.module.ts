@@ -4,6 +4,7 @@ import {
   TuiArrowModule,
   TuiAvatarModule,
   TuiBadgedContentModule,
+  TuiCarouselModule,
   TuiCheckboxLabeledModule,
   TuiDataListDropdownManagerModule,
   TuiDataListWrapperModule, 
@@ -14,7 +15,9 @@ import {
   TuiInputPasswordModule, 
   TuiInputPhoneInternationalModule, 
   TuiInputPhoneModule, 
+  TuiIslandModule, 
   TuiMultiSelectModule, 
+  TuiPaginationModule, 
   TuiSelectModule, 
   TuiTextareaModule,
 } from '@taiga-ui/kit';
@@ -108,7 +111,10 @@ import { PostComponent } from './components/post/post.component';
     TuiMultiSelectModule,
     TuiButtonModule,
     TuiActiveZoneModule,
-    TuiDialogModule
+    TuiDialogModule,
+    TuiCarouselModule,
+    TuiIslandModule,
+    TuiPaginationModule,
   ],
   exports: [
     TuiInputModule,
@@ -158,7 +164,10 @@ import { PostComponent } from './components/post/post.component';
     UsersProfileComponent,
     TuiActiveZoneModule,
     TuiAvatarModule,
-    PostComponent
+    PostComponent,
+    TuiCarouselModule,
+    TuiIslandModule,
+    TuiPaginationModule,
   ],
   providers: [
     JobsApiServiceService,

@@ -1,32 +1,26 @@
 <div class="bg-white rounded-xl shadow-lg overflow-hidden transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-xl">
-    @if (post.image_urls.length) {
-      <div class="relative">
-        <div [ngClass]="{
-          'grid gap-1': true,
-          'grid-cols-1': post.image_urls.length === 1,
-          'grid-cols-2': post.image_urls.length === 2,
-          'grid-cols-3': post.image_urls.length >= 3,
-          'grid-rows-1': post.image_urls.length <= 3,
-          'grid-rows-2': post.image_urls.length > 3
-        }">
-          @for (img of post.image_urls.slice(0, 6); track $index) {
-            <div [ngClass]="{
-              'aspect-w-16 aspect-h-9': post.image_urls.length === 1,
-              'aspect-w-1 aspect-h-1': post.image_urls.length > 1,
-              'col-span-2': post.image_urls.length === 3 && $index === 0,
-              'row-span-2': post.image_urls.length === 5 && $index === 0
-            }">
-              <img [src]="img" class="object-cover w-full h-full rounded-sm" alt="">
-            </div>
-          }
-        </div>
-        @if (post.image_urls.length > 6) {
-          <div class="absolute bottom-2 right-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded-full text-xs">
-            +{{ post.image_urls.length - 6 }} more
-          </div>
+  @if (post.image_urls.length) {
+    <div class="relative">
+      <tui-carousel [duration]="4000" [(index)]="index">
+        @for (img of post.image_urls; track $index) {
+          <tui-island *tuiItem class="aspect-ratio-container">
+            <img [src]="img" class="carousel-image" [alt]="'Image ' + ($index + 1)">
+          </tui-island>
         }
-      </div>
-    }
+      </tui-carousel>
+      <tui-pagination 
+        size="s" 
+        class="pagination" 
+        [length]="post.image_urls.length" 
+        [(index)]="index"
+      ></tui-pagination>
+      @if (post.image_urls.length > 6) {
+        <div class="image-count-overlay">
+          +{{ post.image_urls.length - 6 }} more
+        </div>
+      }
+    </div>
+  }
     
     <div class="p-4">
       <p class="text-gray-800 text-sm leading-relaxed line-clamp-4 mb-4">

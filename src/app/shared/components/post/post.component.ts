@@ -26,6 +26,17 @@ export class PostComponent implements OnInit{
   user_Id!:string;
   userData$:Observable<User> = this._userStore.select(getUserData) 
 
+  index = 2;
+ 
+    readonly items = [
+        'John Cleese',
+        'Eric Idle',
+        'Michael Palin',
+        'Graham Chapman',
+        'Terry Gilliam',
+        'Terry Jones',
+    ];
+
   constructor(
     private readonly _userStore:Store<{ user:userStateModel }>,
     private readonly _formBuilder:FormBuilder,
