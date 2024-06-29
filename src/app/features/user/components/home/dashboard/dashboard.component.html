@@ -20,7 +20,7 @@
         <div class="bg-slate-200 flex flex-col rounded-lg px-2 py-2 gap-2">
             @if (users$ | async ) {
                 @for (user of (users$ | async); track $index) {
-                    @if ($index <= 3) {
+                    @if ($index <= 2) {
                         <app-users-profiles [userData]="user"></app-users-profiles>
                     }
                 }

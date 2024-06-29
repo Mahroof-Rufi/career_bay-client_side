@@ -30,6 +30,7 @@ export class UserHomeComponent implements OnInit, OnDestroy{
         this._userStore.dispatch(loadUser())
         this._userStore.dispatch(loadUserJobs())
         this._userStore.dispatch(loadPosts())
+        this._userStore.dispatch(loadUsers({ pageNo:1, filterQuery:'' }))
       }
     })
     

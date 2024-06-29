@@ -102,7 +102,7 @@ export class AuthApiService{
   }
 
   userGoogleRegistration(userData: any):Observable<any> {
-    return this._http.post(environment.baseURL+'auth/user/g-auth', userData)
+    return this._http.post(environment.baseURL+'auth/user/g-auth/register', userData)
   }
 
   userForgotPasswordRequestOTP(email:string) {

@@ -44,6 +44,12 @@ export class userLoginComponent implements OnInit,OnDestroy {
       password: new FormControl('', Validators.required)
     })
 
+    this.initializeGoogleAuth()
+
+    this._authAPIs.getIndustries().subscribe((res:any) => this.industries = res)
+  }
+
+  private initializeGoogleAuth(): void {
     google.accounts.id.initialize({
       client_id: environment.googleClientId,
       callback: (res: any) => this.handleCredentials(res)
@@ -53,9 +59,7 @@ export class userLoginComponent implements OnInit,OnDestroy {
       theme: 'filled_white',
       size: 'large',
       shape: 'pill',
-    })
-
-    this._authAPIs.getIndustries().subscribe((res:any) => this.industries = res)
+    });
   }
 
   private decodeToken(token: string) {
@@ -65,14 +69,18 @@ export class userLoginComponent implements OnInit,OnDestroy {
   handleCredentials(res: any) {
     if (res) {
       const payLoud = this.decodeToken(res.credential);
+      console.log('here the payloud: ',payLoud);
+      
       const userData = {
-        fullName: payLoud.name,
+        fistName: payLoud.given_name,
+        lastName: payLoud.familyName,
+        password: '675@###@gfdd^*&',
+        profile_url: payLoud.picture,
         email: payLoud.email,
-        password: 'cdt45#$%$E%$x',
-        google_id: payLoud.sub,
       }
       this._gAuthAPISubscription = this._authAPIs.userGoogleRegistration(userData).subscribe({
         next: response => {
+          this._authModal.closeModal()
           this._gAuthSuccessAlertSubscription = this._alert.open('', {
             label: 'Login Successfully',
             status: 'success',
