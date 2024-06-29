@@ -33,7 +33,6 @@ import { userReducer } from './user-store/user.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { userEffects } from './user-store/user.effects';
 import { SavedJobsAndPostsComponent } from './components/home/saved-jobs-and-posts/saved-jobs.component';
-import { SavedPostsComponent } from './components/home/saved-jobs-and-posts/saved-posts/saved-posts.component';
 import { PostsComponent } from './components/home/posts/posts.component';
 import { NetworksComponent } from './components/home/networks/networks.component';
 import { ScheduledInterviewsComponent } from './components/home/scheduled-interviews/scheduled-interviews.component';
@@ -66,7 +65,6 @@ import { UserProfileComponent } from './components/home/user-profile/user-profil
     ChangeEmailComponent,
     DeleteExperienceComponent,
     SavedJobsAndPostsComponent,
-    SavedPostsComponent,
     PostsComponent,
     NetworksComponent,
     ScheduledInterviewsComponent, 

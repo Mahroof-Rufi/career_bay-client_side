@@ -7,7 +7,6 @@ import { JobDetailedViewComponent } from "../../shared/components/job-detailed-v
 import { UserProfileComponent } from "./components/home/user-profile/user-profile.component";
 import { AppliedJobsComponent } from "./components/home/applied-jobs/applied-jobs.component";
 import { SavedJobsAndPostsComponent } from "./components/home/saved-jobs-and-posts/saved-jobs.component";
-import { SavedPostsComponent } from "./components/home/saved-jobs-and-posts/saved-posts/saved-posts.component";
 import { PostsComponent } from "./components/home/posts/posts.component";
 import { NetworksComponent } from "./components/home/networks/networks.component";
 import { validateUserTokenGuard } from "./route-guards/validate-user-token.guard";
@@ -33,7 +32,6 @@ const routes: Routes = [
         { path: 'applied-jobs/:id', component:AppliedJobsComponent, },
         { path: 'scheduled-interview/:id', component:ScheduledInterviewsComponent },
         { path: 'saved-jobs/:id', component:SavedJobsAndPostsComponent },
-        { path: 'saved-posts/:id', component:SavedPostsComponent },
     ], canActivateChild:[validateUserTokenGuard]},
     { path: 'live-meet/:id', component:LiveMeetComponent },
 ]
