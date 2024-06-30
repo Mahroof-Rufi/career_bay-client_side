@@ -78,7 +78,6 @@ export class DeleteJobConfirmationComponent implements OnInit, OnDestroy{
         this.closeDialog()
         this._employerState.dispatch(deletePostSuccess({ post_id:response.post_id }))
       },
-       
       error: err => {
         this._alertSubscription = this._alert.open('', {
           label: err.error.message,
@@ -88,7 +87,6 @@ export class DeleteJobConfirmationComponent implements OnInit, OnDestroy{
         }).subscribe()
       },
     })
-    this.closeDialog()
   }
 
   closeHiring(job_id:string) {

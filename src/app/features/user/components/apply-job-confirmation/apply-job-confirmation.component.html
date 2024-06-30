@@ -12,8 +12,7 @@
       class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
     >
       <div class="flex flex-col items-center justify-center pt-5 pb-6">
-        <svg
-          class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+        <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -76,17 +75,14 @@
     </button>
   </div>
   }
-  <div class="mt-4">
-    <button
-      class="bg-gray-300 hover:bg-gray-400 text-mainGrey font-bannerText py-2 px-4 rounded mr-2"
-      (click)="closeDialog()"
-    >
-      Cancel
-    </button>
-    <button
-      class="bg-mainColor hover:bg-orange-500 text-white font-bannerText py-2 px-4 rounded"
-      type="submit"
-      (click)="submitJobApplication()"
+  <div class="mt-4 flex w-full">
+    <button 
+      tuiButton 
+      type="submit" 
+      appearance="main" 
+      class="bg-mainColor tui-space_right-3 tui-space_bottom-3 w-full"
+      (click)="submitJobApplication()" 
+      [showLoader]="isLoading"
     >
       Apply
     </button>

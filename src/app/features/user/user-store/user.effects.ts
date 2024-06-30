@@ -360,35 +360,35 @@ export class userEffects {
         })
     ))
 
-    _applyJob = createEffect(() => this._actions.pipe(
-        ofType(applyJob),
-        exhaustMap((action) => {
-            return this._jobsAPIs.userApplyJob(action.formData).pipe(
-                map((data:any) => {
-                    this._alert.open('', {
-                        label: 'Job application send successfully',
-                        status: 'success',
-                        autoClose: true,
-                        hasCloseButton: true
-                    }).subscribe()
-                    return applyJobSuccess({ updatedAppliedJobs:data.updatedAppliedJobs })
-                }),
-                catchError((error) => {
-                    console.error('HTTP Error on applyJob effect:', error);
-                    if (error.status == 403) {
-                        this._router.navigateByUrl('/home')
-                    }
-                    this._alert.open('', {
-                        label: error.error.message,
-                        status: 'error',
-                        autoClose: false,
-                        hasCloseButton: true
-                    }).subscribe()
-                    return EMPTY;
-                })                
-            )
-        })
-    ))
+    // _applyJob = createEffect(() => this._actions.pipe(
+    //     ofType(applyJob),
+    //     exhaustMap((action) => {
+    //         return this._jobsAPIs.userApplyJob(action.formData).pipe(
+    //             map((data:any) => {
+    //                 this._alert.open('', {
+    //                     label: 'Job application send successfully',
+    //                     status: 'success',
+    //                     autoClose: true,
+    //                     hasCloseButton: true
+    //                 }).subscribe()
+    //                 return applyJobSuccess({ updatedAppliedJobs:data.updatedAppliedJobs })
+    //             }),
+    //             catchError((error) => {
+    //                 console.error('HTTP Error on applyJob effect:', error);
+    //                 if (error.status == 403) {
+    //                     this._router.navigateByUrl('/home')
+    //                 }
+    //                 this._alert.open('', {
+    //                     label: error.error.message,
+    //                     status: 'error',
+    //                     autoClose: false,
+    //                     hasCloseButton: true
+    //                 }).subscribe()
+    //                 return EMPTY;
+    //             })                
+    //         )
+    //     })
+    // ))
 
     _loadAppliedJobs = createEffect(() => this._actions.pipe(
         ofType(loadAppliedJobs),

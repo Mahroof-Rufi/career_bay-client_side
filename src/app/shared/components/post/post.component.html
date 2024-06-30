@@ -75,7 +75,9 @@
   <ng-template #content>
     <tui-data-list size="s" class="list">
       <button tuiOption (click)="editPost(post._id)" class="block w-full text-left px-4 py-2 hover:bg-gray-100 transition-colors duration-200">Edit</button>
-      <button tuiOption (click)="deletePost(post._id)" class="block w-full text-left px-4 py-2 hover:bg-gray-100 transition-colors duration-200">Delete</button>
+      <button tuiOption size="m" type="button" (click)="deletePost(post._id)">
+        Delete
+      </button>
     </tui-data-list>
   </ng-template> 
 
@@ -125,4 +127,20 @@
         </div>
       }
     </div>
+  </ng-template>
+
+
+  <ng-template let-observer [tuiDialogOptions]="{size: 'm'}" [(tuiDialog)]="deleteConfirmModal">
+    <div class="flex flex-col items-center">
+      <i class="fa-solid fa-circle-exclamation text-6xl text-red-600"></i>
+      <div class="flex flex-col items-center mt-3">
+          <h1 class="text-center text-2xl text-red-600 font-bannerText">Delete Post!</h1>
+          <p class="text-center text-lg text-mainGrey font-bannerText">Are you sure you want to delete this Post?</p>
+          <p class="text-center text-lg text-mainGrey font-bannerText">This action cannot be undone.</p>
+      </div>
+      <div class="mt-4">
+          <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bannerText py-2 px-4 rounded mr-2" (click)="closeDialog()">Cancel</button>
+          <button class="bg-red-600 hover:bg-red-700 text-white font-bannerText py-2 px-4 rounded" (click)="confirmDeletePost()">Delete</button>
+      </div>
+  </div>
   </ng-template>

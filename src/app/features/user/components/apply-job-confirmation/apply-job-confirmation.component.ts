@@ -1,11 +1,11 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { ApplyJobConfirmationService } from '../../services/apply-job-confirmation.service';
-import { TuiDialogContext } from '@taiga-ui/core';
+import { TuiAlertService, TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { Store } from '@ngrx/store';
 import { User } from '../../user-store/user.model';
 import { getUserId } from '../../user-store/user.selector';
-import { applyJob, saveJob, unSaveJob } from '../../user-store/user.actions';
+import { applyJob, applyJobSuccess, saveJob, unSaveJob } from '../../user-store/user.actions';
 import { Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserAPIServiceService } from '../../services/user-api-service.service';
@@ -17,6 +17,8 @@ import { JobsApiServiceService } from '../../../../shared/services/jobs-api-serv
   styleUrl: './apply-job-confirmation.component.scss',
 })
 export class ApplyJobConfirmationComponent implements OnInit, OnDestroy {
+
+  isLoading:boolean = false
   user_id!: string;
   job_id!: string;
   type!: string;
@@ -32,7 +34,8 @@ export class ApplyJobConfirmationComponent implements OnInit, OnDestroy {
     private readonly _context: TuiDialogContext<string, string>,
     private readonly _formBuilder: FormBuilder,
     private readonly _userStore: Store<{ user: User }>,
-    private readonly _jobsAPIs:JobsApiServiceService
+    private readonly _jobsAPIs:JobsApiServiceService,
+    private readonly _alert:TuiAlertService
   ) {}
 
   ngOnInit(): void {
@@ -81,10 +84,31 @@ export class ApplyJobConfirmationComponent implements OnInit, OnDestroy {
 
   submitJobApplication() {
     if (this.resumeFile) {
+      this.isLoading = true
       const formData = new FormData
       formData.append('job_id', this.job_id)
       formData.append('resume', this.resumeFile)
-      this._userStore.dispatch(applyJob({ formData:formData }))
+      this._jobsAPIs.userApplyJob(formData).subscribe({
+        next: (res:any) => {
+          this._alert.open('', {
+            label: 'Job application send successfully',
+            status: 'success',
+            autoClose: true,
+            hasCloseButton: true
+          }).subscribe()
+          this.closeDialog()
+          this._userStore.dispatch(applyJobSuccess({ updatedAppliedJobs: res.updatedAppliedJobs }))
+        },
+        error: err => {
+          this.isLoading = false
+          this._alert.open('', {
+            label: err.error.message,
+            status: 'error',
+            autoClose: false,
+            hasCloseButton: true
+          }).subscribe()
+        }
+      })
     } else {
       this.resumeRequiredError = true;
     }

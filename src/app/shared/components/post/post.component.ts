@@ -9,6 +9,8 @@ import { getUserData, getUserId } from '../../../features/user/user-store/user.s
 import { Observable } from 'rxjs';
 import { tuiIconMoreVertical } from '@taiga-ui/icons';
 import { AddPostModalService } from '../../../features/company/services/add-post-modal.service';
+import { EmployerState } from '../../../features/company/store/employer.model';
+import { deletePostSuccess } from '../../../features/company/store/employer.actions';
 
 @Component({
   selector: 'app-post',
@@ -22,11 +24,13 @@ export class PostComponent implements OnInit{
   readonly tuiIconMoreVertical = tuiIconMoreVertical;
   
   commentsModal:boolean = false
+  deleteConfirmModal:boolean = false
   isLoading:boolean = false
   commentForm!: FormGroup;
   comments!:any[]
 
   post_Id!:string;
+  deletePost_Id!:string;
   employer_Id!:string;
   user_Id!:string;
   userData$:Observable<User> = this._userStore.select(getUserData) 
@@ -35,6 +39,7 @@ export class PostComponent implements OnInit{
 
   constructor(
     private readonly _userStore:Store<{ user:userStateModel }>,
+    private readonly _employerState:Store<{ employer:EmployerState }>,
     private readonly _formBuilder:FormBuilder,
     private readonly _alert:TuiAlertService,
     private readonly _postsAPIs:PostsApiServiceService,
@@ -65,7 +70,29 @@ export class PostComponent implements OnInit{
   }
 
   deletePost(post_id:string) {
-    this._addPostModal.openDeletePostConfirmation(post_id)
+    this.deletePost_Id = post_id
+    this.deleteConfirmModal = true
+  }
+
+  closeDialog() {
+    this.deleteConfirmModal = false
+  }
+
+  confirmDeletePost() {
+    this._postsAPIs.deletePost(this.deletePost_Id).subscribe({
+      next: (response:any) => {
+        this.deleteConfirmModal = false
+        this._employerState.dispatch(deletePostSuccess({ post_id:response.post_id }))
+      },
+      error: err => {
+        this._alert.open('', {
+          label: err.error.message,
+          status: 'error',
+          autoClose: true,
+          hasCloseButton: true
+        }).subscribe()
+      },
+    })
   }
 
   showComments(comments:any, employer_id:string, post_Id:string) {    

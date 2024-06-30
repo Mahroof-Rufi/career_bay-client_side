@@ -66,8 +66,6 @@ export const employerReducer = createReducer(initialState,
         }
     }),
     on(deletePostSuccess, (state, action) => {
-        console.log('action :',action);
-        
         return {
             ...state,
             posts: state.posts.filter(post => post._id != action.post_id)
