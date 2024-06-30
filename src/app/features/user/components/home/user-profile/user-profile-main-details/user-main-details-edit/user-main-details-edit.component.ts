@@ -4,9 +4,12 @@ import { User } from '../../../../../user-store/user.model';
 import { Store } from '@ngrx/store';
 import { getUserData } from '../../../../../user-store/user.selector';
 import { noSpaceAllowed } from '../../../../../../../validators/no-space-allowed.validator';
-import { updateUserProfile } from '../../../../../user-store/user.actions';
+import { updateUserProfile, updateUserProfileSuccess } from '../../../../../user-store/user.actions';
 import { UserProfileEditModalService } from '../../../../../services/user-profile-edit-modal.service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { AuthApiService } from '../../../../../../../services/auth-api-service.service';
+import { UserAPIServiceService } from '../../../../../services/user-api-service.service';
+import { TuiAlertService } from '@taiga-ui/core';
 
 @Component({
   selector: 'app-user-main-details-edit',
@@ -15,8 +18,11 @@ import { Subscription } from 'rxjs';
 })
 export class UserMainDetailsEditComponent implements OnInit, OnDestroy{
 
+  isLoading:boolean = false
   profileForm!:FormGroup;
-  states:string[] = ['Kerala', 'TamilNad', 'Karnataka']
+  cities:string[] = []
+  states:string[] = []
+  industries:string[] = []
   genders:string[] = ['Male', 'Female', 'Other']
 
   user_id!:string;
@@ -27,7 +33,10 @@ export class UserMainDetailsEditComponent implements OnInit, OnDestroy{
   constructor(
     private readonly _formBuilder:FormBuilder,
     private readonly _userStore:Store<{ user:User }>,
-    private readonly _profileEditService:UserProfileEditModalService
+    private readonly _profileEditService:UserProfileEditModalService,
+    private readonly _alert:TuiAlertService,
+    private readonly _authAPIs:AuthApiService,
+    private readonly _userAPIs:UserAPIServiceService,
   ) {}
 
   ngOnInit(): void {
@@ -49,6 +58,9 @@ export class UserMainDetailsEditComponent implements OnInit, OnDestroy{
         this.user_id = userData._id
       }
     })
+    this._authAPIs.getCities().subscribe((data:any) => this.cities = data)
+    this._authAPIs.getStates().subscribe((data:any) => this.states = data)
+    this._authAPIs.getIndustries().subscribe((data:any) => this.industries = data)
   }
 
   handleProfile(event: any) {
@@ -66,6 +78,7 @@ export class UserMainDetailsEditComponent implements OnInit, OnDestroy{
 
   submitNewProfile() {
     if (this.profileForm.valid) {
+      this.isLoading = true
       const newFormData = new FormData();
       
       newFormData.append('firstName', this.profileForm.get('firstName')!.value);
@@ -89,11 +102,23 @@ export class UserMainDetailsEditComponent implements OnInit, OnDestroy{
       if (resume && resume.files && resume.files.length > 0) {
         newFormData.append('resume-file',resume.files[0])       
       }
-      this._userStore.dispatch(updateUserProfile({ newData:newFormData }))
-      this._profileEditService.closeUserMainDetailsModal()
+
+      this._userAPIs.userUpdateProfile(newFormData).subscribe({
+        next: (res:any) => {
+          this._profileEditService.closeUserMainDetailsModal()
+          this._userStore.dispatch(updateUserProfileSuccess({ newData:res.updatedData }))
+        },
+        error: err => {
+          this._alert.open('', {
+            label: err.error.message,
+            status: 'error',
+            autoClose: false,
+            hasCloseButton: true
+          }).subscribe()
+        }
+      })
     } else {
       this.profileForm.markAllAsTouched()
-      
     }
   }
 

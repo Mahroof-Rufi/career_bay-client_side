@@ -7,6 +7,8 @@ import { PostsApiServiceService } from '../../services/posts-api-service.service
 import { TuiAlertService } from '@taiga-ui/core';
 import { getUserData, getUserId } from '../../../features/user/user-store/user.selector';
 import { Observable } from 'rxjs';
+import { tuiIconMoreVertical } from '@taiga-ui/icons';
+import { AddPostModalService } from '../../../features/company/services/add-post-modal.service';
 
 @Component({
   selector: 'app-post',
@@ -17,6 +19,8 @@ export class PostComponent implements OnInit{
   @Input() post!:Post;
   @Input() isEmployer:boolean = false;
 
+  readonly tuiIconMoreVertical = tuiIconMoreVertical;
+  
   commentsModal:boolean = false
   isLoading:boolean = false
   commentForm!: FormGroup;
@@ -33,7 +37,8 @@ export class PostComponent implements OnInit{
     private readonly _userStore:Store<{ user:userStateModel }>,
     private readonly _formBuilder:FormBuilder,
     private readonly _alert:TuiAlertService,
-    private readonly _postsAPIs:PostsApiServiceService
+    private readonly _postsAPIs:PostsApiServiceService,
+    private readonly _addPostModal:AddPostModalService,
   ) {}
 
   ngOnInit(): void {
@@ -53,6 +58,14 @@ export class PostComponent implements OnInit{
     if (!this.isEmployer) {
       this._userStore.dispatch(triggerPostSave({ employer_id:post.employer_id, post_id:post._id }))
     }
+  }
+
+  editPost(post_id:string) {
+    this._addPostModal.openEditPostDialogue(post_id)
+  }
+
+  deletePost(post_id:string) {
+    this._addPostModal.openDeletePostConfirmation(post_id)
   }
 
   showComments(comments:any, employer_id:string, post_Id:string) {    

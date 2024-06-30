@@ -30,18 +30,13 @@ export class DeleteJobConfirmationService {
   openModal(jobId:string) {
     this.deleteJobId = jobId
     this.initializeDialog('deleteJob')
-
     if (this.confirmationDialogue) {
-      this.subscription = this.confirmationDialogue.subscribe((result) => {
-        
-      })
+      this.subscription = this.confirmationDialogue.subscribe()
     }
   }
 
   closeModal() {
-    if (this.subscription) {
-      this.subscription.unsubscribe()
-    }
+    this.subscription?.unsubscribe()
   }
 
   openCloseHiringConfirmation(job_id:string) {

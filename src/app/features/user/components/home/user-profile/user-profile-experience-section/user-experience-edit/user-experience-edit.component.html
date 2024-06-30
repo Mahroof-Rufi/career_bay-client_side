@@ -75,10 +75,14 @@
                 <div class="w-1/2 flex-col">
 
                     <div class="flex gap-2">
-                        <tui-input class="w-full" formControlName="city">
-                            City
-                            <input tuiTextfield type="text" class="w-full" >
-                        </tui-input>
+                        <tui-select formControlName="city" class="w-full">
+                            Select City
+                            <input tuiTextfield class="w-full">
+                            <tui-data-list-wrapper
+                                *tuiDataList
+                                [items]="cities"
+                            ></tui-data-list-wrapper>
+                        </tui-select>
                         <small *ngIf="experienceForm.get('city')?.errors?.['required'] && experienceForm.get('city')?.touched" class="text-red-500 font-bannerText">
                             *city required
                         </small>
@@ -140,7 +144,9 @@
             </div>
             <div class="flex space-x-3">
                 <button class="bg-blue-500 text-white font-bannerText py-3 justify-center w-1/3 rounded-lg" (click)="addTechnology()" type="button">Add Skill</button>  
-                <button class="bg-mainColor text-white font-bannerText py-3 justify-center w-2/3 rounded-lg" type="submit">Submit</button>  
+                <button tuiButton type="submit" appearance="main" class=" w-2/3 bg-mainColor" [showLoader]="isLoading">
+                    Submit
+                </button>
             </div>
 
         </div>

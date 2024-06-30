@@ -144,77 +144,77 @@ export class userEffects {
         })
     ))
 
-    _updateUserProfile = createEffect(() => this._actions.pipe(
-        ofType(updateUserProfile),
-        exhaustMap((action) => {
-            return this._userAPIs.userUpdateProfile(action.newData).pipe(
-                map((data:any) => {
-                    return updateUserProfileSuccess({ newData:data.updatedData })
-                }),
-                catchError((error) => {
-                    console.error('HTTP Error on updateUserProfile effect:', error);
-                    if (error.status == 403) {
-                        this._router.navigateByUrl('/home')
-                    }
-                    this._alert.open('', {
-                        label: error.error.message,
-                        status: 'error',
-                        autoClose: false,
-                        hasCloseButton: true
-                    }).subscribe()
-                    return EMPTY;
-                })
-            )
-        })
-    ))
+    // _updateUserProfile = createEffect(() => this._actions.pipe(
+    //     ofType(updateUserProfile),
+    //     exhaustMap((action) => {
+    //         return this._userAPIs.userUpdateProfile(action.newData).pipe(
+    //             map((data:any) => {
+    //                 return updateUserProfileSuccess({ newData:data.updatedData })
+    //             }),
+    //             catchError((error) => {
+    //                 console.error('HTTP Error on updateUserProfile effect:', error);
+    //                 if (error.status == 403) {
+    //                     this._router.navigateByUrl('/home')
+    //                 }
+    //                 this._alert.open('', {
+    //                     label: error.error.message,
+    //                     status: 'error',
+    //                     autoClose: false,
+    //                     hasCloseButton: true
+    //                 }).subscribe()
+    //                 return EMPTY;
+    //             })
+    //         )
+    //     })
+    // ))
 
-    _updateUserAbout = createEffect(() => this._actions.pipe(
-        ofType(updateUserAbout),
-        exhaustMap((action) => {
-            return this._userAPIs.userUpdateAbout(action.newAbout).pipe(
-                map((data:any) => {
-                    return updateUserAboutSuccess({ user:data.updatedData })
-                }),
-                catchError((error) => {
-                    console.error('HTTP Error on updateUserProfile effect:', error);
-                    if (error.status == 403) {
-                        this._router.navigateByUrl('/home')
-                    }
-                    this._alert.open('', {
-                        label: error.error.message,
-                        status: 'error',
-                        autoClose: false,
-                        hasCloseButton: true
-                    }).subscribe()
-                    return EMPTY;
-                })
-            )
-        })
-    ))
+    // _updateUserAbout = createEffect(() => this._actions.pipe(
+    //     ofType(updateUserAbout),
+    //     exhaustMap((action) => {
+    //         return this._userAPIs.userUpdateAbout(action.newAbout).pipe(
+    //             map((data:any) => {
+    //                 return updateUserAboutSuccess({ user:data.updatedData })
+    //             }),
+    //             catchError((error) => {
+    //                 console.error('HTTP Error on updateUserProfile effect:', error);
+    //                 if (error.status == 403) {
+    //                     this._router.navigateByUrl('/home')
+    //                 }
+    //                 this._alert.open('', {
+    //                     label: error.error.message,
+    //                     status: 'error',
+    //                     autoClose: false,
+    //                     hasCloseButton: true
+    //                 }).subscribe()
+    //                 return EMPTY;
+    //             })
+    //         )
+    //     })
+    // ))
 
-    _updateUserExperience = createEffect(() => this._actions.pipe(
-        ofType(updateUserExperience),
-        exhaustMap((action) => {
-            return this._userAPIs.userUpdateExperience(action.experience, action.exp_id ).pipe(
-                map((data:any) => {
-                    return updateUserProfileSuccess({ newData:data.updatedData })
-                }),
-                catchError((error) => {
-                    console.error('HTTP Error on addUserExperience effect:', error);
-                    if (error.status == 403) {
-                        this._router.navigateByUrl('/home')
-                    }
-                    this._alert.open('', {
-                        label: error.error.message,
-                        status: 'error',
-                        autoClose: false,
-                        hasCloseButton: true
-                    }).subscribe()
-                    return EMPTY;
-                })
-            )
-        })
-    ))
+    // _updateUserExperience = createEffect(() => this._actions.pipe(
+    //     ofType(updateUserExperience),
+    //     exhaustMap((action) => {
+    //         return this._userAPIs.userUpdateExperience(action.experience, action.exp_id ).pipe(
+    //             map((data:any) => {
+    //                 return updateUserProfileSuccess({ newData:data.updatedData })
+    //             }),
+    //             catchError((error) => {
+    //                 console.error('HTTP Error on addUserExperience effect:', error);
+    //                 if (error.status == 403) {
+    //                     this._router.navigateByUrl('/home')
+    //                 }
+    //                 this._alert.open('', {
+    //                     label: error.error.message,
+    //                     status: 'error',
+    //                     autoClose: false,
+    //                     hasCloseButton: true
+    //                 }).subscribe()
+    //                 return EMPTY;
+    //             })
+    //         )
+    //     })
+    // ))
 
     _deleteUserExperience = createEffect(() => this._actions.pipe(
         ofType(deleteUserExperience),
@@ -246,35 +246,35 @@ export class userEffects {
         })
     ))
 
-    _updateUserEducation = createEffect(() => this._actions.pipe(
-        ofType(editUserEducation),
-        exhaustMap((action) => {            
-            return this._userAPIs.userEditEducation(action.education, action.education_id).pipe(
-                map((data:any) => {
-                    this._alert.open('', {
-                        label: 'User education updated successfully',
-                        status: 'success',
-                        autoClose: true,
-                        hasCloseButton: true
-                    }).subscribe()
-                    return updateUserProfileSuccess({ newData:data.updatedData })
-                }),
-                catchError((error) => {
-                    console.error('HTTP Error on edit user education effect:', error);
-                    if (error.status == 403) {
-                        this._router.navigateByUrl('/home')
-                    }
-                    this._alert.open('', {
-                        label: error.error.message,
-                        status: 'error',
-                        autoClose: false,
-                        hasCloseButton: true
-                    }).subscribe()
-                    return EMPTY;
-                })
-            )
-        })
-    ))
+    // _updateUserEducation = createEffect(() => this._actions.pipe(
+    //     ofType(editUserEducation),
+    //     exhaustMap((action) => {            
+    //         return this._userAPIs.userEditEducation(action.education, action.education_id).pipe(
+    //             map((data:any) => {
+    //                 this._alert.open('', {
+    //                     label: 'User education updated successfully',
+    //                     status: 'success',
+    //                     autoClose: true,
+    //                     hasCloseButton: true
+    //                 }).subscribe()
+    //                 return updateUserProfileSuccess({ newData:data.updatedData })
+    //             }),
+    //             catchError((error) => {
+    //                 console.error('HTTP Error on edit user education effect:', error);
+    //                 if (error.status == 403) {
+    //                     this._router.navigateByUrl('/home')
+    //                 }
+    //                 this._alert.open('', {
+    //                     label: error.error.message,
+    //                     status: 'error',
+    //                     autoClose: false,
+    //                     hasCloseButton: true
+    //                 }).subscribe()
+    //                 return EMPTY;
+    //             })
+    //         )
+    //     })
+    // ))
 
     _deleteUserEducation = createEffect(() => this._actions.pipe(
         ofType(deleteUserEducation),
@@ -306,35 +306,35 @@ export class userEffects {
         })
     ))
 
-    _editUserSkills = createEffect(() => this._actions.pipe(
-        ofType(updateUserSkills),
-        exhaustMap((action) => {
-            return this._userAPIs.userUpdateSkills(action.skills).pipe(
-                map((data:any) => {
-                    this._alert.open('', {
-                        label: 'User skills updated successful',
-                        status: 'success',
-                        autoClose: true,
-                        hasCloseButton: true
-                    }).subscribe()
-                    return updateUserProfileSuccess({ newData:data.updatedData })
-                }),
-                catchError((error) => {
-                    console.error('HTTP Error on edit user skills effect:', error);
-                    if (error.status == 403) {
-                        this._router.navigateByUrl('/home')
-                    }
-                    this._alert.open('', {
-                        label: error.error.message,
-                        status: 'error',
-                        autoClose: false,
-                        hasCloseButton: true
-                    }).subscribe()
-                    return EMPTY;
-                })
-            )
-        })
-    ))
+    // _editUserSkills = createEffect(() => this._actions.pipe(
+    //     ofType(updateUserSkills),
+    //     exhaustMap((action) => {
+    //         return this._userAPIs.userUpdateSkills(action.skills).pipe(
+    //             map((data:any) => {
+    //                 this._alert.open('', {
+    //                     label: 'User skills updated successful',
+    //                     status: 'success',
+    //                     autoClose: true,
+    //                     hasCloseButton: true
+    //                 }).subscribe()
+    //                 return updateUserProfileSuccess({ newData:data.updatedData })
+    //             }),
+    //             catchError((error) => {
+    //                 console.error('HTTP Error on edit user skills effect:', error);
+    //                 if (error.status == 403) {
+    //                     this._router.navigateByUrl('/home')
+    //                 }
+    //                 this._alert.open('', {
+    //                     label: error.error.message,
+    //                     status: 'error',
+    //                     autoClose: false,
+    //                     hasCloseButton: true
+    //                 }).subscribe()
+    //                 return EMPTY;
+    //             })
+    //         )
+    //     })
+    // ))
 
     _isJobApplied = createEffect(() => this._actions.pipe(
         ofType(isApplied),

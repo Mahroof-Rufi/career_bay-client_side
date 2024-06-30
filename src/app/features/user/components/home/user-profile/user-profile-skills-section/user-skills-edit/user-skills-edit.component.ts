@@ -3,9 +3,11 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { Store } from '@ngrx/store';
 import { User } from '../../../../../user-store/user.model';
 import { getUserId, getUserSkills } from '../../../../../user-store/user.selector';
-import { updateUserSkills } from '../../../../../user-store/user.actions';
+import { updateUserProfileSuccess, updateUserSkills } from '../../../../../user-store/user.actions';
 import { UserProfileEditModalService } from '../../../../../services/user-profile-edit-modal.service';
 import { Subscription } from 'rxjs';
+import { UserAPIServiceService } from '../../../../../services/user-api-service.service';
+import { TuiAlertService } from '@taiga-ui/core';
 
 @Component({
   selector: 'app-user-skills-edit',
@@ -14,6 +16,7 @@ import { Subscription } from 'rxjs';
 })
 export class UserSkillsEditComponent implements OnInit, OnDestroy{
 
+  isLoading:boolean = false
   userSkills:string[] | undefined;
   skillsForm!:FormGroup;
   user_id!:string;
@@ -23,7 +26,9 @@ export class UserSkillsEditComponent implements OnInit, OnDestroy{
   constructor(
     private readonly _formBuilder:FormBuilder,
     private readonly _userStore:Store<{ user:User }>,
-    private readonly _profileEditModal:UserProfileEditModalService
+    private readonly _alert:TuiAlertService,
+    private readonly _profileEditModal:UserProfileEditModalService,
+    private readonly _userAPIs:UserAPIServiceService,
   ) {}
 
   ngOnInit(): void {
@@ -60,9 +65,23 @@ export class UserSkillsEditComponent implements OnInit, OnDestroy{
 
   submitSkills() {
     if (this.skillsForm.valid) {
+      this.isLoading = true
       const skillsValues:string[] = this.skillsForm.get('skills')?.value
-      this._profileEditModal.closeUserSkillsEditModal()
-      this._userStore.dispatch(updateUserSkills({ skills:skillsValues }))
+      this._userAPIs.userUpdateSkills(skillsValues).subscribe({
+        next: (res:any) => {
+          this._profileEditModal.closeUserSkillsEditModal()
+          this._userStore.dispatch(updateUserProfileSuccess({ newData:res.updatedData }))
+        },
+        error: err => {
+          this.isLoading = false
+          this._alert.open('', {
+            label: err.error.message,
+            status: 'error',
+            autoClose: false,
+            hasCloseButton: true
+          }).subscribe()
+        }
+      })
     } else {
       this.skillsForm.markAllAsTouched()
     }

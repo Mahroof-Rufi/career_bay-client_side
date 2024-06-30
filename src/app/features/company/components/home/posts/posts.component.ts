@@ -109,14 +109,6 @@ export class CompanyPostsComponentComponent implements OnInit, AfterViewInit, On
     this._addPostModal.openAddPostDialogue()
   }
 
-  editPost(post_id:string) {
-    this._addPostModal.openEditPostDialogue(post_id)
-  }
-
-  deletePost(post_id:string) {
-    this._addPostModal.openDeletePostConfirmation(post_id)
-  }
-
   showComments(comments:any) {
     this.commentsModal = !this.commentsModal
     if (this.commentsModal) {

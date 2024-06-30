@@ -3,11 +3,13 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { updateUserExperience } from '../../../../../user-store/user.actions';
+import { updateUserExperience, updateUserProfileSuccess } from '../../../../../user-store/user.actions';
 import { getExperienceById, getUserId } from '../../../../../user-store/user.selector';
-import { TuiDialogContext } from '@taiga-ui/core';
+import { TuiAlertService, TuiDialogContext } from '@taiga-ui/core';
 import { UserProfileEditModalService } from '../../../../../services/user-profile-edit-modal.service';
 import { Subscription } from 'rxjs';
+import { AuthApiService } from '../../../../../../../services/auth-api-service.service';
+import { UserAPIServiceService } from '../../../../../services/user-api-service.service';
 
 @Component({
   selector: 'app-user-experience-edit',
@@ -16,9 +18,11 @@ import { Subscription } from 'rxjs';
 })
 export class UserExperienceEditComponent implements OnInit, OnDestroy{
 
+  isLoading:boolean = false
   userId!:string;
   jobType:string[] = ['InterShip', 'ParTime', 'FullTime']
-  states:string[] = ['Kerala', 'Karnataka','Telengana']
+  cities:string[] = []
+  states:string[] = []
 
   Heading:string = 'Add Experience'
   exp:experience | undefined;
@@ -32,7 +36,10 @@ export class UserExperienceEditComponent implements OnInit, OnDestroy{
     private readonly _userStore:Store<{ user:User }>,
     @Inject(POLYMORPHEUS_CONTEXT)
     private readonly _context: TuiDialogContext<string, string>,
-    private readonly _profileEditModal: UserProfileEditModalService
+    private readonly _profileEditModal: UserProfileEditModalService,
+    private readonly _alert:TuiAlertService,
+    private readonly _authAPIs: AuthApiService,
+    private readonly _userAPIs: UserAPIServiceService,
   ) {}
 
   ngOnInit(): void {
@@ -54,6 +61,8 @@ export class UserExperienceEditComponent implements OnInit, OnDestroy{
       overView: [this.exp?.overView || '', [Validators.required, Validators.maxLength(600)]],
       technologies : this.initTechnologies() 
     })
+    this._authAPIs.getCities().subscribe((res:any) => this.cities = res)
+    this._authAPIs.getStates().subscribe((res:any) => this.states = res)
   }
 
   initTechnologies() {
@@ -128,12 +137,40 @@ export class UserExperienceEditComponent implements OnInit, OnDestroy{
 
   submitExperience() {
     if (this.experienceForm.valid) {
+      this.isLoading = true
       const experience = this.experienceForm.value
-      this._profileEditModal.closeUserExperienceEditModal()
       if (this.exp?._id) {
-        this._userStore.dispatch(updateUserExperience({ experience:experience, exp_id:this.exp._id }))
+        this._userAPIs.userUpdateExperience(experience, this.exp._id).subscribe({
+          next: (res:any) => {
+            this._profileEditModal.closeUserExperienceEditModal()
+            this._userStore.dispatch(updateUserProfileSuccess({ newData:res.updatedData }))
+          },
+          error: err => {
+            this.isLoading = false
+            this._alert.open('', {
+              label: err.error.message,
+              status: 'error',
+              autoClose: false,
+              hasCloseButton: true
+            }).subscribe()
+          }
+        })
       } else {
-        this._userStore.dispatch(updateUserExperience({ experience:experience }))
+        this._userAPIs.userUpdateExperience(experience).subscribe({
+          next: (res:any) => {
+            this._profileEditModal.closeUserExperienceEditModal()
+            this._userStore.dispatch(updateUserProfileSuccess({ newData:res.updatedData }))
+          },
+          error: err => {
+            this.isLoading = false
+            this._alert.open('', {
+              label: err.error.message,
+              status: 'error',
+              autoClose: false,
+              hasCloseButton: true
+            }).subscribe()
+          }
+        })
       }
     } else {
       this.experienceForm.markAllAsTouched()

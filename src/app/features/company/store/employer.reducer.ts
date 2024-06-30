@@ -58,8 +58,6 @@ export const employerReducer = createReducer(initialState,
         console.log(action);
         
         const newPosts = [...state.posts, action.post]; 
-
-        newPosts.push(action.post) 
         console.log('after :',newPosts);
             
         return {

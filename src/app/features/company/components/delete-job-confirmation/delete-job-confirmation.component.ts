@@ -52,6 +52,7 @@ export class DeleteJobConfirmationComponent implements OnInit, OnDestroy{
 
   confirmDeleteJob(jobId:string) {
     this._jobsAPIsSubscription = this._jobAPIs.companyDeleteJob(jobId).subscribe( res => {
+      this.closeDialog()
       this._employerState.dispatch(deleteJob({ id:jobId }))
       this._alertSubscription = this._alert.open('', {
         label: 'Job Post delete successful',

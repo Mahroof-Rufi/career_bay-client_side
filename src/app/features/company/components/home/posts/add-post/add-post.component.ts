@@ -111,7 +111,6 @@ export class AddPostComponent implements OnInit, OnDestroy{
             this.closeDialog()
             this._employerStore.dispatch(loadEmployerPostsSuccess({ posts:response.updatedPosts }))
           },
-
           error: err => {
             this.isLoading = false
             this._alertSubscription = this._alert.open('', {
@@ -121,7 +120,6 @@ export class AddPostComponent implements OnInit, OnDestroy{
               hasCloseButton: true
             }).subscribe()       
           },
-
         })
       } else {
         this._postAPIsSubscription = this._postsAPIS.addPost(postData).subscribe({

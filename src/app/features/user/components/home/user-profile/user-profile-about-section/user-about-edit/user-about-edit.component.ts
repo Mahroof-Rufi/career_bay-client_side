@@ -6,8 +6,10 @@ import { getUserAbout } from '../../../../../user-store/user.selector';
 // import { updateUserAbout } from '../../user-store/user.actions';
 import { UserProfileEditModalService } from '../../../../../services/user-profile-edit-modal.service';
 import { Router } from '@angular/router';
-import { updateUserAbout } from '../../../../../user-store/user.actions';
+import { updateUserAbout, updateUserAboutSuccess } from '../../../../../user-store/user.actions';
 import { Subscription } from 'rxjs';
+import { UserAPIServiceService } from '../../../../../services/user-api-service.service';
+import { TuiAlertService } from '@taiga-ui/core';
 
 @Component({
   selector: 'app-user-about-edit',
@@ -16,6 +18,7 @@ import { Subscription } from 'rxjs';
 })
 export class UserAboutEditComponent implements OnInit, OnDestroy{
 
+  isLoading:boolean = false
   aboutForm!:FormGroup;
   userId!:string;
 
@@ -25,6 +28,8 @@ export class UserAboutEditComponent implements OnInit, OnDestroy{
     private readonly _formBuilder:FormBuilder,
     private readonly _userStore:Store<{ user:User }>,
     private readonly _profileEditModal:UserProfileEditModalService,
+    private readonly _userAPIs:UserAPIServiceService,
+    private readonly _alert:TuiAlertService,
   ) {}
 
   ngOnInit(): void {
@@ -41,11 +46,22 @@ export class UserAboutEditComponent implements OnInit, OnDestroy{
 
   submitEditAbout() {
     if (this.aboutForm.valid) {
+      this.isLoading = true
       const about:string = this.aboutForm.get('about')?.value 
-      this._userStore.dispatch(updateUserAbout({ newAbout:about }))
-      // this._userStore.dispatch(updateUserAbout({ newData:{ about:about }, userId:this.userId },))
-      this._profileEditModal.closeUserAboutEditModal()
-
+      this._userAPIs.userUpdateAbout(about).subscribe({
+        next: (res:any) => {
+          this._profileEditModal.closeUserAboutEditModal()
+          this._userStore.dispatch(updateUserAboutSuccess({ user:res.updatedData }))
+        },
+        error: err => {
+          this._alert.open('', {
+            label: err.error.message,
+            status: 'error',
+            autoClose: false,
+            hasCloseButton: true
+        }).subscribe()
+        }
+      })
     } else {
       this.aboutForm.markAllAsTouched()
     }

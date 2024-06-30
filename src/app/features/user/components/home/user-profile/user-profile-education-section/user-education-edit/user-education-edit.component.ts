@@ -3,11 +3,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { User, education } from '../../../../../user-store/user.model';
-import { editUserEducation } from '../../../../../user-store/user.actions';
+import { editUserEducation, updateUserProfileSuccess } from '../../../../../user-store/user.actions';
 import { getEducationById, getUserId } from '../../../../../user-store/user.selector';
 import { UserProfileEditModalService } from '../../../../../services/user-profile-edit-modal.service';
-import { TuiDialogContext } from '@taiga-ui/core';
+import { TuiAlertService, TuiDialogContext } from '@taiga-ui/core';
 import { Subscription } from 'rxjs';
+import { AuthApiService } from '../../../../../../../services/auth-api-service.service';
+import { UserAPIServiceService } from '../../../../../services/user-api-service.service';
 
 @Component({
   selector: 'app-user-education-edit',
@@ -16,8 +18,11 @@ import { Subscription } from 'rxjs';
 })
 export class UserEducationEditComponent implements OnInit, OnDestroy{
 
+  isLoading:boolean = false
   educationForm!:FormGroup;
 
+  cities:string[] = []
+  states:string[] = []
   Heading:string = "Add Education" 
   userId!:string;
   education:education | undefined;
@@ -30,6 +35,9 @@ export class UserEducationEditComponent implements OnInit, OnDestroy{
     private readonly _profileEditModal:UserProfileEditModalService,
     @Inject(POLYMORPHEUS_CONTEXT)
     private readonly _context: TuiDialogContext<string, string>,
+    private readonly _alert: TuiAlertService,
+    private readonly _authAPIs: AuthApiService,
+    private readonly _userAPIs: UserAPIServiceService,
   ) {}
 
   ngOnInit(): void {
@@ -52,6 +60,8 @@ export class UserEducationEditComponent implements OnInit, OnDestroy{
       state: [this.education?.state || '', [Validators.required]],
       distance: [this.education?.distance || false, [Validators.required]]
     })
+    this._authAPIs.getCities().subscribe((res:any) => this.cities = res)
+    this._authAPIs.getStates().subscribe((res:any) => this.states = res)
   }
 
   get data(): string {
@@ -104,12 +114,40 @@ export class UserEducationEditComponent implements OnInit, OnDestroy{
 
   submitEducation() {
     if (this.educationForm.valid) {
+      this.isLoading = true
       if (this.education?._id) {
-        this._userStore.dispatch(editUserEducation({ education:this.educationForm.value, education_id:this.education._id }))
+        this._userAPIs.userEditEducation(this.educationForm.value, this.education._id).subscribe({
+          next: (res:any) => {
+            this._profileEditModal.closeUserEducationEditModal()
+            this._userStore.dispatch(updateUserProfileSuccess({ newData:res.updatedData }))
+          },
+          error: err => {
+            this.isLoading = false
+            this._alert.open('', {
+              label: err.error.message,
+              status: 'error',
+              autoClose: false,
+              hasCloseButton: true
+            }).subscribe()
+          }
+        })
       } else {
-        this._userStore.dispatch(editUserEducation({ education:this.educationForm.value }))
+        this._userAPIs.userEditEducation(this.educationForm.value).subscribe({
+          next: (res:any) => {
+            this._profileEditModal.closeUserEducationEditModal()
+            this._userStore.dispatch(updateUserProfileSuccess({ newData:res.updatedData }))
+          },
+          error: err => {
+            this.isLoading = false
+            this._alert.open('', {
+              label: err.error.message,
+              status: 'error',
+              autoClose: false,
+              hasCloseButton: true
+            }).subscribe()
+          }
+        })
       }
-      this._profileEditModal.closeUserEducationEditModal()
     } else {
       this.educationForm.markAllAsTouched()
     }

@@ -9,6 +9,8 @@ import { getEmployerData } from '../../../../store/employer.selector';
 import { updateEmployer } from '../../../../store/employer.actions';
 import { EmployerApiServiceService } from '../../../../services/employer-api-service.service';
 import { Subscription } from 'rxjs';
+import { TuiAlertService } from '@taiga-ui/core';
+import { AuthApiService } from '../../../../../../services/auth-api-service.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -17,9 +19,11 @@ import { Subscription } from 'rxjs';
 })
 export class EditProfileComponent implements OnDestroy{
 
+  isLoading:boolean = false
   employerData!: Employer;
-  industries:string[] = ['IT Service and Consulting','Media']
-  states:string[] = ['Kerala', 'Karnataka', 'Telengana']
+  industries:string[] = []
+  cities:string[] = []
+  states:string[] = []
   noOfWorksRange:string[] = ['0 - 50', '50 - 100', '100 - 250', '250 - 500']
   document = new FormControl();
   updateProfileForm!:FormGroup;
@@ -34,8 +38,10 @@ export class EditProfileComponent implements OnDestroy{
     private readonly _employerAPIs:EmployerApiServiceService,
     private readonly _editProfileModal:EmployerEditProfileModalService,
     private readonly _router:Router,
+    private readonly _authAPIs:AuthApiService,
     private readonly _employerStore:Store<{ employer:Employer }>,
-    private readonly _formBuilder: FormBuilder
+    private readonly _formBuilder: FormBuilder,
+    private readonly _alert:TuiAlertService,
   ) {}
 
   ngOnInit(): void {
@@ -55,6 +61,9 @@ export class EditProfileComponent implements OnDestroy{
       about: [this.employerData.about, [Validators.required, Validators.maxLength(600)]],
       X_url: [this.employerData.X_url, [Validators.required]]
     });
+
+    this._authAPIs.getCities().subscribe((data:any) => this.cities = data)
+    this._authAPIs.getCities().subscribe((data:any) => this.states = data)
   }
 
   imageUrl: string | ArrayBuffer | null = null;
@@ -72,6 +81,7 @@ export class EditProfileComponent implements OnDestroy{
 
   submitUpdateProfile() {
     if(this.updateProfileForm.valid) {
+      this.isLoading = true
       let formData = new FormData()
 
       formData.append('companyName', this.updateProfileForm.get('companyName')?.value);
@@ -100,7 +110,13 @@ export class EditProfileComponent implements OnDestroy{
           this._router.navigateByUrl('/employer/profile')
         },
         error: err => {
-          console.log(err);
+          this.isLoading = false
+          this._alert.open('', {
+            label: err.error.message,
+            status: 'error',
+            autoClose: true,
+            hasCloseButton: true
+          }).subscribe()
         }
       })
 
