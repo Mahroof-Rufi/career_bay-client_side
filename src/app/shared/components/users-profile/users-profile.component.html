@@ -3,12 +3,14 @@
     <img [src]="userData.profile_url" alt="profile" class="w-12 h-12 rounded-full object-cover shadow-sm">
     
     <div class="flex-grow min-w-0">
-      <h3 class="text-lg font-semibold text-gray-800 truncate">{{ userData.firstName }} {{ userData.lastName }}</h3>
+      <a [routerLink]="['/user/user-profile', userData._id]"><h3 class="text-lg font-semibold text-gray-800 truncate">{{ userData.firstName }} {{ userData.lastName }}</h3></a>
       <p class="text-sm text-gray-600 truncate">{{userData.jobTitle}}</p>
     </div>
   </div>
   
-  <button class="ml-3 flex-shrink-0 font-medium px-4 py-2 bg-orange-500 text-white rounded-full text-sm transition-all duration-300 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50">
-    Connect
-  </button>
+  <a [routerLink]="['/user/inbox', 'user', userData._id]">
+    <button class="ml-3 flex-shrink-0 font-medium px-4 py-2 bg-orange-500 text-white rounded-full text-sm transition-all duration-300 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50">
+      Connect
+    </button>
+  </a>
 </div>
