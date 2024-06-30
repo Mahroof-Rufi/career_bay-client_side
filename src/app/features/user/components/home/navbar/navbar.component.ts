@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { User } from '../../../user-store/user.model';
 import { Store } from '@ngrx/store';
 import { getUserData } from '../../../user-store/user.selector';
@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent implements OnInit, OnDestroy{
+  @Output() toggleSidebar = new EventEmitter<void>();
 
   userData!:User;
 

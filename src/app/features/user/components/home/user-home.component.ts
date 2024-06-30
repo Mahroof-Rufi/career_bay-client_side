@@ -14,6 +14,12 @@ export class UserHomeComponent implements OnInit, OnDestroy{
 
   private _userRefreshTokenSubscription!:Subscription;
 
+  isSidebarOpen = false;
+
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
   constructor(
     private readonly _userStore:Store<{ user:{ 'user':userStateModel } }>,
     private readonly _authAPIs:AuthApiService

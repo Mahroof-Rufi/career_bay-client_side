@@ -1,40 +1,39 @@
-<div class="flex-col justify-center h-full px-5 py-10">
-
-    <div class="flex flex-col gap-2 items-center">
-        <h1 class="text-5xl text-mainColor font-bannerText">Connect Industry Experts</h1>
-        <h1 class="text-5xl text-mainGrey font-bannerText">with CareerBay</h1>
-        <div class="flex my-2 items-center">
-            <app-search [searchType]="'users'"></app-search>
-            <app-filter [filterOptions]="filterOptions"></app-filter>
+<div class="flex flex-col justify-center min-h-screen px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <div class="flex flex-col gap-4 items-center text-center mb-8">
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl text-mainColor font-bannerText leading-tight">Connect Industry Experts</h1>
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl text-mainGrey font-bannerText leading-tight">with CareerBay</h1>
+        <div class="flex md:gap-1 lg:gap-2 items-center text-center mb-8">
+            <app-search class="w-full"></app-search>
+            <app-filter class="w-full sm:w-auto"></app-filter>
         </div>
     </div>
     
     @if (profileType && profileType == 'users') {
-        <div class="w-full px-5">
-            <h1 class="text-sm font-bannerText text-mainGrey items-center">Connect peoples<i class="fa-solid fa-arrow-right ml-2"></i></h1>
-                @if (users && users.length > 0) {
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-                        @for (user of users; track $index) {
-                            @if ($index < 4) {
-                                <app-people [userData]="user"></app-people>
-                            }
-                        }
+        <div class="w-full">
+            <h1 class="text-sm font-bannerText text-mainGrey flex items-center mb-4">Connect peoples<i class="fa-solid fa-arrow-right ml-2"></i></h1>
+            @if (users && users.length > 0) {
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    @for (user of users; track $index) {
+                        <users-profile [userData]="user" class="bg-white rounded-lg shadow-md transition duration-300 hover:shadow-xl"></users-profile>
+                    }
+                </div>
+            } @else {
+                <div class="flex flex-col items-center justify-center py-8 w-full">
+                    <div class="bg-gray-100 rounded-lg shadow-md p-6 w-full">
+                        <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4">No Users Found</h2>
+                        <p class="text-sm sm:text-base text-gray-600 mb-6">We're sorry, but there are currently no profiles available in this section.</p>
                     </div>
-                } @else {
-                    <div class="flex flex-col items-center justify-center py-8 w-full">
-                        <div class="bg-gray-100 rounded-lg shadow-md p-6 w-full">
-                            <h2 class="text-2xl font-bold text-gray-800 mb-4">No Users Found</h2>
-                            <p class="text-gray-600 mb-6">We're sorry, but there are currently no profiles available in this section.</p>
-                        </div>
-                    </div>
-                } 
-            <app-pagination [typeOfEntries]="'userUsersProfiles'" [currentPageNo]="currentPageNo" [maxItemInPerPage]="maxItemPerPage" [totalNoOfEntries]="totalUserProfile" [noOfShowingEntries]="users.length"></app-pagination>
+                </div>
+            } 
+            <div class="mt-6">
+                <app-pagination [typeOfEntries]="'userUsersProfiles'" [currentPageNo]="currentPageNo" [maxItemInPerPage]="maxItemPerPage" [totalNoOfEntries]="totalUserProfile" [noOfShowingEntries]="users.length"></app-pagination>
+            </div>
         </div>
     } @else if (profileType && profileType == 'companies') {
-        <div class="w-full px-5 py-3">
-            <h1 class="text-sm font-bannerText text-mainGrey items-center">Connect companies<i class="fa-solid fa-arrow-right ml-2"></i></h1>
+        <div class="w-full">
+            <h1 class="text-sm font-bannerText text-mainGrey flex items-center mb-4">Connect companies<i class="fa-solid fa-arrow-right ml-2"></i></h1>
             @if (employers && employers.length > 0) {
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
                     @for (employer of employers; track $index) {
                         <app-company [employerData]="employer"></app-company>
                     }
@@ -42,41 +41,45 @@
             } @else {
                 <div class="flex flex-col items-center justify-center py-8 w-full">
                     <div class="bg-gray-100 rounded-lg shadow-md p-6 w-full">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">No Companies Found</h2>
-                        <p class="text-gray-600 mb-6 text-center">We're sorry, but there are currently no profiles available in this section.</p>
+                        <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4 text-center">No Companies Found</h2>
+                        <p class="text-sm sm:text-base text-gray-600 mb-6 text-center">We're sorry, but there are currently no profiles available in this section.</p>
                     </div>
                 </div>
             }
-            <app-pagination [typeOfEntries]="'userEmployersProfiles'" [currentPageNo]="currentPageNo" [maxItemInPerPage]="12" [totalNoOfEntries]="totalEmployerProfile" [noOfShowingEntries]="employers.length"></app-pagination>
+            <div class="mt-6">
+                <app-pagination [typeOfEntries]="'userEmployersProfiles'" [currentPageNo]="currentPageNo" [maxItemInPerPage]="12" [totalNoOfEntries]="totalEmployerProfile" [noOfShowingEntries]="employers.length"></app-pagination>
+            </div>
         </div>
     } @else {
-        <div class="w-full px-5">
-            <h1 class="text-sm font-bannerText text-mainGrey items-center">Connect peoples<i class="fa-solid fa-arrow-right ml-2"></i></h1>
-                @if (users && users.length > 0) {
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-                        @for (user of users; track $index) {
-                            <app-people [userData]="user"></app-people>
+        <div class="w-full mb-8">
+            <h1 class="text-sm font-bannerText text-mainGrey flex items-center mb-4">Connect peoples<i class="fa-solid fa-arrow-right ml-2"></i></h1>
+            @if (users && users.length > 0) {
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    @for (user of users; track $index) {
+                        @if ($index <= 5) {
+                            <users-profile [userData]="user" class="bg-white rounded-lg shadow-md transition duration-300 hover:shadow-xl"></users-profile>
                         }
+                    }
+                </div>
+            } @else {
+                <div class="flex flex-col items-center justify-center py-8 w-full">
+                    <div class="bg-gray-100 rounded-lg shadow-md p-6 w-full">
+                        <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4 text-center">No Users Found</h2>
+                        <p class="text-sm sm:text-base text-gray-600 mb-6 text-center">We're sorry, but there are currently no profiles available in this section.</p>
                     </div>
-                } @else {
-                    <div class="flex flex-col items-center justify-center py-8 w-full">
-                        <div class="bg-gray-100 rounded-lg shadow-md p-6 w-full">
-                            <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">No Users Found</h2>
-                            <p class="text-gray-600 mb-6 text-center">We're sorry, but there are currently no profiles available in this section.</p>
-                        </div>
-                    </div>
-                } 
-            <div class="flex justify-center w-full">
+                </div>
+            } 
+            <div class="flex justify-center w-full mt-6">
                 @if (users.length > 6) {
-                    <button class="my-2 px-3 py-2 bg-mainColor rounded-lg text-white font-bannerText">Show more</button>
+                    <button class="px-4 py-2 bg-mainColor rounded-lg text-white font-bannerText text-sm sm:text-base">Show more</button>
                 }
             </div>
         </div>
     
-        <div class="w-full px-5 py-3">
-            <h1 class="text-sm font-bannerText text-mainGrey items-center">Connect companies<i class="fa-solid fa-arrow-right ml-2"></i></h1>
+        <div class="w-full">
+            <h1 class="text-sm font-bannerText text-mainGrey flex items-center mb-4">Connect companies<i class="fa-solid fa-arrow-right ml-2"></i></h1>
             @if (employers && employers.length > 0) {
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
                     @for (employer of employers.slice(0,5); track $index) {
                         <app-company [employerData]="employer"></app-company>
                     }
@@ -84,17 +87,16 @@
             } @else {
                 <div class="flex flex-col items-center justify-center py-8 w-full">
                     <div class="bg-gray-100 rounded-lg shadow-md p-6 w-full">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">No Companies Found</h2>
-                        <p class="text-gray-600 mb-6 text-center">We're sorry, but there are currently no profiles available in this section.</p>
+                        <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4 text-center">No Companies Found</h2>
+                        <p class="text-sm sm:text-base text-gray-600 mb-6 text-center">We're sorry, but there are currently no profiles available in this section.</p>
                     </div>
                 </div>
             }
-            <div class="flex justify-center w-full">
+            <div class="flex justify-center w-full mt-6">
                 @if (employers.length > 6) {
-                    <button class="my-2 px-3 py-2 bg-mainColor rounded-lg text-white font-bannerText">Show more</button>
+                    <button class="px-4 py-2 bg-mainColor rounded-lg text-white font-bannerText text-sm sm:text-base">Show more</button>
                 }
             </div>
         </div>
     }
-
 </div>
