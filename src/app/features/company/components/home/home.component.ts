@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 export class MainComponentComponent implements OnInit, OnDestroy{
 
   private _employerRefreshTokenSubscription!:Subscription;
+  isSidebarVisible = false;
 
   constructor(
     private readonly _authService:AuthApiService,
@@ -26,6 +27,10 @@ export class MainComponentComponent implements OnInit, OnDestroy{
         this._employerStore.dispatch(loadEmployer())
       }
     })
+  }
+
+  toggleSidebar() {
+    this.isSidebarVisible = !this.isSidebarVisible;
   }
 
   ngOnDestroy(): void {

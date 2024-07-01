@@ -28,7 +28,6 @@ export class userEffects {
                     return loadUserSuccess({ user: data.userData })
                 }),
                 catchError((error) => {
-                    console.error('HTTP Error on loadUserEffect:', error);
                     if (error.status == 403) {
                         this._router.navigateByUrl('/home')
                     }
@@ -48,13 +47,10 @@ export class userEffects {
         ofType(LOAD_JOBS),
         exhaustMap((action) => {
             return this._jobsAPIs.userFetchALLJobs(1,'','').pipe(
-                map((data) => {
-                    console.log('jobsssssssssss',data);
-                    
+                map((data) => {                    
                     return loadUserJobsSuccess({jobs:data.data})
                 }),
                 catchError((error) => {
-                    console.error('HTTP Error on loadUserJobs effect:', error);
                     if (error.status == 403) {
                         this._router.navigateByUrl('/home')
                     }
@@ -78,7 +74,6 @@ export class userEffects {
                     return loadUsersSuccess({ users:data.users,totalNoOfUsers:data.totalNoOfUsers })
                 }),
                 catchError((error) => {
-                    console.error('HTTP Error on loadUserJobs effect:', error);
                     if (error.status == 403) {
                         this._router.navigateByUrl('/home')
                     }
@@ -102,7 +97,6 @@ export class userEffects {
                     return loadPostsSuccess({ posts:data.posts })                    
                 }),
                 catchError((error) => {
-                    console.error('HTTP Error on loadPosts effect:', error);
                     if (error.status == 403) {
                         this._router.navigateByUrl('/home')
                     }
@@ -123,8 +117,6 @@ export class userEffects {
         exhaustMap((action) => {
             return this._postsAPIs.triggerPostLike(action.employer_id, action.post_id).pipe(
                 map((data:any) => {  
-                    console.log(data);
-                                      
                     return triggerPostSuccess({ updatedPost:data.updatedPost })
                 })
             )
@@ -136,8 +128,6 @@ export class userEffects {
         exhaustMap((action) => {
             return this._postsAPIs.triggerPostSave(action.employer_id, action.post_id).pipe(
                 map((data:any) => {
-                    console.log('effect:', data);
-                    
                     return triggerPostSuccess({ updatedPost:data.updatedPost })
                 })
             )
@@ -152,7 +142,6 @@ export class userEffects {
     //                 return updateUserProfileSuccess({ newData:data.updatedData })
     //             }),
     //             catchError((error) => {
-    //                 console.error('HTTP Error on updateUserProfile effect:', error);
     //                 if (error.status == 403) {
     //                     this._router.navigateByUrl('/home')
     //                 }
@@ -176,7 +165,6 @@ export class userEffects {
     //                 return updateUserAboutSuccess({ user:data.updatedData })
     //             }),
     //             catchError((error) => {
-    //                 console.error('HTTP Error on updateUserProfile effect:', error);
     //                 if (error.status == 403) {
     //                     this._router.navigateByUrl('/home')
     //                 }
@@ -200,7 +188,6 @@ export class userEffects {
     //                 return updateUserProfileSuccess({ newData:data.updatedData })
     //             }),
     //             catchError((error) => {
-    //                 console.error('HTTP Error on addUserExperience effect:', error);
     //                 if (error.status == 403) {
     //                     this._router.navigateByUrl('/home')
     //                 }
@@ -239,7 +226,6 @@ export class userEffects {
                         autoClose: false,
                         hasCloseButton: true
                     }).subscribe()
-                    console.error('HTTP Error on delete user exp effect:', error);
                     return EMPTY;
                 })
             )
@@ -260,7 +246,6 @@ export class userEffects {
     //                 return updateUserProfileSuccess({ newData:data.updatedData })
     //             }),
     //             catchError((error) => {
-    //                 console.error('HTTP Error on edit user education effect:', error);
     //                 if (error.status == 403) {
     //                     this._router.navigateByUrl('/home')
     //                 }
@@ -299,7 +284,6 @@ export class userEffects {
                         autoClose: false,
                         hasCloseButton: true
                     }).subscribe()
-                    console.error('HTTP Error on delete user edu effect:', error);
                     return EMPTY;
                 })
             )
@@ -319,8 +303,7 @@ export class userEffects {
     //                 }).subscribe()
     //                 return updateUserProfileSuccess({ newData:data.updatedData })
     //             }),
-    //             catchError((error) => {
-    //                 console.error('HTTP Error on edit user skills effect:', error);
+    //             catchError((error) => {]
     //                 if (error.status == 403) {
     //                     this._router.navigateByUrl('/home')
     //                 }
@@ -344,7 +327,6 @@ export class userEffects {
                     return isAppliedSuccess({ isVerified:data.isApplied })
                 }),
                 catchError((error) => {
-                    console.error('HTTP Error on is applied effect:', error);
                     if (error.status == 403) {
                         this._router.navigateByUrl('/home')
                     }
@@ -374,7 +356,6 @@ export class userEffects {
     //                 return applyJobSuccess({ updatedAppliedJobs:data.updatedAppliedJobs })
     //             }),
     //             catchError((error) => {
-    //                 console.error('HTTP Error on applyJob effect:', error);
     //                 if (error.status == 403) {
     //                     this._router.navigateByUrl('/home')
     //                 }
@@ -398,7 +379,6 @@ export class userEffects {
                     return loadAppliedJobsSuccess({ appliedJobs:data.appliedJobs })
                 }),
                 catchError((error) => {
-                    console.error('HTTP Error on loadAppliedJobs effect:', error);
                     if (error.status == 403) {
                         this._router.navigateByUrl('/home')
                     }
@@ -428,7 +408,6 @@ export class userEffects {
                     return saveJobSuccess()
                 }),
                 catchError((error) => {
-                    console.error('HTTP Error on loadAppliedJobs effect:', error);
                     if (error.status == 403) {
                         this._router.navigateByUrl('/home')
                     }
@@ -452,7 +431,6 @@ export class userEffects {
                     return isSavedSuccess({ isSaved:data.isSaved })
                 }),
                 catchError((error) => {
-                    console.error('HTTP Error on loadAppliedJobs effect:', error);
                     if (error.status == 403) {
                         this._router.navigateByUrl('/home')
                     }
@@ -476,7 +454,6 @@ export class userEffects {
                     return unSaveJobSuccess()
                 }),
                 catchError((error) => {
-                    console.error('HTTP Error on loadAppliedJobs effect:', error);
                     if (error.status == 403) {
                         this._router.navigateByUrl('/home')
                     }
@@ -496,13 +473,10 @@ export class userEffects {
         ofType(LOAD_SAVED_JOBS),
         exhaustMap((action) => {
             return this._jobsAPIs.userLoadSavedJobs().pipe(
-                map((data:any) => {
-                    console.log('llll',data.jobs);
-                    
+                map((data:any) => {                    
                     return loadSavedJobsSuccess({ savedJobs:data.jobs })
                 }),
                 catchError((error) => {
-                    console.error('HTTP Error on loadAppliedJobs effect:', error);
                     if (error.status == 403) {
                         this._router.navigateByUrl('/home')
                     }
@@ -522,13 +496,10 @@ export class userEffects {
         ofType(LOAD_SAVED_POSTS),
         exhaustMap((action) => {
             return this._postsAPIs.loadSavedPosts().pipe(
-                map((data:any) => {
-                    console.log('kkk',data);
-                    
+                map((data:any) => {                    
                     return loadSavedPostsSuccess({ savedPosts: data?.posts?.savedPosts ?? [] })
                 }),
                 catchError((error) => {
-                    console.error('HTTP Error on user effect:', error);
                     if (error.status == 403) {
                         this._router.navigateByUrl('/home')
                     }

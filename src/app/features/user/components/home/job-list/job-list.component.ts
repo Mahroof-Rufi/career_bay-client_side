@@ -64,7 +64,6 @@ export class JobListComponent implements OnInit, AfterViewInit, OnDestroy{
         
         this._jobsAPIsSubscription = this._jobsAPIs.userFetchALLJobs(this.currentPageNo || 1, this.sort, filterQueryString).subscribe({          
           next: response  => {
-            console.log(response);
             this._userStore.dispatch(loadUserJobsSuccess({ jobs:response.data }))
             this.totalNoOfJobs = response.totalNoOfJob
           },

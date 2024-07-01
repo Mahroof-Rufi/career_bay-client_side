@@ -28,7 +28,6 @@ export class employerEffects {
                     return loadEmployerSuccess({ employer:data.employerData })
                 }),
                 catchError((error) => {
-                    console.error('HTTP Error on loadEmploy effect:', error);
                     this._alert.open('', {
                         label: error.error.message,
                         status: 'error',
@@ -49,7 +48,6 @@ export class employerEffects {
     //                 return loadEmployerJobsSuccess({jobs:data.jobs})
     //             }),
     //             catchError((error) => {
-    //                 console.error('HTTP Error on loadEmployerJobs effect:', error);
     //                 this._alert.open('', {
     //                     label: error.error.message,
     //                     status: 'error',
@@ -70,7 +68,6 @@ export class employerEffects {
     //                 return loadEmployerPostsSuccess({ posts:data.posts })
     //             }),
     //             catchError((error) => {
-    //                 console.error('HTTP Error on updateCandidateStatus effect:', error);
     //                 this._alert.open('', {
     //                     label: error.error.message,
     //                     status: 'error',
@@ -91,7 +88,6 @@ export class employerEffects {
                     return loadApplicantsSuccess({ applicants:data.appliedUsers })
                 }),
                 catchError((error) => {
-                    console.error('HTTP Error on loadEmployerApplicants effect:', error);
                     this._alert.open('', {
                         label: error.error.message,
                         status: 'error',
@@ -112,7 +108,6 @@ export class employerEffects {
                     return loadApplicantsSuccess({ applicants:data.updatedData })
                 }),
                 catchError((error) => {
-                    console.error('HTTP Error on updateCandidateStatus effect:', error);
                     this._alert.open('', {
                         label: error.error.message,
                         status: 'error',
@@ -139,7 +134,6 @@ export class employerEffects {
                     return loadApplicantsSuccess({ applicants:data })
                 }),
                 catchError((error) => {
-                    console.error('HTTP Error on updateCandidateStatus effect:', error);
                     this._alert.open('', {
                         label: error.error.message,
                         status: 'error',
@@ -166,7 +160,6 @@ export class employerEffects {
                     return closeHiringSuccess({ job_id:action.job_id })
                 }),
                 catchError((error) => {
-                    console.error('HTTP Error on updateCandidateStatus effect:', error);
                     this._alert.open('', {
                         label: error.error.message,
                         status: 'error',

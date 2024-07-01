@@ -16,9 +16,7 @@ export const userReducer = createReducer(initialState,
             jobs:action.jobs
         }
     }),
-    on(loadPostsSuccess, (state, action) => {
-        console.log('res post',action.posts);
-        
+    on(loadPostsSuccess, (state, action) => {        
         return {
             ...state,
             posts: action.posts

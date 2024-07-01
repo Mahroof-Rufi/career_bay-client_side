@@ -118,16 +118,13 @@ export class NetworksComponent implements OnInit, AfterViewInit, OnDestroy{
           },
     
           error: err => {
-            console.log(err.message);
           }
         })
       }
     })
 
     this._userStoreSubscription = this._userStore.select(getUsers).subscribe({
-      next: response => {
-        console.log('usr',response);
-        
+      next: response => {        
         this.users = response
       }
     })
@@ -135,9 +132,7 @@ export class NetworksComponent implements OnInit, AfterViewInit, OnDestroy{
     this._userStore.select(getUsersCount).subscribe((data) => this.totalUserProfile = data)
 
     this._userAPIsSubscription = this._userStore.select(getEmployers).subscribe({
-      next: response => {
-        console.log('emp',response);
-        
+      next: response => {        
         this.employers = response
       }
     })

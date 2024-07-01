@@ -26,7 +26,6 @@ export class adminEffects {
                     return loadUserSuccess({ users:data.users, totalUsersCount:data.totalUsersCount })
                 }),
                 catchError((error) => {
-                    console.error('HTTP Error on admin loadUser effect:',error);
                     this._alert.open('', {
                         label: error.error.message,
                         status: 'error',
@@ -47,7 +46,6 @@ export class adminEffects {
                     return userActionSuccess({ user:data.updatedUser })
                 }),
                 catchError((error) => {
-                    console.error('HTTP Error on admin userAction effect:',error);
                     return EMPTY
                 })
             )
@@ -62,7 +60,6 @@ export class adminEffects {
                     return loadEmployersSuccess({ employers:data.employers, totalEmployersCount:data.totalUsersCount })
                 }),
                 catchError((error) => {
-                    console.error('HTTP Error on admin load companies effect:',error);
                     return EMPTY
                 })
             )
@@ -77,7 +74,6 @@ export class adminEffects {
                     return employerActionSuccess({ employer:data.updatedEmployer })
                 }),
                 catchError((error) => {
-                    console.error('HTTP Error on admin company action effect:',error);
                     return EMPTY
                 })
             )
@@ -103,7 +99,6 @@ export class adminEffects {
                     return loadJobsSuccess({ jobs:data.jobs, totalJobsCount:data.totalJobsCount })
                 }),
                 catchError((error) => {
-                    console.error('HTTP Error on admin load companies effect:',error);
                     return EMPTY
                 })
             )
@@ -114,13 +109,10 @@ export class adminEffects {
         ofType(jobAction),
         exhaustMap((action) => {
             return this._adminAPIs.jobAction(action.job_id).pipe(
-                map((response) => {
-                    console.log(response);
-                    
+                map((response) => {                    
                     return jobActionSuccess({ job:response.updatedJob })
                 }),
                 catchError((error) => {
-                    console.error('HTTP Error on admin company action effect:',error);
                     return EMPTY
                 })
             )

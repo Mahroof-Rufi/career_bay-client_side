@@ -1,99 +1,89 @@
-<div class="flex justify-between items-center bg-white rounded-2xl my-3">
-    <div class="mx-5 w-2/5">
-        <app-search [searchType]="'companyJobs'"></app-search>
-    </div>
-    <div class="flex items-center mr-5">
+<div class="bg-white rounded-2xl shadow-lg p-4 my-6 mx-4 lg:mx-8">
+    <div class="flex flex-col md:flex-row justify-between items-center space-y-4 lg:space-y-0">
+      <div class="w-full lg:w-2/5">
+        <app-search [searchType]="'companyJobs'" class="w-full"></app-search>
+      </div>
+      <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
         <app-filter [filterOptions]="filterOptions"></app-filter>
-        <button type="button" (click)="addJob()" class="text-white bg-mainColor hover:bg-orange-400 font-bannerText rounded-xl text-sm py-3 px-6 ml-4">
-            <i class="fa-solid fa-plus mr-2"></i>
-            Add
+        <button type="button" (click)="addJob()" class="w-full sm:w-auto text-white bg-mainColor hover:bg-orange-400 transition-colors duration-300 font-bannerText rounded-xl text-sm py-3 px-6">
+          <i class="fa-solid fa-plus mr-2"></i>Add
         </button>
+      </div>
     </div>
 </div>
-
-<div class="bg-white rounded-2xl  mx-5">
-
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        @if (jobs && jobs.length) {
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-white uppercase bg-mainColor dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                    <th scope="col" class="px-6 py-3">
-                        No:
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Job Title
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Job Type
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Location
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Posted Date
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (job of jobs; track job._id; let idx = $index) {
-                <tr
-                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ (pageNo - 1) * maxItemInPerPage + idx + 1 }}
-                    </th>
-                    <a [routerLink]="['/employer/job', 'employer',job._id]">
-                        <td class="px-6 py-4">
-                            {{ job.jobTitle }}
-                        </td>
-                    </a>
-                    <td class="px-6 py-4">
-                        <i class="fa-solid fa-briefcase mr-2 my-3"></i>{{ job.jobType }}
-                    </td>
-                    @if (job.remort) {
-                    <td class="px-6 py-4">
-                        <i class="fa-solid fa-location-dot text-lg text-mainColor mr-2"></i>Anywhere (remort)
-                    </td>
-                    } @else {
-                    <td class="px-6 py-4">
-                        <i class="fa-solid fa-location-dot text-lg text-mainColor mr-2"></i>{{ job.city }},{{ job.state
-                        }}
-                    </td>
-                    }
-                    <td class="px-6 py-4">
-                        {{ job.postedAt | date }}
-                    </td>
-                    <td class="px-6 py-4">
-                        <tui-hosted-dropdown #dropdown [content]="content" [tuiDropdownMaxHeight]="500">
-                            <button size="s" appearance="three-dot-menu" type="button" [icon]="tuiIconMoreVertical" tuiIconButton [pseudoHover]="dropdown.open || null"></button>
-                        </tui-hosted-dropdown>
-                        <ng-template #content>
-                            <tui-data-list size="s" class="list">
-                            <button tuiOption (click)="editJob(job._id)">Edit</button>
-                            <button tuiOption (click)="deleteJob(job._id)">Delete</button>
-                            <a [routerLink]="['/employer/job/applicants', job._id]"><button tuiOption>Manage Applicants</button></a>
-                            @if (!job.isClosed) {
-                                <button tuiOption (click)="closeHiring(job._id)">Close Hiring</button>
-                            }
-                            </tui-data-list>
-                        </ng-template>
-                    </td>
-                </tr>
-                }
-            </tbody>
+  
+  <div class="bg-white rounded-2xl shadow-lg overflow-hidden mx-4 lg:mx-8 my-6">
+    @if (jobs && jobs.length) {
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left text-gray-500">
+          <thead class="text-xs text-white uppercase bg-mainColor">
+            <tr>
+              <th scope="col" class="px-4 py-3 sm:px-6">No:</th>
+              <th scope="col" class="px-4 py-3 sm:px-6">Job Title</th>
+              <th scope="col" class="px-4 py-3 sm:px-6">Job Type</th>
+              <th scope="col" class="px-4 py-3 sm:px-6">Location</th>
+              <th scope="col" class="px-4 py-3 sm:px-6">Posted Date</th>
+              <th scope="col" class="px-4 py-3 sm:px-6"></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (job of jobs; track job._id; let idx = $index) {
+              <tr class="bg-white border-b hover:bg-gray-50 transition-colors duration-200">
+                <th scope="row" class="px-4 py-3 sm:px-6 font-medium text-gray-900 whitespace-nowrap">
+                  {{ (pageNo - 1) * maxItemInPerPage + idx + 1 }}
+                </th>
+                <td class="px-4 py-3 sm:px-6">
+                  <a [routerLink]="['/employer/job', 'employer',job._id]" class="text-mainColor hover:underline">
+                    {{ job.jobTitle }}
+                  </a>
+                </td>
+                <td class="px-4 py-3 sm:px-6">
+                  <span class="flex items-center">
+                    <i class="fa-solid fa-briefcase mr-2 text-mainColor"></i>{{ job.jobType }}
+                  </span>
+                </td>
+                <td class="px-4 py-3 sm:px-6">
+                  <span class="flex items-center">
+                    <i class="fa-solid fa-location-dot text-lg text-mainColor mr-2"></i>
+                    {{ job.remort ? 'Anywhere (remote)' : job.city + ', ' + job.state }}
+                  </span>
+                </td>
+                <td class="px-4 py-3 sm:px-6">{{ job.postedAt | date }}</td>
+                <td class="px-4 py-3 sm:px-6">
+                    <tui-hosted-dropdown #dropdown [content]="content" [tuiDropdownMaxHeight]="500">
+                        <button size="s" appearance="three-dot-menu" type="button" [icon]="tuiIconMoreVertical" tuiIconButton [pseudoHover]="dropdown.open || null"></button>
+                    </tui-hosted-dropdown>
+                    <ng-template #content>
+                        <tui-data-list size="s" class="list">
+                        <button tuiOption (click)="editJob(job._id)">Edit</button>
+                        <button tuiOption (click)="deleteJob(job._id)">Delete</button>
+                        <a [routerLink]="['/employer/job/applicants', job._id]"><button tuiOption>Manage Applicants</button></a>
+                        @if (!job.isClosed) {
+                            <button tuiOption (click)="closeHiring(job._id)">Close Hiring</button>
+                        }
+                        </tui-data-list>
+                    </ng-template>
+                </td>
+              </tr>
+            }
+          </tbody>
         </table>
-        } @else {
-        <div class="w-full bg-white">
-            <h1 class="text-red-600 text-center text-xl font-bannerText py-5">You currently have no job posts</h1>
-        </div>
-        }
+      </div>
+    } @else {
+      <div class="w-full bg-white p-8">
+        <h1 class="text-red-600 text-center text-xl font-bannerText">You currently have no job posts</h1>
+      </div>
+    }
+  </div>
+  
+  @if (jobs && jobs.length) {
+    <div class="mx-4 lg:mx-8 my-6">
+      <app-pagination 
+        [currentPageNo]="pageNo" 
+        [maxItemInPerPage]="maxItemInPerPage" 
+        [totalNoOfEntries]="totalJobs"
+        [typeOfEntries]="'employerJobs'" 
+        [noOfShowingEntries]="jobs.length">
+      </app-pagination>
     </div>
-
-</div>
-@if (jobs && jobs.length) {
-<app-pagination [currentPageNo]="pageNo" [maxItemInPerPage]="maxItemInPerPage" [totalNoOfEntries]="totalJobs"
-    [typeOfEntries]="'employerJobs'" [noOfShowingEntries]="jobs.length"></app-pagination>
-}
+  }

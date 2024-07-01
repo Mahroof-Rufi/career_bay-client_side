@@ -83,9 +83,7 @@ export class CompanyPostsComponentComponent implements OnInit, AfterViewInit, On
       }
     })
 
-    this._employerStore.select(getPosts).subscribe( res => { 
-      console.log('initial jobs:', res);
-          
+    this._employerStore.select(getPosts).subscribe( res => {           
       this.posts = res;
     })
   }

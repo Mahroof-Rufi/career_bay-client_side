@@ -62,7 +62,6 @@ export class DeleteJobConfirmationComponent implements OnInit, OnDestroy{
       }).subscribe()  
       this._confirmDeleteDialogue.closeModal()
     }, err => {
-      console.log(err);
       this._alertSubscription = this._alert.open('', {
         label: err.error.message,
         status: 'error',

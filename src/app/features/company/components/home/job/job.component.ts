@@ -79,9 +79,7 @@ export class JobComponent implements OnInit, AfterViewInit, OnDestroy {
         const filterQueryString = this.constructQueryString(queryParams);
 
         this._jobsAPIs.companyFetchJobs(this.pageNo || 1, this.sort, filterQueryString).subscribe({
-          next: response => {
-            console.log('res',response);
-            
+          next: response => {            
             this._employerStore.dispatch(loadEmployerJobsSuccess({ jobs: response.jobs }))
             this.totalJobs = response.noOfJobs
           },
@@ -106,8 +104,6 @@ export class JobComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this._employerStore.select(getJobsData).subscribe((res: any) => {
       this.jobs = res
-      console.log(this.jobs);
-
     })
 
   }

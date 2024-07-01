@@ -1,11 +1,25 @@
-<div class="flex bg-secndWhite">
-    <aside class="w-1/5 mx-10 my-10">
-        <app-side-bar></app-side-bar>
+<div class="relative min-h-screen bg-gradient-to-br from-indigo-100 to-purple-100">
+    <!-- Sidebar toggle button - visible only on small screens -->
+    <button 
+      (click)="toggleSidebar()" 
+      class="fixed top-4 left-4 z-50 bg-white p-2 rounded-full shadow-md lg:hidden"
+    >
+      <i class="fas" [ngClass]="{'fa-bars': !isSidebarVisible, 'fa-times': isSidebarVisible}"></i>
+    </button>
+  
+    <!-- Sidebar - hidden by default on small screens, always visible on larger screens -->
+    <aside 
+      [ngClass]="{'translate-x-0': isSidebarVisible, '-translate-x-full': !isSidebarVisible}"
+      class="fixed inset-y-0 left-0 w-64 bg-white shadow-xl transition-transform duration-300 ease-in-out z-40 lg:translate-x-0"
+    >
+      <app-side-bar></app-side-bar>
     </aside>
-    <main class="bg-white rounded-2xl w-4/5 mt-10 mb-auto mr-10">
+  
+    <!-- Main content - full width on small screens, adjusted width on larger screens -->
+    <main class="w-full p-6 transition-all duration-300 lg:ml-64 lg:w-[calc(100%-16rem)]">
+      <div class="bg-white rounded-3xl shadow-xl p-6 min-h-full">
         <router-outlet></router-outlet>
+      </div>
     </main>
-</div>
-<footer class="bg-secndWhite">
-    <app-footer></app-footer>
-</footer>
+  </div>
+  

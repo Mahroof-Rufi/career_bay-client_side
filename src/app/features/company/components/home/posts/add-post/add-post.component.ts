@@ -124,9 +124,7 @@ export class AddPostComponent implements OnInit, OnDestroy{
       } else {
         this._postAPIsSubscription = this._postsAPIS.addPost(postData).subscribe({
           next: response => { 
-            this.closeDialog()   
-            console.log('updatedjobs : ',response);
-                
+            this.closeDialog()                   
             this._employerStore.dispatch(addPostSuccess({ post:response.updatedPost }))
           },
   

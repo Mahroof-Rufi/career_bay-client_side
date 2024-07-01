@@ -36,7 +36,6 @@ export class CompanyProfileCommonViewComponent implements OnInit {
   ngOnInit(): void {
     this.checkUrl()
     this._activatedRoute.paramMap.subscribe(params => {
-      console.log('worksss');
       this.employer_id = params.get('id');
 
       if(this.employer_id) {

@@ -13,7 +13,6 @@ export class AppliedJobsColComponent implements OnInit{
   isRejected!:boolean;
 
   ngOnInit(): void {
-    console.log(this.Job);
     this.status = this.Job.status
     this.isRejected = this.Job.rejected
   }

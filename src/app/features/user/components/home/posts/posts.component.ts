@@ -52,7 +52,6 @@ export class PostsComponent implements OnInit, OnDestroy{
         
         this._postAPIsSubscription = this._postsAPIs.loadPosts(this.currentPageNo || 1).subscribe({          
           next: response  => {
-            console.log(response);
             this._userStore.dispatch(loadPostsSuccess({ posts:response.posts }))
             this.totalNoOfPosts = response.totalNoOfPosts
           },

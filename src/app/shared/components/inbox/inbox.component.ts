@@ -191,7 +191,6 @@ export class InboxComponent implements OnInit, AfterViewInit, OnDestroy{
             next: (response:any) => this.connections = response.connections
           })
         } else if (this.context == 'employer') {
-          console.log('employer coo');
           this._userChat.addEmployerConnection(this.receiver_id).subscribe({
             next: (response:any) => this.connections = response.connections
           })

@@ -22,9 +22,7 @@ export const employerReducer = createReducer(initialState,
             employer: action.newData
         }
     }),
-    on(addJobPost, (state,action) => {
-        console.log(action.job);
-        
+    on(addJobPost, (state,action) => {        
         return {
             ...state,
             jobs: [...state.jobs, action.job]
@@ -54,12 +52,8 @@ export const employerReducer = createReducer(initialState,
             posts: action.posts
         }
     }),
-    on(addPostSuccess, (state, action) => {  
-        console.log(action);
-        
-        const newPosts = [...state.posts, action.post]; 
-        console.log('after :',newPosts);
-            
+    on(addPostSuccess, (state, action) => {          
+        const newPosts = [...state.posts, action.post];             
         return {
             ...state,
             posts:newPosts
