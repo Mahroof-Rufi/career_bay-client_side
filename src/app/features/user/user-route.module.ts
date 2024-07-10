@@ -15,6 +15,7 @@ import { CompanyProfileCommonViewComponent } from "../../shared/components/compa
 import { InboxComponent } from "../../shared/components/inbox/inbox.component";
 import { ScheduledInterviewsComponent } from "./components/home/scheduled-interviews/scheduled-interviews.component";
 import { LiveMeetComponent } from "../../shared/components/live-meet/live-meet.component";
+import { isUserAllowedGuard } from "./route-guards/is-user-allowed.guard";
 
 const routes: Routes = [
     { path: 'user', component:UserHomeComponent, children: [
@@ -32,7 +33,7 @@ const routes: Routes = [
         { path: 'applied-jobs/:id', component:AppliedJobsComponent, },
         { path: 'scheduled-interview/:id', component:ScheduledInterviewsComponent },
         { path: 'saved-jobs/:id', component:SavedJobsAndPostsComponent },
-    ], canActivateChild:[validateUserTokenGuard]},
+    ], canActivateChild:[isUserAllowedGuard,validateUserTokenGuard]},
     { path: 'live-meet/:id', component:LiveMeetComponent },
 ]
 

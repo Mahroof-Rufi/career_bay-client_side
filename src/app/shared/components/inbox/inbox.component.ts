@@ -181,7 +181,7 @@ export class InboxComponent implements OnInit, AfterViewInit, OnDestroy{
     if (this.message.trim() && this.receiver_id) {  
       if (this.context == 'user') {
         this._userChat.sendMessageByUser(this.userData._id, this.receiver_id, this.message, 'text',new Date());
-      } else if (this.context == 'employer') {
+      } else if (this.context == 'employer') {        
         this._userChat.sendMessageByEmployer(this.userData._id, this.receiver_id, this.message, 'text',new Date());
       }
       this.message = '';      

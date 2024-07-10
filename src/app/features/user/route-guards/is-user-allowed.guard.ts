@@ -3,11 +3,14 @@ import { CanActivateFn, Router } from '@angular/router';
 import { UserAPIServiceService } from '../services/user-api-service.service';
 
 export const isUserAllowedGuard: CanActivateFn = (route, state) => {
+
   const router = inject(Router);
   const userAPIs = inject(UserAPIServiceService)
 
   userAPIs.isUserBlocked().subscribe({
     next: res => {
+      console.log('true');
+      
       return true
     },
     error: err => {

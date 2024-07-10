@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrl: './admin-home.component.scss'
 })
 export class MainPageComponent {
+  isSidebarOpen = false;
+
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
 
 }

@@ -1,8 +1,17 @@
-<div class="flex bg-white w-full">
-    <aside class="w-1/5 bg-secndWhite">
+<div class="flex min-h-screen bg-gradient-to-br from-gray-100 to-gray-200">
+    <button (click)="toggleSidebar()" 
+            class="lg:hidden fixed top-4 left-4 z-30 p-2 rounded-full bg-adminBlue text-white shadow-lg hover:bg-blue-600 transition-colors duration-300">
+      <i class="fas" [ngClass]="{'fa-bars': !isSidebarOpen, 'fa-times': isSidebarOpen}"></i>
+    </button>
+  
+    <aside class="fixed lg:sticky top-0 h-screen inset-y-0 left-0 transform lg:transform-none lg:opacity-100 duration-300 ease-in-out z-20 w-64 bg-white shadow-lg overflow-y-auto"
+           [ngClass]="{'translate-x-0 opacity-100': isSidebarOpen, '-translate-x-full opacity-0 lg:translate-x-0 lg:opacity-100': !isSidebarOpen}">
         <app-side-bar></app-side-bar>
     </aside>
-    <main class="bg-white rounded-2xl w-4/5 pt-5 mb-auto">
-        <router-outlet></router-outlet>
+
+    <main class="flex-grow overflow-y-auto">
+        <div class="p-5 h-screen">
+            <router-outlet></router-outlet>
+        </div>
     </main>
 </div>

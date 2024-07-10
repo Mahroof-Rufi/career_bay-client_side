@@ -118,9 +118,8 @@
                 </small>
             </div>
             <div class="w-1/2 ">
-                <tui-input-date formControlName="DOB">
+                <tui-input-date formControlName="DOB" [min]="min" [max]="max">
                     Choose a date
-                    <input tuiTextfield />
                 </tui-input-date>
                 <small *ngIf="profileForm.get('DOB')?.errors?.['required'] && profileForm.get('DOB')?.touched" class="text-red-500 font-bannerText">
                     *DOB required

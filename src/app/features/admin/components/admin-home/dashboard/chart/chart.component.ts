@@ -82,10 +82,20 @@ export class ChartComponent implements AfterViewInit {
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
           title: {
             display: true,
             text: 'Admin Dashboard Chart'
+          },
+          legend: {
+            position: 'top',
+            labels: {
+              boxWidth: 10,
+              font: {
+                size: 12
+              }
+            }
           }
         },
         scales: {

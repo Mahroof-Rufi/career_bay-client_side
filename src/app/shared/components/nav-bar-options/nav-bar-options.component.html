@@ -1,10 +1,9 @@
 <nav class="w-full lg:w-auto" [ngClass]="{'block': isMenuOpen, 'hidden': !isMenuOpen, 'lg:flex': true, 'lg:items-center': true, 'lg:justify-center': true}">
   <ul class="flex flex-col items-center lg:flex-row lg:space-x-5 lg:justify-center">
-      <li class="px-5 py-2 font-bannerText"><a href="#">Home</a></li>
-      <li class="px-5 py-2 font-bannerText"><a href="#">Dashboard</a></li>
-      <li class="px-5 py-2 font-bannerText"><a href="#">Find a Job</a></li>
-      <li class="px-5 py-2 font-bannerText"><a href="#">Contact Us</a></li>
-      <li class="px-5 py-2 font-bannerText"><a href="#">About Us</a></li>
+      <li class="px-5 py-2 font-bannerText"><a [routerLink]="'/user/dashboard'">Dashboard</a></li>
+      <li class="px-5 py-2 font-bannerText"><a [routerLink]="'/user/jobs'">Find a Job</a></li>
+      <li class="px-5 py-2 font-bannerText"><a [routerLink]="'/user/networks'">Build Network</a></li>
+      <li class="px-5 py-2 font-bannerText"><a [routerLink]="'/home'">Contact Us</a></li>
       <li class="px-5 py-2 font-bannerText lg:hidden"><app-get-started></app-get-started></li>
   </ul>
 </nav>

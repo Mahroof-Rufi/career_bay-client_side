@@ -10,6 +10,7 @@ import { Observable, Subscription } from 'rxjs';
 import { AuthApiService } from '../../../../../../../services/auth-api-service.service';
 import { UserAPIServiceService } from '../../../../../services/user-api-service.service';
 import { TuiAlertService } from '@taiga-ui/core';
+import { TuiDay } from '@taiga-ui/cdk';
 
 @Component({
   selector: 'app-user-main-details-edit',
@@ -24,6 +25,9 @@ export class UserMainDetailsEditComponent implements OnInit, OnDestroy{
   states:string[] = []
   industries:string[] = []
   genders:string[] = ['Male', 'Female', 'Other']
+
+  min = new TuiDay(1980, 1, 1);
+  max = TuiDay.currentLocal();
 
   user_id!:string;
   profile_url:string | undefined | ArrayBuffer | null;

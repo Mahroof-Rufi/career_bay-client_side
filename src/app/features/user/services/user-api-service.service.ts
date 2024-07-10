@@ -73,7 +73,7 @@ export class UserAPIServiceService {
   }
 
   isUserBlocked():Observable<any> {
-    return this._http.get(environment.baseURL + 'user/is-blocked')
+    return this._http.get(environment.baseURL + 'users/is-blocked')
   }
 
 }

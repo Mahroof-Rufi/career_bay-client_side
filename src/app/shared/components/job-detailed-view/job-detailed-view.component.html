@@ -7,7 +7,7 @@
                 <div class="ml-4">
                     <h1 class="text-5xl text-mainGrey font-bannerText">{{ jobData?.jobTitle }}</h1>
                     <div class="flex items-end">
-                        <h1 class="mr-3 text-3xl text-mainGrey font-bannerText">{{ jobData?.company_id.companyName }}</h1>
+                        <a [routerLink]="['/user/employer-profile', jobData?.company_id?._id]"><h1 class="mr-3 text-3xl text-mainGrey font-bannerText cursor-pointer">{{ jobData?.company_id.companyName }}</h1></a>
                         <i class="fa-solid fa-location-dot text-lg text-mainColor mr-2"></i>
                         @if (jobData?.remort) {
                             <span class="text-mainGrey text-xl font-bannerText">Remort (work from anywhere)</span>
