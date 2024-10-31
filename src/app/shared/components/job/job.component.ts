@@ -28,7 +28,7 @@ export class JobComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
-    this._jobsAPIs.companyFetchJobs().subscribe({
+    this._jobsAPIs.companyFetchJobs(1).subscribe({
       next: response => {
         this._employerState.dispatch(loadEmployerJobsSuccess(response.jobs))
       },

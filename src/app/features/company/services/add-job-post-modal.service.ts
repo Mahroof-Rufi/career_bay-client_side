@@ -15,7 +15,7 @@ export class AddJobPostService {
     private injector: Injector,
   ) {}
 
-  openModal(_id:string | null) {    
+  openModal(_id:string | null = null) {    
     if (_id) {
       this.addJobDialogue = this.dialogueService.open<any>(
         new PolymorpheusComponent(AddJobComponent, this.injector),

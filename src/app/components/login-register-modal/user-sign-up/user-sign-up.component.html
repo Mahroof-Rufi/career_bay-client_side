@@ -130,9 +130,13 @@
       
             <div class="flex flex-col sm:flex-row sm:space-x-4">
               <div class="w-full sm:w-1/2">
-                <tui-input-date formControlName="DOB" class="w-full">
-                  Choose a date
-                  <input tuiTextfield />
+                <tui-input-date
+                    [max]="maxDate"
+                    [min]="minDate"
+                    formControlName="DOB"  class="w-full"
+                    tuiUnfinishedValidator="Finish filling the field"
+                >
+                    Choose a date
                 </tui-input-date>
                 <small *ngIf="registrationForm.get('DOB')?.errors?.['required'] && registrationForm.get('DOB')?.touched"
                        class="text-red-500 text-xs">

@@ -6,6 +6,7 @@ import { confirmPasswordValidator } from '../../../validators/confirm-password.v
 import { environment } from '../../../../environments/environment.development';
 import { Subscription } from 'rxjs';
 import { AuthApiService } from '../../../services/auth-api-service.service';
+import { TuiDay } from '@taiga-ui/cdk';
 
 @Component({
   selector: 'app-user-sign-up',
@@ -26,6 +27,9 @@ export class UserSignUpComponent implements OnInit,OnDestroy{
 
   private _registrationSuccessSubscription!:Subscription;
   private _registrationFailureSubscription!:Subscription;
+
+  protected minDate = new TuiDay(1980, 0, 1);
+  protected maxDate = TuiDay.currentLocal();
 
   constructor(
    private _authAPIs:AuthApiService,
@@ -56,7 +60,7 @@ export class UserSignUpComponent implements OnInit,OnDestroy{
       confirmPassword: ['', [Validators.required, noSpaceAllowed, Validators.minLength(8)]],
       jobTitle: ['', [Validators.required]],
       industry: ['', [Validators.required]],
-      DOB: ['', [Validators.required]],
+      DOB: [new TuiDay(1980, 0, 1), [Validators.required]],
       gender: ['', [Validators.required]],
       OTP: ['', [Validators.required, noSpaceAllowed, Validators.minLength(6)]]
     },{ validators: [confirmPasswordValidator]})
