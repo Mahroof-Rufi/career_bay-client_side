@@ -9,9 +9,7 @@ import { GetPreviousRouteService } from './shared/services/get-previous-route.se
 })
 export class AppComponent implements OnInit{
 
-  constructor(
-    private readonly _getPreviousRoute:GetPreviousRouteService
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
     initFlowbite();
